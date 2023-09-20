@@ -37,7 +37,8 @@ class AuthWrapper extends StatefulWidget {
 class _AuthWrapperState extends State<AuthWrapper> {
   late bool showSplashScreen;
   Set<String> imagesAssets = {
-    //'assets/images/splashscreen_logo.png',
+    'assets/images/background_bottom.png',
+    'assets/images/background_top.png',
   };
   Set<String> svgAssets = {};
 

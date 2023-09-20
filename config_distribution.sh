@@ -8,3 +8,4 @@ sed -i '' "s/com.optasoft.skeleton/com.bayam.app/g" ios/Runner.xcodeproj/project
 sed -i '' "s/APP NAME/Bayam/g" android/app/src/main/AndroidManifest.xml
 sed -i '' "s/APP NAME/Bayam/g" lib/src/localization/app_en.arb
 sed -i '' "s/APP NAME/Bayam/g" ios/Runner.xcodeproj/project.pbxproj
+sed -i '' "s/APP NAME/Bayam/g" ios/Runner/Info.plist

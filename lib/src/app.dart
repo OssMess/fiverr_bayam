@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
                 onGenerateTitle: (BuildContext context) =>
                     AppLocalizations.of(context)!.appTitle,
                 theme: getLightTheme(),
-                darkTheme: getDarkTheme(),
+                // darkTheme: getDarkTheme(),
                 themeMode: settingsController.themeMode,
                 locale: settingsController.localeMode,
                 home: AuthWrapper(
@@ -59,9 +60,9 @@ class MyApp extends StatelessWidget {
 
   ThemeData getLightTheme() {
     return ThemeData().copyWith(
-      primaryColor: const Color(0xFF29734B),
+      primaryColor: const Color(0xFF619B2F),
       colorScheme: ThemeData.light().colorScheme.copyWith(
-            primary: const Color(0xFF29734B),
+            primary: const Color(0xFF619B2F),
             secondary: const Color(0xFFffb33e),
           ),
       scaffoldBackgroundColor: Colors.white, //headline5
@@ -76,20 +77,27 @@ class MyApp extends StatelessWidget {
         hoverColor: Colors.transparent,
       ),
       textSelectionTheme: TextSelectionThemeData(
-        cursorColor: const Color(0xFF29734B),
-        selectionColor: const Color(0xFF29734B).withAlpha(100),
-        selectionHandleColor: const Color(0xFF29734B),
+        cursorColor: const Color(0xFF619B2F),
+        selectionColor: const Color(0xFF619B2F).withAlpha(100),
+        selectionHandleColor: const Color(0xFF619B2F),
       ),
       appBarTheme: const AppBarTheme(
-        backgroundColor: Colors.white,
-        titleTextStyle: TextStyle(color: Colors.black),
-        actionsIconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: Color(0xFF619B2F),
+        titleTextStyle: TextStyle(color: Colors.white),
+        actionsIconTheme: IconThemeData(color: Colors.white),
         iconTheme: IconThemeData(
-          color: Colors.black,
+          color: Colors.white,
         ),
-        // systemOverlayStyle: SystemUiOverlayStyle.dark.copyWith(
-        //   statusBarColor: Colors.transparent,
-        // ),
+        systemOverlayStyle: SystemUiOverlayStyle(
+          systemStatusBarContrastEnforced: true,
+          statusBarColor: Colors.transparent, //only for android
+          statusBarIconBrightness: Brightness.light, //only for android
+          statusBarBrightness: Brightness.dark, //only for iOS
+          systemNavigationBarContrastEnforced: true,
+          systemNavigationBarColor: Colors.black,
+          systemNavigationBarIconBrightness: Brightness.light,
+          systemNavigationBarDividerColor: Colors.transparent,
+        ),
       ),
       textTheme: ThemeData.light().textTheme.copyWith(
             displayLarge: const TextStyle(color: Color(0xFF000000)),
@@ -105,7 +113,7 @@ class MyApp extends StatelessWidget {
 
   ThemeData getDarkTheme() {
     return ThemeData().copyWith(
-      primaryColor: const Color(0xFF29734B),
+      primaryColor: const Color(0xFF619B2F),
       colorScheme: ThemeData.light().colorScheme.copyWith(
             secondary: const Color(0xFFffb33e),
           ),
@@ -121,9 +129,9 @@ class MyApp extends StatelessWidget {
         hoverColor: Colors.transparent,
       ),
       textSelectionTheme: TextSelectionThemeData(
-        cursorColor: const Color(0xFF29734B),
-        selectionColor: const Color(0xFF29734B).withAlpha(100),
-        selectionHandleColor: const Color(0xFF29734B),
+        cursorColor: const Color(0xFF619B2F),
+        selectionColor: const Color(0xFF619B2F).withAlpha(100),
+        selectionHandleColor: const Color(0xFF619B2F),
       ),
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.black,
