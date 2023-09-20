@@ -43,6 +43,9 @@
   "snackbar_enter_otp":"Please enter OTP",
   "snackbar_too_many_attempts":"Too many attempts to sign in! Try again later.",
   "snackbar_otp_incorrect":"OTP incorrect! Try again.",
+  "sign_up":"Sign up",
+  "person":"Person",
+  "company":"Company",
 
   "@min_caracters":{
     "description":"a validator message for minimum length",

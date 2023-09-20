@@ -16,6 +16,7 @@ class NewTextFormField extends StatefulWidget {
     this.readOnly = false,
     this.keyboardType,
     this.focusNode,
+    this.textInputAction,
     this.validator,
     this.onSaved,
     this.onEditingComplete,
@@ -31,6 +32,7 @@ class NewTextFormField extends StatefulWidget {
   final bool readOnly;
   final TextInputType? keyboardType;
   final FocusNode? focusNode;
+  final TextInputAction? textInputAction;
   final String? Function(String?)? validator;
   final void Function(String?)? onSaved;
   final void Function()? onEditingComplete;
@@ -94,7 +96,7 @@ class _NewTextFormFieldState extends State<NewTextFormField> {
                           Icon(
                             widget.labelPrefixIcon,
                             size: 16.sp,
-                            color: context.textTheme.displayMedium!.color,
+                            color: context.primaryColor,
                           ),
                           8.widthSp,
                         ],
@@ -126,6 +128,7 @@ class _NewTextFormFieldState extends State<NewTextFormField> {
                       readOnly: widget.readOnly,
                       keyboardType: widget.keyboardType,
                       onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                      textInputAction: widget.textInputAction,
                       decoration: InputDecoration(
                         isDense: true,
                         hintText: widget.hintText,

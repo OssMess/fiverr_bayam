@@ -16,6 +16,8 @@ class Functions {
     Map<String, String> translation = {
       'en': AppLocalizations.of(context)!.en,
       'fr': AppLocalizations.of(context)!.fr,
+      'person': AppLocalizations.of(context)!.person,
+      'company': AppLocalizations.of(context)!.company,
     };
     return translation[key] ?? key;
   }

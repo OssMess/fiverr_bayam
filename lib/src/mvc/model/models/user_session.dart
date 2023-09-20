@@ -1,3 +1,4 @@
+import 'package:bayam/src/extensions.dart';
 import 'package:flutter/material.dart';
 
 import '../../controller/hives.dart';
@@ -10,10 +11,14 @@ class UserSession with ChangeNotifier {
 
   /// user Id
   int? uid;
+  String? firstName;
+  String? lastName;
 
   UserSession({
     required this.authState,
     required this.uid,
+    required this.firstName,
+    required this.lastName,
   });
 
   /// creates an instance of `UserSession` where `authState` is set to `authState: AuthState.unauthenticated`.
@@ -35,6 +40,8 @@ class UserSession with ChangeNotifier {
     var user = UserSession(
       authState: authState,
       uid: null,
+      firstName: null,
+      lastName: null,
     );
     if (authState == AuthState.awaiting) {
       user.getAuthState();
@@ -47,12 +54,16 @@ class UserSession with ChangeNotifier {
     return UserSession(
       authState: AuthState.authenticated,
       uid: uid,
+      firstName: json['firstName'],
+      lastName: json['lastName'],
     );
   }
 
   /// return a `Map` of this instance
   Map<String, dynamic> get toMap => {
         'uid': uid,
+        'firstName': firstName,
+        'lastName': lastName,
       };
 
   /// return true if awaiting for user sessions
@@ -66,8 +77,10 @@ class UserSession with ChangeNotifier {
 
   /// return true if user session is not complete. This indicates that it is required
   /// to call `APIClient.of(user).getAccountDetails` to complete current user profile.
-  bool get requiredInitAccountDetails =>
-      isAuthenticated && false; //email == null;
+  bool get requiredInitAccountDetails => isAuthenticated && false;
+
+  bool get requireCompleteRegistration =>
+      isAuthenticated && firstName.isNullOrEmpty;
 
   /// while the authState is `AuthState.awaiting`, initialize and retrieve last known user session from `AuthStateChange`,
   /// and clone it into `this`, and rebuild the widget tree to sync the changes.
@@ -81,6 +94,8 @@ class UserSession with ChangeNotifier {
   void updateFromUserSession(UserSession user) {
     authState = user.authState;
     uid = user.uid;
+    firstName = user.firstName;
+    lastName = user.lastName;
     notifyListeners();
   }
 

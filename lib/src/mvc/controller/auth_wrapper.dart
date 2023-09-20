@@ -91,6 +91,9 @@ class _AuthWrapperState extends State<AuthWrapper> {
             // error: (snapshot.error as BookingHeroException).message,
           );
         }
+        if (userSession.requireCompleteRegistration) {
+          return CompleteRegistration(userSession: userSession);
+        }
         // if (userSession.requiredInitAccountDetails && snapshot.hasData) {
         //   userSession.updateFromMap(snapshot.data!);
         // }

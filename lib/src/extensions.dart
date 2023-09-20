@@ -1,3 +1,4 @@
+export 'extensions/accounttype_extensions.dart';
 export 'extensions/datetime_extensions.dart';
 export 'extensions/int_extensions.dart';
 export 'extensions/num_extensions.dart';

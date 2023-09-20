@@ -41,6 +41,9 @@
     "snackbar_invlid_phone_number",
     "snackbar_enter_otp",
     "snackbar_too_many_attempts",
-    "snackbar_otp_incorrect"
+    "snackbar_otp_incorrect",
+    "sign_up",
+    "person",
+    "company"
   ]
 }

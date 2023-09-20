@@ -38,7 +38,6 @@ class _LoginState extends State<Login> {
   @override
   void dispose() {
     controller.dispose();
-    focusNode.dispose();
     super.dispose();
   }
 
@@ -96,7 +95,7 @@ class _LoginState extends State<Login> {
                           fontWeight: Styles.regular,
                         ),
                       ),
-                      30.heightSp,
+                      32.heightSp,
                       PinCodeTextField(
                         focusNode: focusNode,
                         errorTextSpace: 8.sp,
@@ -141,7 +140,7 @@ class _LoginState extends State<Login> {
                           fontWeight: Styles.regular,
                         ),
                       ),
-                      30.heightSp,
+                      32.heightSp,
                       NewTextFormField(
                         labelText: AppLocalizations.of(context)!.phone_number,
                         hintText:
@@ -287,6 +286,7 @@ class _LoginState extends State<Login> {
           const Duration(seconds: 1),
           () {
             // throw Exception();
+            widget.userSession.onSignInCompleted(uid: 0);
           },
         );
       },
