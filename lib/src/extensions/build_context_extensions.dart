@@ -90,6 +90,11 @@ extension BuildContextSizes<T> on BuildContext {
   double get height => MediaQuery.of(this).size.height;
 
   Size get size => MediaQuery.of(this).size;
+
+  IconData get backButtonIcon => {
+        TargetPlatform.iOS: Icons.arrow_back_ios_new,
+        TargetPlatform.android: Icons.arrow_back,
+      }[Theme.of(this).platform]!;
 }
 
 extension BuildContextDialogs<T> on BuildContext {

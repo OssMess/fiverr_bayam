@@ -6,7 +6,7 @@ import '../../home.dart';
 import '../../settings/settings_controller.dart';
 import '../../tools.dart';
 import '../model/models.dart';
-import '../view/screens/screens.dart';
+import '../view/screens.dart';
 
 /// This class is responsable for data flow down the widget tree as well as managing which widget is displayed including:
 /// - `SplashScreen`: displayed when the data is still being prepared and the app is still not ready for use,
@@ -77,6 +77,11 @@ class _AuthWrapperState extends State<AuthWrapper> {
         if (widget.settingsController.showOnboarding) {
           return Welcome(
             settingsController: widget.settingsController,
+          );
+        }
+        if (userSession.isUnAuthenticated) {
+          return Login(
+            userSession: userSession,
           );
         }
         if (userSession.requiredInitAccountDetails) {

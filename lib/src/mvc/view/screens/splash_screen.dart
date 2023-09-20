@@ -2,14 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lottie/lottie.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:badges/badges.dart' as badge;
 
 import '../../../extensions.dart';
 import '../../../tools.dart';
-import '../../model/enums.dart';
 import '../../model/models.dart';
 import '../model_widgets.dart';
 
