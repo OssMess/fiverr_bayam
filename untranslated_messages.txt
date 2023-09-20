@@ -34,6 +34,13 @@
     "sign_in_subtitle",
     "sign_in_about",
     "phone_number",
-    "phone_number_hint"
+    "phone_number_hint",
+    "verify_phone_number_title",
+    "verify_phone_number_subtitle",
+    "continu",
+    "snackbar_invlid_phone_number",
+    "snackbar_enter_otp",
+    "snackbar_too_many_attempts",
+    "snackbar_otp_incorrect"
   ]
 }

@@ -36,6 +36,13 @@
   "sign_in_about":"Access a powerful network to boost your visibility and find new clients.",
   "phone_number":"Phone Number",
   "phone_number_hint":"Enter your phone number",
+  "verify_phone_number_title":"Verify your Phone Number",
+  "verify_phone_number_subtitle":"Enter the 4-digit code we texted to you.",
+  "continu":"Continue",
+  "snackbar_invlid_phone_number":"Invalid phone number",
+  "snackbar_enter_otp":"Please enter OTP",
+  "snackbar_too_many_attempts":"Too many attempts to sign in! Try again later.",
+  "snackbar_otp_incorrect":"OTP incorrect! Try again.",
 
   "@min_caracters":{
     "description":"a validator message for minimum length",

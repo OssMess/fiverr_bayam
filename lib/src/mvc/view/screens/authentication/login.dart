@@ -1,8 +1,11 @@
 // TODO: translate
+
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:phone_number/phone_number.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../../extensions.dart';
 import '../../../../tools.dart';
@@ -23,7 +26,21 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  String countryCode = '+237';
+  final GlobalKey<FormState> _keyForm = GlobalKey();
+  String countryCode = 'CM';
+  TextEditingController controller = TextEditingController();
+  String? phoneNumber;
+  String? verificationId;
+  int? forceResendingToken;
+  String? pinCode;
+  FocusNode focusNode = FocusNode();
+
+  @override
+  void dispose() {
+    controller.dispose();
+    focusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +56,10 @@ class _LoginState extends State<Login> {
         // ),
       ),
       floatingActionButton: CustomElevatedButton(
-        onPressed: () {},
-        label: AppLocalizations.of(context)!.sign_in,
+        onPressed: next,
+        label: otpNotSent
+            ? AppLocalizations.of(context)!.sign_in
+            : AppLocalizations.of(context)!.continu,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Column(
@@ -49,78 +68,236 @@ class _LoginState extends State<Login> {
             type: AppBarBackgroundType.expanded,
           ),
           Expanded(
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 20.sp,
-                vertical: 10.sp,
-              ).copyWith(bottom: context.viewPadding.bottom + 20.sp),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)!.sign_in_title,
-                    style: Styles.poppins(
-                        fontSize: 22.sp,
-                        color: context.textTheme.displayLarge!.color,
-                        fontWeight: Styles.bold),
-                  ),
-                  Text(
-                    AppLocalizations.of(context)!.sign_in_title,
-                    style: Styles.poppins(
-                      fontSize: 14.sp,
-                      color: context.textTheme.displayMedium!.color,
-                      fontWeight: Styles.regular,
-                    ),
-                  ),
-                  30.heightSp,
-                  NewTextFormField(
-                    labelText: AppLocalizations.of(context)!.phone_number,
-                    hintText: AppLocalizations.of(context)!.phone_number_hint,
-                    prefix: CountryCodePicker(
-                      initialSelection: 'CM',
-                      enabled: false,
-                      favorite: const ['+237'],
-                      comparator: (a, b) => b.name!.compareTo(a.name!),
-                      boxDecoration: BoxDecoration(
-                        color: context.textTheme.headlineMedium!.color,
-                        borderRadius: BorderRadius.circular(10.sp),
+            child: Form(
+              key: _keyForm,
+              autovalidateMode: AutovalidateMode.disabled,
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20.sp,
+                  vertical: 10.sp,
+                ).copyWith(bottom: context.viewPadding.bottom + 20.sp),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    if (otpSent) ...[
+                      Text(
+                        AppLocalizations.of(context)!.verify_phone_number_title,
+                        style: Styles.poppins(
+                            fontSize: 22.sp,
+                            color: context.textTheme.displayLarge!.color,
+                            fontWeight: Styles.bold),
                       ),
-                      textStyle: Styles.poppins(
-                        fontWeight: Styles.medium,
-                        color: context.textTheme.displayMedium!.color,
-                        fontSize: 14.sp,
+                      Text(
+                        AppLocalizations.of(context)!
+                            .verify_phone_number_subtitle,
+                        style: Styles.poppins(
+                          fontSize: 14.sp,
+                          color: context.textTheme.displayMedium!.color,
+                          fontWeight: Styles.regular,
+                        ),
                       ),
-                      onChanged: (code) {
-                        countryCode = code.dialCode ?? '+237';
-                      },
-                      padding: EdgeInsets.zero,
-                      flagWidth: 30.sp,
-                    ),
-                  ),
-                  const Spacer(),
-                  Container(
-                    padding: EdgeInsets.all(16.sp),
-                    decoration: BoxDecoration(
-                      color: Styles.green[50],
-                      borderRadius: BorderRadius.circular(14.sp),
-                    ),
-                    child: Text(
-                      AppLocalizations.of(context)!.sign_in_about,
-                      textAlign: TextAlign.center,
-                      style: Styles.poppins(
-                        fontSize: 14.sp,
-                        fontWeight: Styles.medium,
-                        color: Styles.green,
+                      30.heightSp,
+                      PinCodeTextField(
+                        focusNode: focusNode,
+                        errorTextSpace: 8.sp,
+                        appContext: context,
+                        length: 4,
+                        onChanged: (value) {
+                          pinCode = value;
+                        },
+                        onCompleted: verifyOTP,
+                        keyboardType: TextInputType.number,
+                        textStyle: Styles.poppins(
+                          fontSize: 24.w,
+                          fontWeight: Styles.bold,
+                          color: context.primaryColor,
+                        ),
+                        pinTheme: PinTheme(
+                          borderWidth: 2.sp,
+                          shape: PinCodeFieldShape.box,
+                          borderRadius: BorderRadius.circular(15.sp),
+                          fieldHeight: 70.w,
+                          fieldWidth: 70.w,
+                          inactiveColor:
+                              context.textTheme.headlineMedium!.color,
+                          activeColor: context.primaryColor,
+                          selectedColor: context.primaryColor,
+                        ),
                       ),
-                    ),
-                  ),
-                  (context.viewPadding.bottom + 50.h).heightSp,
-                ],
+                    ],
+                    if (otpNotSent) ...[
+                      Text(
+                        AppLocalizations.of(context)!.sign_in_title,
+                        style: Styles.poppins(
+                            fontSize: 22.sp,
+                            color: context.textTheme.displayLarge!.color,
+                            fontWeight: Styles.bold),
+                      ),
+                      Text(
+                        AppLocalizations.of(context)!.sign_in_subtitle,
+                        style: Styles.poppins(
+                          fontSize: 14.sp,
+                          color: context.textTheme.displayMedium!.color,
+                          fontWeight: Styles.regular,
+                        ),
+                      ),
+                      30.heightSp,
+                      NewTextFormField(
+                        labelText: AppLocalizations.of(context)!.phone_number,
+                        hintText:
+                            AppLocalizations.of(context)!.phone_number_hint,
+                        prefix: CountryCodePicker(
+                          initialSelection: 'CM',
+                          enabled: false,
+                          favorite: const ['+237'],
+                          comparator: (a, b) => b.name!.compareTo(a.name!),
+                          boxDecoration: BoxDecoration(
+                            color: context.textTheme.headlineMedium!.color,
+                            borderRadius: BorderRadius.circular(10.sp),
+                          ),
+                          textStyle: Styles.poppins(
+                            fontWeight: Styles.medium,
+                            color: context.textTheme.displayMedium!.color,
+                            fontSize: 14.sp,
+                          ),
+                          onChanged: (code) {
+                            countryCode = code.code ?? 'CM';
+                          },
+                          padding: EdgeInsets.zero,
+                          flagWidth: 30.sp,
+                        ),
+                        keyboardType: TextInputType.phone,
+                        validator: (value) =>
+                            Validators.validatePhoneNumber(value),
+                        onSaved: (value) {
+                          phoneNumber = value;
+                        },
+                        onEditingComplete: next,
+                      ),
+                      const Spacer(),
+                      Container(
+                        padding: EdgeInsets.all(16.sp),
+                        decoration: BoxDecoration(
+                          color: Styles.green[50],
+                          borderRadius: BorderRadius.circular(14.sp),
+                        ),
+                        child: Text(
+                          AppLocalizations.of(context)!.sign_in_about,
+                          textAlign: TextAlign.center,
+                          style: Styles.poppins(
+                            fontSize: 14.sp,
+                            fontWeight: Styles.medium,
+                            color: Styles.green,
+                          ),
+                        ),
+                      ),
+                      (context.viewPadding.bottom + 50.h).heightSp,
+                    ],
+                  ],
+                ),
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  bool get otpSent => verificationId != null && phoneNumber != null;
+
+  bool get otpNotSent => !otpSent;
+
+  Future<void> next() async {
+    if (otpNotSent) {
+      if (!_keyForm.currentState!.validate()) return;
+      FocusScope.of(context).unfocus();
+      _keyForm.currentState!.save();
+      validatePhoneNumber().then(
+        (isValide) {
+          if (isValide) {
+            sendOTP();
+          } else {
+            Dialogs.of(context).showSnackBar(
+              message:
+                  AppLocalizations.of(context)!.snackbar_invlid_phone_number,
+            );
+          }
+        },
+      );
+    } else {
+      if (pinCode == null || pinCode!.length < 4) {
+        Dialogs.of(context).showSnackBar(
+          message: AppLocalizations.of(context)!.snackbar_enter_otp,
+        );
+        return;
+      }
+      FocusScope.of(context).unfocus();
+      verifyOTP(pinCode!);
+    }
+  }
+
+  Future<bool> validatePhoneNumber() async {
+    try {
+      bool isValid = await PhoneNumberUtil().validate(
+        phoneNumber!,
+        regionCode: countryCode,
+      );
+      if (isValid) {
+        PhoneNumber number = await PhoneNumberUtil().parse(
+          phoneNumber!,
+          regionCode: countryCode,
+        );
+        phoneNumber = number.international;
+      }
+      return isValid;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<void> sendOTP() async {
+    Dialogs.of(context).runAsyncAction(
+      future: () async {
+        await Future.delayed(
+          const Duration(seconds: 1),
+          () {
+            // throw Exception();
+          },
+        );
+      },
+      onComplete: (_) {
+        setState(() {
+          verificationId = 'id';
+          forceResendingToken = 0;
+        });
+      },
+      onError: (_) {
+        Dialogs.of(context).showSnackBar(
+          message: AppLocalizations.of(context)!.snackbar_too_many_attempts,
+        );
+      },
+    );
+  }
+
+  Future<void> verifyOTP(String code) async {
+    pinCode = code;
+    Dialogs.of(context).runAsyncAction(
+      future: () async {
+        await Future.delayed(
+          const Duration(seconds: 1),
+          () {
+            // throw Exception();
+          },
+        );
+      },
+      onComplete: (_) {
+        // on complete authentication
+      },
+      onError: (_) {
+        Dialogs.of(context).showSnackBar(
+          message: AppLocalizations.of(context)!.snackbar_otp_incorrect,
+        );
+      },
     );
   }
 }

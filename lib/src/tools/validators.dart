@@ -18,19 +18,7 @@ class Validators {
       // return AppLocalizations.of(context)!.field_required;
       return '';
     }
-    if (value!.length != 8) {
-      // return AppLocalizations.of(context)!.value_invalid;
-      return '';
-    }
     return null;
-    // RegExp regExp = RegExp(
-    //     r'^(((20)|(32)|(40)|(42)|(50)|(55)|(60)|(61)|(71)|(81)|(91)|(93))([0-9]{6}))|(9411[0-9]{4})$');
-    // if (regExp.hasMatch(value)) {
-    //   return null;
-    // } else {
-    //   // return AppLocalizations.of(context)!.value_invalid;
-    //   return '';
-    // }
   }
 
   /// return `null` if [value] is null, empty, or a valide phone number.

@@ -200,6 +200,7 @@ class Dialogs {
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar({
     required String message,
     Duration duration = const Duration(seconds: 4),
+    double? paddingBottom,
   }) {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     return ScaffoldMessenger.of(context).showSnackBar(
@@ -220,6 +221,12 @@ class Dialogs {
           textColor: Colors.white,
         ),
         behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.fromLTRB(
+          15.sp,
+          5.sp,
+          15.sp,
+          paddingBottom ?? 10.sp,
+        ),
       ),
     );
   }
