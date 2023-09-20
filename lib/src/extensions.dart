@@ -9,3 +9,4 @@ export 'extensions/build_context_extensions.dart';
 export 'extensions/iterable_extensions.dart';
 export 'extensions/dialog_state_extensions.dart';
 export 'extensions/lottie_animation_extensions.dart';
+export 'extensions/appbar_background_type_extensions.dart';
