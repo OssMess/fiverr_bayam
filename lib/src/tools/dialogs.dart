@@ -1,0 +1,242 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../mvc/model/enums.dart';
+import '../extensions.dart';
+import '../mvc/view/dialogs.dart';
+import '../mvc/view/model_widgets.dart';
+import 'styles.dart';
+
+class Dialogs {
+  final BuildContext context;
+
+  Dialogs(this.context);
+
+  static Dialogs of(BuildContext context) {
+    assert(context.mounted);
+    return Dialogs(context);
+  }
+
+  /// Shows a custom alert dialog, adaptive to screen size and also to dialog content.
+  /// - [dialogState] : dialog type. It defaults to `DialogState.confirmation` if null.
+  /// - [title] : dialog title. It defaults to `Confirmation` if null.
+  /// - [subtitle] : dialog subtitle.
+  /// - [continueLabel] : dialog main button label. It defaults to `Continue` if null.
+  /// - [onContinue] : dialog main button onPressed behavior label.
+  Future<void> showAlertDialog({
+    DialogState? dialogState,
+    String? title,
+    required String subtitle,
+    String? continueLabel,
+    required void Function() onContinue,
+  }) async {
+    await context.showAdaptiveModalBottomSheet(
+      builder: (_) => ConfirmationDialog(
+        dialogState: dialogState ?? DialogState.confirmation,
+        title: title,
+        subtitle: subtitle,
+        continueLabel: continueLabel ?? AppLocalizations.of(context)!.yes,
+        cancelLabel: AppLocalizations.of(context)!.cancel,
+        onContinue: onContinue,
+      ),
+    );
+  }
+
+  /// Shows a custom async alert dialog, adaptive to screen size and also to dialog content.
+  /// Async meaning that we should show a loading indicator while waiting for onContinue to finish.
+  /// - [dialogState] : dialog type. It defaults to `DialogState.confirmation` if null.
+  /// - [title] : dialog title. It defaults to `Confirmation` if null.
+  /// - [subtitle] : dialog subtitle.
+  /// - [continueLabel] : dialog main button label.
+  /// - [future] : dialog main button onPressed behavior label.
+  /// - [onComplete] : execute this function after `future`.
+  /// - [onError] : execute this function on `Exception` in `future`.
+  /// - [messageOnComplete] : a message for snackbar to show after `onComplete`.
+  Future<void> showAsyncAlertDialog<T>({
+    DialogState? dialogState,
+    String? title,
+    required String subtitle,
+    required String continueLabel,
+    required Future<T> Function() future,
+    void Function(T?)? onComplete,
+    required String? messageOnComplete,
+    void Function(Exception)? onError,
+  }) async {
+    await context.showAdaptiveModalBottomSheet(
+      builder: (_) => ConfirmationFutureDialog(
+        dialogState: dialogState ?? DialogState.confirmation,
+        title: title,
+        subtitle: subtitle,
+        continueLabel: continueLabel,
+        cancelLabel: AppLocalizations.of(context)!.cancel,
+        onContinue: future,
+        onComplete: onComplete,
+        messageOnComplete: messageOnComplete,
+        onError: onError,
+      ),
+    );
+  }
+
+  /// Show an alert adaptive dialog.
+  /// - [isDismissible] : if `true, the dialog shouw be dissmisible by swiping down.
+  /// - [enableDrag] : if `true, the dialog shouw be dragable.
+  /// - [onComplete] : Execute after the dialog is dissmised.
+  Future<void> showAdaptiveModalBottomSheet({
+    required Widget Function(BuildContext) builder,
+    bool isDismissible = true,
+    bool enableDrag = true,
+    void Function()? onComplete,
+  }) async {
+    await showModalBottomSheet(
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      isDismissible: isDismissible,
+      enableDrag: enableDrag,
+      context: context,
+      builder: builder,
+    ).whenComplete(onComplete ?? () {});
+  }
+
+  /// Show a dialog as a leading indicator.
+  /// This dialog is used to block any user inputs until an async function finished.
+  Future<void> showLoadingIndicator() async {
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => WillPopScope(
+        onWillPop: () async => Future.value(false),
+        child: const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            CustomLoadingIndicator(
+              margin: EdgeInsets.zero,
+              isSliver: false,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Show the loading indicator while waiting for [future] function to finish.
+  /// - [future] : An async funtion.
+  /// - [onComplete] : Executre this function when `future` is finished.
+  /// - [messageOnComplete] : show this message in a snackbar after `onComplete`.
+  /// - [onError] : Execute on `Exception` in `future`.
+  /// - [popOnError] : if `true`, pop the parent widget with `context` and close the screen.
+  Future<T?> runAsyncAction<T>({
+    required Future<T?> Function() future,
+    void Function(T?)? onComplete,
+    void Function(Exception)? onError,
+    bool popOnError = false,
+    String? messageOnComplete,
+  }) async {
+    try {
+      showLoadingIndicator();
+      return await future().then((result) {
+        context.pop();
+        if (onComplete != null) {
+          onComplete(result);
+        }
+        if (!messageOnComplete.isNullOrEmpty) {
+          context.showSnackBar(
+            message: messageOnComplete!,
+          );
+        }
+        return result;
+      });
+    } on Exception catch (e) {
+      //pop loading widget
+      context.pop();
+      if (popOnError) {
+        //if there is a dialog hehind, pop it
+        context.pop();
+      }
+      if (onError != null) {
+        onError(e);
+      } else {
+        try {
+          rethrow;
+        } on Exception catch (e) {
+          if (kDebugMode) {
+            print(e);
+          }
+          Dialogs.of(context).handleBackendException(
+            exception: e,
+          );
+        }
+      }
+      return null;
+    }
+  }
+
+  /// Show a dialog configured specifically for alerting the user to grant use of a permission.
+  /// - [title] : dialog title.
+  /// - [subtitle] : dialog subtitle.
+  /// - [barrierDismissible] : if `true`, the dialog will be dissmisable by swiping down.
+  Future<void> showPermissionDialog({
+    required String title,
+    required String subtitle,
+    bool barrierDismissible = true,
+  }) async {
+    await context.showAdaptiveModalBottomSheet(
+      builder: (_) => ConfirmationDialog(
+        dialogState: DialogState.confirmation,
+        title: title,
+        subtitle: subtitle,
+        continueLabel: AppLocalizations.of(context)!.close,
+        onContinue: null,
+      ),
+    );
+  }
+
+  /// Show a snackbar message.
+  /// - [message] : a message to show on the snackbar.
+  /// - [duration] : show snackbar and dismiss it after duration (default to 4 seconds).
+  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar({
+    required String message,
+    Duration duration = const Duration(seconds: 4),
+  }) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    return ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: context.primaryColor,
+        duration: duration,
+        content: Text(
+          message,
+          style: Styles.poppins(
+            fontWeight: Styles.medium,
+            fontSize: 16.sp,
+            color: Colors.white,
+          ),
+        ),
+        action: SnackBarAction(
+          label: AppLocalizations.of(context)!.dismiss,
+          onPressed: ScaffoldMessenger.of(context).hideCurrentSnackBar,
+          textColor: Colors.white,
+        ),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
+
+  /// Handle backend [exception] and show an adaptive dialog explaining the problem.
+  Future<void> handleBackendException({
+    required Exception exception,
+  }) async {
+    // await context.showAdaptiveModalBottomSheet(
+    //   builder: (_) => ConfirmationDialog(
+    //     dialogState: DialogState.error,
+    //     subtitle: exception is BookingHeroException
+    //         ? exception.message
+    //         : AppLocalizations.of(context)!.unknown_error,
+    //     continueLabel: AppLocalizations.of(context)!.ignore_close,
+    //     onContinue: null,
+    //   ),
+    // );
+  }
+}
