@@ -10,6 +10,7 @@ class Styles {
     FontStyle? fontStyle,
     double? height,
     TextOverflow? overflow,
+    TextDecoration? textDecoration,
   }) =>
       TextStyle(
         fontFamily: 'Poppins',
@@ -19,6 +20,7 @@ class Styles {
         fontStyle: fontStyle,
         height: height,
         overflow: overflow,
+        decoration: textDecoration,
       );
 
   static const MaterialColor yellow = MaterialColor(

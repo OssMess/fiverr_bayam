@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Functions {
   final BuildContext context;
@@ -13,7 +14,8 @@ class Functions {
   /// translate [key] into a value.
   String translateKey(String key) {
     Map<String, String> translation = {
-      // 'popular': AppLocalizations.of(context)!.popular,
+      'en': AppLocalizations.of(context)!.en,
+      'fr': AppLocalizations.of(context)!.fr,
     };
     return translation[key] ?? key;
   }

@@ -51,7 +51,7 @@ class _AuthWrapperState extends State<AuthWrapper> {
       precacheImages(context);
       Paddings.init(context);
       Future.delayed(
-        const Duration(seconds: 4),
+        const Duration(seconds: 2),
         () {
           if (context.mounted) {
             setState(() {
@@ -74,7 +74,11 @@ class _AuthWrapperState extends State<AuthWrapper> {
             isLoading: true,
           );
         }
-
+        if (widget.settingsController.showOnboarding) {
+          return Welcome(
+            settingsController: widget.settingsController,
+          );
+        }
         if (userSession.requiredInitAccountDetails) {
           return SplashScreen(
             userSession: userSession,

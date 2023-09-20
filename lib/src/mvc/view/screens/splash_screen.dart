@@ -35,22 +35,17 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      backgroundColor: context.scaffoldBackgroundColor,
+      backgroundColor: context.primaryColor,
       body: Center(
         child: Column(
           children: [
             const Spacer(),
-            if (error == null) ...[
-              LottieBuilder.asset(
-                LottieAnimation.splashscreen.valueToString,
-                height: 170.sp,
-                width: 1.sw,
-                fit: BoxFit.cover,
-                alignment: Alignment.center,
-                repeat: false,
-              ),
-              SizedBox(height: 90.sp),
-            ],
+            Image.asset(
+              'assets/images/logo_transparent.png',
+              fit: BoxFit.contain,
+              alignment: Alignment.center,
+              height: 200.h,
+            ),
             if (error != null) ...[
               const Spacer(flex: 2),
               const Spacer(),
@@ -76,7 +71,7 @@ class SplashScreen extends StatelessWidget {
                 child: Icon(
                   Icons.warning_amber,
                   size: 90.sp,
-                  color: context.primaryColor,
+                  color: Colors.white,
                 ),
               ),
               SizedBox(height: 40.sp),
@@ -85,7 +80,7 @@ class SplashScreen extends StatelessWidget {
                 style: Styles.poppins(
                   fontSize: 22.sp,
                   fontWeight: Styles.bold,
-                  color: Theme.of(context).textTheme.displayLarge!.color,
+                  color: Colors.white,
                 ),
               ),
               SizedBox(height: 8.sp),
@@ -117,10 +112,7 @@ class SplashScreen extends StatelessWidget {
                       ? Text(
                           'Version: ${snapshot.data!}',
                           style: Styles.poppins(
-                            color: Theme.of(context)
-                                .textTheme
-                                .displayMedium!
-                                .color,
+                            color: Colors.white,
                             fontSize: 14.sp,
                             fontWeight: Styles.medium,
                           ),

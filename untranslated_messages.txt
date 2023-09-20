@@ -1,1 +1,33 @@
-{}
+{
+  "fr": [
+    "en",
+    "fr",
+    "dialog_title_permission_required",
+    "dialog_content_permission_camera_android",
+    "dialog_content_permission_camera_ios",
+    "dialog_content_permission_location_android",
+    "dialog_content_permission_location_ios",
+    "dialog_content_permission_microphone_android",
+    "dialog_content_permission_microphone_ios",
+    "dialog_content_permission_photos_android",
+    "dialog_content_permission_photos_ios",
+    "dialog_content_enable_location_android",
+    "dialog_content_enable_location_ios",
+    "min_caracters",
+    "dismiss",
+    "yes",
+    "no",
+    "cancel",
+    "close",
+    "confirmation",
+    "information",
+    "great",
+    "oops",
+    "logout",
+    "welcometo",
+    "agree_and_continue",
+    "terms_tap",
+    "terms_to_accept",
+    "terms_bayan"
+  ]
+}

@@ -62,6 +62,12 @@ extension BuildContextTheme<T> on BuildContext {
   Color get scaffoldBackgroundColor => Theme.of(this).scaffoldBackgroundColor;
 }
 
+extension BuildContextPaddings<T> on BuildContext {
+  EdgeInsets get viewPadding => MediaQuery.of(this).viewPadding;
+  EdgeInsets get viewInsets => MediaQuery.of(this).viewInsets;
+  EdgeInsets get padding => MediaQuery.of(this).padding;
+}
+
 extension BuildContextSizes<T> on BuildContext {
   bool get isMobile => MediaQuery.of(this).size.width <= 500.0;
 
