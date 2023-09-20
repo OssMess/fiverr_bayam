@@ -7,7 +7,7 @@ import '../../../extensions.dart';
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     super.key,
-    this.label,
+    this.labelText,
     this.hintText,
     this.errorText,
     this.errorColor,
@@ -40,7 +40,7 @@ class CustomTextFormField extends StatelessWidget {
               (suffixOnTap == null || suffixIcon != null)),
         );
 
-  final String? label;
+  final String? labelText;
   final String? hintText;
   final String? errorText;
   final Color? errorColor;
@@ -102,6 +102,9 @@ class CustomTextFormField extends StatelessWidget {
       onSaved: onSaved,
       obscureText: obscureText,
       decoration: InputDecoration(
+        labelText: labelText,
+        hintText: hintText,
+        errorText: errorText,
         fillColor: fillColor,
         filled: fillColor != null,
         constraints: keyboardType != TextInputType.multiline
@@ -113,18 +116,12 @@ class CustomTextFormField extends StatelessWidget {
                 minHeight: 45.sp,
               ),
         alignLabelWithHint: true,
-        label: label != null
-            ? Text(
-                label!,
-                style: style.copyWith(
-                  color: Theme.of(context).textTheme.displayLarge!.color,
-                  fontWeight: Styles.bold,
-                  fontSize: 15.sp,
-                ),
-              )
-            : null,
-        hintText: hintText,
-        errorText: errorText,
+        floatingLabelAlignment: FloatingLabelAlignment.start,
+        labelStyle: style.copyWith(
+          color: Theme.of(context).textTheme.displayLarge!.color,
+          fontWeight: Styles.bold,
+          fontSize: 15.sp,
+        ),
         errorStyle: !isHeightFixed
             ? Styles.poppins(
                 fontSize: 0,

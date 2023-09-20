@@ -28,6 +28,12 @@
     "agree_and_continue",
     "terms_tap",
     "terms_to_accept",
-    "terms_bayan"
+    "terms_bayan",
+    "sign_in",
+    "sign_in_title",
+    "sign_in_subtitle",
+    "sign_in_about",
+    "phone_number",
+    "phone_number_hint"
   ]
 }

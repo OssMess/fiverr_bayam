@@ -40,18 +40,18 @@ class Styles {
   );
 
   static const MaterialColor green = MaterialColor(
-    0xFF23a994,
+    0xFF619B2F,
     <int, Color>{
-      50: Color(0xFFe9f6f4),
-      100: Color(0xFFd3eeea),
-      200: Color(0xFFbde5df),
-      300: Color(0xFFa7ddd4),
-      400: Color(0xFF91d4ca),
-      500: Color(0xFF7bcbbf),
-      600: Color(0xFF65c3b4),
-      700: Color(0xFF4fbaa9),
-      800: Color(0xFF39b29f),
-      900: Color(0xFF23a994),
+      50: Color(0xFFeff5ea),
+      100: Color(0xFFdfebd5),
+      300: Color(0xFFc0d7ac),
+      400: Color(0xFFb0cd97),
+      500: Color(0xFFa0c382),
+      600: Color(0xFF90b96d),
+      700: Color(0xFF81af59),
+      800: Color(0xFF71a544),
+      200: Color(0xFFd0e1c1),
+      900: Color(0xFFe9f6f4),
     },
   );
 

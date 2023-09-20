@@ -30,6 +30,12 @@
   "terms_tap":"Tap",
   "terms_to_accept":"to accept",
   "terms_bayan":"Bayan Terms of Service and Privacy Policy",
+  "sign_in":"Sign In",
+  "sign_in_title":"Welcome Back",
+  "sign_in_subtitle":"Please sign in to continue.",
+  "sign_in_about":"Access a powerful network to boost your visibility and find new clients.",
+  "phone_number":"Phone Number",
+  "phone_number_hint":"Enter your phone number",
 
   "@min_caracters":{
     "description":"a validator message for minimum length",
