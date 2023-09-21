@@ -44,6 +44,11 @@
     "snackbar_otp_incorrect",
     "sign_up",
     "person",
-    "company"
+    "company",
+    "didnt_receive_code",
+    "resend",
+    "resend_in",
+    "nb_seconds",
+    "check_sms_hint"
   ]
 }

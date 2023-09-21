@@ -46,13 +46,24 @@
   "sign_up":"Sign up",
   "person":"Person",
   "company":"Company",
+  "didnt_receive_code":"Didn't receive your code?",
+  "resend":"Resend",
+  "resend_in":"Resend in",
+  "nb_seconds":"{nb} seconds",
+  "check_sms_hint":"Check your inbox, and if you haven't received an SMS, click on 'Resend' to receive a new activation code.",
 
   "@min_caracters":{
     "description":"a validator message for minimum length",
     "placeholders":{
       "min":{
-        "type":"String",
-        "example":"10"
+        "type":"String"
+      }
+    }
+  },
+  "@nb_seconds":{
+    "placeholders":{
+      "nb":{
+        "type":"int"
       }
     }
   }

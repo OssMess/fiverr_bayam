@@ -1,6 +1,9 @@
 // TODO: translate
 
+import 'dart:math';
+
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -9,8 +12,10 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../../extensions.dart';
 import '../../../../tools.dart';
+import '../../../model/change_notifiers.dart';
 import '../../../model/enums.dart';
 import '../../../model/models.dart';
+import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 
 class Login extends StatefulWidget {
@@ -34,6 +39,8 @@ class _LoginState extends State<Login> {
   int? forceResendingToken;
   String? pinCode;
   FocusNode focusNode = FocusNode();
+  Bouncer? bouncer;
+  NotifierInt? durationNotifier;
 
   @override
   void dispose() {
@@ -123,14 +130,77 @@ class _LoginState extends State<Login> {
                           selectedColor: context.primaryColor,
                         ),
                       ),
+                      16.heightSp,
+                      Builder(
+                        builder: (context) {
+                          return ValueListenableBuilder(
+                            valueListenable: durationNotifier!.notifier,
+                            builder: (context, duration, _) {
+                              return RichText(
+                                text: TextSpan(
+                                  style: Styles.poppins(
+                                    fontSize: 14.sp,
+                                    fontWeight: Styles.medium,
+                                    color:
+                                        context.textTheme.displayLarge!.color,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text:
+                                          '${AppLocalizations.of(context)!.didnt_receive_code} ',
+                                    ),
+                                    if (duration <= 0)
+                                      TextSpan(
+                                        text: AppLocalizations.of(context)!
+                                            .resend,
+                                        style: Styles.poppins(
+                                          fontSize: 14.sp,
+                                          fontWeight: Styles.medium,
+                                          color: Styles.green,
+                                        ),
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = sendOTP,
+                                      ),
+                                    if (duration > 0) ...[
+                                      TextSpan(
+                                        text: AppLocalizations.of(context)!
+                                            .resend_in,
+                                      ),
+                                      TextSpan(
+                                        text:
+                                            ' ${AppLocalizations.of(context)!.nb_seconds(duration)}',
+                                        style: Styles.poppins(
+                                          fontSize: 14.sp,
+                                          fontWeight: Styles.medium,
+                                          color: Styles.green,
+                                        ),
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      16.heightSp,
+                      Text(
+                        AppLocalizations.of(context)!.check_sms_hint,
+                        style: Styles.poppins(
+                          fontSize: 14.sp,
+                          color: context.textTheme.displayMedium!.color,
+                          fontWeight: Styles.regular,
+                        ),
+                      ),
                     ],
                     if (otpNotSent) ...[
                       Text(
                         AppLocalizations.of(context)!.sign_in_title,
                         style: Styles.poppins(
-                            fontSize: 22.sp,
-                            color: context.textTheme.displayLarge!.color,
-                            fontWeight: Styles.bold),
+                          fontSize: 22.sp,
+                          color: context.textTheme.displayLarge!.color,
+                          fontWeight: Styles.bold,
+                        ),
                       ),
                       Text(
                         AppLocalizations.of(context)!.sign_in_subtitle,
@@ -268,6 +338,7 @@ class _LoginState extends State<Login> {
         setState(() {
           verificationId = 'id';
           forceResendingToken = 0;
+          startTimer();
         });
       },
       onError: (_) {
@@ -276,6 +347,19 @@ class _LoginState extends State<Login> {
         );
       },
     );
+  }
+
+  void startTimer() {
+    bouncer = Bouncer(milliseconds: 1000);
+    durationNotifier = NotifierInt.init(60);
+    bouncer!.run(() {
+      if (durationNotifier!.value == 1) {
+        durationNotifier!.setValue(0);
+        bouncer!.cancel();
+      } else {
+        durationNotifier!.setValue(max(0, durationNotifier!.value - 1));
+      }
+    });
   }
 
   Future<void> verifyOTP(String code) async {
