@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 
-/// a value notifier of type bool
-class NotifierBool extends ValueNotifier<bool> {
-  NotifierBool(bool value) : super(value);
+class NotifierBool {
+  ValueNotifier<bool> notifier;
 
-  /// update with [value] and notify listeners
-  void setValue(bool value) {
-    this.value = value;
-    notifyListeners();
+  NotifierBool({required this.notifier});
+
+  factory NotifierBool.init(bool value) {
+    return NotifierBool(notifier: ValueNotifier<bool>(value));
   }
+
+  void setValue(bool value) {
+    notifier.value = value;
+  }
+
+  bool get value => notifier.value;
 }

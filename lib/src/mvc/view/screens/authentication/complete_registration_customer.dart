@@ -52,7 +52,7 @@ class _CompleteRegistrationCustomerState
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: Text(
+        title: const Text(
           'Customer Details',
         ),
         leading: AppBarActionButton(
@@ -260,7 +260,7 @@ class _CompleteRegistrationCustomerState
         await Future.delayed(const Duration(seconds: 1));
       },
       onComplete: (_) {
-        //TODO push to customer or company details
+        //TODO on complete register customer
       },
       onError: (_) {},
     );

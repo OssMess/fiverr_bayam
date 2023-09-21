@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 
-/// a value notifier of type String
-class NotifierString extends ValueNotifier<String> {
-  NotifierString(String value) : super(value);
+class NotifierString {
+  ValueNotifier<String> notifier;
 
-  /// update with [value] and notify listeners
-  void setValue(String value) {
-    this.value = value;
-    notifyListeners();
+  NotifierString({required this.notifier});
+
+  factory NotifierString.init(String value) {
+    return NotifierString(notifier: ValueNotifier<String>(value));
   }
+
+  void setValue(String value) {
+    notifier.value = value;
+  }
+
+  String get value => notifier.value;
 }

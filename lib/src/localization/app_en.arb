@@ -51,6 +51,7 @@
   "resend_in":"Resend in",
   "nb_seconds":"{nb} seconds",
   "check_sms_hint":"Check your inbox, and if you haven't received an SMS, click on 'Resend' to receive a new activation code.",
+  "all":"All",
 
   "@min_caracters":{
     "description":"a validator message for minimum length",

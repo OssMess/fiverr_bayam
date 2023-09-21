@@ -49,6 +49,7 @@
     "resend",
     "resend_in",
     "nb_seconds",
-    "check_sms_hint"
+    "check_sms_hint",
+    "all"
   ]
 }
