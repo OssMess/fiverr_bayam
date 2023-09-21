@@ -9,6 +9,7 @@ import '../../../../tools.dart';
 import '../../../model/enums.dart';
 import '../../../model/models.dart';
 import '../../model_widgets.dart';
+import '../../screens.dart';
 
 class CompleteRegistration extends StatefulWidget {
   const CompleteRegistration({
@@ -159,6 +160,13 @@ class _CompleteRegistrationState extends State<CompleteRegistration> {
       },
       onComplete: (_) {
         //TODO push to customer or company details
+        if (accountType == AccountType.person) {
+          context.push(
+            widget: CompleteRegistrationCustomer(
+              userSession: widget.userSession,
+            ),
+          );
+        }
       },
       onError: (_) {},
     );

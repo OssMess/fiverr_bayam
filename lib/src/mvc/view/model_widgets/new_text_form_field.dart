@@ -9,10 +9,12 @@ class NewTextFormField extends StatefulWidget {
     super.key,
     required this.labelText,
     required this.hintText,
+    this.controller,
     this.labelPrefixIcon,
     this.initialValue,
     this.prefix,
     this.suffix,
+    this.suffixIcon,
     this.readOnly = false,
     this.keyboardType,
     this.focusNode,
@@ -21,14 +23,16 @@ class NewTextFormField extends StatefulWidget {
     this.onSaved,
     this.onEditingComplete,
     this.onTap,
-  });
+  }) : assert(suffix == null || suffixIcon == null);
 
   final String labelText;
   final String hintText;
+  final TextEditingController? controller;
   final IconData? labelPrefixIcon;
   final String? initialValue;
   final Widget? prefix;
   final Widget? suffix;
+  final IconData? suffixIcon;
   final bool readOnly;
   final TextInputType? keyboardType;
   final FocusNode? focusNode;
@@ -96,7 +100,7 @@ class _NewTextFormFieldState extends State<NewTextFormField> {
                           Icon(
                             widget.labelPrefixIcon,
                             size: 16.sp,
-                            color: context.primaryColor,
+                            color: Styles.green,
                           ),
                           8.widthSp,
                         ],
@@ -112,6 +116,7 @@ class _NewTextFormFieldState extends State<NewTextFormField> {
                       ],
                     ),
                     TextFormField(
+                      controller: widget.controller,
                       focusNode: widget.focusNode ?? focusNode,
                       initialValue: widget.initialValue,
                       validator: widget.validator != null
@@ -125,7 +130,7 @@ class _NewTextFormFieldState extends State<NewTextFormField> {
                       onSaved: widget.onSaved,
                       onEditingComplete: widget.onEditingComplete,
                       onTap: widget.onTap,
-                      readOnly: widget.readOnly,
+                      readOnly: widget.onTap != null || widget.readOnly,
                       keyboardType: widget.keyboardType,
                       onTapOutside: (_) => FocusScope.of(context).unfocus(),
                       textInputAction: widget.textInputAction,
@@ -156,9 +161,13 @@ class _NewTextFormFieldState extends State<NewTextFormField> {
             //suffix
             if (widget.suffix != null) ...[
               16.widthSp,
+              widget.suffix!,
+            ],
+            if (widget.suffixIcon != null) ...[
+              16.widthSp,
               Icon(
-                Icons.visibility_off,
-                color: context.primary,
+                widget.suffixIcon,
+                color: Styles.green,
                 size: 24.sp,
               ),
             ],

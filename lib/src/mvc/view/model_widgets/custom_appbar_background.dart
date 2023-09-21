@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../extensions.dart';
+import '../../../tools.dart';
 import '../../model/enums.dart';
 
 class CustomAppBarBackground extends StatelessWidget {
@@ -38,7 +39,7 @@ class CustomAppBarBackground extends StatelessWidget {
       width: 1.sw,
       height: backgroundTopHeight,
       decoration: BoxDecoration(
-        color: context.primary,
+        color: Styles.green,
         borderRadius: type.borderRadius(),
       ),
       child: Stack(

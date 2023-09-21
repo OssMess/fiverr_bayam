@@ -205,7 +205,7 @@ class Dialogs {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     return ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        backgroundColor: context.primaryColor,
+        backgroundColor: Styles.green,
         duration: duration,
         content: Text(
           message,

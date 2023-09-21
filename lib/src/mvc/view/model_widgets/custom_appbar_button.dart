@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../extensions.dart';
+import '../../../tools.dart';
 
 class AppBarActionButton extends StatelessWidget {
   const AppBarActionButton({
@@ -30,7 +31,7 @@ class AppBarActionButton extends StatelessWidget {
         ),
         child: Icon(
           icon,
-          color: context.primaryColor,
+          color: Styles.green,
           size: 20.sp,
         ),
       ),

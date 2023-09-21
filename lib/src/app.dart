@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'mvc/controller/auth_wrapper.dart';
 import 'settings/settings_controller.dart';
+import 'tools.dart';
 
 bool showSplashScreen = true;
 
@@ -82,14 +83,18 @@ class MyApp extends StatelessWidget {
         selectionColor: const Color(0xFF619B2F).withAlpha(100),
         selectionHandleColor: const Color(0xFF619B2F),
       ),
-      appBarTheme: const AppBarTheme(
-        backgroundColor: Color(0xFF619B2F),
-        titleTextStyle: TextStyle(color: Colors.white),
-        actionsIconTheme: IconThemeData(color: Colors.white),
-        iconTheme: IconThemeData(
+      appBarTheme: AppBarTheme(
+        backgroundColor: const Color(0xFF619B2F),
+        titleTextStyle: Styles.poppins(
+          fontSize: 16.sp,
+          color: Colors.white,
+          fontWeight: Styles.semiBold,
+        ),
+        actionsIconTheme: const IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(
           color: Colors.white,
         ),
-        systemOverlayStyle: SystemUiOverlayStyle(
+        systemOverlayStyle: const SystemUiOverlayStyle(
           systemStatusBarContrastEnforced: true,
           statusBarColor: Colors.transparent, //only for android
           statusBarIconBrightness: Brightness.light, //only for android

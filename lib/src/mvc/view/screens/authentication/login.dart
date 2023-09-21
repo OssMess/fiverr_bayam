@@ -33,7 +33,6 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final GlobalKey<FormState> _keyForm = GlobalKey();
   String countryCode = 'CM';
-  TextEditingController controller = TextEditingController();
   String? phoneNumber;
   String? verificationId;
   int? forceResendingToken;
@@ -44,7 +43,7 @@ class _LoginState extends State<Login> {
 
   @override
   void dispose() {
-    controller.dispose();
+    bouncer?.cancel();
     super.dispose();
   }
 
@@ -116,7 +115,7 @@ class _LoginState extends State<Login> {
                         textStyle: Styles.poppins(
                           fontSize: 24.w,
                           fontWeight: Styles.bold,
-                          color: context.primaryColor,
+                          color: Styles.green,
                         ),
                         pinTheme: PinTheme(
                           borderWidth: 2.sp,
@@ -126,8 +125,8 @@ class _LoginState extends State<Login> {
                           fieldWidth: 70.w,
                           inactiveColor:
                               context.textTheme.headlineMedium!.color,
-                          activeColor: context.primaryColor,
-                          selectedColor: context.primaryColor,
+                          activeColor: Styles.green,
+                          selectedColor: Styles.green,
                         ),
                       ),
                       16.heightSp,

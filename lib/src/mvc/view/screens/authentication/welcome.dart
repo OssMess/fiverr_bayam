@@ -167,7 +167,10 @@ class Welcome extends StatelessWidget {
                           color: Colors.white,
                           textDecoration: TextDecoration.underline,
                         ),
-                        recognizer: TapGestureRecognizer()..onTap = () {},
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            //TODO open terms
+                          },
                       ),
                     ],
                   ),

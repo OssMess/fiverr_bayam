@@ -33,7 +33,7 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      backgroundColor: context.primaryColor,
+      backgroundColor: Styles.green,
       body: Center(
         child: Column(
           children: [
