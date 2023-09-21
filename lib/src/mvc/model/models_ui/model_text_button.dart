@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
-class ModelTextButton {
+class ModelTextButton<T> {
   final String label;
-  final void Function()? onPressed;
+  final T Function()? onPressed;
   final Color? fontColor;
+  final Color? color;
   final IconData? icon;
 
   ModelTextButton({
     required this.label,
-    required this.onPressed,
+    this.onPressed,
     this.fontColor,
+    this.color,
     this.icon,
   });
 }

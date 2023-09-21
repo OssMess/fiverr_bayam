@@ -160,7 +160,7 @@ class _SignUpState extends State<SignUp> {
       },
       onComplete: (_) {
         context.push(
-          widget: CompleteRegistrationForm(
+          widget: CompleteRegistrationForm1(
             userSession: widget.userSession,
             accountType: accountType,
           ),

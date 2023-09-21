@@ -4,16 +4,18 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../extensions.dart';
 import '../../../../tools.dart';
 import '../../../model/enums.dart';
 import '../../../model/models.dart';
+import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 
-class CompleteRegistrationForm extends StatefulWidget {
-  const CompleteRegistrationForm({
+class CompleteRegistrationForm1 extends StatefulWidget {
+  const CompleteRegistrationForm1({
     super.key,
     required this.userSession,
     required this.accountType,
@@ -23,17 +25,17 @@ class CompleteRegistrationForm extends StatefulWidget {
   final AccountType accountType;
 
   @override
-  State<CompleteRegistrationForm> createState() =>
-      _CompleteRegistrationFormState();
+  State<CompleteRegistrationForm1> createState() =>
+      _CompleteRegistrationForm1State();
 }
 
-class _CompleteRegistrationFormState extends State<CompleteRegistrationForm> {
+class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
   final GlobalKey<FormState> _keyForm = GlobalKey();
   TextEditingController dateController = TextEditingController();
   String? firstName;
   String? lastName;
   String? companyName;
-  String? imagePath;
+  XFile? companyImage;
   String? registrationNumber;
   String? town;
   String? zip;
@@ -153,7 +155,54 @@ class _CompleteRegistrationFormState extends State<CompleteRegistrationForm> {
                           textInputAction: TextInputAction.next,
                         ),
                         16.heightSp,
-                        //TODO upload company image
+                        InkResponse(
+                          onTap: () async {
+                            if (await Permissions.of(context)
+                                .showPhotoLibraryPermission()) return;
+                            ImagePicker()
+                                .pickImage(
+                              source: ImageSource.gallery,
+                              imageQuality: 80,
+                              maxHeight: 1080,
+                              maxWidth: 1080,
+                            )
+                                .then(
+                              (xfile) {
+                                if (xfile == null) return;
+                                companyImage = xfile;
+                              },
+                            );
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            height: 0.15.sh,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: context.textTheme.headlineMedium!.color!
+                                  .withOpacity(0.5),
+                              borderRadius: BorderRadius.circular(14.sp),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.cloud_upload,
+                                  color: Styles.green,
+                                  size: 40.sp,
+                                ),
+                                Text(
+                                  AppLocalizations.of(context)!
+                                      .upload_company_image,
+                                  style: Styles.poppins(
+                                    fontSize: 12.sp,
+                                    fontWeight: Styles.semiBold,
+                                    color: Styles.green,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                         16.heightSp,
                         NewTextFormField(
                           labelText:
@@ -329,14 +378,31 @@ class _CompleteRegistrationFormState extends State<CompleteRegistrationForm> {
   }
 
   Future<void> next() async {
-    if (!_keyForm.currentState!.validate()) return;
-    _keyForm.currentState!.save();
-    FocusScope.of(context).unfocus();
+    // if (!_keyForm.currentState!.validate()) return;
+    // _keyForm.currentState!.save();
     Dialogs.of(context).runAsyncAction(
       future: () async {
         await Future.delayed(const Duration(seconds: 1));
       },
-      onComplete: (_) {},
+      onComplete: (_) {
+        Dialogs.of(context).showCustomDialog(
+          title: AppLocalizations.of(context)!.success,
+          subtitle: AppLocalizations.of(context)!.signup_success_subtitle,
+          yesAct: ModelTextButton(
+            label: AppLocalizations.of(context)!.continu,
+          ),
+          onComplete: (_) {
+            //TODO customer account, scan ID
+            //TODO Company account, upload documents
+            context.push(
+              widget: CompleteRegistrationForm1(
+                userSession: widget.userSession,
+                accountType: widget.accountType,
+              ),
+            );
+          },
+        );
+      },
       onError: (_) {},
     );
   }

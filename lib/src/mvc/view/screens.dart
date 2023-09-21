@@ -1,4 +1,4 @@
-export 'screens/authentication/complete_registration_form.dart';
+export 'screens/authentication/complete_registration_form_1.dart';
 export 'screens/authentication/sign_up.dart';
 export 'screens/authentication/sign_in.dart';
 export './screens/authentication/welcome.dart';

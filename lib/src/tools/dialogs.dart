@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../mvc/model/enums.dart';
 import '../extensions.dart';
+import '../mvc/model/models_ui.dart';
 import '../mvc/view/dialogs.dart';
 import '../mvc/view/model_widgets.dart';
 import 'styles.dart';
@@ -245,5 +246,32 @@ class Dialogs {
     //     onContinue: null,
     //   ),
     // );
+  }
+
+  Future<void> showCustomDialog<T>({
+    required String title,
+    required String subtitle,
+    required ModelTextButton yesAct,
+    ModelTextButton? noAct,
+    void Function(T)? onComplete,
+  }) async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          insetPadding: EdgeInsets.symmetric(horizontal: 16.sp),
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14.sp),
+          ),
+          child: CustomAlertDialog(
+            title: title,
+            subtitle: subtitle,
+            yesAct: yesAct,
+            onComplete: onComplete,
+          ),
+        );
+      },
+    );
   }
 }

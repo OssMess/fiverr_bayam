@@ -278,7 +278,6 @@ class _SignInState extends State<SignIn> {
   Future<void> next() async {
     if (otpNotSent) {
       if (!_keyForm.currentState!.validate()) return;
-      FocusScope.of(context).unfocus();
       _keyForm.currentState!.save();
       validatePhoneNumber().then(
         (isValide) {

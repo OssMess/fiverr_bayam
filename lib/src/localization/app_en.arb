@@ -86,6 +86,9 @@
   "sign_up_title":"Profile Informations",
   "sign_up_subtitle":"It won't take more than minute. We Promise.",
   "i_am_a":"I'm a",
+  "upload_company_image":"Upload Company Image",
+  "success":"Success",
+  "signup_success_subtitle":"Your information has been saved!",
 
 
   "@min_caracters":{
