@@ -11,8 +11,8 @@ import '../../../model/models.dart';
 import '../../model_widgets.dart';
 import '../../screens.dart';
 
-class CompleteRegistration extends StatefulWidget {
-  const CompleteRegistration({
+class SignUp extends StatefulWidget {
+  const SignUp({
     super.key,
     required this.userSession,
   });
@@ -20,10 +20,10 @@ class CompleteRegistration extends StatefulWidget {
   final UserSession userSession;
 
   @override
-  State<CompleteRegistration> createState() => _CompleteRegistrationState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _CompleteRegistrationState extends State<CompleteRegistration> {
+class _SignUpState extends State<SignUp> {
   final GlobalKey<FormState> _keyForm = GlobalKey();
   AccountType accountType = AccountType.customer;
   String? firstName, lastName;
@@ -69,14 +69,14 @@ class _CompleteRegistrationState extends State<CompleteRegistration> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      'Profile Informations',
+                      AppLocalizations.of(context)!.sign_up_title,
                       style: Styles.poppins(
                           fontSize: 22.sp,
                           color: context.textTheme.displayLarge!.color,
                           fontWeight: Styles.bold),
                     ),
                     Text(
-                      'It won\'t take more than minute. We Promise.',
+                      AppLocalizations.of(context)!.sign_up_subtitle,
                       style: Styles.poppins(
                         fontSize: 14.sp,
                         color: context.textTheme.displayMedium!.color,
@@ -85,8 +85,8 @@ class _CompleteRegistrationState extends State<CompleteRegistration> {
                     ),
                     32.heightSp,
                     NewTextFormField(
-                      labelText: 'First Name',
-                      hintText: 'Enter your first name',
+                      labelText: AppLocalizations.of(context)!.first_name_label,
+                      hintText: AppLocalizations.of(context)!.first_name_hint,
                       labelPrefixIcon: Icons.person_outline,
                       keyboardType: TextInputType.name,
                       validator: Validators.validateNotNull,
@@ -97,8 +97,8 @@ class _CompleteRegistrationState extends State<CompleteRegistration> {
                     ),
                     16.heightSp,
                     NewTextFormField(
-                      labelText: 'Last Name',
-                      hintText: 'Enter your last name',
+                      labelText: AppLocalizations.of(context)!.last_name_label,
+                      hintText: AppLocalizations.of(context)!.last_name_hint,
                       labelPrefixIcon: Icons.person_outline,
                       keyboardType: TextInputType.name,
                       validator: Validators.validateNotNull,
@@ -109,7 +109,7 @@ class _CompleteRegistrationState extends State<CompleteRegistration> {
                     ),
                     32.heightSp,
                     Text(
-                      'I\'m a',
+                      AppLocalizations.of(context)!.i_am_a,
                       style: Styles.poppins(
                         fontSize: 14.sp,
                         color: context.textTheme.displayLarge!.color,

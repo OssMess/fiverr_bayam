@@ -18,8 +18,8 @@ import '../../../model/models.dart';
 import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 
-class Login extends StatefulWidget {
-  const Login({
+class SignIn extends StatefulWidget {
+  const SignIn({
     super.key,
     required this.userSession,
   });
@@ -27,10 +27,10 @@ class Login extends StatefulWidget {
   final UserSession userSession;
 
   @override
-  State<Login> createState() => _LoginState();
+  State<SignIn> createState() => _SignInState();
 }
 
-class _LoginState extends State<Login> {
+class _SignInState extends State<SignIn> {
   final GlobalKey<FormState> _keyForm = GlobalKey();
   String countryCode = 'CM';
   String? phoneNumber;

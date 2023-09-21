@@ -57,7 +57,9 @@ class _CompleteRegistrationFormState extends State<CompleteRegistrationForm> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         title: Text(
-          isCompany ? 'Company Details' : 'Customer Details',
+          isCompany
+              ? AppLocalizations.of(context)!.company_details
+              : AppLocalizations.of(context)!.customer_details,
         ),
         leading: AppBarActionButton(
           icon: context.backButtonIcon,
@@ -85,8 +87,10 @@ class _CompleteRegistrationFormState extends State<CompleteRegistrationForm> {
                     children: [
                       if (isCustomer) ...[
                         NewTextFormField(
-                          labelText: 'First Name on your photo ID *',
-                          hintText: 'Enter first name',
+                          labelText:
+                              AppLocalizations.of(context)!.first_name_id_label,
+                          hintText:
+                              AppLocalizations.of(context)!.first_name_id_hint,
                           keyboardType: TextInputType.name,
                           validator: Validators.validateNotNull,
                           onSaved: (value) {
@@ -96,8 +100,10 @@ class _CompleteRegistrationFormState extends State<CompleteRegistrationForm> {
                         ),
                         16.heightSp,
                         NewTextFormField(
-                          labelText: 'Last Name on your photo ID *',
-                          hintText: 'Enter last name',
+                          labelText:
+                              AppLocalizations.of(context)!.last_name_id_label,
+                          hintText:
+                              AppLocalizations.of(context)!.last_name_id_hint,
                           keyboardType: TextInputType.name,
                           validator: Validators.validateNotNull,
                           onSaved: (value) {
@@ -107,8 +113,9 @@ class _CompleteRegistrationFormState extends State<CompleteRegistrationForm> {
                         ),
                         16.heightSp,
                         NewTextFormField(
-                          labelText: 'Unique Registration Number (NUM)',
-                          hintText: 'Write here',
+                          labelText:
+                              AppLocalizations.of(context)!.reg_num_label,
+                          hintText: AppLocalizations.of(context)!.reg_num_hint,
                           keyboardType: TextInputType.number,
                           onSaved: (value) {
                             registrationNumber = value;
@@ -118,8 +125,8 @@ class _CompleteRegistrationFormState extends State<CompleteRegistrationForm> {
                         16.heightSp,
                         NewTextFormField(
                           controller: dateController,
-                          labelText: 'DOB *',
-                          hintText: 'DD/MM/YYYY',
+                          labelText: AppLocalizations.of(context)!.dob_label,
+                          hintText: AppLocalizations.of(context)!.date_format,
                           keyboardType: TextInputType.datetime,
                           validator: Validators.validateNotNull,
                           textInputAction: TextInputAction.next,
@@ -134,8 +141,10 @@ class _CompleteRegistrationFormState extends State<CompleteRegistrationForm> {
                       ],
                       if (isCompany) ...[
                         NewTextFormField(
-                          labelText: 'Company Name',
-                          hintText: 'Enter your company name',
+                          labelText:
+                              AppLocalizations.of(context)!.company_name_label,
+                          hintText:
+                              AppLocalizations.of(context)!.company_name_hint,
                           keyboardType: TextInputType.name,
                           validator: Validators.validateNotNull,
                           onSaved: (value) {
@@ -147,8 +156,9 @@ class _CompleteRegistrationFormState extends State<CompleteRegistrationForm> {
                         //TODO upload company image
                         16.heightSp,
                         NewTextFormField(
-                          labelText: 'Unique Registration Number (NUM)',
-                          hintText: 'Write here',
+                          labelText:
+                              AppLocalizations.of(context)!.reg_num_label,
+                          hintText: AppLocalizations.of(context)!.reg_num_hint,
                           keyboardType: TextInputType.number,
                           onSaved: (value) {
                             registrationNumber = value;
@@ -158,8 +168,9 @@ class _CompleteRegistrationFormState extends State<CompleteRegistrationForm> {
                         16.heightSp,
                         NewTextFormField(
                           controller: dateController,
-                          labelText: 'Company start-up date',
-                          hintText: 'DD/MM/YYYY',
+                          labelText: AppLocalizations.of(context)!
+                              .company_startup_label,
+                          hintText: AppLocalizations.of(context)!.date_format,
                           keyboardType: TextInputType.datetime,
                           validator: Validators.validateNotNull,
                           textInputAction: TextInputAction.next,
@@ -174,8 +185,9 @@ class _CompleteRegistrationFormState extends State<CompleteRegistrationForm> {
                       ],
                       16.heightSp,
                       NewTextFormField(
-                        labelText: 'Street Address *',
-                        hintText: 'Enter street address',
+                        labelText:
+                            AppLocalizations.of(context)!.street_adr_label,
+                        hintText: AppLocalizations.of(context)!.street_adr_hint,
                         keyboardType: TextInputType.streetAddress,
                         validator: Validators.validateNotNull,
                         onSaved: (value) {
@@ -185,8 +197,8 @@ class _CompleteRegistrationFormState extends State<CompleteRegistrationForm> {
                       ),
                       16.heightSp,
                       NewTextFormField(
-                        labelText: 'Town *',
-                        hintText: 'Enter your town here',
+                        labelText: AppLocalizations.of(context)!.town_label,
+                        hintText: AppLocalizations.of(context)!.town_hint,
                         keyboardType: TextInputType.name,
                         validator: Validators.validateNotNull,
                         onSaved: (value) {
@@ -196,8 +208,8 @@ class _CompleteRegistrationFormState extends State<CompleteRegistrationForm> {
                       ),
                       16.heightSp,
                       NewTextFormField(
-                        labelText: 'ZIP Code',
-                        hintText: 'Enter ZIP Code here',
+                        labelText: AppLocalizations.of(context)!.zip_label,
+                        hintText: AppLocalizations.of(context)!.zip_hint,
                         keyboardType: TextInputType.name,
                         validator: Validators.validateNotNull,
                         onSaved: (value) {
@@ -207,8 +219,8 @@ class _CompleteRegistrationFormState extends State<CompleteRegistrationForm> {
                       ),
                       16.heightSp,
                       NewTextFormField(
-                        labelText: 'State *',
-                        hintText: 'Choose your state',
+                        labelText: AppLocalizations.of(context)!.state_label,
+                        hintText: AppLocalizations.of(context)!.state_hint,
                         keyboardType: TextInputType.name,
                         validator: Validators.validateNotNull,
                         suffixIcon: Icons.arrow_drop_down,
@@ -222,8 +234,8 @@ class _CompleteRegistrationFormState extends State<CompleteRegistrationForm> {
                       ),
                       16.heightSp,
                       NewTextFormField(
-                        labelText: 'Country *',
-                        hintText: 'Choose your country',
+                        labelText: AppLocalizations.of(context)!.country_label,
+                        hintText: AppLocalizations.of(context)!.country_hint,
                         keyboardType: TextInputType.name,
                         validator: Validators.validateNotNull,
                         suffixIcon: Icons.arrow_drop_down,
@@ -250,12 +262,12 @@ class _CompleteRegistrationFormState extends State<CompleteRegistrationForm> {
                             color: Styles.green,
                           ),
                           children: [
-                            const TextSpan(
-                              text:
-                                  'By continuing, you agree to the company\'s',
+                            TextSpan(
+                              text: AppLocalizations.of(context)!.reg_terms_1,
                             ),
                             TextSpan(
-                              text: ' privacy policy ',
+                              text:
+                                  ' ${AppLocalizations.of(context)!.reg_terms_2} ',
                               style: Styles.poppins(
                                 fontSize: 14.sp,
                                 fontWeight: Styles.medium,
@@ -267,11 +279,12 @@ class _CompleteRegistrationFormState extends State<CompleteRegistrationForm> {
                                   //TODO open terms
                                 },
                             ),
-                            const TextSpan(
-                              text: 'and',
+                            TextSpan(
+                              text: AppLocalizations.of(context)!.reg_terms_3,
                             ),
                             TextSpan(
-                              text: ' terms',
+                              text:
+                                  ' ${AppLocalizations.of(context)!.reg_terms_4}',
                               style: Styles.poppins(
                                 fontSize: 14.sp,
                                 fontWeight: Styles.medium,
@@ -323,9 +336,7 @@ class _CompleteRegistrationFormState extends State<CompleteRegistrationForm> {
       future: () async {
         await Future.delayed(const Duration(seconds: 1));
       },
-      onComplete: (_) {
-        //TODO on complete register customer
-      },
+      onComplete: (_) {},
       onError: (_) {},
     );
   }

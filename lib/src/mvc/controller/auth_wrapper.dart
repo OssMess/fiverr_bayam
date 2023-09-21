@@ -80,7 +80,7 @@ class _AuthWrapperState extends State<AuthWrapper> {
           );
         }
         if (userSession.isUnAuthenticated) {
-          return Login(
+          return SignIn(
             userSession: userSession,
           );
         }
@@ -92,7 +92,7 @@ class _AuthWrapperState extends State<AuthWrapper> {
           );
         }
         if (userSession.requireCompleteRegistration) {
-          return CompleteRegistration(userSession: userSession);
+          return SignUp(userSession: userSession);
         }
         // if (userSession.requiredInitAccountDetails && snapshot.hasData) {
         //   userSession.updateFromMap(snapshot.data!);
