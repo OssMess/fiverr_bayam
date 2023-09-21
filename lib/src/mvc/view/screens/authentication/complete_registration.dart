@@ -25,7 +25,7 @@ class CompleteRegistration extends StatefulWidget {
 
 class _CompleteRegistrationState extends State<CompleteRegistration> {
   final GlobalKey<FormState> _keyForm = GlobalKey();
-  AccountType accountType = AccountType.person;
+  AccountType accountType = AccountType.customer;
   String? firstName, lastName;
 
   @override
@@ -121,7 +121,7 @@ class _CompleteRegistrationState extends State<CompleteRegistration> {
                       children: [
                         Expanded(
                           child: AccountTypePicker(
-                            value: AccountType.person,
+                            value: AccountType.customer,
                             groupValue: accountType,
                             onChange: (type) => setState(() {
                               accountType = type;
@@ -159,14 +159,12 @@ class _CompleteRegistrationState extends State<CompleteRegistration> {
         await Future.delayed(const Duration(seconds: 1));
       },
       onComplete: (_) {
-        //TODO push to customer or company details
-        if (accountType == AccountType.person) {
-          context.push(
-            widget: CompleteRegistrationCustomer(
-              userSession: widget.userSession,
-            ),
-          );
-        }
+        context.push(
+          widget: CompleteRegistrationForm(
+            userSession: widget.userSession,
+            accountType: accountType,
+          ),
+        );
       },
       onError: (_) {},
     );

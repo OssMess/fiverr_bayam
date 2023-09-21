@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../extensions.dart';
 import '../../../../tools.dart';
@@ -11,36 +12,39 @@ import '../../../model/enums.dart';
 import '../../../model/models.dart';
 import '../../model_widgets.dart';
 
-class CompleteRegistrationCustomer extends StatefulWidget {
-  const CompleteRegistrationCustomer({
+class CompleteRegistrationForm extends StatefulWidget {
+  const CompleteRegistrationForm({
     super.key,
     required this.userSession,
+    required this.accountType,
   });
 
   final UserSession userSession;
+  final AccountType accountType;
 
   @override
-  State<CompleteRegistrationCustomer> createState() =>
-      _CompleteRegistrationCustomerState();
+  State<CompleteRegistrationForm> createState() =>
+      _CompleteRegistrationFormState();
 }
 
-class _CompleteRegistrationCustomerState
-    extends State<CompleteRegistrationCustomer> {
+class _CompleteRegistrationFormState extends State<CompleteRegistrationForm> {
   final GlobalKey<FormState> _keyForm = GlobalKey();
-  AccountType accountType = AccountType.person;
+  TextEditingController dateController = TextEditingController();
   String? firstName;
   String? lastName;
+  String? companyName;
+  String? imagePath;
   String? registrationNumber;
   String? town;
   String? zip;
   String? country;
   String? state;
   DateTime? dob;
-  TextEditingController controller = TextEditingController();
+  DateTime? startup;
 
   @override
   void dispose() {
-    controller.dispose();
+    dateController.dispose();
     super.dispose();
   }
 
@@ -52,8 +56,8 @@ class _CompleteRegistrationCustomerState
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: const Text(
-          'Customer Details',
+        title: Text(
+          isCompany ? 'Company Details' : 'Customer Details',
         ),
         leading: AppBarActionButton(
           icon: context.backButtonIcon,
@@ -79,51 +83,95 @@ class _CompleteRegistrationCustomerState
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      NewTextFormField(
-                        labelText: 'First Name on your photo ID *',
-                        hintText: 'Enter first name',
-                        keyboardType: TextInputType.name,
-                        validator: Validators.validateNotNull,
-                        onSaved: (value) {
-                          firstName = value;
-                        },
-                        textInputAction: TextInputAction.next,
-                      ),
-                      16.heightSp,
-                      NewTextFormField(
-                        labelText: 'Last Name on your photo ID *',
-                        hintText: 'Enter last name',
-                        keyboardType: TextInputType.name,
-                        validator: Validators.validateNotNull,
-                        onSaved: (value) {
-                          lastName = value;
-                        },
-                        textInputAction: TextInputAction.next,
-                      ),
-                      16.heightSp,
-                      NewTextFormField(
-                        labelText: 'Unique Registration Number (NUM)',
-                        hintText: 'Write here',
-                        keyboardType: TextInputType.number,
-                        // validator: Validators.validateNumberInt,
-                        onSaved: (value) {
-                          registrationNumber = value;
-                        },
-                        textInputAction: TextInputAction.next,
-                      ),
-                      16.heightSp,
-                      NewTextFormField(
-                        controller: controller,
-                        labelText: 'DOB *',
-                        hintText: 'DD/MM/YYYY',
-                        keyboardType: TextInputType.datetime,
-                        validator: Validators.validateNotNull,
-                        textInputAction: TextInputAction.next,
-                        suffixIcon: Icons.calendar_month_outlined,
-                        onTap: () {
-                          //TODO implement date picker
-                        },
-                      ),
+                      if (isCustomer) ...[
+                        NewTextFormField(
+                          labelText: 'First Name on your photo ID *',
+                          hintText: 'Enter first name',
+                          keyboardType: TextInputType.name,
+                          validator: Validators.validateNotNull,
+                          onSaved: (value) {
+                            firstName = value;
+                          },
+                          textInputAction: TextInputAction.next,
+                        ),
+                        16.heightSp,
+                        NewTextFormField(
+                          labelText: 'Last Name on your photo ID *',
+                          hintText: 'Enter last name',
+                          keyboardType: TextInputType.name,
+                          validator: Validators.validateNotNull,
+                          onSaved: (value) {
+                            lastName = value;
+                          },
+                          textInputAction: TextInputAction.next,
+                        ),
+                        16.heightSp,
+                        NewTextFormField(
+                          labelText: 'Unique Registration Number (NUM)',
+                          hintText: 'Write here',
+                          keyboardType: TextInputType.number,
+                          onSaved: (value) {
+                            registrationNumber = value;
+                          },
+                          textInputAction: TextInputAction.next,
+                        ),
+                        16.heightSp,
+                        NewTextFormField(
+                          controller: dateController,
+                          labelText: 'DOB *',
+                          hintText: 'DD/MM/YYYY',
+                          keyboardType: TextInputType.datetime,
+                          validator: Validators.validateNotNull,
+                          textInputAction: TextInputAction.next,
+                          suffixIcon: Icons.calendar_month_outlined,
+                          onTap: () => pickDate(dateController, dob).then(
+                            (value) {
+                              if (value == null) return;
+                              startup = value;
+                            },
+                          ),
+                        ),
+                      ],
+                      if (isCompany) ...[
+                        NewTextFormField(
+                          labelText: 'Company Name',
+                          hintText: 'Enter your company name',
+                          keyboardType: TextInputType.name,
+                          validator: Validators.validateNotNull,
+                          onSaved: (value) {
+                            companyName = value;
+                          },
+                          textInputAction: TextInputAction.next,
+                        ),
+                        16.heightSp,
+                        //TODO upload company image
+                        16.heightSp,
+                        NewTextFormField(
+                          labelText: 'Unique Registration Number (NUM)',
+                          hintText: 'Write here',
+                          keyboardType: TextInputType.number,
+                          onSaved: (value) {
+                            registrationNumber = value;
+                          },
+                          textInputAction: TextInputAction.next,
+                        ),
+                        16.heightSp,
+                        NewTextFormField(
+                          controller: dateController,
+                          labelText: 'Company start-up date',
+                          hintText: 'DD/MM/YYYY',
+                          keyboardType: TextInputType.datetime,
+                          validator: Validators.validateNotNull,
+                          textInputAction: TextInputAction.next,
+                          suffixIcon: Icons.calendar_month_outlined,
+                          onTap: () => pickDate(dateController, startup).then(
+                            (value) {
+                              if (value == null) return;
+                              startup = value;
+                            },
+                          ),
+                        ),
+                      ],
                       16.heightSp,
                       NewTextFormField(
                         labelText: 'Street Address *',
@@ -159,21 +207,6 @@ class _CompleteRegistrationCustomerState
                       ),
                       16.heightSp,
                       NewTextFormField(
-                        labelText: 'Country *',
-                        hintText: 'Choose your country',
-                        keyboardType: TextInputType.name,
-                        validator: Validators.validateNotNull,
-                        suffixIcon: Icons.arrow_drop_down,
-                        onSaved: (value) {
-                          country = value;
-                        },
-                        textInputAction: TextInputAction.next,
-                        onTap: () {
-                          //TODO implement country picker
-                        },
-                      ),
-                      16.heightSp,
-                      NewTextFormField(
                         labelText: 'State *',
                         hintText: 'Choose your state',
                         keyboardType: TextInputType.name,
@@ -188,12 +221,28 @@ class _CompleteRegistrationCustomerState
                         },
                       ),
                       16.heightSp,
+                      NewTextFormField(
+                        labelText: 'Country *',
+                        hintText: 'Choose your country',
+                        keyboardType: TextInputType.name,
+                        validator: Validators.validateNotNull,
+                        suffixIcon: Icons.arrow_drop_down,
+                        onSaved: (value) {
+                          country = value;
+                        },
+                        textInputAction: TextInputAction.next,
+                        onTap: () {
+                          //TODO implement country picker
+                        },
+                      ),
+                      16.heightSp,
                       CustomElevatedButton(
                         onPressed: next,
                         label: AppLocalizations.of(context)!.continu,
                       ),
                       16.heightSp,
                       RichText(
+                        textAlign: TextAlign.center,
                         text: TextSpan(
                           style: Styles.poppins(
                             fontSize: 14.sp,
@@ -251,6 +300,21 @@ class _CompleteRegistrationCustomerState
     );
   }
 
+  Future<DateTime?> pickDate(
+    TextEditingController controller,
+    DateTime? initialDate,
+  ) async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: initialDate ?? DateTime.now(),
+      firstDate: DateTime.parse('1950-01-01'),
+      lastDate: DateTime.now(),
+    );
+    if (pickedDate == null) return null;
+    controller.text = DateFormat('dd/MM/yyyy').format(pickedDate);
+    return pickedDate;
+  }
+
   Future<void> next() async {
     if (!_keyForm.currentState!.validate()) return;
     _keyForm.currentState!.save();
@@ -265,4 +329,7 @@ class _CompleteRegistrationCustomerState
       onError: (_) {},
     );
   }
+
+  bool get isCustomer => widget.accountType == AccountType.customer;
+  bool get isCompany => widget.accountType == AccountType.company;
 }

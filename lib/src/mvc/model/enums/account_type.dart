@@ -1,5 +1,5 @@
 /// presents the diffrent auth routes.
 enum AccountType {
-  person,
+  customer,
   company,
 }
