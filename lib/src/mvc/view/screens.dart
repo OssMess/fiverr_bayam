@@ -1,4 +1,8 @@
 export 'screens/authentication/complete_registration_form_1.dart';
+export 'screens/authentication/complete_registration_form_c2.dart';
+export 'screens/authentication/complete_registration_form_p2.dart';
+export 'screens/authentication/complete_registration_form_p3.dart';
+export 'screens/authentication/complete_registration_form_p4.dart';
 export 'screens/authentication/sign_up.dart';
 export 'screens/authentication/sign_in.dart';
 export './screens/authentication/welcome.dart';

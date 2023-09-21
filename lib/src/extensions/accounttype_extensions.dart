@@ -6,7 +6,7 @@ import '../tools.dart';
 extension AccountTypeExtensions on AccountType {
   String translate(BuildContext context) {
     return Functions.of(context).translateKey(
-      this == AccountType.customer ? 'person' : 'company',
+      this == AccountType.person ? 'person' : 'company',
     );
   }
 }

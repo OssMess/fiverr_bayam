@@ -87,8 +87,18 @@
   "sign_up_subtitle":"It won't take more than minute. We Promise.",
   "i_am_a":"I'm a",
   "upload_company_image":"Upload Company Image",
+  "upload_documents":"Upload Documents",
+  "company_upload_tax_documents":"Please upload your tax report to let us understand  better and verify that your submitted details are correct",
+  "person_upload_id":"Please scan the ID card. Make sure it clear and easily readable.",
   "success":"Success",
   "signup_success_subtitle":"Your information has been saved!",
+  "tax_details":"Tax Details",
+  "done":"Done",
+  "next":"Next",
+  "skip":"Skip",
+  "take_upload_photo":"Take a photo or choose from your library",
+  "take_selfie":"Please take a picture of yourself facing the front camera and make sure your face is clear",
+  "retake":"Retake",
 
 
   "@min_caracters":{

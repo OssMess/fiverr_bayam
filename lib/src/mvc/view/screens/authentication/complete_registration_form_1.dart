@@ -11,8 +11,8 @@ import '../../../../extensions.dart';
 import '../../../../tools.dart';
 import '../../../model/enums.dart';
 import '../../../model/models.dart';
-import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
+import '../../screens.dart';
 
 class CompleteRegistrationForm1 extends StatefulWidget {
   const CompleteRegistrationForm1({
@@ -378,35 +378,56 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
   }
 
   Future<void> next() async {
-    // if (!_keyForm.currentState!.validate()) return;
-    // _keyForm.currentState!.save();
+    if (!_keyForm.currentState!.validate()) return;
+    _keyForm.currentState!.save();
     Dialogs.of(context).runAsyncAction(
       future: () async {
         await Future.delayed(const Duration(seconds: 1));
       },
       onComplete: (_) {
-        Dialogs.of(context).showCustomDialog(
-          title: AppLocalizations.of(context)!.success,
-          subtitle: AppLocalizations.of(context)!.signup_success_subtitle,
-          yesAct: ModelTextButton(
-            label: AppLocalizations.of(context)!.continu,
-          ),
-          onComplete: (_) {
-            //TODO customer account, scan ID
-            //TODO Company account, upload documents
+        switch (widget.accountType) {
+          case AccountType.person:
             context.push(
-              widget: CompleteRegistrationForm1(
+              widget: CompleteRegistrationFormP2(
                 userSession: widget.userSession,
-                accountType: widget.accountType,
               ),
             );
-          },
-        );
+            break;
+          case AccountType.company:
+            context.push(
+              widget: CompleteRegistrationFormC2(
+                userSession: widget.userSession,
+              ),
+            );
+            break;
+          default:
+        }
+        // Dialogs.of(context).showCustomDialog(
+        //   title: AppLocalizations.of(context)!.success,
+        //   subtitle: AppLocalizations.of(context)!.signup_success_subtitle,
+        //   yesAct: ModelTextButton(
+        //     label: AppLocalizations.of(context)!.continu,
+        //   ),
+        //   onComplete: (_) {
+        //     switch (widget.accountType) {
+        //       case AccountType.customer:
+        //         break;
+        //       case AccountType.company:
+        //         context.push(
+        //           widget: CompleteRegistrationFormC2(
+        //             userSession: widget.userSession,
+        //           ),
+        //         );
+        //         break;
+        //       default:
+        //     }
+        //   },
+        // );
       },
       onError: (_) {},
     );
   }
 
-  bool get isCustomer => widget.accountType == AccountType.customer;
+  bool get isCustomer => widget.accountType == AccountType.person;
   bool get isCompany => widget.accountType == AccountType.company;
 }

@@ -86,7 +86,17 @@
     "sign_up_subtitle",
     "i_am_a",
     "upload_company_image",
+    "upload_documents",
+    "company_upload_tax_documents",
+    "person_upload_id",
     "success",
-    "signup_success_subtitle"
+    "signup_success_subtitle",
+    "tax_details",
+    "done",
+    "next",
+    "skip",
+    "take_upload_photo",
+    "take_selfie",
+    "retake"
   ]
 }

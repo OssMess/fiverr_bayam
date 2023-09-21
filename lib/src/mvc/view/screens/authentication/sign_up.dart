@@ -25,7 +25,7 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   final GlobalKey<FormState> _keyForm = GlobalKey();
-  AccountType accountType = AccountType.customer;
+  AccountType accountType = AccountType.person;
   String? firstName, lastName;
 
   @override
@@ -121,7 +121,7 @@ class _SignUpState extends State<SignUp> {
                       children: [
                         Expanded(
                           child: AccountTypePicker(
-                            value: AccountType.customer,
+                            value: AccountType.person,
                             groupValue: accountType,
                             onChange: (type) => setState(() {
                               accountType = type;
