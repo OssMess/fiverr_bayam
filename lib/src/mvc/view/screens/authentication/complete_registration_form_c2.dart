@@ -109,8 +109,7 @@ class _CompleteRegistrationFormC2State
                         height: 0.25.sh,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          color: context.textTheme.headlineMedium!.color!
-                              .withOpacity(0.5),
+                          color: context.textTheme.headlineSmall!.color!,
                           borderRadius: BorderRadius.circular(14.sp),
                         ),
                         child: Column(

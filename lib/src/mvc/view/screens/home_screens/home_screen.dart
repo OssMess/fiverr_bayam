@@ -80,10 +80,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Expanded(
                 child: Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 20.sp,
-                    vertical: 10.sp,
-                  ).copyWith(bottom: context.viewPadding.bottom + 20.sp),
                   child: IndexedStack(
                     index: pageNotifier.currentPage,
                     children: [
@@ -114,9 +110,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
     return Consumer<NotifierPage>(
       builder: (context, pageNotifier, _) {
         return BottomNavigationBar(
-          selectedItemColor: Theme.of(context).primaryColor,
-          unselectedItemColor:
-              Theme.of(context).textTheme.headlineMedium!.color,
+          selectedItemColor: context.primaryColor,
+          unselectedItemColor: context.textTheme.headlineMedium!.color,
           selectedLabelStyle: Styles.poppins(
             fontSize: 11.sp,
             fontWeight: Styles.medium,

@@ -104,6 +104,9 @@
   "ads":"Ads",
   "ai_assistant":"AI Assistant",
   "profile":"Profile",
+  "for_sale":"For Sale",
+  "for_rent":"For Rent",
+  "want_to_buy":"Want to Buy",
 
 
   "@min_caracters":{

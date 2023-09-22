@@ -107,11 +107,10 @@ class MyApp extends StatelessWidget {
       ),
       textTheme: ThemeData.light().textTheme.copyWith(
             displayLarge: const TextStyle(color: Color(0xFF000000)),
-            displayMedium:
-                const TextStyle(color: Color.fromARGB(255, 106, 106, 106)),
-            displaySmall: const TextStyle(color: Color(0xFFABABAB)),
-            headlineMedium: const TextStyle(color: Color(0xFFDBDBDB)),
-            headlineSmall: const TextStyle(color: Color(0xFFFCFCFC)),
+            displayMedium: const TextStyle(color: Color(0xFF808080)),
+            displaySmall: const TextStyle(color: Color(0xFFb3b3b3)),
+            headlineMedium: const TextStyle(color: Color(0xFFcccccc)),
+            headlineSmall: const TextStyle(color: Color(0xFFf3f3f3)),
             titleLarge: const TextStyle(color: Color(0xFFFFFFFF)),
           ),
     );

@@ -178,8 +178,7 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
                             height: 0.15.sh,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                              color: context.textTheme.headlineMedium!.color!
-                                  .withOpacity(0.5),
+                              color: context.textTheme.headlineSmall!.color!,
                               borderRadius: BorderRadius.circular(14.sp),
                             ),
                             child: Column(

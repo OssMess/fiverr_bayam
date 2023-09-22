@@ -100,8 +100,8 @@ class _CompleteRegistrationFormP3State
                           color: context.scaffoldBackgroundColor,
                           boxShadow: [
                             BoxShadow(
-                              color: context.textTheme.displayMedium!.color!
-                                  .withOpacity(0.2),
+                              color: context.textTheme.headlineMedium!.color!
+                                  .withOpacity(0.5),
                               offset: const Offset(0.0, 5.0),
                               blurRadius: 10.0,
                             ),

@@ -56,19 +56,8 @@ class Styles {
   );
 
   static const MaterialColor red = MaterialColor(
-    0xFFD05439,
-    <int, Color>{
-      50: Color(0xFFfaeeeb),
-      100: Color(0xFFf6ddd7),
-      200: Color(0xFFf1ccc4),
-      300: Color(0xFFecbbb0),
-      400: Color(0xFFe8aa9c),
-      500: Color(0xFFe39888),
-      600: Color(0xFFde8774),
-      700: Color(0xFFd97661),
-      800: Color(0xFFd5654d),
-      900: Color(0xFFD05439),
-    },
+    0xFFD80027,
+    <int, Color>{},
   );
 
   static const MaterialColor black = MaterialColor(
@@ -85,6 +74,16 @@ class Styles {
       800: Color(0xFF1a1a1a),
       900: Color(0xFF000000),
     },
+  );
+
+  static const MaterialColor blue = MaterialColor(
+    0xFF0074D9,
+    <int, Color>{},
+  );
+
+  static const MaterialColor orange = MaterialColor(
+    0xFFFE9200,
+    <int, Color>{},
   );
 
   static const FontWeight regular = FontWeight.w400;

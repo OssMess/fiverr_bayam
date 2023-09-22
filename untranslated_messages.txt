@@ -102,6 +102,9 @@
     "messages",
     "ads",
     "ai_assistant",
-    "profile"
+    "profile",
+    "for_sale",
+    "for_rent",
+    "want_to_buy"
   ]
 }
