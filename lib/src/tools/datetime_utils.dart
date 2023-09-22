@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import '../extensions.dart';
 
 class DateTimeUtils {
@@ -83,41 +85,41 @@ class DateTimeUtils {
   //   return formatElapsedAgo(datetime, showFullDate);
   // }
 
-  // ///Takes [context] and [datetime] to format the input into a date and time value.
-  // ///- if [datetime] is within an hour, format as `m ago` (e.g. 1m ago).
-  // ///- if [datetime] is in the same day, format as `h ago` (e.g. 1h ago).
-  // ///- if [datetime] is in the same week, format as `d ago` (e.g. 1d ago).
-  // ///- if ![showFullDate] return null,
-  // ///- if [datetime] is in the same year, format as `ABBR_MONTH_DAY` or `MMMd` (e.g. Jul 22).
-  // ///- else, format as `YEAR_ABBR_MONTH_DAY` or `yMMMd` (e.g. Jul 22, 2022).
-  // String? formatElapsedAgo(
-  //   DateTime datetime, [
-  //   bool showFullDate = true,
-  // ]) {
-  //   final DateTime now = DateTime.now();
-  //   String locale = getLanguageCode();
-  //   final Duration diff = now.difference(datetime);
-  //   final inMinutes = diff.inMinutes;
-  //   if (inMinutes < 1) {
-  //     return AppLocalizations.of(context)!.moments_ago;
-  //   }
-  //   if (diff.inHours < 1) {
-  //     return AppLocalizations.of(context)!.m_ago(inMinutes);
-  //   }
-  //   final inHours = diff.inHours;
-  //   if (diff.inHours < 24) {
-  //     return AppLocalizations.of(context)!.h_ago(inHours);
-  //   }
-  //   final inDays = diff.inDays;
-  //   if (isSameWeek(diff)) {
-  //     return AppLocalizations.of(context)!.d_ago(inDays);
-  //   }
-  //   if (!showFullDate) return null;
-  //   if (isSameYear(now, datetime)) {
-  //     return DateFormat.MMMd(locale).format(datetime);
-  //   }
-  //   return DateFormat.yMMMd(locale).format(datetime);
-  // }
+  ///Takes [context] and [datetime] to format the input into a date and time value.
+  ///- if [datetime] is within an hour, format as `m ago` (e.g. 1m ago).
+  ///- if [datetime] is in the same day, format as `h ago` (e.g. 1h ago).
+  ///- if [datetime] is in the same week, format as `d ago` (e.g. 1d ago).
+  ///- if ![showFullDate] return null,
+  ///- if [datetime] is in the same year, format as `ABBR_MONTH_DAY` or `MMMd` (e.g. Jul 22).
+  ///- else, format as `YEAR_ABBR_MONTH_DAY` or `yMMMd` (e.g. Jul 22, 2022).
+  String? formatElapsedAgo(
+    DateTime datetime, [
+    bool showFullDate = true,
+  ]) {
+    final DateTime now = DateTime.now();
+    String locale = getLanguageCode();
+    final Duration diff = now.difference(datetime);
+    final inMinutes = diff.inMinutes;
+    if (inMinutes < 1) {
+      return AppLocalizations.of(context)!.now;
+    }
+    if (diff.inHours < 1) {
+      return AppLocalizations.of(context)!.m_ago(inMinutes);
+    }
+    final inHours = diff.inHours;
+    if (diff.inHours < 24) {
+      return AppLocalizations.of(context)!.h_ago(inHours);
+    }
+    final inDays = diff.inDays;
+    if (isSameWeek(diff)) {
+      return AppLocalizations.of(context)!.d_ago(inDays);
+    }
+    if (!showFullDate) return null;
+    if (isSameYear(now, datetime)) {
+      return DateFormat.MMMd(locale).format(datetime);
+    }
+    return DateFormat.yMMMd(locale).format(datetime);
+  }
 
   // ///Takes [context] and [datetime] to format the input into a date and time value.
   // ///- if [datetime] is within an hour, format as `m` (e.g. 1m).

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:badges/badges.dart' as badge;
 
 import '../../../../extensions.dart';
 import '../../../model/change_notifiers.dart';
@@ -66,9 +67,37 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {},
             ),
             actions: [
-              AppBarActionButton(
-                icon: AwesomeIcons.bell,
-                onTap: () {},
+              badge.Badge(
+                badgeStyle: badge.BadgeStyle(
+                  badgeColor: Styles.green,
+                  elevation: 0,
+                  borderSide: BorderSide(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    width: 2.sp,
+                  ),
+                  padding: EdgeInsets.all(6.sp),
+                ),
+                badgeAnimation: const badge.BadgeAnimation.scale(
+                  toAnimate: false,
+                ),
+                position: badge.BadgePosition.topEnd(
+                  top: 6.sp,
+                  end: 12.sp,
+                ),
+                showBadge: true,
+                badgeContent: Text(
+                  '1',
+                  style: Styles.poppins(
+                    fontSize: 12.sp,
+                    fontWeight: Styles.semiBold,
+                    color: Colors.white,
+                    height: 1.2,
+                  ),
+                ),
+                child: AppBarActionButton(
+                  icon: AwesomeIcons.bell,
+                  onTap: () {},
+                ),
               )
             ],
           ),
@@ -79,17 +108,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 type: AppBarBackgroundType.shrink,
               ),
               Expanded(
-                child: Container(
-                  child: IndexedStack(
-                    index: pageNotifier.currentPage,
-                    children: [
-                      Page1Home(userSession: widget.userSession),
-                      Page2Messages(userSession: widget.userSession),
-                      Page3Ads(userSession: widget.userSession),
-                      Page4AI(userSession: widget.userSession),
-                      Page5Profile(userSession: widget.userSession),
-                    ],
-                  ),
+                child: Consumer<NotifierPage>(
+                  builder: (context, pageNotifier, _) {
+                    return IndexedStack(
+                      index: pageNotifier.currentPage,
+                      children: [
+                        Page1Home(userSession: widget.userSession),
+                        Page2Messages(userSession: widget.userSession),
+                        Page3Ads(userSession: widget.userSession),
+                        Page4AI(userSession: widget.userSession),
+                        Page5Profile(userSession: widget.userSession),
+                      ],
+                    );
+                  },
                 ),
               ),
             ],

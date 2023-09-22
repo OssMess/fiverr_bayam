@@ -109,6 +109,11 @@
     "what_are_you_looking_for",
     "popular_companies",
     "premium_ads",
-    "show_all"
+    "show_all",
+    "you_have_nb_new_messages",
+    "now",
+    "m_ago",
+    "h_ago",
+    "d_ago"
   ]
 }
