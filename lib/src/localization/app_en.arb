@@ -99,6 +99,11 @@
   "take_upload_photo":"Take a photo or choose from your library",
   "take_selfie":"Please take a picture of yourself facing the front camera and make sure your face is clear",
   "retake":"Retake",
+  "home":"Home",
+  "messages":"Messages",
+  "ads":"Ads",
+  "ai_assistant":"AI Assistant",
+  "profile":"Profile",
 
 
   "@min_caracters":{

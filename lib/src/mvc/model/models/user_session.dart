@@ -80,7 +80,7 @@ class UserSession with ChangeNotifier {
   bool get requiredInitAccountDetails => isAuthenticated && false;
 
   bool get requireCompleteRegistration =>
-      isAuthenticated && firstName.isNullOrEmpty;
+      isAuthenticated && firstName.isNullOrEmpty && false;
 
   /// while the authState is `AuthState.awaiting`, initialize and retrieve last known user session from `AuthStateChange`,
   /// and clone it into `this`, and rebuild the widget tree to sync the changes.

@@ -98,10 +98,10 @@ class _AuthWrapperState extends State<AuthWrapper> {
         // if (userSession.requiredInitAccountDetails && snapshot.hasData) {
         //   userSession.updateFromMap(snapshot.data!);
         // }
-        // return MainScreen(
-        //   user: userSession,
-        // );
-        return const Home();
+        return Home(
+          userSession: userSession,
+          settingsController: widget.settingsController,
+        );
       },
     );
   }

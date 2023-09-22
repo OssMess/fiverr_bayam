@@ -119,4 +119,6 @@ class AwesomeIcons {
       IconData(0xe82e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData video =
       IconData(0xe82f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData bars_sort =
+      IconData(0xe830, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }
