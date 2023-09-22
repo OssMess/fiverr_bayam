@@ -1,10 +1,11 @@
 import '../enums.dart';
+import '../models.dart';
 
 class ListData {
-  static List<Map<String, dynamic>> popularCompanies = [
+  static final List<Map<String, dynamic>> data = [
     {
       'name': 'Samak',
-      'title': 'Agriculture',
+      'field': 'Agriculture',
       'logoUrl':
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDLL2FyAeYaShg5h1YrW3gEyDHDCUb5o2_lw&usqp=CAU',
       'coverUrl':
@@ -14,7 +15,7 @@ class ListData {
     },
     {
       'name': 'NetSol',
-      'title': 'IT Services',
+      'field': 'IT Services',
       'logoUrl':
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYugcd50H-J9k2aqtQ8GgebajaY3aMC7k7uw&usqp=CAU',
       'coverUrl':
@@ -24,7 +25,7 @@ class ListData {
     },
     {
       'name': 'GOPro',
-      'title': 'Construction',
+      'field': 'Construction',
       'logoUrl':
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsXVt1xzsYvk-qV28jaF26jiNfm8bpuv-T8Q&usqp=CAU',
       'coverUrl':
@@ -34,7 +35,7 @@ class ListData {
     },
     {
       'name': 'Agriland',
-      'title': 'Agriculture',
+      'field': 'Agriculture',
       'logoUrl':
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjCuB_T9XRgCcwrQi4u8_zhnVFoQcsIOGa6Q&usqp=CAU',
       'coverUrl':
@@ -43,4 +44,9 @@ class ListData {
       'adType': AdType.forSell,
     },
   ];
+
+  static List<Company> popularCompanies = data.map(Company.fromJson).toList();
+  static List<Ad> premiumAds =
+      [data[1], data[0], data[3]].map(Ad.fromJson).toList();
+  static List<Ad> ads = [data[3], data[2], data[0]].map(Ad.fromJson).toList();
 }

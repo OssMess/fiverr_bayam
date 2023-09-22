@@ -107,6 +107,11 @@
   "for_sale":"For Sale",
   "for_rent":"For Rent",
   "want_to_buy":"Want to Buy",
+  "what_are_you_looking_for":"What are you looking for?",
+  "popular_companies":"Popular Companies",
+  "ads":"Ads",
+  "premium_ads":"Premium Ads",
+  "show_all":"Show all",
 
 
   "@min_caracters":{

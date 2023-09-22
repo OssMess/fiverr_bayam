@@ -1,6 +1,8 @@
+//TODO translate
 import 'package:bayam/src/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../tools.dart';
 import '../../../model/list_models.dart';
@@ -23,83 +25,94 @@ class Page1Home extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.sp),
           child: CustomTextFormField(
-            hintText: 'What are you looking for?',
+            hintText: AppLocalizations.of(context)!.what_are_you_looking_for,
             prefixIcon: AwesomeIcons.magnifying_glass,
             fillColor: context.textTheme.headlineSmall!.color,
           ),
         ),
         Expanded(
-          child: CustomScrollView(
-            slivers: [
-              16.sliverSp,
-              SliverHeaderTile(
-                title: 'Popular Companies',
-                trailing: 'Show all >',
-                onTapTrailing: () {},
-              ),
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 175.sp,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 16.sp,
-                      vertical: 16.sp,
+          child: CustomRefreshIndicator(
+            onRefresh: () async {
+              await Future.delayed(const Duration(seconds: 1));
+            },
+            child: CustomScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              slivers: [
+                16.sliverSp,
+                SliverHeaderTile(
+                  title: AppLocalizations.of(context)!.popular_companies,
+                  trailing: '${AppLocalizations.of(context)!.show_all} >',
+                  onTapTrailing: () {},
+                ),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 170.sp,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16.sp,
+                        vertical: 12.sp,
+                      ),
+                      itemCount: ListData.popularCompanies.length,
+                      itemBuilder: (context, index) => CompanyPopularTile(
+                        company: ListData.popularCompanies[index],
+                      ),
+                      separatorBuilder: (context, index) => 12.widthSp,
                     ),
-                    itemCount: ListData.popularCompanies.length,
-                    itemBuilder: (context, index) => CompanyPopularTile(
-                      name: ListData.popularCompanies[index]['name']!,
-                      title: ListData.popularCompanies[index]['title']!,
-                      logoUrl: ListData.popularCompanies[index]['logoUrl']!,
-                      coverUrl: ListData.popularCompanies[index]['coverUrl']!,
-                      isVerified: ListData.popularCompanies[index]
-                          ['isVerified']!,
-                    ),
-                    separatorBuilder: (context, index) => 12.widthSp,
                   ),
                 ),
-              ),
-              8.sliverSp,
-              SliverHeaderTile(
-                title: 'Premium Ads',
-                trailing: 'Show all >',
-                onTapTrailing: () {},
-              ),
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 270.sp,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 16.sp,
-                      vertical: 16.sp,
+                8.sliverSp,
+                SliverHeaderTile(
+                  title: AppLocalizations.of(context)!.premium_ads,
+                  trailing: '${AppLocalizations.of(context)!.show_all} >',
+                  onTapTrailing: () {},
+                ),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 265.sp,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16.sp,
+                        vertical: 12.sp,
+                      ),
+                      itemCount: ListData.premiumAds.length,
+                      itemBuilder: (context, index) => AdTile(
+                        ad: ListData.premiumAds[index],
+                      ),
+                      separatorBuilder: (context, index) => 12.widthSp,
                     ),
-                    itemCount: ListData.popularCompanies.length,
-                    itemBuilder: (context, index) => AdPremiumTile(
-                      name: ListData.popularCompanies[index]['name']!,
-                      title: ListData.popularCompanies[index]['title']!,
-                      logoUrl: ListData.popularCompanies[index]['logoUrl']!,
-                      coverUrl: ListData.popularCompanies[index]['coverUrl']!,
-                      isVerified: ListData.popularCompanies[index]
-                          ['isVerified']!,
-                      adType: ListData.popularCompanies[index]['adType']!,
-                    ),
-                    separatorBuilder: (context, index) => 12.widthSp,
                   ),
                 ),
-              ),
-              8.sliverSp,
-              SliverHeaderTile(
-                title: 'Ads',
-                trailing: 'Show all >',
-                onTapTrailing: () {},
-              ),
-              16.sliverSp,
-              //TODO
-              (context.viewPadding.bottom + 20.sp).sliver,
-            ],
+                8.sliverSp,
+                SliverHeaderTile(
+                  title: AppLocalizations.of(context)!.ads,
+                  trailing: '${AppLocalizations.of(context)!.show_all} >',
+                  onTapTrailing: () {},
+                ),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 265.sp,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16.sp,
+                        vertical: 12.sp,
+                      ),
+                      itemCount: ListData.ads.length,
+                      itemBuilder: (context, index) => AdTile(
+                        ad: ListData.ads[index],
+                      ),
+                      separatorBuilder: (context, index) => 12.widthSp,
+                    ),
+                  ),
+                ),
+                (context.viewPadding.bottom + 20.sp).sliver,
+              ],
+            ),
           ),
         ),
       ],

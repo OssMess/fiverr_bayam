@@ -4,27 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../tools.dart';
-import '../../model/enums.dart';
+import '../../model/models.dart';
 import '../model_widgets.dart';
 import '../tiles_models.dart';
 
-class AdPremiumTile extends StatelessWidget {
-  const AdPremiumTile({
+class AdTile extends StatelessWidget {
+  const AdTile({
     super.key,
-    required this.name,
-    required this.title,
-    required this.logoUrl,
-    required this.coverUrl,
-    required this.isVerified,
-    required this.adType,
+    required this.ad,
   });
 
-  final String name;
-  final String title;
-  final String logoUrl;
-  final String coverUrl;
-  final bool isVerified;
-  final AdType adType;
+  final Ad ad;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +25,7 @@ class AdPremiumTile extends StatelessWidget {
         children: [
           Expanded(
             child: CachedNetworkImage(
-              imageUrl: coverUrl,
+              imageUrl: ad.coverUrl,
               fit: BoxFit.cover,
               color: Theme.of(context).textTheme.headlineSmall!.color,
               progressIndicatorBuilder: (context, url, progress) => Container(
@@ -62,11 +52,11 @@ class AdPremiumTile extends StatelessWidget {
                     vertical: 6.sp,
                   ),
                   decoration: BoxDecoration(
-                    color: adType.toBackgroundColor,
+                    color: ad.adType.toBackgroundColor,
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: Text(
-                    adType.toTitle(context),
+                    ad.adType.toTitle(context),
                     style: Styles.poppins(
                       fontSize: 12.sp,
                       fontWeight: Styles.semiBold,
@@ -90,9 +80,9 @@ class AdPremiumTile extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 8.sp),
           ),
           CompanyHeaderTile(
-            logoUrl: logoUrl,
-            name: name,
-            isVerified: isVerified,
+            logoUrl: ad.logoUrl,
+            name: ad.name,
+            isVerified: ad.isVerified,
             trailingUrl:
                 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Flag_of_Cameroon.png/640px-Flag_of_Cameroon.png',
           ),

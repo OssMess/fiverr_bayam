@@ -3,24 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../tools.dart';
+import '../../model/models.dart';
 import '../model_widgets.dart';
 import '../tiles_models.dart';
 
 class CompanyPopularTile extends StatelessWidget {
   const CompanyPopularTile({
     super.key,
-    required this.name,
-    required this.title,
-    required this.logoUrl,
-    required this.coverUrl,
-    required this.isVerified,
+    required this.company,
   });
 
-  final String name;
-  final String title;
-  final String logoUrl;
-  final String coverUrl;
-  final bool isVerified;
+  final Company company;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +26,7 @@ class CompanyPopularTile extends StatelessWidget {
               height: 90.sp,
             ),
             child: CachedNetworkImage(
-              imageUrl: coverUrl,
+              imageUrl: company.coverUrl,
               fit: BoxFit.cover,
               color: Theme.of(context).textTheme.headlineSmall!.color,
               progressIndicatorBuilder: (context, url, progress) => Container(
@@ -55,7 +48,7 @@ class CompanyPopularTile extends StatelessWidget {
                   ),
                 ),
                 child: Text(
-                  title,
+                  company.field,
                   style: Styles.poppins(
                     fontSize: 14.sp,
                     fontWeight: Styles.semiBold,
@@ -67,9 +60,9 @@ class CompanyPopularTile extends StatelessWidget {
           ),
           const Spacer(),
           CompanyHeaderTile(
-            logoUrl: logoUrl,
-            name: name,
-            isVerified: isVerified,
+            logoUrl: company.logoUrl,
+            name: company.name,
+            isVerified: company.isVerified,
             sizeOffset: 2.sp,
             padding: EdgeInsetsDirectional.only(start: 12.sp),
           ),
