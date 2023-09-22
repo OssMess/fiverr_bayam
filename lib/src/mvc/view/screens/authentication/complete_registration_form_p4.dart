@@ -104,7 +104,7 @@ class _CompleteRegistrationFormP4State
                               backgroundColor: Colors.white,
                               mini: true,
                               child: Icon(
-                                Icons.replay_outlined,
+                                AwesomeIcons.rotate_right,
                                 color: Styles.green,
                                 size: 24.sp,
                               ),

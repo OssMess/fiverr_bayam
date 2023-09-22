@@ -87,7 +87,7 @@ class _SignUpState extends State<SignUp> {
                     NewTextFormField(
                       labelText: AppLocalizations.of(context)!.first_name_label,
                       hintText: AppLocalizations.of(context)!.first_name_hint,
-                      labelPrefixIcon: Icons.person_outline,
+                      labelPrefixIcon: AwesomeIcons.user_large_outlined,
                       keyboardType: TextInputType.name,
                       validator: Validators.validateNotNull,
                       onSaved: (value) {
@@ -99,7 +99,7 @@ class _SignUpState extends State<SignUp> {
                     NewTextFormField(
                       labelText: AppLocalizations.of(context)!.last_name_label,
                       hintText: AppLocalizations.of(context)!.last_name_hint,
-                      labelPrefixIcon: Icons.person_outline,
+                      labelPrefixIcon: AwesomeIcons.user_large_outlined,
                       keyboardType: TextInputType.name,
                       validator: Validators.validateNotNull,
                       onSaved: (value) {

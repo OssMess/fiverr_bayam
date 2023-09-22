@@ -80,7 +80,7 @@ class _CompleteRegistrationFormP2State
                       child: Row(
                         children: [
                           Icon(
-                            Icons.badge,
+                            AwesomeIcons.id_card,
                             size: 40.sp,
                             color: Styles.green,
                           ),

@@ -79,7 +79,7 @@ class _CompleteRegistrationFormC2State
                       child: Row(
                         children: [
                           Icon(
-                            Icons.drive_folder_upload_sharp,
+                            AwesomeIcons.folder,
                             size: 40.sp,
                             color: Styles.green,
                           ),
@@ -117,7 +117,7 @@ class _CompleteRegistrationFormC2State
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(
-                              Icons.cloud_upload,
+                              AwesomeIcons.cloud_arrow_up,
                               color: Styles.green,
                               size: 40.sp,
                             ),

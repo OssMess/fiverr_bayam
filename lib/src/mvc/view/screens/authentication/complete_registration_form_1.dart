@@ -132,7 +132,7 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
                           keyboardType: TextInputType.datetime,
                           validator: Validators.validateNotNull,
                           textInputAction: TextInputAction.next,
-                          suffixIcon: Icons.calendar_month_outlined,
+                          suffixIcon: AwesomeIcons.calendar,
                           onTap: () => pickDate(dateController, dob).then(
                             (value) {
                               if (value == null) return;
@@ -186,7 +186,7 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(
-                                  Icons.cloud_upload,
+                                  AwesomeIcons.cloud_arrow_up,
                                   color: Styles.green,
                                   size: 40.sp,
                                 ),
@@ -223,7 +223,7 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
                           keyboardType: TextInputType.datetime,
                           validator: Validators.validateNotNull,
                           textInputAction: TextInputAction.next,
-                          suffixIcon: Icons.calendar_month_outlined,
+                          suffixIcon: AwesomeIcons.calendar,
                           onTap: () => pickDate(dateController, startup).then(
                             (value) {
                               if (value == null) return;

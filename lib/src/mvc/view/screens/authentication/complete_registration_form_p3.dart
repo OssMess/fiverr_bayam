@@ -108,7 +108,7 @@ class _CompleteRegistrationFormP3State
                           ],
                         ),
                         child: Icon(
-                          Icons.photo_library_rounded,
+                          AwesomeIcons.image_gallery,
                           size: 50.w,
                           color: Styles.green,
                         ),
