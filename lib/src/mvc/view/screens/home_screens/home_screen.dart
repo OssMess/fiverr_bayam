@@ -5,16 +5,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'extensions.dart';
-import 'mvc/model/change_notifiers.dart';
-import 'mvc/model/enums.dart';
-import 'mvc/model/models.dart';
-import 'mvc/view/model_widgets.dart';
-import 'settings.dart';
-import 'tools.dart';
+import '../../../../extensions.dart';
+import '../../../model/change_notifiers.dart';
+import '../../../model/enums.dart';
+import '../../../model/models.dart';
+import '../../model_widgets.dart';
+import '../../../../settings.dart';
+import '../../../../tools.dart';
+import '../../screens.dart';
 
-class Home extends StatefulWidget {
-  const Home({
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({
     super.key,
     required this.userSession,
     required this.settingsController,
@@ -24,10 +25,10 @@ class Home extends StatefulWidget {
   final SettingsController settingsController;
 
   @override
-  State<Home> createState() => _HomeState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeScreenState extends State<HomeScreen> {
   NotifierPage pageNotifier = NotifierPage();
 
   @override
@@ -83,9 +84,15 @@ class _HomeState extends State<Home> {
                     horizontal: 20.sp,
                     vertical: 10.sp,
                   ).copyWith(bottom: context.viewPadding.bottom + 20.sp),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [],
+                  child: IndexedStack(
+                    index: pageNotifier.currentPage,
+                    children: [
+                      Page1Home(userSession: widget.userSession),
+                      Page2Messages(userSession: widget.userSession),
+                      Page3Ads(userSession: widget.userSession),
+                      Page4AI(userSession: widget.userSession),
+                      Page5Profile(userSession: widget.userSession),
+                    ],
                   ),
                 ),
               ),

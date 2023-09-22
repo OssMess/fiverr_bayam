@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-import '../../home.dart';
 import '../../settings/settings_controller.dart';
 import '../../tools.dart';
 import '../model/models.dart';
@@ -98,7 +97,7 @@ class _AuthWrapperState extends State<AuthWrapper> {
         // if (userSession.requiredInitAccountDetails && snapshot.hasData) {
         //   userSession.updateFromMap(snapshot.data!);
         // }
-        return Home(
+        return HomeScreen(
           userSession: userSession,
           settingsController: widget.settingsController,
         );
