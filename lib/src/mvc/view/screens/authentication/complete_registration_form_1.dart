@@ -277,9 +277,7 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
                           state = value;
                         },
                         textInputAction: TextInputAction.next,
-                        onTap: () {
-                          //TODO implement state picker
-                        },
+                        onTap: () {},
                       ),
                       16.heightSp,
                       NewTextFormField(
@@ -292,9 +290,7 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
                           country = value;
                         },
                         textInputAction: TextInputAction.next,
-                        onTap: () {
-                          //TODO implement country picker
-                        },
+                        onTap: () {},
                       ),
                       16.heightSp,
                       CustomElevatedButton(
