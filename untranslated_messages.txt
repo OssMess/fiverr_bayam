@@ -122,6 +122,24 @@
     "your_personal_ai_assitant",
     "ai_how_bayam_work",
     "ai_import_my_contacts",
-    "ai_type_your_message"
+    "ai_type_your_message",
+    "agriculture",
+    "agriculture_subtitle",
+    "livestock",
+    "livestock_subtitle",
+    "fishing",
+    "fishing_subtitle",
+    "phytosnitary",
+    "phytosnitary_subtitle",
+    "local_food_products",
+    "local_food_products_subtitle",
+    "top_rated",
+    "climate_eco",
+    "technology",
+    "service_by",
+    "creator_information",
+    "description",
+    "total_employees",
+    "nb_likes"
   ]
 }

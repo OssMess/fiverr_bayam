@@ -126,6 +126,24 @@
   "ai_how_bayam_work":"How does Bayam work?",
   "ai_import_my_contacts":"Import my contacts",
   "ai_type_your_message":"Type your message",
+  "agriculture":"Agriculture",
+  "agriculture_subtitle":"Agriculture products, seeds, supplies.",
+  "livestock":"Livestock",
+  "livestock_subtitle":"Livestock animals, feed & equipment.",
+  "fishing":"Fishing",
+  "fishing_subtitle":"Fishing products, equipment.",
+  "phytosnitary":"Phytosnitary",
+  "phytosnitary_subtitle":"Phytosnitary products.",
+  "local_food_products":"Local Food Products",
+  "local_food_products_subtitle":"Transportation for local food products.",
+  "top_rated":"Top Rated",
+  "climate_eco":"Climate/Eco-Friendly",
+  "technology":"Technology",
+  "service_by":"Service by",
+  "creator_information":"Creator Information",
+  "description":"Description",
+  "total_employees":"Total Employees",
+  "nb_likes":"{nb, plural, =1{1 Like} other{{nb} Likes}}",
 
 
   "@min_caracters":{
@@ -172,6 +190,13 @@
     }
   },
   "@nb_results":{
+    "placeholders":{
+      "nb":{
+        "type":"int"
+      }
+    }
+  },
+  "@nb_likes":{
     "placeholders":{
       "nb":{
         "type":"int"

@@ -1,3 +1,4 @@
+import 'package:bayam/src/extensions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../tools.dart';
 import '../../model/models.dart';
 import '../model_widgets.dart';
+import '../screens.dart';
 import '../tiles_models.dart';
 
 class CompanyPopularTile extends StatelessWidget {
@@ -18,6 +20,11 @@ class CompanyPopularTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomElevatedContainer(
+      onTap: () => context.push(
+        widget: CompanyDetails(
+          company: company,
+        ),
+      ),
       width: 185.sp,
       child: Column(
         children: [

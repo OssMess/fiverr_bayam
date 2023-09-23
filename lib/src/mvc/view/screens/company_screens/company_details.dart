@@ -12,19 +12,19 @@ import '../../model_widgets.dart';
 import '../../../../tools.dart';
 import '../../model_widgets_screens.dart';
 
-class AdDetails extends StatefulWidget {
-  const AdDetails({
+class CompanyDetails extends StatefulWidget {
+  const CompanyDetails({
     super.key,
-    required this.ad,
+    required this.company,
   });
 
-  final Ad ad;
+  final Company company;
 
   @override
-  State<AdDetails> createState() => _AdDetailsState();
+  State<CompanyDetails> createState() => _CompanyDetailsState();
 }
 
-class _AdDetailsState extends State<AdDetails> {
+class _CompanyDetailsState extends State<CompanyDetails> {
   late PageController pageController = PageController(initialPage: 0);
 
   @override
@@ -56,14 +56,14 @@ class _AdDetailsState extends State<AdDetails> {
                     flagUrl:
                         'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Flag_of_Cameroon.png/640px-Flag_of_Cameroon.png',
                     photosUrl: [
-                      widget.ad.coverUrl,
-                      widget.ad.coverUrl,
-                      widget.ad.coverUrl,
-                      widget.ad.coverUrl,
-                      widget.ad.coverUrl,
+                      widget.company.coverUrl,
+                      widget.company.coverUrl,
+                      widget.company.coverUrl,
+                      widget.company.coverUrl,
+                      widget.company.coverUrl,
                     ],
-                    description: widget.ad.description,
-                    adType: widget.ad.adType,
+                    description:
+                        'We are offering pesticide services for corn, wheat crops and many more.',
                     pageController: pageController,
                   ),
                   16.heightSp,
@@ -79,14 +79,9 @@ class _AdDetailsState extends State<AdDetails> {
                     ),
                   ),
                   16.heightSp,
-                  DetailsCreatorBanner(
-                    name: 'Xavier wills',
-                    photoUrl: widget.ad.userPhotoUrl,
-                    service: AppLocalizations.of(context)!.agriculture,
-                  ),
-                  16.heightSp,
                   DetailsDescriptionBanner(
-                    description: widget.ad.description,
+                    description:
+                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel urna quis velit semper malesuada non bibendum justo. Nunc feugiat orci vel ligula posuere, sed pellentesque ligula dictum. Nulla vulputate lorem augue molestie, nec hendrerit lorem tincidunt.',
                     address: '13-A Clements Road, NYC',
                     tags: [
                       AppLocalizations.of(context)!.top_rated,
@@ -94,7 +89,8 @@ class _AdDetailsState extends State<AdDetails> {
                       AppLocalizations.of(context)!.technology,
                     ],
                     likes: 43,
-                    date: '13-03-23',
+                    website: 'www.samak.com',
+                    employees: 120,
                   ),
                   16.heightSp,
                   const DetailsCompanyBanner(
