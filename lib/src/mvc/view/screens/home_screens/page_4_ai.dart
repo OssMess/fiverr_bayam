@@ -25,6 +25,7 @@ class Page4AI extends StatefulWidget {
 
 class _Page4AIState extends State<Page4AI> {
   bool viewTextFormField = false;
+  FocusNode focusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +71,9 @@ class _Page4AIState extends State<Page4AI> {
                         StatefulBuilder(
                           builder: (context, setState) {
                             if (viewTextFormField) {
+                              //TODO focusnode
                               return CustomTextFormField(
+                                focusNode: focusNode,
                                 fillColor: context.scaffoldBackgroundColor,
                                 hintText: AppLocalizations.of(context)!
                                     .ai_type_your_message,
@@ -92,8 +95,9 @@ class _Page4AIState extends State<Page4AI> {
                                 elevation: 0,
                                 onPressed: () {
                                   setState(() {
-                                    viewTextFormField = !viewTextFormField;
+                                    viewTextFormField = true;
                                   });
+                                  focusNode.requestFocus();
                                 },
                               );
                             }
@@ -207,7 +211,7 @@ class _Page4AIState extends State<Page4AI> {
     required void Function(void Function()) setState,
   }) async {
     setState(() {
-      viewTextFormField = !viewTextFormField;
+      viewTextFormField = false;
     });
   }
 }

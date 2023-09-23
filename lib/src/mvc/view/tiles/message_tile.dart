@@ -1,13 +1,10 @@
 import 'package:bayam/src/extensions.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:badges/badges.dart' as badge;
 
 import '../../../tools.dart';
 import '../../model/models.dart';
-import '../model_widgets.dart';
-import '../tiles_models.dart';
 
 class MessageTile extends StatefulWidget {
   const MessageTile({
