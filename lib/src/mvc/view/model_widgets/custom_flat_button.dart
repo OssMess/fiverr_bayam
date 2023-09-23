@@ -9,7 +9,7 @@ class CustomFlatButton extends StatelessWidget {
     this.child,
     this.icon,
     this.color,
-    this.border,
+    this.addBorder = false,
     this.iconColor,
     this.iconSize,
     this.onTap,
@@ -19,7 +19,7 @@ class CustomFlatButton extends StatelessWidget {
   final IconData? icon;
   final double? iconSize;
   final Color? color;
-  final BoxBorder? border;
+  final bool addBorder;
   final Color? iconColor;
   final void Function()? onTap;
 
@@ -27,23 +27,24 @@ class CustomFlatButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkResponse(
       child: Container(
-        alignment: Alignment.center,
+        // alignment: Alignment.center,
         padding: EdgeInsets.all(10.sp),
-        // margin: EdgeInsets.symmetric(horizontal: 8.sp),
         decoration: BoxDecoration(
-          color: color,
-          border: border ??
-              Border.all(
-                color: context.textTheme.headlineMedium!.color!,
-                width: 0.5,
-              ),
+          color: color ?? context.textTheme.headlineSmall!.color,
+          border: addBorder
+              ? Border.all(
+                  color: context.textTheme.headlineMedium!.color!,
+                  width: 0.5,
+                )
+              : null,
           borderRadius: BorderRadius.circular(8.sp),
         ),
-        child: Icon(
-          icon,
-          size: iconSize ?? 30.sp,
-          color: iconColor,
-        ),
+        child: child ??
+            Icon(
+              icon,
+              size: iconSize ?? 20.sp,
+              color: iconColor,
+            ),
       ),
     );
   }
