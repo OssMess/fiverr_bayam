@@ -119,6 +119,9 @@
     "manage_ads",
     "settings",
     "logout_subtitle",
-    "your_personal_ai_assitant"
+    "your_personal_ai_assitant",
+    "ai_how_bayam_work",
+    "ai_import_my_contacts",
+    "ai_type_your_message"
   ]
 }

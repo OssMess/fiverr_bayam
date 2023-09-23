@@ -35,6 +35,7 @@ class CustomTextFormField extends StatelessWidget {
     this.onEditingComplete,
     this.textInputAction,
     this.onSaved,
+    this.height,
   }) : assert(
           ((prefixOnTap == null || prefixIcon != null) &&
               (suffixOnTap == null || suffixIcon != null)),
@@ -68,6 +69,7 @@ class CustomTextFormField extends StatelessWidget {
   final void Function(String)? onChanged;
   final void Function()? onEditingComplete;
   final void Function(String?)? onSaved;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
@@ -110,11 +112,11 @@ class CustomTextFormField extends StatelessWidget {
         filled: fillColor != null,
         constraints: keyboardType != TextInputType.multiline
             ? BoxConstraints(
-                minHeight: 45.sp,
-                maxHeight: 45.sp,
+                minHeight: height ?? 45.sp,
+                maxHeight: height ?? 45.sp,
               )
             : BoxConstraints(
-                minHeight: 45.sp,
+                minHeight: height ?? 45.sp,
               ),
         alignLabelWithHint: true,
         floatingLabelAlignment: FloatingLabelAlignment.start,

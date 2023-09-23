@@ -28,11 +28,7 @@ class CustomAppBarBackground extends StatelessWidget {
     Column column = Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Padding(
-          padding: EdgeInsets.only(
-            top: backgroundTopPadding,
-          ),
-        ),
+        backgroundTopPadding.height,
         Expanded(
           child: Image.asset(
             'assets/images/background_top.png',

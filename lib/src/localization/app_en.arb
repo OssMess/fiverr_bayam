@@ -123,6 +123,9 @@
   "logout":"Logout",
   "logout_subtitle":"Are you sure you would like to logout?",
   "your_personal_ai_assitant":"Your personal AI Assistant",
+  "ai_how_bayam_work":"How does Bayam work?",
+  "ai_import_my_contacts":"Import my contacts",
+  "ai_type_your_message":"Type your message",
 
 
   "@min_caracters":{

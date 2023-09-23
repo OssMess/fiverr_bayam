@@ -11,13 +11,20 @@ import '../../../model/models.dart';
 import '../../model_widgets.dart';
 import '../../tiles.dart';
 
-class Page4AI extends StatelessWidget {
+class Page4AI extends StatefulWidget {
   const Page4AI({
     super.key,
     required this.userSession,
   });
 
   final UserSession userSession;
+
+  @override
+  State<Page4AI> createState() => _Page4AIState();
+}
+
+class _Page4AIState extends State<Page4AI> {
+  bool viewTextFormField = false;
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +39,76 @@ class Page4AI extends StatelessWidget {
           SliverPadding(
             padding: EdgeInsets.all(16.sp),
             sliver: SliverList.separated(
-              itemCount: ListData.aiChat.length,
+              itemCount: ListData.aiChat.length + 1,
               separatorBuilder: (context, index) => 8.heightSp,
-              itemBuilder: (context, index) => MessageTile(
-                message: ListData.aiChat.elementAt(index),
-                lastMessage: index > 0 ? ListData.aiChat[index - 1] : null,
-              ),
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return Container(
+                    padding: EdgeInsets.all(16.sp),
+                    decoration: BoxDecoration(
+                      color: context.textTheme.headlineSmall!.color,
+                      borderRadius: BorderRadius.circular(14.sp),
+                    ),
+                    child: Column(
+                      children: [
+                        CustomElevatedButton(
+                          label:
+                              AppLocalizations.of(context)!.ai_how_bayam_work,
+                          fontSize: 14.sp,
+                          elevation: 0,
+                          onPressed: () {},
+                        ),
+                        12.heightSp,
+                        CustomElevatedButton(
+                          label: AppLocalizations.of(context)!
+                              .ai_import_my_contacts,
+                          fontSize: 14.sp,
+                          elevation: 0,
+                          onPressed: () {},
+                        ),
+                        12.heightSp,
+                        StatefulBuilder(
+                          builder: (context, setState) {
+                            if (viewTextFormField) {
+                              return CustomTextFormField(
+                                fillColor: context.scaffoldBackgroundColor,
+                                hintText: AppLocalizations.of(context)!
+                                    .ai_type_your_message,
+                                suffixIcon: AwesomeIcons.paper_plane_top,
+                                height: 50.sp,
+                                suffixOnTap: () =>
+                                    onSendMessage(setState: setState),
+                                onEditingComplete: () =>
+                                    onSendMessage(setState: setState),
+                              );
+                            } else {
+                              return CustomElevatedButton(
+                                label: AppLocalizations.of(context)!
+                                    .ai_type_your_message,
+                                color: context.scaffoldBackgroundColor,
+                                fontColor:
+                                    context.textTheme.headlineLarge!.color,
+                                fontSize: 14.sp,
+                                elevation: 0,
+                                onPressed: () {
+                                  setState(() {
+                                    viewTextFormField = !viewTextFormField;
+                                  });
+                                },
+                              );
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  return MessageTile(
+                    message: ListData.aiChat.elementAt(index - 1),
+                    lastMessage: index > 1 ? ListData.aiChat[index - 2] : null,
+                  );
+                }
+              },
             ),
           ),
           SliverToBoxAdapter(
@@ -130,5 +201,13 @@ class Page4AI extends StatelessWidget {
     //     ),
     //   ],
     // );
+  }
+
+  Future<void> onSendMessage({
+    required void Function(void Function()) setState,
+  }) async {
+    setState(() {
+      viewTextFormField = !viewTextFormField;
+    });
   }
 }
