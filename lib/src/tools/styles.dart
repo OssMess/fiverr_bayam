@@ -57,7 +57,18 @@ class Styles {
 
   static const MaterialColor red = MaterialColor(
     0xFFD80027,
-    <int, Color>{},
+    <int, Color>{
+      50: Color(0xFFfbe6e9),
+      100: Color(0xFFf7ccd4),
+      200: Color(0xFFf3b3be),
+      300: Color(0xFFef99a9),
+      400: Color(0xFFec8093),
+      500: Color(0xFFe8667d),
+      600: Color(0xFFe44d68),
+      700: Color(0xFFe03352),
+      800: Color(0xFFdc1a3d),
+      900: Color(0xFFD80027),
+    },
   );
 
   static const MaterialColor black = MaterialColor(

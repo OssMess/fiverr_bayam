@@ -9,9 +9,17 @@ class CustomAppBarBackground extends StatelessWidget {
   const CustomAppBarBackground({
     super.key,
     required this.type,
-  });
+    this.appBarTitle,
+    this.appBarTitleWidget,
+    this.appBarLeading,
+    this.appBarActions,
+  }) : assert(appBarTitle == null || appBarTitleWidget == null);
 
   final AppBarBackgroundType type;
+  final String? appBarTitle;
+  final Widget? appBarTitleWidget;
+  final Widget? appBarLeading;
+  final List<Widget>? appBarActions;
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +77,27 @@ class CustomAppBarBackground extends StatelessWidget {
                 fit: BoxFit.contain,
                 alignment: Alignment.center,
                 height: 100.h,
+              ),
+            ),
+          if (appBarTitle != null ||
+              appBarLeading != null ||
+              appBarActions != null)
+            Container(
+              margin: EdgeInsets.only(top: Paddings.viewPadding.top),
+              height: kToolbarHeight,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  (appBarLeading ?? const SizedBox.shrink()),
+                  appBarTitleWidget ??
+                      Text(
+                        appBarTitle ?? '',
+                      ),
+                  Row(
+                    children: appBarActions ?? [],
+                  ),
+                ],
               ),
             ),
         ],

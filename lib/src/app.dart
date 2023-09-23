@@ -109,7 +109,7 @@ class MyApp extends StatelessWidget {
             displayLarge: const TextStyle(color: Color(0xFF000000)),
             displayMedium: const TextStyle(color: Color(0xFF808080)),
             displaySmall: const TextStyle(color: Color(0xFFb3b3b3)),
-            headlineMedium: const TextStyle(color: Color(0xFFcccccc)),
+            headlineMedium: const TextStyle(color: Color(0xFFcfcfcf)),
             headlineSmall: const TextStyle(color: Color(0xFFf3f3f3)),
             titleLarge: const TextStyle(color: Color(0xFFFFFFFF)),
           ),

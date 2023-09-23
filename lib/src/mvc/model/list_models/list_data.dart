@@ -5,6 +5,8 @@ class ListData {
   static final List<Map<String, dynamic>> data = [
     {
       'name': 'Samak',
+      'description':
+          'We are offering pesticide services for corn, wheat crops and many more.',
       'field': 'Agriculture',
       'logoUrl':
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDLL2FyAeYaShg5h1YrW3gEyDHDCUb5o2_lw&usqp=CAU',
@@ -15,6 +17,8 @@ class ListData {
     },
     {
       'name': 'NetSol',
+      'description':
+          'Get all kind of IT services related to agricultural Development and other related needs.',
       'field': 'IT Services',
       'logoUrl':
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYugcd50H-J9k2aqtQ8GgebajaY3aMC7k7uw&usqp=CAU',
@@ -25,6 +29,8 @@ class ListData {
     },
     {
       'name': 'GOPro',
+      'description':
+          'We are offering pesticide services for corn, wheat crops and many more.',
       'field': 'Construction',
       'logoUrl':
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsXVt1xzsYvk-qV28jaF26jiNfm8bpuv-T8Q&usqp=CAU',
@@ -35,6 +41,8 @@ class ListData {
     },
     {
       'name': 'Agriland',
+      'description':
+          'Get all kind of IT services related to agricultural Development and other related needs.',
       'field': 'Agriculture',
       'logoUrl':
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjCuB_T9XRgCcwrQi4u8_zhnVFoQcsIOGa6Q&usqp=CAU',

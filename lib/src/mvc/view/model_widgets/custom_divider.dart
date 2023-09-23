@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../extensions.dart';
+
 class CustomDivider extends StatelessWidget {
   const CustomDivider({
     super.key,
@@ -19,8 +21,8 @@ class CustomDivider extends StatelessWidget {
       padding: padding ?? EdgeInsets.zero,
       child: Divider(
         height: height ?? 1.sp,
-        color: color ?? Theme.of(context).textTheme.headlineSmall!.color,
-        thickness: 1,
+        color: color ?? context.textTheme.headlineMedium!.color,
+        thickness: 0.5,
       ),
     );
   }

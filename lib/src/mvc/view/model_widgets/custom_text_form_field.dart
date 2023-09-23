@@ -101,6 +101,7 @@ class CustomTextFormField extends StatelessWidget {
       onEditingComplete: onEditingComplete,
       onSaved: onSaved,
       obscureText: obscureText,
+      onTapOutside: (_) => FocusScope.of(context).unfocus(),
       decoration: InputDecoration(
         labelText: labelText,
         hintText: hintText,

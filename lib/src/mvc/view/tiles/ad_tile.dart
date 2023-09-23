@@ -12,16 +12,20 @@ class AdTile extends StatelessWidget {
   const AdTile({
     super.key,
     required this.ad,
+    required this.expanded,
   });
 
   final Ad ad;
+  final bool expanded;
 
   @override
   Widget build(BuildContext context) {
     return CustomElevatedContainer(
-      width: 300.sp,
+      width: expanded ? double.infinity : 300.sp,
+      height: expanded ? 250.sp : null,
       padding: EdgeInsets.all(8.sp),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             child: CachedNetworkImage(
@@ -67,11 +71,13 @@ class AdTile extends StatelessWidget {
               ),
             ),
           ),
-          4.heightSp,
+          8.heightSp,
           Text(
-            'We are offering pesticide services for corn & wheat crops.',
+            ad.description,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
             style: Styles.poppins(
-              fontSize: 12.sp,
+              fontSize: 13.sp,
               fontWeight: Styles.semiBold,
               color: context.textTheme.displayLarge!.color,
             ),

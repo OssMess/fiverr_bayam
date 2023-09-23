@@ -259,7 +259,7 @@ class Dialogs {
       context: context,
       builder: (context) {
         return Dialog(
-          insetPadding: EdgeInsets.symmetric(horizontal: 16.sp),
+          insetPadding: EdgeInsets.symmetric(horizontal: 32.sp),
           clipBehavior: Clip.antiAliasWithSaveLayer,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14.sp),
@@ -268,6 +268,7 @@ class Dialogs {
             title: title,
             subtitle: subtitle,
             yesAct: yesAct,
+            noAct: noAct,
             onComplete: onComplete,
           ),
         );

@@ -20,7 +20,6 @@ class Page2Messages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return const CustomScrollView();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

@@ -114,6 +114,7 @@
     "now",
     "m_ago",
     "h_ago",
-    "d_ago"
+    "d_ago",
+    "nb_results"
   ]
 }

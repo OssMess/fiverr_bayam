@@ -25,7 +25,7 @@ class CustomAlertDialog<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 32.sp),
+      padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 40.sp),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,

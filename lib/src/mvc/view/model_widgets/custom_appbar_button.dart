@@ -19,10 +19,8 @@ class AppBarActionButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         margin: EdgeInsets.all(4.sp),
-        constraints: BoxConstraints(
-          minHeight: 48.sp,
-          minWidth: 48.sp,
-        ),
+        height: 48.sp,
+        width: 48.sp,
         alignment: Alignment.center,
         decoration: const BoxDecoration(
           shape: BoxShape.circle,
