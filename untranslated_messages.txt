@@ -115,6 +115,10 @@
     "m_ago",
     "h_ago",
     "d_ago",
-    "nb_results"
+    "nb_results",
+    "manage_ads",
+    "settings",
+    "logout_subtitle",
+    "your_personal_ai_assitant"
   ]
 }

@@ -118,6 +118,11 @@
   "h_ago":"{nb, plural, =1{1 hour} other{{nb} hours}} ago",
   "d_ago":"{nb, plural, =1{1 day} other{{nb} days}} ago",
   "nb_results":"{nb, plural, =1{1 result} other{{nb} results}}",
+  "manage_ads":"Manage Ads",
+  "settings":"Settings",
+  "logout":"Logout",
+  "logout_subtitle":"Are you sure you would like to logout?",
+  "your_personal_ai_assitant":"Your personal AI Assistant",
 
 
   "@min_caracters":{

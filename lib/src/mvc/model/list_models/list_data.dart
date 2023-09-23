@@ -125,4 +125,88 @@ class ListData {
       'updatedAt': DateTime.now().subtract(const Duration(minutes: 12)),
     },
   ].map(Chat.fromJson).toList();
+
+  static List<Message> aiChat = [
+    {
+      'senderId': 'myid',
+      'senderAvatarUrl':
+          'https://i.pinimg.com/1200x/a1/1e/2a/a11e2a9d5803e4dc2c034819ce12a16e.jpg',
+      'message': 'hello are you here?',
+      'createdAt': DateTime.now(),
+      'photoUrl': null,
+      'aspectRatio': null,
+      'isSending': true,
+    },
+    {
+      'senderId': 'myid',
+      'senderAvatarUrl':
+          'https://i.pinimg.com/1200x/a1/1e/2a/a11e2a9d5803e4dc2c034819ce12a16e.jpg',
+      'message': 'how are doing?',
+      'createdAt': DateTime.now(),
+      'photoUrl': null,
+      'aspectRatio': null,
+      'isSending': true,
+    },
+    {
+      'senderId': 'myid',
+      'senderAvatarUrl':
+          'https://i.pinimg.com/1200x/a1/1e/2a/a11e2a9d5803e4dc2c034819ce12a16e.jpg',
+      'message':
+          'can you present me a strategy for a winning product to buy and sell',
+      'createdAt': DateTime.now(),
+      'photoUrl': null,
+      'aspectRatio': null,
+      'isSending': true,
+    },
+    {
+      'senderId': 'myid',
+      'senderAvatarUrl':
+          'https://i.pinimg.com/1200x/a1/1e/2a/a11e2a9d5803e4dc2c034819ce12a16e.jpg',
+      'message': 'Import my contacts',
+      'createdAt': DateTime.now().subtract(const Duration(minutes: 18)),
+      'photoUrl': null,
+      'aspectRatio': null,
+      'isSending': false,
+    },
+    {
+      'senderId': 'myid',
+      'senderAvatarUrl':
+          'https://i.pinimg.com/1200x/a1/1e/2a/a11e2a9d5803e4dc2c034819ce12a16e.jpg',
+      'message': 'Import my contacts',
+      'createdAt': DateTime.now().subtract(const Duration(hours: 18)),
+      'photoUrl': null,
+      'aspectRatio': null,
+      'isSending': false,
+    },
+    {
+      'senderId': 'myid',
+      'senderAvatarUrl':
+          'https://i.pinimg.com/1200x/a1/1e/2a/a11e2a9d5803e4dc2c034819ce12a16e.jpg',
+      'message': 'How does bayam work?',
+      'createdAt': DateTime.now().subtract(const Duration(days: 18)),
+      'photoUrl': null,
+      'aspectRatio': null,
+      'isSending': false,
+    },
+    {
+      'senderId': 'ai',
+      'senderAvatarUrl':
+          'https://images.squarespace-cdn.com/content/v1/51ef4493e4b0561c90fa76d6/1667315305235-RCUO3EX7WIENHM8CG9U1/20210601_SLP2805-edit.jpg?format=1000w',
+      'message': 'Hi Peter, I\'m Finneas. I\'ll get you setup in no time.',
+      'createdAt': DateTime.now().subtract(const Duration(minutes: 3)),
+      'photoUrl': null,
+      'aspectRatio': null,
+      'isSending': false,
+    },
+    {
+      'senderId': 'ai',
+      'senderAvatarUrl':
+          'https://images.squarespace-cdn.com/content/v1/51ef4493e4b0561c90fa76d6/1667315305235-RCUO3EX7WIENHM8CG9U1/20210601_SLP2805-edit.jpg?format=1000w',
+      'message': 'What would you like to do first?',
+      'createdAt': DateTime.now().subtract(const Duration(minutes: 3)),
+      'photoUrl': null,
+      'aspectRatio': null,
+      'isSending': false,
+    },
+  ].map(Message.fromJson).toList();
 }

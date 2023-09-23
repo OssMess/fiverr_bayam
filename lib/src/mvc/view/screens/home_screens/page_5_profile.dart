@@ -6,11 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../tools.dart';
-import '../../../model/list_models.dart';
 import '../../../model/models.dart';
 import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
-import '../../tiles.dart';
 
 class Page5Profile extends StatelessWidget {
   const Page5Profile({
@@ -101,7 +99,7 @@ class Page5Profile extends StatelessWidget {
           SliverToBoxAdapter(
             child: CustomElevatedListTile(
               icon: AwesomeIcons.ads,
-              title: 'Manage Ads',
+              title: AppLocalizations.of(context)!.manage_ads,
               onTap: () {},
             ),
           ),
@@ -109,7 +107,7 @@ class Page5Profile extends StatelessWidget {
           SliverToBoxAdapter(
             child: CustomElevatedListTile(
               icon: AwesomeIcons.gear,
-              title: 'Settings',
+              title: AppLocalizations.of(context)!.settings,
               onTap: () {},
             ),
           ),
@@ -117,10 +115,10 @@ class Page5Profile extends StatelessWidget {
           SliverToBoxAdapter(
             child: CustomElevatedListTile(
               icon: AwesomeIcons.door_exit,
-              title: 'Logout',
+              title: AppLocalizations.of(context)!.logout,
               onTap: () => Dialogs.of(context).showCustomDialog(
-                title: 'Logout',
-                subtitle: 'Are you sure you would like to logout?',
+                title: AppLocalizations.of(context)!.logout,
+                subtitle: AppLocalizations.of(context)!.logout_subtitle,
                 yesAct: ModelTextButton(
                   label: AppLocalizations.of(context)!.continu,
                   color: Styles.red,
