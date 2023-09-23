@@ -144,6 +144,8 @@
   "description":"Description",
   "total_employees":"Total Employees",
   "nb_likes":"{nb, plural, =1{1 Like} other{{nb} Likes}}",
+  "about":"About",
+  "company_description":"Company Description",
 
 
   "@min_caracters":{

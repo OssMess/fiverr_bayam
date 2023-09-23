@@ -23,7 +23,7 @@ class AdTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomElevatedContainer(
       onTap: () => context.push(
-        widget: AdDetails(
+        widget: DetailsAd(
           ad: ad,
         ),
       ),

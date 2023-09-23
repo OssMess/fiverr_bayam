@@ -140,6 +140,8 @@
     "creator_information",
     "description",
     "total_employees",
-    "nb_likes"
+    "nb_likes",
+    "about",
+    "company_description"
   ]
 }

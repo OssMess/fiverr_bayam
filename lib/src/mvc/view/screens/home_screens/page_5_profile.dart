@@ -39,13 +39,24 @@ class Page5Profile extends StatelessWidget {
                     ),
                   ),
                   12.heightSp,
-                  Text(
-                    'Pierre Owona',
-                    style: Styles.poppins(
-                      fontSize: 20.sp,
-                      fontWeight: Styles.bold,
-                      color: context.textTheme.displayLarge!.color,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Pierre Owona',
+                        style: Styles.poppins(
+                          fontSize: 20.sp,
+                          fontWeight: Styles.bold,
+                          color: context.textTheme.displayLarge!.color,
+                        ),
+                      ),
+                      8.widthSp,
+                      Icon(
+                        AwesomeIcons.badge_check,
+                        color: Styles.blue,
+                        size: 20.sp,
+                      ),
+                    ],
                   ),
                   Text(
                     'pierre.owona@gmail.com',

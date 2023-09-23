@@ -32,7 +32,7 @@ class ChatTile extends StatelessWidget {
               badgeColor: Styles.green[500]!,
               elevation: 0,
               borderSide: BorderSide(
-                color: Theme.of(context).scaffoldBackgroundColor,
+                color: context.scaffoldBackgroundColor,
                 width: 2.sp,
               ),
               padding: EdgeInsets.all(9.sp),

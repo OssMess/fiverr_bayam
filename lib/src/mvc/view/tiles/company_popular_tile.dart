@@ -21,7 +21,7 @@ class CompanyPopularTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomElevatedContainer(
       onTap: () => context.push(
-        widget: CompanyDetails(
+        widget: DetailsCompany(
           company: company,
         ),
       ),
