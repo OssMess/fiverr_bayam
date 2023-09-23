@@ -4,6 +4,7 @@ import '../enums.dart';
 
 class Ad with ChangeNotifier {
   final String name;
+  final String userPhotoUrl;
   final String description;
   final String logoUrl;
   final String coverUrl;
@@ -13,6 +14,7 @@ class Ad with ChangeNotifier {
 
   Ad({
     required this.name,
+    required this.userPhotoUrl,
     required this.description,
     required this.logoUrl,
     required this.coverUrl,
@@ -23,6 +25,7 @@ class Ad with ChangeNotifier {
 
   factory Ad.fromJson(Map<String, dynamic> json) => Ad(
         name: json['name'],
+        userPhotoUrl: json['userPhotoUrl'],
         description: json['description'],
         logoUrl: json['logoUrl'],
         coverUrl: json['coverUrl'],

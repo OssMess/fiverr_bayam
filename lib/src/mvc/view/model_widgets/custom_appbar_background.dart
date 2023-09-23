@@ -85,13 +85,13 @@ class CustomAppBarBackground extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  (appBarLeading ?? const SizedBox.shrink()),
+                  (appBarLeading ?? 56.widthSp),
                   appBarTitleWidget ??
                       Text(
                         appBarTitle ?? '',
                       ),
                   Row(
-                    children: appBarActions ?? [],
+                    children: appBarActions ?? [56.widthSp],
                   ),
                 ],
               ),

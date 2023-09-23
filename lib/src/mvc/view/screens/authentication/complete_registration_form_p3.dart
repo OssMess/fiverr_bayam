@@ -42,12 +42,7 @@ class _CompleteRegistrationFormP3State
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: Image.asset(
-          'assets/images/logo_transparent.png',
-          fit: BoxFit.contain,
-          alignment: Alignment.center,
-          height: 50,
-        ),
+        title: const CustomAppBarLogo(),
         leading: AppBarActionButton(
           icon: context.backButtonIcon,
           onTap: () => context.pop(),

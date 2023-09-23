@@ -3,18 +3,24 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../extensions.dart';
 
-class CustomRectangleIconButton extends StatelessWidget {
-  const CustomRectangleIconButton({
+class CustomFlatButton extends StatelessWidget {
+  const CustomFlatButton({
     super.key,
-    required this.icon,
+    this.child,
+    this.icon,
     this.color,
+    this.border,
+    this.iconColor,
     this.iconSize,
     this.onTap,
-  });
+  }) : assert(icon != null || child != null);
 
-  final IconData icon;
+  final Widget? child;
+  final IconData? icon;
   final double? iconSize;
   final Color? color;
+  final BoxBorder? border;
+  final Color? iconColor;
   final void Function()? onTap;
 
   @override
@@ -23,18 +29,20 @@ class CustomRectangleIconButton extends StatelessWidget {
       child: Container(
         alignment: Alignment.center,
         padding: EdgeInsets.all(10.sp),
-        margin: EdgeInsets.symmetric(horizontal: 8.sp),
+        // margin: EdgeInsets.symmetric(horizontal: 8.sp),
         decoration: BoxDecoration(
-          border: Border.all(
-            color: context.textTheme.headlineMedium!.color!,
-            width: 0.5,
-          ),
+          color: color,
+          border: border ??
+              Border.all(
+                color: context.textTheme.headlineMedium!.color!,
+                width: 0.5,
+              ),
           borderRadius: BorderRadius.circular(8.sp),
         ),
         child: Icon(
           icon,
           size: iconSize ?? 30.sp,
-          color: color,
+          color: iconColor,
         ),
       ),
     );

@@ -13,3 +13,4 @@ export 'screens/home_screens/page_2_messages.dart';
 export 'screens/home_screens/page_3_ads.dart';
 export 'screens/home_screens/page_4_ai.dart';
 export 'screens/home_screens/page_5_profile.dart';
+export 'screens/ad_screens/ad_details.dart';

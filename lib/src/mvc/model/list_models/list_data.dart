@@ -8,6 +8,8 @@ class ListData {
       'description':
           'We are offering pesticide services for corn, wheat crops and many more.',
       'field': 'Agriculture',
+      'userPhotoUrl':
+          'https://i.pinimg.com/1200x/a1/1e/2a/a11e2a9d5803e4dc2c034819ce12a16e.jpg',
       'logoUrl':
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDLL2FyAeYaShg5h1YrW3gEyDHDCUb5o2_lw&usqp=CAU',
       'coverUrl':
@@ -20,6 +22,8 @@ class ListData {
       'description':
           'Get all kind of IT services related to agricultural Development and other related needs.',
       'field': 'IT Services',
+      'userPhotoUrl':
+          'https://i.pinimg.com/1200x/a1/1e/2a/a11e2a9d5803e4dc2c034819ce12a16e.jpg',
       'logoUrl':
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYugcd50H-J9k2aqtQ8GgebajaY3aMC7k7uw&usqp=CAU',
       'coverUrl':
@@ -32,6 +36,8 @@ class ListData {
       'description':
           'We are offering pesticide services for corn, wheat crops and many more.',
       'field': 'Construction',
+      'userPhotoUrl':
+          'https://i.pinimg.com/1200x/a1/1e/2a/a11e2a9d5803e4dc2c034819ce12a16e.jpg',
       'logoUrl':
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsXVt1xzsYvk-qV28jaF26jiNfm8bpuv-T8Q&usqp=CAU',
       'coverUrl':
@@ -44,6 +50,8 @@ class ListData {
       'description':
           'Get all kind of IT services related to agricultural Development and other related needs.',
       'field': 'Agriculture',
+      'userPhotoUrl':
+          'https://i.pinimg.com/1200x/a1/1e/2a/a11e2a9d5803e4dc2c034819ce12a16e.jpg',
       'logoUrl':
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjCuB_T9XRgCcwrQi4u8_zhnVFoQcsIOGa6Q&usqp=CAU',
       'coverUrl':

@@ -72,25 +72,28 @@ class Page5Profile extends StatelessWidget {
             ),
           ),
           24.sliverSp,
-          const SliverToBoxAdapter(
+          SliverToBoxAdapter(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CustomRectangleIconButton(
+                CustomFlatButton(
                   icon: AwesomeIcons.facebook_f,
-                  color: Color(0xFF3B5998),
+                  iconColor: Color(0xFF3B5998),
                 ),
-                CustomRectangleIconButton(
+                16.widthSp,
+                CustomFlatButton(
                   icon: AwesomeIcons.twitter,
-                  color: Color(0xFF00ACEE),
+                  iconColor: Color(0xFF00ACEE),
                 ),
-                CustomRectangleIconButton(
+                16.widthSp,
+                CustomFlatButton(
                   icon: AwesomeIcons.linkedin_in,
-                  color: Color(0xFF0A66C2),
+                  iconColor: Color(0xFF0A66C2),
                 ),
-                CustomRectangleIconButton(
+                16.widthSp,
+                CustomFlatButton(
                   icon: AwesomeIcons.share_from_square,
-                  color: Styles.green,
+                  iconColor: Styles.green,
                 ),
               ],
             ),

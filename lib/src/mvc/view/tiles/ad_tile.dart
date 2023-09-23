@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../tools.dart';
 import '../../model/models.dart';
 import '../model_widgets.dart';
+import '../screens.dart';
 import '../tiles_models.dart';
 
 class AdTile extends StatelessWidget {
@@ -21,6 +22,11 @@ class AdTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomElevatedContainer(
+      onTap: () => context.push(
+        widget: AdDetails(
+          ad: ad,
+        ),
+      ),
       width: expanded ? double.infinity : 300.sp,
       height: expanded ? 250.sp : null,
       padding: EdgeInsets.all(8.sp),
@@ -31,7 +37,7 @@ class AdTile extends StatelessWidget {
             child: CachedNetworkImage(
               imageUrl: ad.coverUrl,
               fit: BoxFit.cover,
-              color: Theme.of(context).textTheme.headlineSmall!.color,
+              color: context.textTheme.headlineSmall!.color,
               progressIndicatorBuilder: (context, url, progress) => Container(
                 alignment: Alignment.center,
                 child: CircularProgressIndicator(
@@ -43,7 +49,7 @@ class AdTile extends StatelessWidget {
                 padding: EdgeInsets.all(8.sp),
                 alignment: Alignment.topLeft,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).textTheme.headlineSmall!.color,
+                  color: context.textTheme.headlineSmall!.color,
                   borderRadius: BorderRadius.circular(14.sp),
                   image: DecorationImage(
                     image: imageProvider,
