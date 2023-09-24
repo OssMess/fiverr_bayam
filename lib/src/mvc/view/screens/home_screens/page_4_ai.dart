@@ -71,7 +71,6 @@ class _Page4AIState extends State<Page4AI> {
                         StatefulBuilder(
                           builder: (context, setState) {
                             if (viewTextFormField) {
-                              //TODO focusnode
                               return CustomTextFormField(
                                 focusNode: focusNode,
                                 fillColor: context.scaffoldBackgroundColor,

@@ -1,7 +1,8 @@
-import 'package:bayam/src/extensions.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:badges/badges.dart' as badge;
+import 'package:bayam/src/extensions.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter/material.dart';
+import 'package:voice_message_package/voice_message_package.dart';
 
 import '../../../tools.dart';
 import '../../model/models.dart';
@@ -50,7 +51,9 @@ class _MessageTileState extends State<MessageTile> {
           maxWidth: 0.65.sw,
           minWidth: 70.sp,
         ),
-        padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 12.sp),
+        padding: !widget.message.audioUrl.isNullOrEmpty
+            ? null
+            : EdgeInsets.symmetric(horizontal: 16.sp, vertical: 12.sp),
         decoration: BoxDecoration(
           color: widget.message.isMine
               ? Styles.green
@@ -64,16 +67,28 @@ class _MessageTileState extends State<MessageTile> {
             ),
           ),
         ),
-        child: Text(
-          widget.message.message!,
-          style: Styles.poppins(
-            color: widget.message.isMine
-                ? Colors.white
-                : context.textTheme.displayMedium!.color,
-            fontSize: 14.sp,
-            fontWeight: Styles.medium,
-          ),
-        ),
+        child: Builder(builder: (context) {
+          if (!widget.message.audioUrl.isNullOrEmpty) {
+            return VoiceMessage(
+              audioSrc: widget.message.audioUrl!,
+              played: false, //TODO seen
+              me: true,
+              onPlay: () {},
+              meBgColor: Styles.green,
+              meFgColor: Colors.white,
+            );
+          }
+          return Text(
+            widget.message.message!,
+            style: Styles.poppins(
+              color: widget.message.isMine
+                  ? Colors.white
+                  : context.textTheme.displayMedium!.color,
+              fontSize: 14.sp,
+              fontWeight: Styles.medium,
+            ),
+          );
+        }),
       ),
       widget.message.isMine ? 0.widthSp : 60.widthSp,
     ];
@@ -165,20 +180,6 @@ class _MessageTileState extends State<MessageTile> {
               ],
               4.widthSp,
               8.widthSp,
-              // widget.message.isSending
-              //     ? Container(
-              //         width: 8.sp,
-              //         height: 8.sp,
-              //         decoration: BoxDecoration(
-              //           color: Colors.transparent,
-              //           border: Border.all(
-              //             color: Styles.green,
-              //             width: 1.5.sp,
-              //           ),
-              //           shape: BoxShape.circle,
-              //         ),
-              //       )
-              //     : 8.widthSp,
             ],
           ),
         ],

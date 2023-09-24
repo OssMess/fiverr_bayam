@@ -1,20 +1,21 @@
-//
+import 'dart:io';
 import 'dart:math';
 
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:badges/badges.dart' as badge;
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter/material.dart';
 
 import '../../../extensions.dart';
 import '../../../tools.dart';
 import '../../model/enums.dart';
 import '../../model/list_models.dart';
+import '../../model/models.dart';
 import '../model_widgets.dart';
 import '../model_widgets_screens.dart';
 import '../tiles.dart';
 
-class ChatScreen extends StatelessWidget {
+class ChatScreen extends StatefulWidget {
   const ChatScreen({
     super.key,
     required this.displayName,
@@ -29,8 +30,13 @@ class ChatScreen extends StatelessWidget {
   final DateTime? lastSeen;
 
   @override
+  State<ChatScreen> createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
+  @override
   Widget build(BuildContext context) {
-    bool online = isOnline ?? Random().nextBool();
+    bool online = widget.isOnline ?? Random().nextBool();
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -62,7 +68,7 @@ class ChatScreen extends StatelessWidget {
                 radius: 25.sp,
                 backgroundColor: Styles.green[200],
                 backgroundImage: CachedNetworkImageProvider(
-                  photoUrl,
+                  widget.photoUrl,
                 ),
               ),
             ),
@@ -72,7 +78,7 @@ class ChatScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    displayName,
+                    widget.displayName,
                     style: Styles.poppins(
                       fontSize: 16.sp,
                       fontWeight: Styles.semiBold,
@@ -143,9 +149,92 @@ class ChatScreen extends StatelessWidget {
               ),
             ),
           ),
-          const ChatSendMessage(),
+          ChatSendMessage(
+            onSendMessage: onSendMessage,
+          ),
         ],
       ),
     );
+  }
+
+  Future<void> onSendMessage(
+    String? msg,
+    String? audioPath,
+    String? imagePath,
+  ) async {
+    if (msg.isNullOrEmpty &&
+        audioPath.isNullOrEmpty &&
+        imagePath.isNullOrEmpty) {
+      return;
+    }
+    if (!msg.isNullOrEmpty) {
+      //TODO send text message
+      ListData.aiChat.insert(
+        0,
+        Message.fromJson(
+          {
+            'senderId': 'myid',
+            'senderAvatarUrl':
+                'https://i.pinimg.com/1200x/a1/1e/2a/a11e2a9d5803e4dc2c034819ce12a16e.jpg',
+            'message': msg,
+            'createdAt': DateTime.now(),
+            'photoUrl': null,
+            'aspectRatio': null,
+            'isSending': true,
+          },
+        ),
+      );
+      Future.delayed(
+        const Duration(milliseconds: 500),
+        () {
+          ListData.aiChat.where((element) => element.isSending).forEach(
+            (message) {
+              message.isSending = false;
+              setState(() {});
+            },
+          );
+        },
+      );
+    } else if (!audioPath.isNullOrEmpty) {
+      //TODO send audio message
+      ListData.aiChat.insert(
+        0,
+        Message.fromJson(
+          {
+            'senderId': 'myid',
+            'senderAvatarUrl':
+                'https://i.pinimg.com/1200x/a1/1e/2a/a11e2a9d5803e4dc2c034819ce12a16e.jpg',
+            'message': null,
+            'createdAt': DateTime.now(),
+            'photoUrl': null,
+            'aspectRatio': null,
+            'audioUrl': audioPath,
+            'isSending': true,
+          },
+        ),
+      );
+      Future.delayed(
+        const Duration(milliseconds: 500),
+        () {
+          ListData.aiChat
+              .where((element) =>
+                  element.audioUrl != null &&
+                  element.audioUrl!.contains('m4a') &&
+                  element.isSending)
+              .forEach(
+            (message) {
+              File(message.audioUrl!).delete();
+              message.audioUrl =
+                  'https://firebasestorage.googleapis.com/v0/b/weclickk.appspot.com/o/chatAudios%2FZk9ngZprqVVeHegAVuyENA2mQ963_1695579031.m4a?alt=media&token=3e882c90-f672-4733-80a8-0b6e240874f5';
+              message.isSending = false;
+              setState(() {});
+            },
+          );
+        },
+      );
+    } else if (!imagePath.isNullOrEmpty) {
+      //TODO send image message
+    }
+    setState(() {});
   }
 }

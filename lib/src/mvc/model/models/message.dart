@@ -8,6 +8,7 @@ class Message with ChangeNotifier {
   final String? message;
   final ImageProvider<Object>? photo;
   String? photoUrl;
+  String? audioUrl;
   final double? aspectRatio;
   final DateTime createdAt;
   final bool isMine;
@@ -21,6 +22,7 @@ class Message with ChangeNotifier {
     required this.message,
     required this.photo,
     required this.photoUrl,
+    required this.audioUrl,
     required this.aspectRatio,
     required this.createdAt,
     required this.isMine,
@@ -39,6 +41,7 @@ class Message with ChangeNotifier {
           ? CachedNetworkImageProvider(json['photoUrl'])
           : null,
       photoUrl: json['photoUrl'],
+      audioUrl: json['audioUrl'],
       aspectRatio: json['aspectRatio'],
       isMine: json['senderId'] == 'myid',
       isSending: json['isSending'],

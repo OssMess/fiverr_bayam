@@ -143,7 +143,7 @@ class ListData {
       'createdAt': DateTime.now(),
       'photoUrl': null,
       'aspectRatio': null,
-      'isSending': true,
+      'isSending': false,
     },
     {
       'senderId': 'myid',
@@ -153,7 +153,7 @@ class ListData {
       'createdAt': DateTime.now(),
       'photoUrl': null,
       'aspectRatio': null,
-      'isSending': true,
+      'isSending': false,
     },
     {
       'senderId': 'myid',
@@ -164,7 +164,7 @@ class ListData {
       'createdAt': DateTime.now(),
       'photoUrl': null,
       'aspectRatio': null,
-      'isSending': true,
+      'isSending': false,
     },
     {
       'senderId': 'myid',
