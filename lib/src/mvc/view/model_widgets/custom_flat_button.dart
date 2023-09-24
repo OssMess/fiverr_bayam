@@ -26,6 +26,7 @@ class CustomFlatButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkResponse(
+      onTap: onTap,
       child: Container(
         // alignment: Alignment.center,
         padding: EdgeInsets.all(10.sp),

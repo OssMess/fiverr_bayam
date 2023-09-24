@@ -1,5 +1,3 @@
-// TODO: translate
-
 import 'dart:math';
 
 import 'package:country_code_picker/country_code_picker.dart';

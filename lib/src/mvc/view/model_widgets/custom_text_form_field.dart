@@ -36,6 +36,10 @@ class CustomTextFormField extends StatelessWidget {
     this.textInputAction,
     this.onSaved,
     this.height,
+    this.colorBorderOnFocus = true,
+    this.border,
+    this.unfocusOnTapOutside = true,
+    this.fontSize,
   }) : assert(
           ((prefixOnTap == null || prefixIcon != null) &&
               (suffixOnTap == null || suffixIcon != null)),
@@ -70,17 +74,22 @@ class CustomTextFormField extends StatelessWidget {
   final void Function()? onEditingComplete;
   final void Function(String?)? onSaved;
   final double? height;
+  final bool colorBorderOnFocus;
+  final InputBorder? border;
+  final bool unfocusOnTapOutside;
+  final double? fontSize;
 
   @override
   Widget build(BuildContext context) {
-    InputBorder outlineInputBorder = OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10.sp),
-      borderSide: BorderSide(
-        color: fillColor ?? context.textThemeDisplaySmall!.color!,
-      ),
-    );
+    InputBorder outlineInputBorder = border ??
+        OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.sp),
+          borderSide: BorderSide(
+            color: fillColor ?? context.textThemeDisplaySmall!.color!,
+          ),
+        );
     TextStyle style = Styles.poppins(
-      fontSize: 15.sp,
+      fontSize: fontSize ?? 15.sp,
       fontWeight: Styles.medium,
       color: Theme.of(context).textTheme.displayLarge!.color,
       // height: 1.2,
@@ -103,7 +112,8 @@ class CustomTextFormField extends StatelessWidget {
       onEditingComplete: onEditingComplete,
       onSaved: onSaved,
       obscureText: obscureText,
-      onTapOutside: (_) => FocusScope.of(context).unfocus(),
+      onTapOutside:
+          unfocusOnTapOutside ? (_) => FocusScope.of(context).unfocus() : null,
       decoration: InputDecoration(
         labelText: labelText,
         hintText: hintText,
@@ -150,11 +160,13 @@ class CustomTextFormField extends StatelessWidget {
                 // vertical: 12.sp,
               ),
         border: outlineInputBorder,
-        focusedBorder: outlineInputBorder.copyWith(
-          borderSide: const BorderSide(
-            color: Styles.green,
-          ),
-        ),
+        focusedBorder: colorBorderOnFocus
+            ? outlineInputBorder.copyWith(
+                borderSide: const BorderSide(
+                  color: Styles.green,
+                ),
+              )
+            : outlineInputBorder,
         enabledBorder: outlineInputBorder,
         errorBorder: outlineInputBorder.copyWith(
           borderSide: BorderSide(

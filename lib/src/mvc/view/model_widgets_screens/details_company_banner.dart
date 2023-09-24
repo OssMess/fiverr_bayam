@@ -1,5 +1,3 @@
-// TODO: translate
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../extensions.dart';
 import '../model_widgets.dart';
 import '../../../tools.dart';
+import '../screens.dart';
 
 class DetailsCompanyBanner extends StatelessWidget {
   const DetailsCompanyBanner({
@@ -22,6 +21,7 @@ class DetailsCompanyBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomElevatedContainer(
+      onTap: () => context.push(widget: const ProfileCompany()),
       padding: EdgeInsets.all(16.sp),
       child: Row(
         children: [

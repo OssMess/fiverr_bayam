@@ -44,6 +44,7 @@ dependencies:
     git:
       url: https://github.com/OssMess/PersistentBottomNavBar.git
       ref: 592077c
+  emoji_picker_flutter: ^1.6.1
 
 dev_dependencies:
   flutter_test:

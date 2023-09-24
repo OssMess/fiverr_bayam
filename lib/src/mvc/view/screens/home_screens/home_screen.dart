@@ -1,5 +1,3 @@
-// TODO: translate
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -59,12 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
           appBar: AppBar(
             elevation: 0,
             backgroundColor: Colors.transparent,
-            title: Image.asset(
-              'assets/images/logo_transparent.png',
-              fit: BoxFit.contain,
-              alignment: Alignment.center,
-              height: 50,
-            ),
+            title: const CustomAppBarLogo(),
             leading: AppBarActionButton(
               icon: AwesomeIcons.bars_sort,
               onTap: () {},

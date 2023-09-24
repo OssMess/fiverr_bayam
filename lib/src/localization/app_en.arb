@@ -146,6 +146,8 @@
   "nb_likes":"{nb, plural, =1{1 Like} other{{nb} Likes}}",
   "about":"About",
   "company_description":"Company Description",
+  "type_something":"Type something",
+  "no_recents":"No recent Emojis",
 
 
   "@min_caracters":{

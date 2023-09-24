@@ -17,3 +17,4 @@ export 'screens/home_screens/page_4_ai.dart';
 export 'screens/home_screens/page_5_profile.dart';
 export 'screens/profiles/profile_company.dart';
 export 'screens/profiles/profile_person.dart';
+export 'screens/chat_screen.dart';

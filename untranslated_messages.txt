@@ -142,6 +142,8 @@
     "total_employees",
     "nb_likes",
     "about",
-    "company_description"
+    "company_description",
+    "type_something",
+    "no_recents"
   ]
 }
