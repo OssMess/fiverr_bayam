@@ -153,6 +153,15 @@
   "country":"Country",
   "products_and_services":"Products and services",
   "companies":"Companies",
+  "edit_profile":"Edit Profile",
+  "notification_settings":"Notification Settings",
+  "security_settings":"Security Settings",
+  "privacy_policy":"Privacy Policy",
+  "my_favorites":"My Favorites",
+  "language":"Language",
+  "document_id_verification":"Document & Identity Verification",
+  "faq_and_support":"FAQ's & Support",
+  "deactive_account":"Deactive Account",
 
 
   "@min_caracters":{

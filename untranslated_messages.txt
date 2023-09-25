@@ -149,6 +149,15 @@
     "no_recents",
     "country",
     "products_and_services",
-    "companies"
+    "companies",
+    "edit_profile",
+    "notification_settings",
+    "security_settings",
+    "privacy_policy",
+    "my_favorites",
+    "language",
+    "document_id_verification",
+    "faq_and_support",
+    "deactive_account"
   ]
 }

@@ -9,6 +9,7 @@ import '../../../../tools.dart';
 import '../../../model/models.dart';
 import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
+import '../../screens.dart';
 
 class Page5Profile extends StatelessWidget {
   const Page5Profile({
@@ -138,7 +139,7 @@ class Page5Profile extends StatelessWidget {
             child: CustomElevatedListTile(
               icon: AwesomeIcons.gear,
               title: AppLocalizations.of(context)!.settings,
-              onTap: () {},
+              onTap: () => context.push(widget: const Settings()),
             ),
           ),
           16.sliverSp,

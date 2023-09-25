@@ -10,27 +10,35 @@ class CustomElevatedListTile extends StatelessWidget {
     super.key,
     required this.icon,
     required this.title,
+    this.showContainerDecoration = true,
+    this.showTrailing = true,
     required this.onTap,
+    this.padding,
   });
 
   final IconData icon;
   final String title;
+  final bool showContainerDecoration;
+  final bool showTrailing;
+  final EdgeInsetsGeometry? padding;
   final void Function() onTap;
 
   @override
   Widget build(BuildContext context) {
     return CustomElevatedContainer(
       onTap: onTap,
-      padding: EdgeInsets.all(8.sp),
+      padding: padding ?? EdgeInsets.all(8.sp),
       child: Row(
         children: [
           Container(
             alignment: Alignment.center,
             padding: EdgeInsets.all(10.sp),
-            decoration: BoxDecoration(
-              color: Styles.green[50]!,
-              borderRadius: BorderRadius.circular(8.sp),
-            ),
+            decoration: showContainerDecoration
+                ? BoxDecoration(
+                    color: Styles.green[50]!,
+                    borderRadius: BorderRadius.circular(8.sp),
+                  )
+                : null,
             child: Icon(
               icon,
               size: 25.sp,
@@ -43,17 +51,19 @@ class CustomElevatedListTile extends StatelessWidget {
               title,
               style: Styles.poppins(
                 fontSize: 14.sp,
-                fontWeight: Styles.bold,
+                fontWeight: Styles.semiBold,
                 color: context.textTheme.displayLarge!.color,
               ),
             ),
           ),
-          16.widthSp,
-          Icon(
-            Icons.keyboard_arrow_right_rounded,
-            size: 20.sp,
-            color: context.textTheme.headlineMedium!.color,
-          ),
+          if (showTrailing) ...[
+            16.widthSp,
+            Icon(
+              Icons.keyboard_arrow_right_rounded,
+              size: 20.sp,
+              color: context.textTheme.headlineMedium!.color,
+            ),
+          ],
         ],
       ),
     );
