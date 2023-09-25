@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:bayam/src/extensions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -38,7 +41,11 @@ class Message with ChangeNotifier {
       message: json['message'],
       createdAt: json['createdAt'],
       photo: json['photoUrl'] != null
-          ? CachedNetworkImageProvider(json['photoUrl'])
+          ? (json['photoUrl'].startsWith('https://')
+              ? CachedNetworkImageProvider(
+                  json['photoUrl'],
+                )
+              : Image.file(File(json['photoUrl'])).image)
           : null,
       photoUrl: json['photoUrl'],
       audioUrl: json['audioUrl'],
@@ -48,7 +55,11 @@ class Message with ChangeNotifier {
     );
   }
 
-  bool get isText => message != null;
+  bool get isText => message.isNotNull;
 
-  bool get isImage => message == null && photo != null;
+  bool get isNotText => message.isNull;
+
+  bool get isImage => message.isNull && photoUrl.isNotNull;
+
+  bool get isAudio => message.isNull && audioUrl.isNotNull;
 }

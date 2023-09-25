@@ -275,4 +275,17 @@ class Dialogs {
       },
     );
   }
+
+  Future<void> showSingleImageSlideShow(ImageProvider<Object> image) async {
+    await showModalBottomSheet(
+      context: context,
+      builder: (_) => SingleImageSlideshow(
+        image: image,
+      ),
+      backgroundColor: Colors.black,
+      enableDrag: true,
+      isScrollControlled: true,
+      isDismissible: true,
+    );
+  }
 }

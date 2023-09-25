@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:badges/badges.dart' as badge;
 import 'package:bayam/src/extensions.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:voice_message_package/voice_message_package.dart';
@@ -46,49 +49,69 @@ class _MessageTileState extends State<MessageTile> {
           foregroundImage: showAvatar ? widget.message.senderAvatar : null,
         ),
       12.widthSp,
-      Container(
-        constraints: BoxConstraints(
-          maxWidth: 0.65.sw,
-          minWidth: 70.sp,
-        ),
-        padding: !widget.message.audioUrl.isNullOrEmpty
-            ? null
-            : EdgeInsets.symmetric(horizontal: 16.sp, vertical: 12.sp),
-        decoration: BoxDecoration(
-          color: widget.message.isMine
-              ? Styles.green
-              : context.textTheme.headlineSmall!.color,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(12.sp)).add(
-            BorderRadiusDirectional.only(
-              bottomEnd:
-                  widget.message.isMine ? Radius.zero : Radius.circular(12.sp),
-              bottomStart:
-                  !widget.message.isMine ? Radius.zero : Radius.circular(12.sp),
-            ),
+      ClipRRect(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(12.sp)).add(
+          BorderRadiusDirectional.only(
+            bottomEnd:
+                widget.message.isMine ? Radius.zero : Radius.circular(12.sp),
+            bottomStart:
+                !widget.message.isMine ? Radius.zero : Radius.circular(12.sp),
           ),
         ),
-        child: Builder(builder: (context) {
-          if (!widget.message.audioUrl.isNullOrEmpty) {
-            return VoiceMessage(
-              audioSrc: widget.message.audioUrl!,
-              played: false, //TODO seen
-              me: true,
-              onPlay: () {},
-              meBgColor: Styles.green,
-              meFgColor: Colors.white,
-            );
-          }
-          return Text(
-            widget.message.message!,
-            style: Styles.poppins(
-              color: widget.message.isMine
-                  ? Colors.white
-                  : context.textTheme.displayMedium!.color,
-              fontSize: 14.sp,
-              fontWeight: Styles.medium,
-            ),
-          );
-        }),
+        child: Container(
+          constraints: BoxConstraints(
+            maxWidth: 0.65.sw,
+            minWidth: 70.sp,
+          ),
+          padding: widget.message.isText
+              ? EdgeInsets.symmetric(horizontal: 16.sp, vertical: 12.sp)
+              : null,
+          decoration: BoxDecoration(
+            color: widget.message.isMine
+                ? Styles.green
+                : context.textTheme.headlineSmall!.color,
+          ),
+          child: Builder(
+            builder: (context) {
+              if (widget.message.isAudio) {
+                return VoiceMessage(
+                  audioSrc: widget.message.audioUrl!,
+                  played: false, //TODO seen
+                  me: true,
+                  onPlay: () {},
+                  meBgColor: Styles.green,
+                  meFgColor: Colors.white,
+                );
+              }
+              if (widget.message.isImage) {
+                return InkResponse(
+                  onTap: () => Dialogs.of(context)
+                      .showSingleImageSlideShow(widget.message.photo!),
+                  child: AspectRatio(
+                    aspectRatio: widget.message.aspectRatio!,
+                    child: Image(
+                      image: widget.message.photoUrl!.startsWith('https://')
+                          ? CachedNetworkImageProvider(
+                              widget.message.photoUrl!,
+                            )
+                          : Image.file(File(widget.message.photoUrl!)).image,
+                    ),
+                  ),
+                );
+              }
+              return Text(
+                widget.message.message!,
+                style: Styles.poppins(
+                  color: widget.message.isMine
+                      ? Colors.white
+                      : context.textTheme.displayMedium!.color,
+                  fontSize: 16.sp,
+                  fontWeight: Styles.medium,
+                ),
+              );
+            },
+          ),
+        ),
       ),
       widget.message.isMine ? 0.widthSp : 60.widthSp,
     ];

@@ -44,6 +44,9 @@ extension StringNullableExtension on String? {
   /// return `true` if `String` is null
   bool get isNull => this == null;
 
+  /// return `true` if `String` is not null
+  bool get isNotNull => this != null;
+
   /// return `true` if `String` is null or empty, after trimming String
   bool get isNullOrEmpty => (this ?? '').trim().isEmpty;
 }

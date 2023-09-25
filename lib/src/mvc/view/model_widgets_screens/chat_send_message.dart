@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:math';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path_provider/path_provider.dart';
@@ -123,9 +124,7 @@ class _ChatSendMessageState extends State<ChatSendMessage> {
                     ],
                     if (!isRecording) ...[
                       IconButton(
-                        onPressed: () {
-                          hideEmojiKeyboard();
-                        },
+                        onPressed: sendImage,
                         visualDensity: VisualDensity.compact,
                         icon: Icon(
                           AwesomeIcons.square_plus,
@@ -292,6 +291,38 @@ class _ChatSendMessageState extends State<ChatSendMessage> {
     }
   }
 
+  Future<void> sendText() async {
+    if (_controller.text.isEmpty) return;
+    hideEmojiKeyboard();
+    widget.onSendMessage(
+      _controller.text,
+      null,
+      null,
+    );
+    _controller.text = '';
+  }
+
+  Future<void> sendImage() async {
+    hideEmojiKeyboard();
+    ImagePicker()
+        .pickImage(
+      source: ImageSource.gallery,
+      maxHeight: 1080,
+      maxWidth: 1080,
+      imageQuality: 80,
+    )
+        .then(
+      (xfile) {
+        if (xfile == null) return;
+        widget.onSendMessage(
+          null,
+          null,
+          xfile.path,
+        );
+      },
+    );
+  }
+
   Future<void> sendMessage() async {
     if (isRecording.value) {
       sendRecording();
@@ -304,17 +335,6 @@ class _ChatSendMessageState extends State<ChatSendMessage> {
       );
       _controller.text = '';
     }
-  }
-
-  Future<void> sendText() async {
-    if (_controller.text.isEmpty) return;
-    hideEmojiKeyboard();
-    widget.onSendMessage(
-      _controller.text,
-      null,
-      null,
-    );
-    _controller.text = '';
   }
 }
 

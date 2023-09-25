@@ -123,7 +123,7 @@ class _ChatScreenState extends State<ChatScreen> {
               color: Colors.white,
               size: 20.sp,
             ),
-            onPressed: context.pop,
+            onPressed: () {},
           ),
           AppBarActionButton(
             icon: AwesomeIcons.magnifying_glass,
@@ -234,7 +234,43 @@ class _ChatScreenState extends State<ChatScreen> {
       );
     } else if (!imagePath.isNullOrEmpty) {
       //TODO send image message
+      double? aspectRatio = await getImageAspectRatioFromPath(imagePath!);
+      ListData.aiChat.insert(
+        0,
+        Message.fromJson(
+          {
+            'senderId': 'myid',
+            'senderAvatarUrl':
+                'https://i.pinimg.com/1200x/a1/1e/2a/a11e2a9d5803e4dc2c034819ce12a16e.jpg',
+            'message': null,
+            'createdAt': DateTime.now(),
+            'photoUrl': imagePath,
+            'aspectRatio': aspectRatio,
+            'audioUrl': null,
+            'isSending': true,
+          },
+        ),
+      );
+      Future.delayed(
+        const Duration(milliseconds: 500),
+        () {
+          ListData.aiChat.where((element) => element.isSending).forEach(
+            (message) {
+              message.isSending = false;
+              setState(() {});
+            },
+          );
+        },
+      );
     }
     setState(() {});
+  }
+
+  Future<double> getImageAspectRatioFromPath(String imagePath) async {
+    File image = File(imagePath);
+    var decodedImage = await decodeImageFromList(image.readAsBytesSync());
+    Size size =
+        Size(decodedImage.width.toDouble(), decodedImage.height.toDouble());
+    return size.aspectRatio;
   }
 }
