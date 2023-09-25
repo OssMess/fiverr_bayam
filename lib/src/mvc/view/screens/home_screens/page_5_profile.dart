@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../../tools.dart';
 import '../../../model/models.dart';
@@ -116,6 +117,10 @@ class Page5Profile extends StatelessWidget {
                   iconSize: 30.sp,
                   addBorder: true,
                   color: context.scaffoldBackgroundColor,
+                  onTap: () => Share.share(
+                    'Share example, what to write here will be changed later',
+                    subject: 'Title share',
+                  ),
                 ),
               ],
             ),

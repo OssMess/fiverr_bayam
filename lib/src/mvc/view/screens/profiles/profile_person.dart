@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:badges/badges.dart' as badge;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../../extensions.dart';
 import '../../../model/enums.dart';
@@ -166,6 +167,10 @@ class ProfilePerson extends StatelessWidget {
                           iconSize: 30.sp,
                           addBorder: true,
                           color: context.scaffoldBackgroundColor,
+                          onTap: () => Share.share(
+                            'Share example, what to write here will be changed later',
+                            subject: 'Title share',
+                          ),
                         ),
                       ],
                     ),

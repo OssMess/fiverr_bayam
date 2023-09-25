@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../extensions.dart';
 import '../model_widgets.dart';
@@ -211,6 +212,10 @@ class DetailsDescriptionBanner extends StatelessWidget {
                 iconColor: Styles.green,
                 color: context.scaffoldBackgroundColor,
                 addBorder: true,
+                onTap: () => Share.share(
+                  'Share example, what to write here will be changed later',
+                  subject: 'Title share',
+                ),
               ),
             ],
           ),
