@@ -133,6 +133,8 @@
     "phytosnitary_subtitle",
     "local_food_products",
     "local_food_products_subtitle",
+    "rental_storage_facilities",
+    "rental_storage_facilities_subtitle",
     "top_rated",
     "climate_eco",
     "technology",
@@ -144,6 +146,9 @@
     "about",
     "company_description",
     "type_something",
-    "no_recents"
+    "no_recents",
+    "country",
+    "products_and_services",
+    "companies"
   ]
 }

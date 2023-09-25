@@ -121,4 +121,16 @@ class AwesomeIcons {
       IconData(0xe82f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData bars_sort =
       IconData(0xe830, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData phytosnitary =
+      IconData(0xe831, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData agriculture =
+      IconData(0xe832, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData fishing =
+      IconData(0xe833, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData food =
+      IconData(0xe834, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData livestock =
+      IconData(0xe835, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData rental =
+      IconData(0xe836, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

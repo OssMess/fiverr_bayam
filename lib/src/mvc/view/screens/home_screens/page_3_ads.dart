@@ -8,6 +8,7 @@ import '../../../model/list_models.dart';
 import '../../../model/models.dart';
 import '../../model_widgets.dart';
 import '../../model_widgets_screens.dart';
+import '../../screens.dart';
 import '../../tiles.dart';
 
 class Page3Ads extends StatefulWidget {
@@ -36,38 +37,41 @@ class _Page3AdsState extends State<Page3Ads> {
               MainSearchTextFormField(
                 notifierViewMode: notifierViewMode,
               ),
-              Expanded(
-                child: CustomRefreshIndicator(
-                  onRefresh: () async {
-                    await Future.delayed(const Duration(seconds: 1));
-                  },
-                  child: CustomScrollView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    slivers: [
-                      16.sliverSp,
-                      SliverHeaderTile(
-                        title: AppLocalizations.of(context)!.ads,
-                        trailing:
-                            '${AppLocalizations.of(context)!.nb_results(43)} >',
-                        onTapTrailing: () {},
-                      ),
-                      16.sliverSp,
-                      SliverPadding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.sp),
-                        sliver: SliverList.separated(
-                          itemCount: ListData.ads.length,
-                          separatorBuilder: (context, index) => 12.heightSp,
-                          itemBuilder: (context, index) => AdTile(
-                            ad: ListData.ads[index],
-                            expanded: true,
+              if (notifierViewMode.isNotInPageNormal)
+                SearchScreen(notifierViewMode: notifierViewMode),
+              if (notifierViewMode.isInPageNormal)
+                Expanded(
+                  child: CustomRefreshIndicator(
+                    onRefresh: () async {
+                      await Future.delayed(const Duration(seconds: 1));
+                    },
+                    child: CustomScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      slivers: [
+                        16.sliverSp,
+                        SliverHeaderTile(
+                          title: AppLocalizations.of(context)!.ads,
+                          trailing:
+                              '${AppLocalizations.of(context)!.nb_results(43)} >',
+                          onTapTrailing: () {},
+                        ),
+                        16.sliverSp,
+                        SliverPadding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.sp),
+                          sliver: SliverList.separated(
+                            itemCount: ListData.ads.length,
+                            separatorBuilder: (context, index) => 12.heightSp,
+                            itemBuilder: (context, index) => AdTile(
+                              ad: ListData.ads[index],
+                              expanded: true,
+                            ),
                           ),
                         ),
-                      ),
-                      (context.viewPadding.bottom + 20.sp).sliver,
-                    ],
+                        (context.viewPadding.bottom + 20.sp).sliver,
+                      ],
+                    ),
                   ),
                 ),
-              ),
             ],
           );
         });

@@ -31,6 +31,7 @@ class CustomTextFormField extends StatelessWidget {
     this.validator,
     this.prefixOnTap,
     this.suffixOnTap,
+    this.suffix,
     this.onChanged,
     this.onEditingComplete,
     this.textInputAction,
@@ -53,6 +54,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextEditingController? controller;
   final IconData? prefixIcon;
   final IconData? suffixIcon;
+  final Widget? suffix;
   final void Function()? onTap;
   final bool readOnly;
   final bool enabled;
@@ -178,20 +180,22 @@ class CustomTextFormField extends StatelessWidget {
             color: context.textThemeDisplaySmall!.color!,
           ),
         ),
-        suffixIcon: suffixIcon != null
-            ? InkResponse(
-                onTap: suffixOnTap,
-                child: Padding(
-                  padding: EdgeInsets.all(12.sp),
-                  child: Icon(
-                    suffixIcon,
-                    size: 18.sp,
-                    color:
-                        prefixColor ?? context.textThemeDisplayMedium!.color!,
-                  ),
-                ),
-              )
-            : null,
+        // suffix: suffix,
+        suffixIcon: suffix ??
+            (suffixIcon != null
+                ? InkResponse(
+                    onTap: suffixOnTap,
+                    child: Padding(
+                      padding: EdgeInsets.all(12.sp),
+                      child: Icon(
+                        suffixIcon,
+                        size: 18.sp,
+                        color: prefixColor ??
+                            context.textThemeDisplayMedium!.color!,
+                      ),
+                    ),
+                  )
+                : null),
         prefixIcon: prefixIcon != null
             ? InkResponse(
                 onTap: prefixOnTap,

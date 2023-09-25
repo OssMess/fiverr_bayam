@@ -9,13 +9,15 @@ import '../model_widgets.dart';
 import '../screens.dart';
 import '../tiles_models.dart';
 
-class CompanyPopularTile extends StatelessWidget {
-  const CompanyPopularTile({
+class CompanyTile extends StatelessWidget {
+  const CompanyTile({
     super.key,
     required this.company,
+    this.isExpanded = false,
   });
 
   final Company company;
+  final bool isExpanded;
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +27,11 @@ class CompanyPopularTile extends StatelessWidget {
           company: company,
         ),
       ),
-      width: 185.sp,
+      width: isExpanded ? double.infinity : 185.sp,
+      height: isExpanded ? 200.sp : null,
       child: Column(
         children: [
-          ConstrainedBox(
-            constraints: BoxConstraints.expand(
-              height: 90.sp,
-            ),
+          Expanded(
             child: CachedNetworkImage(
               imageUrl: company.coverUrl,
               fit: BoxFit.cover,
@@ -65,15 +65,16 @@ class CompanyPopularTile extends StatelessWidget {
               ),
             ),
           ),
-          const Spacer(),
-          CompanyHeaderTile(
-            logoUrl: company.logoUrl,
-            name: company.name,
-            isVerified: company.isVerified,
-            sizeOffset: 2.sp,
-            padding: EdgeInsetsDirectional.only(start: 12.sp),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 10.sp),
+            child: CompanyHeaderTile(
+              logoUrl: company.logoUrl,
+              name: company.name,
+              isVerified: company.isVerified,
+              sizeOffset: 2.sp,
+              padding: EdgeInsetsDirectional.only(start: 12.sp),
+            ),
           ),
-          const Spacer(),
         ],
       ),
     );

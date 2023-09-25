@@ -10,13 +10,17 @@ class NotifierViewMode extends ValueNotifier<ViewPage> {
     SearchTab searchTab = SearchTab.products,
   }) : super(viewPage);
 
-  bool get isInPageNormal => value == ViewPage.normal;
-
   bool get isNotInPageNormal => value != ViewPage.normal;
+
+  bool get isInPageNormal => value == ViewPage.normal;
 
   bool get isInPageSuggestions => value == ViewPage.suggestions;
 
+  bool get isNotInPageSuggestions => value != ViewPage.suggestions;
+
   bool get isInPageResults => value == ViewPage.results;
+
+  bool get isInPageSearch => value == ViewPage.search;
 
   bool get isInTabProducts => searchTab == SearchTab.products;
 

@@ -7,3 +7,4 @@ export 'enums/lottie_animation.dart';
 export 'enums/appbar_background_type.dart';
 export 'enums/view_page.dart';
 export 'enums/search_tab.dart';
+export 'enums/category.dart';

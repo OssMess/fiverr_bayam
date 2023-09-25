@@ -8,6 +8,7 @@ import '../../../model/list_models.dart';
 import '../../../model/models.dart';
 import '../../model_widgets.dart';
 import '../../model_widgets_screens.dart';
+import '../../screens.dart';
 import '../../tiles.dart';
 
 class Page1Home extends StatefulWidget {
@@ -34,6 +35,8 @@ class _Page1HomeState extends State<Page1Home> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               MainSearchTextFormField(notifierViewMode: notifierViewMode),
+              if (notifierViewMode.isNotInPageNormal)
+                SearchScreen(notifierViewMode: notifierViewMode),
               if (notifierViewMode.isInPageNormal)
                 Expanded(
                   child: CustomRefreshIndicator(
@@ -62,8 +65,7 @@ class _Page1HomeState extends State<Page1Home> {
                                 vertical: 12.sp,
                               ),
                               itemCount: ListData.popularCompanies.length,
-                              itemBuilder: (context, index) =>
-                                  CompanyPopularTile(
+                              itemBuilder: (context, index) => CompanyTile(
                                 company: ListData.popularCompanies[index],
                               ),
                               separatorBuilder: (context, index) => 12.widthSp,

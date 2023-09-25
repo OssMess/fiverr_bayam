@@ -1,5 +1,6 @@
 import '../enums.dart';
 import '../models.dart';
+import '../models_ui.dart';
 
 class ListData {
   static final List<Map<String, dynamic>> data = [
@@ -217,4 +218,19 @@ class ListData {
       'isSending': false,
     },
   ].map(Message.fromJson).toList();
+
+  static List<SearchHistory> searchHistory = [
+    {
+      'category': Category.agriculture,
+      'companyName': 'Samak',
+      'companyPhotoUrl':
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDLL2FyAeYaShg5h1YrW3gEyDHDCUb5o2_lw&usqp=CAU',
+    },
+    {
+      'category': Category.fishing,
+      'companyName': 'Agriland',
+      'companyPhotoUrl':
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsXVt1xzsYvk-qV28jaF26jiNfm8bpuv-T8Q&usqp=CAU',
+    },
+  ].map(SearchHistory.fromJson).toList();
 }

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../settings/settings_controller.dart';
 import '../../tools.dart';
 import '../model/models.dart';
+import '../model/models_ui.dart';
 import '../view/screens.dart';
 
 /// This class is responsable for data flow down the widget tree as well as managing which widget is displayed including:
@@ -49,6 +50,7 @@ class _AuthWrapperState extends State<AuthWrapper> {
       if (!context.mounted) return;
       precacheImages(context);
       Paddings.init(context);
+      Categories.init(context);
       Future.delayed(
         const Duration(seconds: 2),
         () {

@@ -136,6 +136,8 @@
   "phytosnitary_subtitle":"Phytosnitary products.",
   "local_food_products":"Local Food Products",
   "local_food_products_subtitle":"Transportation for local food products.",
+  "rental_storage_facilities":"Rental of Storage Facilities.",
+  "rental_storage_facilities_subtitle":"Reting warehouses, cold rooms.",
   "top_rated":"Top Rated",
   "climate_eco":"Climate/Eco-Friendly",
   "technology":"Technology",
@@ -148,6 +150,9 @@
   "company_description":"Company Description",
   "type_something":"Type something",
   "no_recents":"No recent Emojis",
+  "country":"Country",
+  "products_and_services":"Products and services",
+  "companies":"Companies",
 
 
   "@min_caracters":{

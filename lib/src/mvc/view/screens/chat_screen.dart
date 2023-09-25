@@ -168,7 +168,6 @@ class _ChatScreenState extends State<ChatScreen> {
       return;
     }
     if (!msg.isNullOrEmpty) {
-      //TODO send text message
       ListData.aiChat.insert(
         0,
         Message.fromJson(
@@ -196,7 +195,6 @@ class _ChatScreenState extends State<ChatScreen> {
         },
       );
     } else if (!audioPath.isNullOrEmpty) {
-      //TODO send audio message
       ListData.aiChat.insert(
         0,
         Message.fromJson(
@@ -233,7 +231,6 @@ class _ChatScreenState extends State<ChatScreen> {
         },
       );
     } else if (!imagePath.isNullOrEmpty) {
-      //TODO send image message
       double? aspectRatio = await getImageAspectRatioFromPath(imagePath!);
       ListData.aiChat.insert(
         0,

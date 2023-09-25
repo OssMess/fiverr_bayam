@@ -13,7 +13,7 @@ class AdTile extends StatelessWidget {
   const AdTile({
     super.key,
     required this.ad,
-    required this.expanded,
+    this.expanded = false,
   });
 
   final Ad ad;
