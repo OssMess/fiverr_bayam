@@ -56,6 +56,7 @@ class CompanyHeaderTile extends StatelessWidget {
               fontSize: 14.sp - sizeOffset,
               fontWeight: Styles.semiBold,
               color: context.textTheme.displayLarge!.color,
+              height: 1.2,
             ),
           ),
           4.widthSp,

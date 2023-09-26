@@ -55,6 +55,7 @@ class DetailsCompanyBanner extends StatelessWidget {
                     fontSize: 13.sp,
                     fontWeight: Styles.regular,
                     color: context.textTheme.displayMedium!.color,
+                    height: 1.2,
                   ),
                 ),
                 Text(
@@ -64,6 +65,7 @@ class DetailsCompanyBanner extends StatelessWidget {
                     fontSize: 16.sp,
                     fontWeight: Styles.semiBold,
                     color: context.textTheme.displayLarge!.color,
+                    height: 1.2,
                   ),
                 ),
               ],

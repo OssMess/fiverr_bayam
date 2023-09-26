@@ -31,7 +31,7 @@ class DetailsCreatorBanner extends StatelessWidget {
           Text(
             AppLocalizations.of(context)!.creator_information,
             style: Styles.poppins(
-              fontSize: 12.sp,
+              fontSize: 16.sp,
               fontWeight: Styles.semiBold,
               color: context.textTheme.displayLarge!.color,
             ),
@@ -60,6 +60,7 @@ class DetailsCreatorBanner extends StatelessWidget {
                             fontSize: 14.sp,
                             fontWeight: Styles.semiBold,
                             color: context.textTheme.displayLarge!.color,
+                            height: 1.2,
                           ),
                         ),
                         8.widthSp,
@@ -73,9 +74,10 @@ class DetailsCreatorBanner extends StatelessWidget {
                     Text(
                       service,
                       style: Styles.poppins(
-                        fontSize: 11.sp,
+                        fontSize: 12.sp,
                         fontWeight: Styles.regular,
                         color: context.textTheme.displayMedium!.color,
+                        height: 1.2,
                       ),
                     ),
                   ],
@@ -85,11 +87,15 @@ class DetailsCreatorBanner extends StatelessWidget {
               CustomFlatButton(
                 icon: AwesomeIcons.thumbs_up,
                 iconColor: context.textTheme.headlineMedium!.color,
+                onTap: () {},
               ),
               16.widthSp,
-              const CustomFlatButton(
+              CustomFlatButton(
                 icon: AwesomeIcons.flag_pennant,
                 iconColor: Styles.red,
+                onTap: () {
+                  //TODO implement report
+                },
               ),
             ],
           ),

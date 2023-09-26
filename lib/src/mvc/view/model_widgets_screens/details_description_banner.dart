@@ -38,7 +38,7 @@ class DetailsDescriptionBanner extends StatelessWidget {
           Text(
             AppLocalizations.of(context)!.description,
             style: Styles.poppins(
-              fontSize: 12.sp,
+              fontSize: 16.sp,
               fontWeight: Styles.semiBold,
               color: context.textTheme.displayLarge!.color,
             ),
@@ -47,7 +47,7 @@ class DetailsDescriptionBanner extends StatelessWidget {
           Text(
             description,
             style: Styles.poppins(
-              fontSize: 11.sp,
+              fontSize: 14.sp,
               fontWeight: Styles.medium,
               color: context.textTheme.displayLarge!.color,
             ),
@@ -55,64 +55,22 @@ class DetailsDescriptionBanner extends StatelessWidget {
           CustomDivider(
             height: 24.sp,
           ),
-          Row(
-            children: [
-              Icon(
-                AwesomeIcons.location_dot_outlined,
-                size: 18.sp,
-                color: Styles.green,
-              ),
-              8.widthSp,
-              Text(
-                address,
-                style: Styles.poppins(
-                  fontSize: 11.sp,
-                  fontWeight: Styles.semiBold,
-                  color: context.textTheme.displayLarge!.color,
-                ),
-              ),
-            ],
+          DescriptionInfoTile(
+            icon: AwesomeIcons.location_dot_outlined,
+            label: address,
           ),
           if (website != null) ...[
             8.heightSp,
-            Row(
-              children: [
-                Icon(
-                  Icons.link,
-                  size: 18.sp,
-                  color: Styles.green,
-                ),
-                16.widthSp,
-                Text(
-                  website!,
-                  style: Styles.poppins(
-                    fontSize: 11.sp,
-                    fontWeight: Styles.semiBold,
-                    color: context.textTheme.displayLarge!.color,
-                  ),
-                ),
-              ],
+            DescriptionInfoTile(
+              icon: Icons.link,
+              label: website!,
             ),
           ],
           if (date != null) ...[
             8.heightSp,
-            Row(
-              children: [
-                Icon(
-                  AwesomeIcons.calendar_clock_outlined,
-                  size: 18.sp,
-                  color: Styles.green,
-                ),
-                16.widthSp,
-                Text(
-                  date!,
-                  style: Styles.poppins(
-                    fontSize: 11.sp,
-                    fontWeight: Styles.semiBold,
-                    color: context.textTheme.displayLarge!.color,
-                  ),
-                ),
-              ],
+            DescriptionInfoTile(
+              icon: AwesomeIcons.calendar_clock_outlined,
+              label: date!,
             ),
           ],
           CustomDivider(
@@ -163,7 +121,7 @@ class DetailsDescriptionBanner extends StatelessWidget {
                       Text(
                         AppLocalizations.of(context)!.total_employees,
                         style: Styles.poppins(
-                          fontSize: 12.sp,
+                          fontSize: 13.sp,
                           fontWeight: Styles.regular,
                           color: context.textTheme.displayMedium!.color,
                         ),
@@ -202,9 +160,12 @@ class DetailsDescriptionBanner extends StatelessWidget {
                 ),
               ),
               16.widthSp,
-              const CustomFlatButton(
+              CustomFlatButton(
                 icon: AwesomeIcons.flag_pennant,
                 iconColor: Styles.red,
+                onTap: () {
+                  //TODO implement report
+                },
               ),
               16.widthSp,
               CustomFlatButton(
@@ -221,6 +182,39 @@ class DetailsDescriptionBanner extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class DescriptionInfoTile extends StatelessWidget {
+  const DescriptionInfoTile({
+    super.key,
+    required this.icon,
+    required this.label,
+  });
+
+  final IconData icon;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(
+          icon,
+          size: 18.sp,
+          color: Styles.green,
+        ),
+        8.widthSp,
+        Text(
+          label,
+          style: Styles.poppins(
+            fontSize: 14.sp,
+            fontWeight: Styles.semiBold,
+            color: context.textTheme.displayLarge!.color,
+          ),
+        ),
+      ],
     );
   }
 }
