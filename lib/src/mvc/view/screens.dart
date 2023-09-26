@@ -19,4 +19,5 @@ export 'screens/home_screens/page_5_profile.dart';
 export 'screens/home_screens/search_screen.dart';
 export 'screens/profiles/profile_company.dart';
 export 'screens/profiles/profile_person.dart';
-export 'screens/profiles/settings.dart';
+export 'screens/settings/settings_screen.dart';
+export 'screens/settings/edit_profile.dart';

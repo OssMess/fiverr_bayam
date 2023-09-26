@@ -158,6 +158,14 @@
     "language",
     "document_id_verification",
     "faq_and_support",
-    "deactive_account"
+    "deactive_account",
+    "full_name",
+    "full_name_hint",
+    "email",
+    "email_hint",
+    "date_of_birth",
+    "date_of_birth_hint",
+    "edit_profile_sucess_subtitle",
+    "save"
   ]
 }

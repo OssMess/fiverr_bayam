@@ -139,7 +139,7 @@ class Page5Profile extends StatelessWidget {
             child: CustomElevatedListTile(
               icon: AwesomeIcons.gear,
               title: AppLocalizations.of(context)!.settings,
-              onTap: () => context.push(widget: const Settings()),
+              onTap: () => context.push(widget: const SettingsScreen()),
             ),
           ),
           16.sliverSp,

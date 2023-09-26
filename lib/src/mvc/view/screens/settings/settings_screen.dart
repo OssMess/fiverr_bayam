@@ -6,9 +6,10 @@ import '../../../../extensions.dart';
 import '../../../model/enums.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
+import '../../screens.dart';
 
-class Settings extends StatelessWidget {
-  const Settings({
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({
     super.key,
   });
 
@@ -38,7 +39,7 @@ class Settings extends StatelessWidget {
                       showContainerDecoration: false,
                       showTrailing: false,
                       padding: EdgeInsets.all(12.sp),
-                      onTap: () {},
+                      onTap: () => context.push(widget: const EditProfile()),
                     ),
                     16.heightSp,
                     CustomElevatedListTile(

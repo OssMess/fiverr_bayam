@@ -162,6 +162,14 @@
   "document_id_verification":"Document & Identity Verification",
   "faq_and_support":"FAQ's & Support",
   "deactive_account":"Deactive Account",
+  "full_name":"Full name",
+  "full_name_hint":"Enter your full name",
+  "email":"Email",
+  "email_hint":"Enter your email",
+  "date_of_birth":"Date of birth",
+  "date_of_birth_hint":"Enter your date of birth",
+  "edit_profile_sucess_subtitle":"Your information has been saved!",
+  "save":"Save",
 
 
   "@min_caracters":{
