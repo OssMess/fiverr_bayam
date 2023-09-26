@@ -38,6 +38,8 @@ class DateTimeUtils {
 
   String getLanguageCode() => Localizations.localeOf(context).languageCode;
 
+  String get languageCode => Localizations.localeOf(context).languageCode;
+
   ///Takes [date] to format the input into a date and time value.
   /// -  if [showYear] is false, format as `ABBR_MONTH_DAY` or `MMMd` (e.g. Jul 22).
   /// -  if [date] is in the same year, format as `ABBR_MONTH_DAY` or `MMMd` (e.g. Jul 22).

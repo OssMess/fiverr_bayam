@@ -172,6 +172,9 @@
   "save":"Save",
   "email_notifications":"Email Notifications",
   "app_notifications":"App Notifications",
+  "search_for_something":"Search for something",
+  "bayam_privacy_policy":"Bayam's Privacy Policy",
+  "last_update":"Last update: {date}",
 
 
   "@min_caracters":{
@@ -228,6 +231,13 @@
     "placeholders":{
       "nb":{
         "type":"int"
+      }
+    }
+  },
+  "@last_update":{
+    "placeholders":{
+      "date":{
+        "type":"String"
       }
     }
   }

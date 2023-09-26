@@ -168,6 +168,9 @@
     "edit_profile_sucess_subtitle",
     "save",
     "email_notifications",
-    "app_notifications"
+    "app_notifications",
+    "search_for_something",
+    "bayam_privacy_policy",
+    "last_update"
   ]
 }
