@@ -12,6 +12,7 @@ class CustomFlatButton extends StatelessWidget {
     this.addBorder = false,
     this.iconColor,
     this.iconSize,
+    this.padding,
     this.onTap,
   }) : assert(icon != null || child != null);
 
@@ -21,6 +22,7 @@ class CustomFlatButton extends StatelessWidget {
   final Color? color;
   final bool addBorder;
   final Color? iconColor;
+  final EdgeInsetsGeometry? padding;
   final void Function()? onTap;
 
   @override
@@ -28,8 +30,7 @@ class CustomFlatButton extends StatelessWidget {
     return InkResponse(
       onTap: onTap,
       child: Container(
-        // alignment: Alignment.center,
-        padding: EdgeInsets.all(10.sp),
+        padding: padding ?? EdgeInsets.all(10.sp),
         decoration: BoxDecoration(
           color: color ?? context.textTheme.headlineSmall!.color,
           border: addBorder

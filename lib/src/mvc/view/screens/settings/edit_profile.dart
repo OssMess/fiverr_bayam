@@ -111,6 +111,7 @@ class _EditProfileState extends State<EditProfile> {
                         validator: Validators.validateNotNull,
                         onTap: () => pickDate(dateController, borthDate),
                       ),
+                      (context.viewPadding.bottom + 20.sp).height,
                     ],
                   ),
                 ),

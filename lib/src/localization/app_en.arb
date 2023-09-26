@@ -170,6 +170,8 @@
   "date_of_birth_hint":"Enter your date of birth",
   "edit_profile_sucess_subtitle":"Your information has been saved!",
   "save":"Save",
+  "email_notifications":"Email Notifications",
+  "app_notifications":"App Notifications",
 
 
   "@min_caracters":{

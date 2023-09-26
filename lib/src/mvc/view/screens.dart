@@ -21,3 +21,4 @@ export 'screens/profiles/profile_company.dart';
 export 'screens/profiles/profile_person.dart';
 export 'screens/settings/settings_screen.dart';
 export 'screens/settings/edit_profile.dart';
+export 'screens/settings/notification_settings.dart';

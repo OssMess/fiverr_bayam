@@ -51,6 +51,7 @@ dependencies:
     git:
       url: https://github.com/OssMess/voice_message_player.git
       ref: 6cd1744
+  flutter_switch: ^0.3.2
 
 dev_dependencies:
   flutter_test:

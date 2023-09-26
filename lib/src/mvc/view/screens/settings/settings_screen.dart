@@ -49,7 +49,8 @@ class SettingsScreen extends StatelessWidget {
                       showContainerDecoration: false,
                       showTrailing: false,
                       padding: EdgeInsets.all(12.sp),
-                      onTap: () {},
+                      onTap: () =>
+                          context.push(widget: const NotificationSettings()),
                     ),
                     16.heightSp,
                     CustomElevatedListTile(
