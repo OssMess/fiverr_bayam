@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../tools.dart';
 import '../../../extensions.dart';
 
-class NewTextFormField extends StatefulWidget {
-  const NewTextFormField({
+class CustomTextFormFieldBounded extends StatefulWidget {
+  const CustomTextFormFieldBounded({
     super.key,
     required this.labelText,
     required this.hintText,
@@ -45,10 +45,12 @@ class NewTextFormField extends StatefulWidget {
   final void Function()? onTap;
 
   @override
-  State<NewTextFormField> createState() => _NewTextFormFieldState();
+  State<CustomTextFormFieldBounded> createState() =>
+      _CustomTextFormFieldBoundedState();
 }
 
-class _NewTextFormFieldState extends State<NewTextFormField> {
+class _CustomTextFormFieldBoundedState
+    extends State<CustomTextFormFieldBounded> {
   final FocusNode focusNode = FocusNode();
   String? error;
 

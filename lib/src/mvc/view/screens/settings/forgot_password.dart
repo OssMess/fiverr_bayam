@@ -67,7 +67,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         ),
                       ),
                       16.heightSp,
-                      EditProfileTextFormField(
+                      CustomTextFormFieldLabel(
                         initialValue: null,
                         labelText: AppLocalizations.of(context)!.email,
                         hintText: AppLocalizations.of(context)!.email_hint,

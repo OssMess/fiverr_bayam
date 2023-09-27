@@ -208,7 +208,7 @@ class _SignInState extends State<SignIn> {
                         ),
                       ),
                       32.heightSp,
-                      NewTextFormField(
+                      CustomTextFormFieldBounded(
                         labelText: AppLocalizations.of(context)!.phone_number,
                         hintText:
                             AppLocalizations.of(context)!.phone_number_hint,

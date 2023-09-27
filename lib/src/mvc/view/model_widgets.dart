@@ -15,4 +15,5 @@ export 'model_widgets/custom_flat_button.dart';
 export 'model_widgets/custom_main_sliver_header.dart';
 export 'model_widgets/custom_elevated_list_tile.dart';
 export 'model_widgets/custom_appbar_logo.dart';
-export 'model_widgets/new_text_form_field.dart';
+export 'model_widgets/custom_text_form_field_bounded.dart';
+export 'model_widgets/custom_text_form_field_label.dart';

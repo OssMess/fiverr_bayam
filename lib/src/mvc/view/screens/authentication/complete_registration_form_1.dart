@@ -86,7 +86,7 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       if (isCustomer) ...[
-                        NewTextFormField(
+                        CustomTextFormFieldBounded(
                           labelText:
                               AppLocalizations.of(context)!.first_name_id_label,
                           hintText:
@@ -99,7 +99,7 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
                           textInputAction: TextInputAction.next,
                         ),
                         16.heightSp,
-                        NewTextFormField(
+                        CustomTextFormFieldBounded(
                           labelText:
                               AppLocalizations.of(context)!.last_name_id_label,
                           hintText:
@@ -112,7 +112,7 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
                           textInputAction: TextInputAction.next,
                         ),
                         16.heightSp,
-                        NewTextFormField(
+                        CustomTextFormFieldBounded(
                           labelText:
                               AppLocalizations.of(context)!.reg_num_label,
                           hintText: AppLocalizations.of(context)!.reg_num_hint,
@@ -123,7 +123,7 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
                           textInputAction: TextInputAction.next,
                         ),
                         16.heightSp,
-                        NewTextFormField(
+                        CustomTextFormFieldBounded(
                           controller: dateController,
                           labelText: AppLocalizations.of(context)!.dob_label,
                           hintText: AppLocalizations.of(context)!.date_format,
@@ -140,7 +140,7 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
                         ),
                       ],
                       if (isCompany) ...[
-                        NewTextFormField(
+                        CustomTextFormFieldBounded(
                           labelText:
                               AppLocalizations.of(context)!.company_name_label,
                           hintText:
@@ -201,7 +201,7 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
                           ),
                         ),
                         16.heightSp,
-                        NewTextFormField(
+                        CustomTextFormFieldBounded(
                           labelText:
                               AppLocalizations.of(context)!.reg_num_label,
                           hintText: AppLocalizations.of(context)!.reg_num_hint,
@@ -212,7 +212,7 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
                           textInputAction: TextInputAction.next,
                         ),
                         16.heightSp,
-                        NewTextFormField(
+                        CustomTextFormFieldBounded(
                           controller: dateController,
                           labelText: AppLocalizations.of(context)!
                               .company_startup_label,
@@ -230,7 +230,7 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
                         ),
                       ],
                       16.heightSp,
-                      NewTextFormField(
+                      CustomTextFormFieldBounded(
                         labelText:
                             AppLocalizations.of(context)!.street_adr_label,
                         hintText: AppLocalizations.of(context)!.street_adr_hint,
@@ -242,7 +242,7 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
                         textInputAction: TextInputAction.next,
                       ),
                       16.heightSp,
-                      NewTextFormField(
+                      CustomTextFormFieldBounded(
                         labelText: AppLocalizations.of(context)!.town_label,
                         hintText: AppLocalizations.of(context)!.town_hint,
                         keyboardType: TextInputType.name,
@@ -253,7 +253,7 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
                         textInputAction: TextInputAction.next,
                       ),
                       16.heightSp,
-                      NewTextFormField(
+                      CustomTextFormFieldBounded(
                         labelText: AppLocalizations.of(context)!.zip_label,
                         hintText: AppLocalizations.of(context)!.zip_hint,
                         keyboardType: TextInputType.name,
@@ -264,7 +264,7 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
                         textInputAction: TextInputAction.next,
                       ),
                       16.heightSp,
-                      NewTextFormField(
+                      CustomTextFormFieldBounded(
                         labelText: AppLocalizations.of(context)!.state_label,
                         hintText: AppLocalizations.of(context)!.state_hint,
                         keyboardType: TextInputType.name,
@@ -277,7 +277,7 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
                         onTap: () {},
                       ),
                       16.heightSp,
-                      NewTextFormField(
+                      CustomTextFormFieldBounded(
                         labelText: AppLocalizations.of(context)!.country_label,
                         hintText: AppLocalizations.of(context)!.country_hint,
                         keyboardType: TextInputType.name,

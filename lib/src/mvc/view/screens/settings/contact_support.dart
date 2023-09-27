@@ -89,7 +89,7 @@ class _ContactSupportState extends State<ContactSupport> {
                         (context.viewPadding.bottom + 90.sp).height,
                       ],
                       if (!msgSent) ...[
-                        NewTextFormField(
+                        CustomTextFormFieldBounded(
                           labelText: AppLocalizations.of(context)!.subject,
                           hintText: AppLocalizations.of(context)!.subject_hint,
                           keyboardType: TextInputType.text,
@@ -100,7 +100,7 @@ class _ContactSupportState extends State<ContactSupport> {
                           textInputAction: TextInputAction.next,
                         ),
                         16.heightSp,
-                        NewTextFormField(
+                        CustomTextFormFieldBounded(
                           controller: departementController,
                           labelText: AppLocalizations.of(context)!.departement,
                           hintText:
@@ -131,7 +131,7 @@ class _ContactSupportState extends State<ContactSupport> {
                           ),
                         ),
                         16.heightSp,
-                        NewTextFormField(
+                        CustomTextFormFieldBounded(
                           labelText: AppLocalizations.of(context)!.message,
                           hintText: AppLocalizations.of(context)!.message_hint,
                           keyboardType: TextInputType.multiline,

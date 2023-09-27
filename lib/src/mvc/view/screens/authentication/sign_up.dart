@@ -82,7 +82,7 @@ class _SignUpState extends State<SignUp> {
                       ),
                     ),
                     32.heightSp,
-                    NewTextFormField(
+                    CustomTextFormFieldBounded(
                       labelText: AppLocalizations.of(context)!.first_name_label,
                       hintText: AppLocalizations.of(context)!.first_name_hint,
                       labelPrefixIcon: AwesomeIcons.user_large_outlined,
@@ -94,7 +94,7 @@ class _SignUpState extends State<SignUp> {
                       textInputAction: TextInputAction.next,
                     ),
                     16.heightSp,
-                    NewTextFormField(
+                    CustomTextFormFieldBounded(
                       labelText: AppLocalizations.of(context)!.last_name_label,
                       hintText: AppLocalizations.of(context)!.last_name_hint,
                       labelPrefixIcon: AwesomeIcons.user_large_outlined,

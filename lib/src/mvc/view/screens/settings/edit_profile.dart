@@ -69,7 +69,7 @@ class _EditProfileState extends State<EditProfile> {
                         ),
                       ),
                       16.heightSp,
-                      EditProfileTextFormField(
+                      CustomTextFormFieldLabel(
                         initialValue: fullName,
                         labelText: AppLocalizations.of(context)!.full_name,
                         hintText: AppLocalizations.of(context)!.full_name_hint,
@@ -79,7 +79,7 @@ class _EditProfileState extends State<EditProfile> {
                           fullName = value;
                         },
                       ),
-                      EditProfileTextFormField(
+                      CustomTextFormFieldLabel(
                         initialValue: email,
                         labelText: AppLocalizations.of(context)!.email,
                         hintText: AppLocalizations.of(context)!.email_hint,
@@ -89,7 +89,7 @@ class _EditProfileState extends State<EditProfile> {
                           email = value;
                         },
                       ),
-                      EditProfileTextFormField(
+                      CustomTextFormFieldLabel(
                         initialValue: phoneNumber,
                         labelText: AppLocalizations.of(context)!.phone_number,
                         hintText:
@@ -101,7 +101,7 @@ class _EditProfileState extends State<EditProfile> {
                         },
                         textInputAction: TextInputAction.done,
                       ),
-                      EditProfileTextFormField(
+                      CustomTextFormFieldLabel(
                         controller: dateController,
                         initialValue: null,
                         labelText: AppLocalizations.of(context)!.date_of_birth,
@@ -188,62 +188,5 @@ class _EditProfileState extends State<EditProfile> {
     } catch (e) {
       return false;
     }
-  }
-}
-
-class EditProfileTextFormField extends StatelessWidget {
-  const EditProfileTextFormField({
-    super.key,
-    this.controller,
-    required this.initialValue,
-    required this.hintText,
-    required this.labelText,
-    this.keyboardType,
-    this.textInputAction = TextInputAction.next,
-    required this.validator,
-    this.onSave,
-    this.onTap,
-  });
-
-  final TextEditingController? controller;
-  final String? initialValue;
-  final String hintText;
-  final String labelText;
-  final TextInputType? keyboardType;
-  final TextInputAction textInputAction;
-  final String? Function(String?) validator;
-  final void Function(String?)? onSave;
-  final void Function()? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        4.heightSp,
-        Text(
-          labelText,
-          style: Styles.poppins(
-            fontSize: 14.sp,
-            fontWeight: Styles.medium,
-            color: context.textTheme.displayLarge!.color,
-            height: 1.2,
-          ),
-        ),
-        8.heightSp,
-        CustomTextFormField(
-          controller: controller,
-          initialValue: initialValue,
-          hintText: hintText,
-          keyboardType: keyboardType,
-          fillColor: context.textTheme.headlineSmall!.color,
-          validator: validator,
-          onSaved: onSave,
-          onTap: onTap,
-          readOnly: onTap != null,
-          textInputAction: textInputAction,
-        ),
-      ],
-    );
   }
 }

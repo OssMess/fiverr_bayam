@@ -6,7 +6,6 @@ import '../../../../extensions.dart';
 import '../../../model/enums.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
-import '../../screens.dart';
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({super.key});
@@ -59,7 +58,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         ),
                       ),
                       16.heightSp,
-                      EditProfileTextFormField(
+                      CustomTextFormFieldLabel(
                         initialValue: null,
                         labelText:
                             AppLocalizations.of(context)!.current_password,
@@ -71,7 +70,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                           oldPassword = value;
                         },
                       ),
-                      EditProfileTextFormField(
+                      CustomTextFormFieldLabel(
                         initialValue: null,
                         labelText: AppLocalizations.of(context)!.new_password,
                         hintText:
@@ -82,7 +81,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                           newPassword = value;
                         },
                       ),
-                      EditProfileTextFormField(
+                      CustomTextFormFieldLabel(
                         initialValue: null,
                         labelText:
                             AppLocalizations.of(context)!.check_new_password,
