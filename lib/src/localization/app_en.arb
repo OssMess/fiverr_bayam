@@ -180,6 +180,8 @@
   "account":"Account",
   "insurance":"Insurance",
   "contact_support":"Contact Support",
+  "faq":"Frequently asked questions",
+  "was_the_answer_helpful":"Was the answer helpful?",
 
 
   "@min_caracters":{

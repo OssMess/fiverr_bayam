@@ -176,6 +176,8 @@
     "cancellations",
     "account",
     "insurance",
-    "contact_support"
+    "contact_support",
+    "faq",
+    "was_the_answer_helpful"
   ]
 }

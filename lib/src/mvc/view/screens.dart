@@ -24,4 +24,3 @@ export 'screens/settings/edit_profile.dart';
 export 'screens/settings/notification_settings.dart';
 export 'screens/settings/privacy_policy.dart';
 export 'screens/settings/faq_support.dart';
-export 'screens/settings/faq_answer.dart';
