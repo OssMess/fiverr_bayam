@@ -18,7 +18,7 @@ class ContactSupport extends StatefulWidget {
 class _ContactSupportState extends State<ContactSupport> {
   TextEditingController departementController = TextEditingController();
   final GlobalKey<FormState> _keyForm = GlobalKey();
-  bool msgSent = true;
+  bool msgSent = false;
   String? subject, departement, message;
 
   @override

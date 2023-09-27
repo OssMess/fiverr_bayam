@@ -195,8 +195,17 @@
   "english":"English",
   "french":"French",
   "change_password":"Change password",
-  "forqot_password":"Forqot password",
+  "forgot_password":"Forgot password",
+  "forgot_password_subtitle":"A code will be sent to your Email address",
   "delete_account":"Delete account",
+  "check_new_password":"Confirm new password",
+  "check_new_password_hint":"Re-type your password",
+  "check_new_password_error":"Please check your new password and try again!",
+  "current_password":"Current Password",
+  "current_password_hint":"Enter your current password",
+  "new_password":"New Password",
+  "new_password_hint":"Enter your new password",
+  "confirm":"confirm",
 
 
   "@min_caracters":{

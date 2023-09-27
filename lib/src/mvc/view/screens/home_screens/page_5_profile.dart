@@ -159,6 +159,9 @@ class Page5Profile extends StatelessWidget {
                 yesAct: ModelTextButton(
                   label: AppLocalizations.of(context)!.continu,
                   color: Styles.red,
+                  onPressed: () {
+                    //TODO signout
+                  },
                 ),
                 noAct: ModelTextButton(
                   label: AppLocalizations.of(context)!.cancel,

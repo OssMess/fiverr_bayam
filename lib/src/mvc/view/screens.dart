@@ -27,3 +27,5 @@ export 'screens/settings/faq_support.dart';
 export 'screens/settings/contact_support.dart';
 export 'screens/settings/language_settings.dart';
 export 'screens/settings/security_settings.dart';
+export 'screens/settings/forgot_password.dart';
+export 'screens/settings/change_password.dart';

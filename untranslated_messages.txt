@@ -192,7 +192,16 @@
     "english",
     "french",
     "change_password",
-    "forqot_password",
-    "delete_account"
+    "forgot_password",
+    "forgot_password_subtitle",
+    "delete_account",
+    "check_new_password",
+    "check_new_password_hint",
+    "check_new_password_error",
+    "current_password",
+    "current_password_hint",
+    "new_password",
+    "new_password_hint",
+    "confirm"
   ]
 }
