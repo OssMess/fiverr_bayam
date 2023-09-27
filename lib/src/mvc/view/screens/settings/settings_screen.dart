@@ -111,7 +111,8 @@ class SettingsScreen extends StatelessWidget {
                       showContainerDecoration: false,
                       showTrailing: false,
                       padding: EdgeInsets.all(12.sp),
-                      onTap: () {},
+                      onTap: () =>
+                          context.push(widget: const DumentsIdVerification()),
                     ),
                     16.heightSp,
                     CustomElevatedListTile(

@@ -19,13 +19,13 @@ class FAQSupport extends StatefulWidget {
 
 class _FAQSupportState extends State<FAQSupport> {
   int faqTypeIndex = 0;
-  FAQType faqType = FAQType.payment;
+  // FAQType faqType = FAQType.payment;
   FAQ? faq;
   late List<FAQ> listFAQ;
 
   @override
   void initState() {
-    listFAQ = ListFAQ.getListFAQ(faqType);
+    listFAQ = ListFAQ.map[faqTypeIndex];
     super.initState();
   }
 
@@ -162,14 +162,17 @@ class _FAQSupportState extends State<FAQSupport> {
                             horizontal: 16.sp,
                             vertical: 8.sp,
                           ),
-                          itemBuilder: (context, index) => FAQTypeChip(
-                            index: index,
-                            isSelected: index == faqTypeIndex,
-                            onChange: (faq, index) => setState(() {
-                              faqTypeIndex = index;
-                              faqType = faq;
-                              listFAQ = ListFAQ.getListFAQ(faqType);
-                            }),
+                          itemBuilder: (context, index) => CustomChip<int>(
+                            value: index,
+                            title: ListFAQ.getFAQTypeFromIndex(index)
+                                .getTitle(context),
+                            groupValue: faqTypeIndex,
+                            onChange: (index) => setState(
+                              () {
+                                faqTypeIndex = index;
+                                listFAQ = ListFAQ.map[index];
+                              },
+                            ),
                           ),
                           separatorBuilder: (context, index) => 12.widthSp,
                           itemCount: ListFAQ.map.length,
@@ -266,54 +269,6 @@ class FAQListTile extends StatelessWidget {
             color: context.textTheme.displayMedium!.color,
           ),
         ],
-      ),
-    );
-  }
-}
-
-class FAQTypeChip extends StatelessWidget {
-  const FAQTypeChip({
-    super.key,
-    required this.index,
-    required this.isSelected,
-    required this.onChange,
-  });
-
-  final int index;
-  final bool isSelected;
-  final void Function(FAQType, int) onChange;
-
-  @override
-  Widget build(BuildContext context) {
-    FAQType faq = ListFAQ.getFAQTypeFromIndex(index);
-    return InkResponse(
-      onTap: () => onChange(faq, index),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 100),
-        alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(
-          horizontal: 20.sp,
-        ),
-        decoration: BoxDecoration(
-          color: isSelected ? Styles.green : context.scaffoldBackgroundColor,
-          borderRadius: BorderRadius.circular(10.sp),
-          border: isSelected
-              ? null
-              : Border.all(
-                  color: context.textTheme.headlineMedium!.color!,
-                ),
-        ),
-        child: Text(
-          faq.getTitle(context),
-          style: Styles.poppins(
-            fontSize: 14.sp,
-            fontWeight: isSelected ? Styles.semiBold : Styles.regular,
-            color: isSelected
-                ? Colors.white
-                : context.textTheme.displaySmall!.color,
-            height: 1.2,
-          ),
-        ),
       ),
     );
   }

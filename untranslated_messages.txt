@@ -202,6 +202,21 @@
     "current_password_hint",
     "new_password",
     "new_password_hint",
-    "confirm"
+    "confirm",
+    "upload_profile_picture",
+    "upload_profile_picture_subtitle",
+    "choose_document_type",
+    "choose_document_type_subtitle",
+    "camera",
+    "upload",
+    "front",
+    "back",
+    "driver_license",
+    "id_card",
+    "international_passport",
+    "successful",
+    "documents_uploaded_sucess_1",
+    "documents_uploaded_sucess_2",
+    "documents_uploaded_sucess_3"
   ]
 }

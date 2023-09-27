@@ -256,9 +256,11 @@ class Dialogs {
     required ModelTextButton yesAct,
     ModelTextButton? noAct,
     void Function(T)? onComplete,
+    List<Widget>? children,
   }) async {
     await showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) {
         return Dialog(
           insetPadding: EdgeInsets.symmetric(horizontal: 32.sp),
@@ -272,6 +274,7 @@ class Dialogs {
             yesAct: yesAct,
             noAct: noAct,
             onComplete: onComplete,
+            children: children,
           ),
         );
       },

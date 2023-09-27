@@ -206,6 +206,21 @@
   "new_password":"New Password",
   "new_password_hint":"Enter your new password",
   "confirm":"confirm",
+  "upload_profile_picture":"Upload profile picture",
+  "upload_profile_picture_subtitle":"Make sure that your picture is clear and visible!",
+  "choose_document_type":"Choose Document type",
+  "choose_document_type_subtitle":"Ensure that your documents are not blur",
+  "camera":"Camera",
+  "upload":"Upload",
+  "front":"Front",
+  "back":"Back",
+  "driver_license":"Drivers license",
+  "id_card":"National ID Card",
+  "international_passport":"International passport",
+  "successful":"Successful",
+  "documents_uploaded_sucess_1":"Thank you for submitting your information. After verification, we will notify you.",
+  "documents_uploaded_sucess_2":"To obtain a verified profile with a blue badge, please contact an admin by clicking",
+  "documents_uploaded_sucess_3":"here",
 
 
   "@min_caracters":{

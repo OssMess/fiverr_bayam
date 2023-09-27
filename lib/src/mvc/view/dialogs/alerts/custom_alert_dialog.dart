@@ -13,6 +13,7 @@ class CustomAlertDialog<T> extends StatelessWidget {
     required this.subtitle,
     required this.yesAct,
     this.noAct,
+    this.children,
     this.onComplete,
   });
 
@@ -20,6 +21,7 @@ class CustomAlertDialog<T> extends StatelessWidget {
   final String subtitle;
   final ModelTextButton yesAct;
   final ModelTextButton? noAct;
+  final List<Widget>? children;
   final void Function(T)? onComplete;
 
   @override
@@ -50,6 +52,10 @@ class CustomAlertDialog<T> extends StatelessWidget {
               color: context.textTheme.displayLarge!.color,
             ),
           ),
+          if (children != null) ...[
+            12.heightSp,
+            ...children!,
+          ],
           32.heightSp,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

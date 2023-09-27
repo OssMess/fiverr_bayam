@@ -6,7 +6,6 @@ import '../../../../extensions.dart';
 import '../../../model/enums.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
-import '../../screens.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});

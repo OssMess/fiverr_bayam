@@ -17,3 +17,4 @@ export 'model_widgets/custom_elevated_list_tile.dart';
 export 'model_widgets/custom_appbar_logo.dart';
 export 'model_widgets/custom_text_form_field_bounded.dart';
 export 'model_widgets/custom_text_form_field_label.dart';
+export 'model_widgets/custom_chip.dart';

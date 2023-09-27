@@ -29,3 +29,4 @@ export 'screens/settings/language_settings.dart';
 export 'screens/settings/security_settings.dart';
 export 'screens/settings/forgot_password.dart';
 export 'screens/settings/change_password.dart';
+export 'screens/settings/documents_id_verification.dart';
