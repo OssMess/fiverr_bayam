@@ -220,6 +220,7 @@
     "documents_uploaded_sucess_3",
     "why_report",
     "why_report_subtitle",
+    "why_report_hint",
     "content_reported_title",
     "content_reported_subtitle",
     "report"

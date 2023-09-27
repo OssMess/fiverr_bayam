@@ -223,6 +223,7 @@
   "documents_uploaded_sucess_3":"here",
   "why_report":"Why are you reporting this ad?",
   "why_report_subtitle":"We won’t let them know you took this action",
+  "why_report_hint":"Why do you want to report?",
   "content_reported_title":"Thanks for letting us know",
   "content_reported_subtitle":"Your feedback is important in helping us keep the community safe.",
   "report":"report",

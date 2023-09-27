@@ -69,8 +69,7 @@ class _ReportScreenState extends State<ReportScreen> {
                       key: _keyForm,
                       autovalidateMode: AutovalidateMode.disabled,
                       child: CustomTextFormField(
-                        // labelText: AppLocalizations.of(context)!.message,
-                        hintText: AppLocalizations.of(context)!.message_hint,
+                        hintText: AppLocalizations.of(context)!.why_report_hint,
                         keyboardType: TextInputType.multiline,
                         validator: Validators.validateNotNull,
                         onSaved: (value) {
