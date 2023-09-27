@@ -248,6 +248,8 @@ class Dialogs {
     // );
   }
 
+  /// Shows a custom alert dialog with [title], [subtitle], [yesAct] button as
+  /// a confirmation button, [noAct] as a cancel button, and [onComplete] function.
   Future<void> showCustomDialog<T>({
     required String title,
     required String subtitle,
@@ -286,6 +288,40 @@ class Dialogs {
       enableDrag: true,
       isScrollControlled: true,
       isDismissible: true,
+    );
+  }
+
+  /// Shows a value picker dialog with
+  /// dialog [title],
+  /// [values] to pick one from,
+  /// [initialvalue] initial picked value,
+  /// [onPick] behavior
+  /// [hintText] search text field hint,
+  /// [searchable] if `true`, show a text field to search the values.
+  /// [searchStartsWith]
+  ///   - if `true`, search values and return those that start with the quesry test.
+  ///   - if `false`, search values and return those that contain quesry test.
+  Future<void> showSingleValuePickerDialog({
+    required String title,
+    required List<String> values,
+    required String? initialvalue,
+    String? hintText,
+    bool searchable = false,
+    bool searchStartsWith = false,
+    required void Function(String) onPick,
+  }) async {
+    await context.showAdaptiveModalBottomSheet(
+      builder: (context) => SingleValuePickerDialog(
+        title: title,
+        hintText: hintText,
+        values: values,
+        searchable: searchable,
+        searchStartsWith: searchStartsWith,
+        initialValue: initialvalue,
+        mainAxisSize: MainAxisSize.min,
+        physics: const ClampingScrollPhysics(),
+        onPick: onPick,
+      ),
     );
   }
 }

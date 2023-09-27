@@ -19,6 +19,7 @@ class NewTextFormField extends StatefulWidget {
     this.keyboardType,
     this.focusNode,
     this.textInputAction,
+    this.maxLines,
     this.validator,
     this.onSaved,
     this.onEditingComplete,
@@ -37,6 +38,7 @@ class NewTextFormField extends StatefulWidget {
   final TextInputType? keyboardType;
   final FocusNode? focusNode;
   final TextInputAction? textInputAction;
+  final int? maxLines;
   final String? Function(String?)? validator;
   final void Function(String?)? onSaved;
   final void Function()? onEditingComplete;
@@ -134,6 +136,7 @@ class _NewTextFormFieldState extends State<NewTextFormField> {
                       keyboardType: widget.keyboardType,
                       onTapOutside: (_) => FocusScope.of(context).unfocus(),
                       textInputAction: widget.textInputAction,
+                      maxLines: widget.maxLines,
                       decoration: InputDecoration(
                         isDense: true,
                         hintText: widget.hintText,

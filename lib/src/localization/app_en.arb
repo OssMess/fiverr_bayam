@@ -182,6 +182,16 @@
   "contact_support":"Contact Support",
   "faq":"Frequently asked questions",
   "was_the_answer_helpful":"Was the answer helpful?",
+  "back_to_profile":"Back to profile",
+  "submit_request":"Submit request",
+  "subject":"Subject",
+  "subject_hint":"What's the issue you're facing?",
+  "departement":"Departement",
+  "departement_hint":"Select",
+  "message":"Message",
+  "message_hint":"Write here",
+  "msg_support_sent":"Your request has been submitted. You'll notified by email on any progress made on your request.",
+  "pick_a_department_hint":"Pick a department",
 
 
   "@min_caracters":{

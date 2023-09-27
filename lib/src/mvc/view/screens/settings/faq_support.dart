@@ -8,6 +8,7 @@ import '../../../model/list_models.dart';
 import '../../../model/models.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
+import '../../screens.dart';
 
 class FAQSupport extends StatefulWidget {
   const FAQSupport({super.key});
@@ -46,9 +47,7 @@ class _FAQSupportState extends State<FAQSupport> {
         floatingActionButton: pickFAQView
             ? CustomElevatedButton(
                 label: AppLocalizations.of(context)!.contact_support,
-                onPressed: () {
-                  //TODO contact support
-                },
+                onPressed: () => context.push(widget: const ContactSupport()),
               )
             : Column(
                 mainAxisAlignment: MainAxisAlignment.end,

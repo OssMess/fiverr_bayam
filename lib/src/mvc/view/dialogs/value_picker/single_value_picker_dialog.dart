@@ -14,26 +14,32 @@ class SingleValuePickerDialog extends StatelessWidget {
   const SingleValuePickerDialog({
     super.key,
     required this.title,
-    required this.hint,
     required this.values,
     required this.initialValue,
-    required this.searchStartsWith,
+    this.hintText,
+    this.searchable = false,
+    this.searchStartsWith = false,
     required this.physics,
     required this.onPick,
     required this.mainAxisSize,
-  });
+  }) : assert((!searchable && !searchStartsWith && hintText == null) ||
+            searchable);
 
   /// Dialog title
   final String title;
-
-  /// Search text field hint
-  final String hint;
 
   /// options
   final List<String> values;
 
   /// initial picked value
   final String? initialValue;
+
+  /// Search text field hint
+  final String? hintText;
+
+  ///   - if `true`, search values and return those that start with the quesry test.
+  ///   - if `false`, search values and return those that contain quesry test.
+  final bool searchable;
 
   /// Used to configure how options are filtered during search for quick access:
   /// - if `true`: filter options that start with the search input text,
@@ -58,6 +64,7 @@ class SingleValuePickerDialog extends StatelessWidget {
       mainAxisSize: mainAxisSize,
       continueAct: ModelTextButton(
         label: AppLocalizations.of(context)!.continu,
+        fontColor: Styles.green,
         onPressed: () async {
           if (pickedValue.isEmpty) {
             return;
@@ -72,6 +79,7 @@ class SingleValuePickerDialog extends StatelessWidget {
       ),
       cancelAct: ModelTextButton(
         label: AppLocalizations.of(context)!.close,
+        fontColor: Styles.red,
         onPressed: () => context.pop(),
       ),
       children: [
@@ -84,15 +92,16 @@ class SingleValuePickerDialog extends StatelessWidget {
           ),
         ),
         SizedBox(height: 20.sp),
-        CustomTextFormField(
-          hintText: hint,
-          prefixIcon: AwesomeIcons.magnifying_glass,
-          fillColor: Styles.green.shade50,
-          prefixColor: Styles.green,
-          onChanged: (value) {
-            searchNotifier.setValue(value.toLowerCase());
-          },
-        ),
+        if (searchable)
+          CustomTextFormField(
+            hintText: hintText,
+            prefixIcon: AwesomeIcons.magnifying_glass,
+            fillColor: Styles.green.shade50,
+            prefixColor: Styles.green,
+            onChanged: (value) {
+              searchNotifier.setValue(value.toLowerCase());
+            },
+          ),
         ValueListenableBuilder(
           valueListenable: searchNotifier.notifier,
           builder: (context, search, _) {

@@ -178,6 +178,16 @@
     "insurance",
     "contact_support",
     "faq",
-    "was_the_answer_helpful"
+    "was_the_answer_helpful",
+    "back_to_profile",
+    "submit_request",
+    "subject",
+    "subject_hint",
+    "departement",
+    "departement_hint",
+    "message",
+    "message_hint",
+    "msg_support_sent",
+    "pick_a_department_hint"
   ]
 }
