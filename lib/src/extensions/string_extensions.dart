@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../mvc/model/enums.dart';
 import '../tools.dart';
 
 extension StringExtension on String {
@@ -38,6 +39,11 @@ extension StringExtension on String {
     };
     return colors[this]!;
   }
+
+  AccountType get toAccountType => {
+        'company': AccountType.company,
+        'person': AccountType.person,
+      }[this]!;
 }
 
 extension StringNullableExtension on String? {

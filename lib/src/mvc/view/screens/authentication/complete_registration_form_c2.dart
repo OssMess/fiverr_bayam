@@ -154,6 +154,12 @@ class _CompleteRegistrationFormC2State
           ),
           onComplete: (_) {
             context.popUntilFirst();
+            widget.userSession.onRegisterCompleted(
+              uid: 0,
+              accountType: AccountType.company,
+              firstName: 's',
+              lastName: 's',
+            );
           },
         );
       },

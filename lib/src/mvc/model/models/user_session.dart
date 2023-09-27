@@ -1,6 +1,6 @@
-import 'package:bayam/src/extensions.dart';
 import 'package:flutter/material.dart';
 
+import '../../../extensions.dart';
 import '../../controller/hives.dart';
 import '../enums.dart';
 
@@ -13,12 +13,14 @@ class UserSession with ChangeNotifier {
   int? uid;
   String? firstName;
   String? lastName;
+  AccountType? accountType;
 
   UserSession({
     required this.authState,
     required this.uid,
     required this.firstName,
     required this.lastName,
+    required this.accountType,
   });
 
   /// creates an instance of `UserSession` where `authState` is set to `authState: AuthState.unauthenticated`.
@@ -42,6 +44,7 @@ class UserSession with ChangeNotifier {
       uid: null,
       firstName: null,
       lastName: null,
+      accountType: null,
     );
     if (authState == AuthState.awaiting) {
       user.getAuthState();
@@ -56,6 +59,7 @@ class UserSession with ChangeNotifier {
       uid: uid,
       firstName: json['firstName'],
       lastName: json['lastName'],
+      accountType: (json['accountType'] as String).toAccountType,
     );
   }
 
@@ -64,6 +68,7 @@ class UserSession with ChangeNotifier {
         'uid': uid,
         'firstName': firstName,
         'lastName': lastName,
+        'accountType': accountType?.getString,
       };
 
   /// return true if awaiting for user sessions
@@ -75,12 +80,19 @@ class UserSession with ChangeNotifier {
   /// return true if user is signed out
   bool get isUnAuthenticated => authState == AuthState.unauthenticated;
 
-  /// return true if user session is not complete. This indicates that it is required
-  /// to call `APIClient.of(user).getAccountDetails` to complete current user profile.
+  /// return `true` if user session is not complete. This indicates that it is required
+  /// to call a route toretrieve current user profile.
   bool get requiredInitAccountDetails => isAuthenticated && false;
 
+  /// return `true` if user account requires completion
   bool get requireCompleteRegistration =>
-      isAuthenticated && firstName.isNullOrEmpty && false;
+      isAuthenticated && firstName.isNullOrEmpty;
+
+  /// return `true` if user is of type `AccountType.person`
+  bool get isPerson => accountType == AccountType.person;
+
+  /// return `true` if user is of type `AccountType.company`
+  bool get isCompany => accountType == AccountType.company;
 
   /// while the authState is `AuthState.awaiting`, initialize and retrieve last known user session from `AuthStateChange`,
   /// and clone it into `this`, and rebuild the widget tree to sync the changes.
@@ -96,6 +108,7 @@ class UserSession with ChangeNotifier {
     uid = user.uid;
     firstName = user.firstName;
     lastName = user.lastName;
+    accountType = user.accountType;
     notifyListeners();
   }
 
@@ -103,8 +116,20 @@ class UserSession with ChangeNotifier {
   ///statusCode `200`, update user session with [uid].
   void onRegisterCompleted({
     required int uid,
+    required AccountType accountType,
+    required String firstName,
+    required String lastName,
   }) async {
     this.uid = uid;
+    this.accountType = accountType;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    authState = AuthState.authenticated;
+    await AuthStateChange.save(this);
+    // updateFromMap(
+    //   await APIClient.of(this).getAccountDetails(),
+    // );
+    notifyListeners();
   }
 
   ///Once the call for `/api/client/mobile/confirm/[user.uid]` endpoint finishes

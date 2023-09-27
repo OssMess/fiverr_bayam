@@ -136,7 +136,15 @@ class _CompleteRegistrationFormP4State
       future: () async {
         await Future.delayed(const Duration(seconds: 1));
       },
-      onComplete: (_) {},
+      onComplete: (_) {
+        widget.userSession.onRegisterCompleted(
+          uid: 0,
+          accountType: AccountType.person,
+          firstName: 'd',
+          lastName: 'd',
+        );
+        context.popUntilFirst();
+      },
       onError: (_) {},
     );
   }

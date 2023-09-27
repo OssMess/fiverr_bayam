@@ -9,4 +9,9 @@ extension AccountTypeExtensions on AccountType {
       this == AccountType.person ? 'person' : 'company',
     );
   }
+
+  String get getString => {
+        AccountType.company: 'company',
+        AccountType.person: 'person',
+      }[this]!;
 }

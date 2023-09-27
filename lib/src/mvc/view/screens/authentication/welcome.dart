@@ -7,6 +7,7 @@ import '../../../../extensions.dart';
 import '../../../../settings.dart';
 import '../../../../tools.dart';
 import '../../model_widgets.dart';
+import '../../screens.dart';
 
 class Welcome extends StatelessWidget {
   const Welcome({super.key, required this.settingsController});
@@ -167,9 +168,8 @@ class Welcome extends StatelessWidget {
                           textDecoration: TextDecoration.underline,
                         ),
                         recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            //TODO open terms
-                          },
+                          ..onTap =
+                              () => context.push(widget: const PrivacyPolicy()),
                       ),
                     ],
                   ),

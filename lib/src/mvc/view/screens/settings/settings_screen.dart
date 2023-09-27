@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../extensions.dart';
 import '../../../../settings.dart';
 import '../../../model/enums.dart';
+import '../../../model/models.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
 import '../../screens.dart';
@@ -12,9 +13,11 @@ import '../../screens.dart';
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({
     super.key,
+    required this.userSession,
     required this.settingsController,
   });
 
+  final UserSession userSession;
   final SettingsController settingsController;
 
   @override
@@ -67,7 +70,9 @@ class SettingsScreen extends StatelessWidget {
                       showTrailing: false,
                       padding: EdgeInsets.all(12.sp),
                       onTap: () => context.push(
-                        widget: const SecuritySettings(),
+                        widget: SecuritySettings(
+                          userSession: userSession,
+                        ),
                       ),
                     ),
                     16.heightSp,
@@ -88,7 +93,9 @@ class SettingsScreen extends StatelessWidget {
                       showContainerDecoration: false,
                       showTrailing: false,
                       padding: EdgeInsets.all(12.sp),
-                      onTap: () {},
+                      onTap: () {
+                        //TODO my favorites
+                      },
                     ),
                     16.heightSp,
                     CustomElevatedListTile(

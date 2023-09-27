@@ -274,7 +274,7 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
                           state = value;
                         },
                         textInputAction: TextInputAction.next,
-                        onTap: () {},
+                        // onTap: () {},
                       ),
                       16.heightSp,
                       CustomTextFormFieldBounded(
@@ -287,7 +287,7 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
                           country = value;
                         },
                         textInputAction: TextInputAction.next,
-                        onTap: () {},
+                        // onTap: () {},
                       ),
                       16.heightSp,
                       CustomElevatedButton(
@@ -317,9 +317,8 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
                                 textDecoration: TextDecoration.underline,
                               ),
                               recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  //TODO open terms
-                                },
+                                ..onTap = () =>
+                                    context.push(widget: const PrivacyPolicy()),
                             ),
                             TextSpan(
                               text: AppLocalizations.of(context)!.reg_terms_3,
@@ -334,9 +333,8 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
                                 textDecoration: TextDecoration.underline,
                               ),
                               recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  //TODO open terms
-                                },
+                                ..onTap = () =>
+                                    context.push(widget: const PrivacyPolicy()),
                             ),
                             const TextSpan(
                               text: '.',

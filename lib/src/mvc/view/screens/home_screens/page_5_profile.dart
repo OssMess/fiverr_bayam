@@ -134,7 +134,9 @@ class Page5Profile extends StatelessWidget {
             child: CustomElevatedListTile(
               leadingIcon: AwesomeIcons.ads,
               title: AppLocalizations.of(context)!.manage_ads,
-              onTap: () {},
+              onTap: () {
+                //TODO manage ads
+              },
             ),
           ),
           16.sliverSp,
@@ -144,6 +146,7 @@ class Page5Profile extends StatelessWidget {
               title: AppLocalizations.of(context)!.settings,
               onTap: () => context.push(
                   widget: SettingsScreen(
+                userSession: userSession,
                 settingsController: settingsController,
               )),
             ),
@@ -160,7 +163,8 @@ class Page5Profile extends StatelessWidget {
                   label: AppLocalizations.of(context)!.continu,
                   color: Styles.red,
                   onPressed: () {
-                    //TODO signout
+                    userSession.onSignout();
+                    context.popUntilFirst();
                   },
                 ),
                 noAct: ModelTextButton(

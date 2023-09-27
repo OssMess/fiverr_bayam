@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../extensions.dart';
 import '../../../model/enums.dart';
+import '../../../model/models.dart';
 import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
@@ -12,7 +13,10 @@ import '../../screens.dart';
 class SecuritySettings extends StatelessWidget {
   const SecuritySettings({
     super.key,
+    required this.userSession,
   });
+
+  final UserSession userSession;
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +83,8 @@ class SecuritySettings extends StatelessWidget {
                               await Future.delayed(const Duration(seconds: 1));
                             },
                             onComplete: (_) {
-                              //TODO signout
+                              userSession.onSignout();
+                              context.popUntilFirst();
                             },
                           );
                         },
