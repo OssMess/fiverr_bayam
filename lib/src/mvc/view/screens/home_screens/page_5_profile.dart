@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../../../settings.dart';
 import '../../../../tools.dart';
 import '../../../model/models.dart';
 import '../../../model/models_ui.dart';
@@ -15,9 +16,11 @@ class Page5Profile extends StatelessWidget {
   const Page5Profile({
     super.key,
     required this.userSession,
+    required this.settingsController,
   });
 
   final UserSession userSession;
+  final SettingsController settingsController;
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +132,7 @@ class Page5Profile extends StatelessWidget {
           24.sliverSp,
           SliverToBoxAdapter(
             child: CustomElevatedListTile(
-              icon: AwesomeIcons.ads,
+              leadingIcon: AwesomeIcons.ads,
               title: AppLocalizations.of(context)!.manage_ads,
               onTap: () {},
             ),
@@ -137,15 +140,18 @@ class Page5Profile extends StatelessWidget {
           16.sliverSp,
           SliverToBoxAdapter(
             child: CustomElevatedListTile(
-              icon: AwesomeIcons.gear,
+              leadingIcon: AwesomeIcons.gear,
               title: AppLocalizations.of(context)!.settings,
-              onTap: () => context.push(widget: const SettingsScreen()),
+              onTap: () => context.push(
+                  widget: SettingsScreen(
+                settingsController: settingsController,
+              )),
             ),
           ),
           16.sliverSp,
           SliverToBoxAdapter(
             child: CustomElevatedListTile(
-              icon: AwesomeIcons.door_exit,
+              leadingIcon: AwesomeIcons.door_exit,
               title: AppLocalizations.of(context)!.logout,
               onTap: () => Dialogs.of(context).showCustomDialog(
                 title: AppLocalizations.of(context)!.logout,

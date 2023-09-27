@@ -188,6 +188,11 @@
     "message",
     "message_hint",
     "msg_support_sent",
-    "pick_a_department_hint"
+    "pick_a_department_hint",
+    "english",
+    "french",
+    "change_password",
+    "forqot_password",
+    "delete_account"
   ]
 }

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../extensions.dart';
+import '../../../../settings.dart';
 import '../../../model/enums.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
@@ -11,7 +12,10 @@ import '../../screens.dart';
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({
     super.key,
+    required this.settingsController,
   });
+
+  final SettingsController settingsController;
 
   @override
   Widget build(BuildContext context) {
@@ -34,45 +38,52 @@ class SettingsScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     CustomElevatedListTile(
-                      icon: AwesomeIcons.user_rounded,
+                      leadingIcon: AwesomeIcons.user_rounded,
                       title: AppLocalizations.of(context)!.edit_profile,
                       showContainerDecoration: false,
                       showTrailing: false,
                       padding: EdgeInsets.all(12.sp),
-                      onTap: () => context.push(widget: const EditProfile()),
+                      onTap: () => context.push(
+                        widget: const EditProfile(),
+                      ),
                     ),
                     16.heightSp,
                     CustomElevatedListTile(
-                      icon: AwesomeIcons.bell,
+                      leadingIcon: AwesomeIcons.bell,
                       title:
                           AppLocalizations.of(context)!.notification_settings,
                       showContainerDecoration: false,
                       showTrailing: false,
                       padding: EdgeInsets.all(12.sp),
-                      onTap: () =>
-                          context.push(widget: const NotificationSettings()),
+                      onTap: () => context.push(
+                        widget: const NotificationSettings(),
+                      ),
                     ),
                     16.heightSp,
                     CustomElevatedListTile(
-                      icon: AwesomeIcons.lock_rounded,
+                      leadingIcon: AwesomeIcons.lock_rounded,
                       title: AppLocalizations.of(context)!.security_settings,
                       showContainerDecoration: false,
                       showTrailing: false,
                       padding: EdgeInsets.all(12.sp),
-                      onTap: () {},
+                      onTap: () => context.push(
+                        widget: const SecuritySettings(),
+                      ),
                     ),
                     16.heightSp,
                     CustomElevatedListTile(
-                      icon: AwesomeIcons.shield,
+                      leadingIcon: AwesomeIcons.shield,
                       title: AppLocalizations.of(context)!.privacy_policy,
                       showContainerDecoration: false,
                       showTrailing: false,
                       padding: EdgeInsets.all(12.sp),
-                      onTap: () => context.push(widget: const PrivacyPolicy()),
+                      onTap: () => context.push(
+                        widget: const PrivacyPolicy(),
+                      ),
                     ),
                     16.heightSp,
                     CustomElevatedListTile(
-                      icon: AwesomeIcons.heart,
+                      leadingIcon: AwesomeIcons.heart,
                       title: AppLocalizations.of(context)!.my_favorites,
                       showContainerDecoration: false,
                       showTrailing: false,
@@ -81,16 +92,20 @@ class SettingsScreen extends StatelessWidget {
                     ),
                     16.heightSp,
                     CustomElevatedListTile(
-                      icon: AwesomeIcons.language,
+                      leadingIcon: AwesomeIcons.language,
                       title: AppLocalizations.of(context)!.language,
                       showContainerDecoration: false,
                       showTrailing: false,
                       padding: EdgeInsets.all(12.sp),
-                      onTap: () {},
+                      onTap: () => context.push(
+                        widget: LanguageSettings(
+                          settingsController: settingsController,
+                        ),
+                      ),
                     ),
                     16.heightSp,
                     CustomElevatedListTile(
-                      icon: AwesomeIcons.id_card_rounded,
+                      leadingIcon: AwesomeIcons.id_card_rounded,
                       title: AppLocalizations.of(context)!
                           .document_id_verification,
                       showContainerDecoration: false,
@@ -100,7 +115,7 @@ class SettingsScreen extends StatelessWidget {
                     ),
                     16.heightSp,
                     CustomElevatedListTile(
-                      icon: AwesomeIcons.circle_question,
+                      leadingIcon: AwesomeIcons.circle_question,
                       title: AppLocalizations.of(context)!.faq_and_support,
                       showContainerDecoration: false,
                       showTrailing: false,
@@ -109,7 +124,7 @@ class SettingsScreen extends StatelessWidget {
                     ),
                     16.heightSp,
                     CustomElevatedListTile(
-                      icon: AwesomeIcons.id_card_close,
+                      leadingIcon: AwesomeIcons.id_card_close,
                       title: AppLocalizations.of(context)!.deactive_account,
                       showContainerDecoration: false,
                       showTrailing: false,

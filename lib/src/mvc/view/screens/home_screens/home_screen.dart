@@ -113,7 +113,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         Page2Messages(userSession: widget.userSession),
                         Page3Ads(userSession: widget.userSession),
                         Page4AI(userSession: widget.userSession),
-                        Page5Profile(userSession: widget.userSession),
+                        Page5Profile(
+                          userSession: widget.userSession,
+                          settingsController: widget.settingsController,
+                        ),
                       ],
                     );
                   },

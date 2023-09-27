@@ -30,7 +30,17 @@ class NotificationSettings extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.sp),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(
+                  AppLocalizations.of(context)!.notification_settings,
+                  style: Styles.poppins(
+                    fontSize: 16.sp,
+                    fontWeight: Styles.semiBold,
+                    color: context.textTheme.displayLarge!.color,
+                  ),
+                ),
+                16.heightSp,
                 CustomSwitchListTile(
                   label: AppLocalizations.of(context)!.email_notifications,
                   value: isOnEmail,

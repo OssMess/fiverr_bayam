@@ -192,6 +192,11 @@
   "message_hint":"Write here",
   "msg_support_sent":"Your request has been submitted. You'll notified by email on any progress made on your request.",
   "pick_a_department_hint":"Pick a department",
+  "english":"English",
+  "french":"French",
+  "change_password":"Change password",
+  "forqot_password":"Forqot password",
+  "delete_account":"Delete account",
 
 
   "@min_caracters":{

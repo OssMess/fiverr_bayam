@@ -8,16 +8,20 @@ import '../model_widgets.dart';
 class CustomElevatedListTile extends StatelessWidget {
   const CustomElevatedListTile({
     super.key,
-    required this.icon,
+    this.leadingIcon,
     required this.title,
+    this.leadingIconColor,
+    this.trailing,
     this.showContainerDecoration = true,
     this.showTrailing = true,
     required this.onTap,
     this.padding,
   });
 
-  final IconData icon;
+  final IconData? leadingIcon;
   final String title;
+  final Color? leadingIconColor;
+  final Widget? trailing;
   final bool showContainerDecoration;
   final bool showTrailing;
   final EdgeInsetsGeometry? padding;
@@ -30,22 +34,24 @@ class CustomElevatedListTile extends StatelessWidget {
       padding: padding ?? EdgeInsets.all(8.sp),
       child: Row(
         children: [
-          Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.all(10.sp),
-            decoration: showContainerDecoration
-                ? BoxDecoration(
-                    color: Styles.green[50]!,
-                    borderRadius: BorderRadius.circular(8.sp),
-                  )
-                : null,
-            child: Icon(
-              icon,
-              size: 25.sp,
-              color: Styles.green,
+          if (leadingIcon != null) ...[
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(10.sp),
+              decoration: showContainerDecoration
+                  ? BoxDecoration(
+                      color: Styles.green[50]!,
+                      borderRadius: BorderRadius.circular(8.sp),
+                    )
+                  : null,
+              child: Icon(
+                leadingIcon,
+                size: 25.sp,
+                color: leadingIconColor ?? Styles.green,
+              ),
             ),
-          ),
-          16.widthSp,
+            16.widthSp,
+          ],
           Expanded(
             child: Text(
               title,
@@ -58,11 +64,12 @@ class CustomElevatedListTile extends StatelessWidget {
           ),
           if (showTrailing) ...[
             16.widthSp,
-            Icon(
-              Icons.keyboard_arrow_right_rounded,
-              size: 20.sp,
-              color: context.textTheme.headlineMedium!.color,
-            ),
+            trailing ??
+                Icon(
+                  Icons.keyboard_arrow_right_rounded,
+                  size: 20.sp,
+                  color: context.textTheme.headlineMedium!.color,
+                ),
           ],
         ],
       ),
