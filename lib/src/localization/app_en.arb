@@ -175,6 +175,11 @@
   "search_for_something":"Search for something",
   "bayam_privacy_policy":"Bayam's Privacy Policy",
   "last_update":"Last update: {date}",
+  "payment":"Payment",
+  "cancellations":"Cancellations",
+  "account":"Account",
+  "insurance":"Insurance",
+  "contact_support":"Contact Support",
 
 
   "@min_caracters":{

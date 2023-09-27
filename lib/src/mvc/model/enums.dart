@@ -8,3 +8,4 @@ export 'enums/appbar_background_type.dart';
 export 'enums/view_page.dart';
 export 'enums/search_tab.dart';
 export 'enums/category.dart';
+export 'enums/faq_type.dart';

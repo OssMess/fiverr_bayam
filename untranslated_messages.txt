@@ -171,6 +171,11 @@
     "app_notifications",
     "search_for_something",
     "bayam_privacy_policy",
-    "last_update"
+    "last_update",
+    "payment",
+    "cancellations",
+    "account",
+    "insurance",
+    "contact_support"
   ]
 }

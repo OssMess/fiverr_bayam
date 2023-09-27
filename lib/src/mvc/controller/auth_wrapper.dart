@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../settings/settings_controller.dart';
 import '../../tools.dart';
+import '../model/list_models.dart';
 import '../model/models.dart';
 import '../model/models_ui.dart';
 import '../view/screens.dart';
@@ -50,7 +51,10 @@ class _AuthWrapperState extends State<AuthWrapper> {
       if (!context.mounted) return;
       precacheImages(context);
       Paddings.init(context);
+      ////// init translations
       Categories.init(context);
+      ListFAQ.init(context);
+      //////
       Future.delayed(
         const Duration(seconds: 2),
         () {
