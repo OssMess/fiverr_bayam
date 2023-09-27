@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../../extensions.dart';
 import '../../../model/enums.dart';
@@ -77,13 +78,13 @@ class _DumentsIdVerificationState extends State<DumentsIdVerification> {
                           CircularIconButton(
                             label: AppLocalizations.of(context)!.camera,
                             icon: Icons.camera_alt_outlined,
-                            onTap: () {},
+                            onTap: takeImageCamera,
                           ),
                           64.widthSp,
                           CircularIconButton(
                             label: AppLocalizations.of(context)!.upload,
                             icon: AwesomeIcons.file_outlined,
-                            onTap: () {},
+                            onTap: takeImageGallery,
                           ),
                         ],
                       ),
@@ -149,13 +150,13 @@ class _DumentsIdVerificationState extends State<DumentsIdVerification> {
                           CircularIconButton(
                             label: AppLocalizations.of(context)!.front,
                             icon: Icons.camera_alt_outlined,
-                            onTap: () {},
+                            onTap: takeImageCamera,
                           ),
                           64.widthSp,
                           CircularIconButton(
                             label: AppLocalizations.of(context)!.back,
                             icon: Icons.camera_alt_outlined,
-                            onTap: () {},
+                            onTap: takeImageCamera,
                           ),
                         ],
                       ),
@@ -229,6 +230,24 @@ class _DumentsIdVerificationState extends State<DumentsIdVerification> {
         );
       },
       onError: (_) {},
+    );
+  }
+
+  Future<XFile?> takeImageCamera() async {
+    return await ImagePicker().pickImage(
+      source: ImageSource.camera,
+      maxHeight: 1080,
+      maxWidth: 1080,
+      imageQuality: 80,
+    );
+  }
+
+  Future<XFile?> takeImageGallery() async {
+    return await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxHeight: 1080,
+      maxWidth: 1080,
+      imageQuality: 80,
     );
   }
 }
