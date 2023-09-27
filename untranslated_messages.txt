@@ -217,6 +217,11 @@
     "successful",
     "documents_uploaded_sucess_1",
     "documents_uploaded_sucess_2",
-    "documents_uploaded_sucess_3"
+    "documents_uploaded_sucess_3",
+    "why_report",
+    "why_report_subtitle",
+    "content_reported_title",
+    "content_reported_subtitle",
+    "report"
   ]
 }

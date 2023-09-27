@@ -10,6 +10,7 @@ export 'screens/authentication/sign_up.dart';
 export 'screens/chat_screen.dart';
 export 'screens/details/details_ad.dart';
 export 'screens/details/details_company.dart';
+export 'screens/details/report_screen.dart';
 export 'screens/home_screens/home_screen.dart';
 export 'screens/home_screens/page_1_home.dart';
 export 'screens/home_screens/page_2_messages.dart';

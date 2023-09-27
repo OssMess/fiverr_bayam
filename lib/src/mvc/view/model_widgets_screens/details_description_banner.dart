@@ -6,6 +6,7 @@ import 'package:share_plus/share_plus.dart';
 import '../../../extensions.dart';
 import '../model_widgets.dart';
 import '../../../tools.dart';
+import '../screens.dart';
 
 class DetailsDescriptionBanner extends StatelessWidget {
   const DetailsDescriptionBanner({
@@ -163,9 +164,7 @@ class DetailsDescriptionBanner extends StatelessWidget {
               CustomFlatButton(
                 icon: AwesomeIcons.flag_pennant,
                 iconColor: Styles.red,
-                onTap: () {
-                  //TODO implement report
-                },
+                onTap: () => context.push(widget: const ReportScreen()),
               ),
               16.widthSp,
               CustomFlatButton(

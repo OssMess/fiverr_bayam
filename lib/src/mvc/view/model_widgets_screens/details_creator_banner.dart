@@ -93,9 +93,7 @@ class DetailsCreatorBanner extends StatelessWidget {
               CustomFlatButton(
                 icon: AwesomeIcons.flag_pennant,
                 iconColor: Styles.red,
-                onTap: () {
-                  //TODO implement report
-                },
+                onTap: () => context.push(widget: const ReportScreen()),
               ),
             ],
           ),

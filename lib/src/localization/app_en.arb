@@ -221,7 +221,11 @@
   "documents_uploaded_sucess_1":"Thank you for submitting your information. After verification, we will notify you.",
   "documents_uploaded_sucess_2":"To obtain a verified profile with a blue badge, please contact an admin by clicking",
   "documents_uploaded_sucess_3":"here",
-
+  "why_report":"Why are you reporting this ad?",
+  "why_report_subtitle":"We won’t let them know you took this action",
+  "content_reported_title":"Thanks for letting us know",
+  "content_reported_subtitle":"Your feedback is important in helping us keep the community safe.",
+  "report":"report",
 
   "@min_caracters":{
     "description":"a validator message for minimum length",

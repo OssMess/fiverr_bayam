@@ -31,29 +31,30 @@ class MyApp extends StatelessWidget {
           animation: settingsController,
           builder: (BuildContext context, Widget? child) {
             return MaterialApp(
-                restorationScopeId: 'app',
-                debugShowCheckedModeBanner: false,
-                localizationsDelegates: const [
-                  AppLocalizations.delegate,
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
-                supportedLocales: const [
-                  Locale('en', ''), // English, no country code
-                  Locale('fr', ''), // French, no country code
-                ],
-                onGenerateTitle: (BuildContext context) =>
-                    AppLocalizations.of(context)!.appTitle,
-                theme: getLightTheme(),
-                // darkTheme: getDarkTheme(),
-                themeMode: settingsController.themeMode,
-                locale: settingsController.localeMode,
-                home: AuthWrapper(
-                  showSplashScreen: showSplashScreen,
-                  hideSplashScreen: hideSplashScreen,
-                  settingsController: settingsController,
-                ));
+              restorationScopeId: 'app',
+              debugShowCheckedModeBanner: false,
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: const [
+                Locale('en', ''), // English, no country code
+                Locale('fr', ''), // French, no country code
+              ],
+              onGenerateTitle: (BuildContext context) =>
+                  AppLocalizations.of(context)!.appTitle,
+              theme: getLightTheme(),
+              // darkTheme: getDarkTheme(),
+              themeMode: settingsController.themeMode,
+              locale: settingsController.localeMode,
+              home: AuthWrapper(
+                showSplashScreen: showSplashScreen,
+                hideSplashScreen: hideSplashScreen,
+                settingsController: settingsController,
+              ),
+            );
           },
         );
       },
