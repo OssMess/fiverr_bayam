@@ -224,6 +224,16 @@
     "content_reported_title",
     "content_reported_subtitle",
     "report",
-    "my_ads"
+    "my_ads",
+    "promoted",
+    "promoted_ads",
+    "promote",
+    "modify",
+    "delete",
+    "warning",
+    "delete_ad_subtitle",
+    "start_date",
+    "end_date",
+    "create_ad"
   ]
 }

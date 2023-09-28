@@ -228,6 +228,16 @@
   "content_reported_subtitle":"Your feedback is important in helping us keep the community safe.",
   "report":"report",
   "my_ads":"My Ads",
+  "promoted":"Promoted",
+  "promoted_ads":"Promoted Ads",
+  "promote":"Promote",
+  "modify":"Modify",
+  "delete":"Delete",
+  "warning":"Warning",
+  "delete_ad_subtitle":" You want to delete your ad, after validation of this deletion, you can no longer see this ad and it will be deleted from our databases.",
+  "start_date":"Start date",
+  "end_date":"End date",
+  "create_ad":"Create Ad",
 
   "@min_caracters":{
     "description":"a validator message for minimum length",

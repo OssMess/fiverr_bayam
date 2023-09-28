@@ -1,5 +1,5 @@
 /// presents the diffrent views for the search page
-enum ViewPage {
+enum PersonViewPage {
   /// default view
   normal,
 

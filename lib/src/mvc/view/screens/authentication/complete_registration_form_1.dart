@@ -66,7 +66,6 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
           onTap: () => context.pop(),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Column(
         children: [
           const CustomAppBarBackground(

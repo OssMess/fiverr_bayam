@@ -14,7 +14,6 @@
 ///
 ///
 ///
-
 import 'package:flutter/widgets.dart';
 
 class AwesomeIcons {
@@ -133,4 +132,6 @@ class AwesomeIcons {
       IconData(0xe835, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData rental =
       IconData(0xe836, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData pen_to_square =
+      IconData(0xe837, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

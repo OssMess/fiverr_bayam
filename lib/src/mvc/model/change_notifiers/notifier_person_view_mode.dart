@@ -2,48 +2,48 @@ import 'package:flutter/material.dart';
 
 import '../enums.dart';
 
-class NotifierViewMode extends ValueNotifier<ViewPage> {
+class NotifierPersonViewMode extends ValueNotifier<PersonViewPage> {
   SearchTab searchTab = SearchTab.products;
 
-  NotifierViewMode({
-    ViewPage viewPage = ViewPage.normal,
+  NotifierPersonViewMode({
+    PersonViewPage viewPage = PersonViewPage.normal,
     SearchTab searchTab = SearchTab.products,
   }) : super(viewPage);
 
-  bool get isNotInPageNormal => value != ViewPage.normal;
+  bool get isNotInPageNormal => value != PersonViewPage.normal;
 
-  bool get isInPageNormal => value == ViewPage.normal;
+  bool get isInPageNormal => value == PersonViewPage.normal;
 
-  bool get isInPageSuggestions => value == ViewPage.suggestions;
+  bool get isInPageSuggestions => value == PersonViewPage.suggestions;
 
-  bool get isNotInPageSuggestions => value != ViewPage.suggestions;
+  bool get isNotInPageSuggestions => value != PersonViewPage.suggestions;
 
-  bool get isInPageResults => value == ViewPage.results;
+  bool get isInPageResults => value == PersonViewPage.results;
 
-  bool get isInPageSearch => value == ViewPage.search;
+  bool get isInPageSearch => value == PersonViewPage.search;
 
   bool get isInTabProducts => searchTab == SearchTab.products;
 
   bool get isInTabCompanies => searchTab == SearchTab.companies;
 
   void reset() {
-    value = ViewPage.normal;
+    value = PersonViewPage.normal;
     searchTab = SearchTab.products;
     notifyListeners();
   }
 
   void openPageSearch() {
-    value = ViewPage.search;
+    value = PersonViewPage.search;
     notifyListeners();
   }
 
   void openPageSuggestions() {
-    value = ViewPage.suggestions;
+    value = PersonViewPage.suggestions;
     notifyListeners();
   }
 
   void openPageResults() {
-    value = ViewPage.results;
+    value = PersonViewPage.results;
     notifyListeners();
   }
 

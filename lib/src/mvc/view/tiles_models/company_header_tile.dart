@@ -14,6 +14,7 @@ class CompanyHeaderTile extends StatelessWidget {
     this.sizeOffset = 0,
     this.trailingUrl,
     this.padding,
+    this.onTapOptions,
   });
 
   final String logoUrl;
@@ -22,6 +23,7 @@ class CompanyHeaderTile extends StatelessWidget {
   final double sizeOffset;
   final String? trailingUrl;
   final EdgeInsetsGeometry? padding;
+  final void Function()? onTapOptions;
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +77,25 @@ class CompanyHeaderTile extends StatelessWidget {
                 trailingUrl!,
               ),
             ),
+          if (onTapOptions != null) ...[
+            8.widthSp,
+            InkResponse(
+              onTap: onTapOptions,
+              child: Container(
+                height: 40.sp,
+                width: 40.sp,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: context.textTheme.headlineSmall!.color,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.more_vert,
+                  size: 20.sp,
+                ),
+              ),
+            ),
+          ],
         ],
       ),
     );

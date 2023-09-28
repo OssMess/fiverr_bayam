@@ -24,7 +24,7 @@ class Page1Home extends StatefulWidget {
 }
 
 class _Page1HomeState extends State<Page1Home> {
-  NotifierViewMode notifierViewMode = NotifierViewMode();
+  NotifierPersonViewMode notifierViewMode = NotifierPersonViewMode();
 
   @override
   Widget build(BuildContext context) {

@@ -24,7 +24,7 @@ class Page3PersonAds extends StatefulWidget {
 }
 
 class _Page3PersonAdsState extends State<Page3PersonAds> {
-  NotifierViewMode notifierViewMode = NotifierViewMode();
+  NotifierPersonViewMode notifierViewMode = NotifierPersonViewMode();
 
   @override
   Widget build(BuildContext context) {

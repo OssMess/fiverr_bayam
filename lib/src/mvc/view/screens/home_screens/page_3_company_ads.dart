@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../extensions.dart';
+import '../../../../tools.dart';
+import '../../../model/enums.dart';
 import '../../../model/list_models.dart';
 import '../../../model/models.dart';
 import '../../model_widgets.dart';
@@ -18,34 +21,48 @@ class Page3CompanyAds extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomRefreshIndicator(
-      onRefresh: () async {
-        await Future.delayed(const Duration(seconds: 1));
-      },
-      child: CustomScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        slivers: [
-          16.sliverSp,
-          SliverHeaderTile(
-            title: AppLocalizations.of(context)!.my_ads,
-            trailing: '${AppLocalizations.of(context)!.nb_results(43)} >',
-            onTapTrailing: () {},
-          ),
-          16.sliverSp,
-          SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: 16.sp),
-            sliver: SliverList.separated(
-              itemCount: ListData.ads.length,
-              separatorBuilder: (context, index) => 12.heightSp,
-              itemBuilder: (context, index) => AdTile(
-                ad: ListData.ads[index],
-                expanded: true,
+    return Consumer<ValueNotifier<CompanyViewPage>>(
+      builder: (context, viewPage, _) {
+        bool promotedAds = viewPage.value == CompanyViewPage.promotedAds;
+        return CustomRefreshIndicator(
+          onRefresh: () async {
+            await Future.delayed(const Duration(seconds: 1));
+          },
+          child: CustomScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            slivers: [
+              16.sliverSp,
+              SliverHeaderTile(
+                title: viewPage.value == CompanyViewPage.myAds
+                    ? AppLocalizations.of(context)!.my_ads
+                    : AppLocalizations.of(context)!.promoted_ads,
+                trailing: '${AppLocalizations.of(context)!.nb_results(43)} >',
+                onTapTrailing: () {},
               ),
-            ),
+              16.sliverSp,
+              SliverPadding(
+                padding: EdgeInsets.symmetric(horizontal: 16.sp),
+                sliver: SliverList.separated(
+                  itemCount: ListData.ads.length,
+                  separatorBuilder: (context, index) => 12.heightSp,
+                  itemBuilder: (_, index) => AdTile(
+                    ad: ListData.ads[index],
+                    expanded: true,
+                    showDates: promotedAds,
+                    onTapOptions: () => onTapAdOptions(context),
+                  ),
+                ),
+              ),
+              if (!promotedAds) 70.sliverSp,
+              (context.viewPadding.bottom + 20.sp).sliver,
+            ],
           ),
-          (context.viewPadding.bottom + 20.sp).sliver,
-        ],
-      ),
+        );
+      },
     );
+  }
+
+  void onTapAdOptions(BuildContext context) {
+    Dialogs.of(context).showDialogAdsOptions();
   }
 }

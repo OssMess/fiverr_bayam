@@ -31,6 +31,16 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   NotifierPage pageNotifier = NotifierPage();
   PersistentTabController? controller;
+  ValueNotifier<CompanyViewPage>? notifierCompanyViewPage;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.userSession.isCompany) {
+      notifierCompanyViewPage =
+          ValueNotifier<CompanyViewPage>(CompanyViewPage.myAds);
+    }
+  }
 
   @override
   void dispose() {
@@ -40,8 +50,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
-      value: pageNotifier,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(
+          value: pageNotifier,
+        ),
+        ChangeNotifierProvider.value(
+          value: notifierCompanyViewPage,
+        ),
+      ],
       child: WillPopScope(
         onWillPop: () {
           if (pageNotifier.currentPage != 0) {
@@ -54,6 +71,23 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Scaffold(
           extendBodyBehindAppBar: true,
           resizeToAvoidBottomInset: true,
+          floatingActionButton:
+              Consumer2<NotifierPage, ValueNotifier<CompanyViewPage>?>(
+                  builder: (context, currentPage, companyViewPage, _) {
+            if (companyViewPage == null ||
+                currentPage.currentPage != 2 ||
+                companyViewPage.value == CompanyViewPage.promotedAds) {
+              return const SizedBox.shrink();
+            }
+            return CustomElevatedButton(
+              onPressed: () {
+                //TODO create add
+              },
+              label: AppLocalizations.of(context)!.create_ad,
+            );
+          }),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
           appBar: AppBar(
             elevation: 0,
             backgroundColor: Colors.transparent,
@@ -63,37 +97,74 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {},
             ),
             actions: [
-              badge.Badge(
-                badgeStyle: badge.BadgeStyle(
-                  badgeColor: Styles.green,
-                  elevation: 0,
-                  borderSide: BorderSide(
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    width: 2.sp,
-                  ),
-                  padding: EdgeInsets.all(6.sp),
-                ),
-                badgeAnimation: const badge.BadgeAnimation.scale(
-                  toAnimate: false,
-                ),
-                position: badge.BadgePosition.topEnd(
-                  top: 6.sp,
-                  end: 12.sp,
-                ),
-                showBadge: true,
-                badgeContent: Text(
-                  '1',
-                  style: Styles.poppins(
-                    fontSize: 12.sp,
-                    fontWeight: Styles.semiBold,
-                    color: Colors.white,
-                    height: 1.2,
-                  ),
-                ),
-                child: AppBarActionButton(
-                  icon: AwesomeIcons.bell,
-                  onTap: () {},
-                ),
+              Consumer2<NotifierPage, ValueNotifier<CompanyViewPage>?>(
+                builder: (context, currentPage, companyViewPage, _) {
+                  if (currentPage.currentPage != 2 || companyViewPage == null) {
+                    return badge.Badge(
+                      badgeStyle: badge.BadgeStyle(
+                        badgeColor: Styles.green,
+                        elevation: 0,
+                        borderSide: BorderSide(
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                          width: 2.sp,
+                        ),
+                        padding: EdgeInsets.all(6.sp),
+                      ),
+                      badgeAnimation: const badge.BadgeAnimation.scale(
+                        toAnimate: false,
+                      ),
+                      position: badge.BadgePosition.topEnd(
+                        top: 6.sp,
+                        end: 12.sp,
+                      ),
+                      showBadge: true,
+                      badgeContent: Text(
+                        '1',
+                        style: Styles.poppins(
+                          fontSize: 12.sp,
+                          fontWeight: Styles.semiBold,
+                          color: Colors.white,
+                          height: 1.2,
+                        ),
+                      ),
+                      child: AppBarActionButton(
+                        icon: AwesomeIcons.bell,
+                        onTap: () {},
+                      ),
+                    );
+                  } else {
+                    return InkResponse(
+                      onTap: () {
+                        if (companyViewPage.value == CompanyViewPage.myAds) {
+                          companyViewPage.value = CompanyViewPage.promotedAds;
+                        } else {
+                          companyViewPage.value = CompanyViewPage.myAds;
+                        }
+                      },
+                      child: Container(
+                        margin: EdgeInsets.symmetric(
+                            horizontal: 4.sp, vertical: 8.sp),
+                        padding: EdgeInsets.symmetric(horizontal: 8.sp),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: Text(
+                          companyViewPage.value == CompanyViewPage.myAds
+                              ? AppLocalizations.of(context)!.promoted
+                              : AppLocalizations.of(context)!.my_ads,
+                          style: Styles.poppins(
+                            fontSize: 12.sp,
+                            fontWeight: Styles.semiBold,
+                            color: Colors.green,
+                            height: 1.2,
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                },
               )
             ],
           ),

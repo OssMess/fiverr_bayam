@@ -64,9 +64,9 @@ class AdaptiveBottomSheet extends StatelessWidget {
               borderRadius: BorderRadius.circular(50),
             ),
           ),
-          SizedBox(height: 10.sp),
+          10.heightSp,
           ...children,
-          SizedBox(height: 40.sp),
+          40.heightSp,
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -92,7 +92,7 @@ class AdaptiveBottomSheet extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 20.sp),
+          20.heightSp,
         ],
       ),
     );

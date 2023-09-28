@@ -25,7 +25,7 @@ class SearchScreen extends StatefulWidget {
     required this.notifierViewMode,
   });
 
-  final NotifierViewMode notifierViewMode;
+  final NotifierPersonViewMode notifierViewMode;
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -55,7 +55,7 @@ class _SearchScreenState extends State<SearchScreen>
           physics: const AlwaysScrollableScrollPhysics(),
           slivers: [
             /// Tab Bar: show in search view and results view
-            if ([ViewPage.search, ViewPage.results]
+            if ([PersonViewPage.search, PersonViewPage.results]
                 .contains(widget.notifierViewMode.value)) ...[
               16.sliverSp,
               SliverToBoxAdapter(

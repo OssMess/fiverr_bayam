@@ -13,7 +13,7 @@ class MainSearchTextFormField extends StatefulWidget {
     required this.notifierViewMode,
   });
 
-  final NotifierViewMode notifierViewMode;
+  final NotifierPersonViewMode notifierViewMode;
 
   @override
   State<MainSearchTextFormField> createState() =>

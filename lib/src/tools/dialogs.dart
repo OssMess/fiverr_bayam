@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -8,7 +10,7 @@ import '../extensions.dart';
 import '../mvc/model/models_ui.dart';
 import '../mvc/view/dialogs.dart';
 import '../mvc/view/model_widgets.dart';
-import 'styles.dart';
+import '../tools.dart';
 
 class Dialogs {
   final BuildContext context;
@@ -324,6 +326,88 @@ class Dialogs {
         mainAxisSize: MainAxisSize.min,
         physics: const ClampingScrollPhysics(),
         onPick: onPick,
+      ),
+    );
+  }
+
+  Future<void> showDialogAdsOptions() async {
+    await context.showAdaptiveModalBottomSheet(
+      builder: (_) => Container(
+        constraints: BoxConstraints.loose(
+          Size(
+            1.sw,
+            1.sh - Paddings.viewPadding.top,
+          ),
+        ),
+        padding: EdgeInsets.fromLTRB(
+          35.w,
+          5.h,
+          35.w,
+          min(30.h, 15.h + Paddings.viewPadding.bottom),
+        ),
+        decoration: BoxDecoration(
+          color: context.scaffoldBackgroundColor,
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(32.sp),
+          ),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              height: 5.sp,
+              width: 150.sp,
+              decoration: BoxDecoration(
+                color: context.textTheme.displayMedium!.color,
+                borderRadius: BorderRadius.circular(50),
+              ),
+            ),
+            30.heightSp,
+            CustomElevatedListTile(
+              leadingIcon: AwesomeIcons.ads,
+              title: AppLocalizations.of(context)!.promote,
+              onTap: () {
+                context.pop();
+                //TODO promote ad
+                // context.push(widget: ContactSupport());
+              },
+            ),
+            16.heightSp,
+            CustomElevatedListTile(
+              leadingIcon: AwesomeIcons.pen_to_square,
+              title: AppLocalizations.of(context)!.modify,
+              onTap: () {
+                context.pop();
+                //TODO modify ad
+                // context.push(widget: ContactSupport());
+              },
+            ),
+            16.heightSp,
+            CustomElevatedListTile(
+              leadingIcon: AwesomeIcons.trash_outlined,
+              title: AppLocalizations.of(context)!.delete,
+              leadingIconColor: Styles.red,
+              onTap: () {
+                context.pop();
+                Dialogs.of(context).showCustomDialog(
+                  title: AppLocalizations.of(context)!.warning,
+                  subtitle: AppLocalizations.of(context)!.delete_ad_subtitle,
+                  yesAct: ModelTextButton(
+                    label: AppLocalizations.of(context)!.continu,
+                    color: Styles.red,
+                    onPressed: () {},
+                  ),
+                  noAct: ModelTextButton(
+                    label: AppLocalizations.of(context)!.cancel,
+                    fontColor: context.textTheme.displayLarge!.color,
+                    color: Styles.red[50],
+                  ),
+                );
+              },
+            ),
+            30.heightSp,
+          ],
+        ),
       ),
     );
   }
