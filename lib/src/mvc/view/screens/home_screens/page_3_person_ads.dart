@@ -1,8 +1,8 @@
-import 'package:bayam/src/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../../../extensions.dart';
 import '../../../model/change_notifiers.dart';
 import '../../../model/list_models.dart';
 import '../../../model/models.dart';
@@ -11,8 +11,8 @@ import '../../model_widgets_screens.dart';
 import '../../screens.dart';
 import '../../tiles.dart';
 
-class Page3Ads extends StatefulWidget {
-  const Page3Ads({
+class Page3PersonAds extends StatefulWidget {
+  const Page3PersonAds({
     super.key,
     required this.userSession,
   });
@@ -20,10 +20,10 @@ class Page3Ads extends StatefulWidget {
   final UserSession userSession;
 
   @override
-  State<Page3Ads> createState() => _Page3AdsState();
+  State<Page3PersonAds> createState() => _Page3PersonAdsState();
 }
 
-class _Page3AdsState extends State<Page3Ads> {
+class _Page3PersonAdsState extends State<Page3PersonAds> {
   NotifierViewMode notifierViewMode = NotifierViewMode();
 
   @override

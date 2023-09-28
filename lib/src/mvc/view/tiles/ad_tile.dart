@@ -1,8 +1,8 @@
-import 'package:bayam/src/extensions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../extensions.dart';
 import '../../../tools.dart';
 import '../../model/models.dart';
 import '../model_widgets.dart';

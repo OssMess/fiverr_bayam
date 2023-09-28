@@ -223,6 +223,7 @@
     "why_report_hint",
     "content_reported_title",
     "content_reported_subtitle",
-    "report"
+    "report",
+    "my_ads"
   ]
 }

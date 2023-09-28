@@ -1,7 +1,7 @@
-import 'package:bayam/src/extensions.dart';
 import 'package:flutter/material.dart';
 
 import '../../../tools.dart';
+import '../../../extensions.dart';
 
 class CustomRefreshIndicator extends StatelessWidget {
   const CustomRefreshIndicator({

@@ -1,4 +1,3 @@
-import 'package:bayam/src/extensions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../../settings.dart';
+import '../../../../extensions.dart';
 import '../../../../tools.dart';
 import '../../../model/models.dart';
 import '../../../model/models_ui.dart';

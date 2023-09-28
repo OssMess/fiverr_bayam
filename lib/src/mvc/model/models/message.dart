@@ -1,8 +1,9 @@
 import 'dart:io';
 
-import 'package:bayam/src/extensions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+
+import '../../../extensions.dart';
 
 class Message with ChangeNotifier {
   final String senderId;

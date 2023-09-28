@@ -227,6 +227,7 @@
   "content_reported_title":"Thanks for letting us know",
   "content_reported_subtitle":"Your feedback is important in helping us keep the community safe.",
   "report":"report",
+  "my_ads":"My Ads",
 
   "@min_caracters":{
     "description":"a validator message for minimum length",
