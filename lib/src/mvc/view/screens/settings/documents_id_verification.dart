@@ -233,6 +233,9 @@ class _DumentsIdVerificationState extends State<DumentsIdVerification> {
   }
 
   Future<XFile?> takeImageCamera() async {
+    if (await Permissions.of(context).showCameraPermission()) {
+      return null;
+    }
     return await ImagePicker().pickImage(
       source: ImageSource.camera,
       maxHeight: 1080,
@@ -242,6 +245,9 @@ class _DumentsIdVerificationState extends State<DumentsIdVerification> {
   }
 
   Future<XFile?> takeImageGallery() async {
+    if (await Permissions.of(context).showPhotoLibraryPermission()) {
+      return null;
+    }
     return await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxHeight: 1080,

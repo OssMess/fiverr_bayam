@@ -304,6 +304,9 @@ class _ChatSendMessageState extends State<ChatSendMessage> {
 
   Future<void> sendImage() async {
     hideEmojiKeyboard();
+    if (await Permissions.of(context).showPhotoLibraryPermission()) {
+      return;
+    }
     ImagePicker()
         .pickImage(
       source: ImageSource.gallery,

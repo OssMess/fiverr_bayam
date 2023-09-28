@@ -10,6 +10,7 @@ import '../extensions.dart';
 import '../mvc/model/models_ui.dart';
 import '../mvc/view/dialogs.dart';
 import '../mvc/view/model_widgets.dart';
+import '../mvc/view/screens.dart';
 import '../tools.dart';
 
 class Dialogs {
@@ -264,19 +265,22 @@ class Dialogs {
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        return Dialog(
-          insetPadding: EdgeInsets.symmetric(horizontal: 32.sp),
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14.sp),
-          ),
-          child: CustomAlertDialog(
-            title: title,
-            subtitle: subtitle,
-            yesAct: yesAct,
-            noAct: noAct,
-            onComplete: onComplete,
-            children: children,
+        return WillPopScope(
+          onWillPop: () => Future.value(false),
+          child: Dialog(
+            insetPadding: EdgeInsets.symmetric(horizontal: 32.sp),
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(14.sp),
+            ),
+            child: CustomAlertDialog(
+              title: title,
+              subtitle: subtitle,
+              yesAct: yesAct,
+              noAct: noAct,
+              onComplete: onComplete,
+              children: children,
+            ),
           ),
         );
       },
@@ -378,8 +382,7 @@ class Dialogs {
               title: AppLocalizations.of(context)!.modify,
               onTap: () {
                 context.pop();
-                //TODO modify ad
-                // context.push(widget: ContactSupport());
+                context.push(widget: const CreateAd());
               },
             ),
             16.heightSp,

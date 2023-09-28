@@ -234,6 +234,21 @@
     "delete_ad_subtitle",
     "start_date",
     "end_date",
-    "create_ad"
+    "create_ad",
+    "ad_title",
+    "ad_title_hint",
+    "category",
+    "category_hint",
+    "description_hint",
+    "location",
+    "location_hint",
+    "tags",
+    "tags_hint",
+    "add",
+    "ad_create_sucess_subtitle",
+    "buy",
+    "sell",
+    "rent",
+    "add_images"
   ]
 }

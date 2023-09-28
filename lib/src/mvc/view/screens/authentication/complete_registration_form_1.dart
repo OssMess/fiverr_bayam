@@ -155,7 +155,9 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
                         InkResponse(
                           onTap: () async {
                             if (await Permissions.of(context)
-                                .showPhotoLibraryPermission()) return;
+                                .showPhotoLibraryPermission()) {
+                              return;
+                            }
                             ImagePicker()
                                 .pickImage(
                               source: ImageSource.gallery,
