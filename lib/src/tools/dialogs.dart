@@ -254,6 +254,8 @@ class Dialogs {
   /// Shows a custom alert dialog with [title], [subtitle], [yesAct] button as
   /// a confirmation button, [noAct] as a cancel button, and [onComplete] function.
   Future<void> showCustomDialog<T>({
+    String? header,
+    Color? headerColor,
     required String title,
     required String subtitle,
     required ModelTextButton yesAct,
@@ -268,12 +270,14 @@ class Dialogs {
         return WillPopScope(
           onWillPop: () => Future.value(false),
           child: Dialog(
-            insetPadding: EdgeInsets.symmetric(horizontal: 32.sp),
+            insetPadding: EdgeInsets.symmetric(horizontal: 24.sp),
             clipBehavior: Clip.antiAliasWithSaveLayer,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(14.sp),
             ),
             child: CustomAlertDialog(
+              header: header,
+              headerColor: headerColor,
               title: title,
               subtitle: subtitle,
               yesAct: yesAct,

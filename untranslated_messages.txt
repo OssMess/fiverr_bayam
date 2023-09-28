@@ -249,6 +249,10 @@
     "buy",
     "sell",
     "rent",
-    "add_images"
+    "add_images",
+    "ad_create_sucess_header",
+    "failed",
+    "ad_create_failed_subtitle",
+    "try_again"
   ]
 }

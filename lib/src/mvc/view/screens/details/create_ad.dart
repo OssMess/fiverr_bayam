@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -327,22 +328,38 @@ class _CreateAdState extends State<CreateAd>
   }
 
   Future<void> next() async {
-    if (!_keyForm.currentState!.validate()) return;
-    _keyForm.currentState!.save();
+    // if (!_keyForm.currentState!.validate()) return;
+    // _keyForm.currentState!.save();
     Dialogs.of(context).runAsyncAction(
       future: () async {
-        await Future.delayed(
-          const Duration(seconds: 1),
-        );
+        await Future.delayed(const Duration(seconds: 1), () {
+          if (Random().nextBool()) {
+            throw Exception();
+          }
+        });
       },
       onComplete: (_) {
         Dialogs.of(context).showCustomDialog(
+          header: AppLocalizations.of(context)!.ad_create_sucess_header,
           title: AppLocalizations.of(context)!.success,
           subtitle: AppLocalizations.of(context)!.ad_create_sucess_subtitle,
           yesAct: ModelTextButton(
             label: AppLocalizations.of(context)!.continu,
             color: Styles.green,
             onPressed: context.pop,
+          ),
+        );
+      },
+      onError: (_) {
+        Dialogs.of(context).showCustomDialog(
+          header: AppLocalizations.of(context)!.ad_create_sucess_header,
+          headerColor: Styles.red[600],
+          title: AppLocalizations.of(context)!.failed,
+          subtitle: AppLocalizations.of(context)!.ad_create_failed_subtitle,
+          yesAct: ModelTextButton(
+            label: AppLocalizations.of(context)!.try_again,
+            color: Styles.green,
+            onPressed: next,
           ),
         );
       },

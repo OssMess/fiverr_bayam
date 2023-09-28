@@ -9,6 +9,8 @@ import '../../model_widgets.dart';
 class CustomAlertDialog<T> extends StatelessWidget {
   const CustomAlertDialog({
     super.key,
+    this.header,
+    this.headerColor,
     required this.title,
     required this.subtitle,
     required this.yesAct,
@@ -17,6 +19,8 @@ class CustomAlertDialog<T> extends StatelessWidget {
     this.onComplete,
   });
 
+  final String? header;
+  final Color? headerColor;
   final String title;
   final String subtitle;
   final ModelTextButton yesAct;
@@ -26,75 +30,133 @@ class CustomAlertDialog<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = 1.sw - 24.sp * 2;
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 40.sp),
+      padding: EdgeInsets.zero,
+      // padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 40.sp),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          const SizedBox(width: double.infinity),
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: Styles.poppins(
-              fontSize: 20.sp,
-              fontWeight: Styles.semiBold,
-              color: context.textTheme.displayLarge!.color,
-            ),
-          ),
-          24.heightSp,
-          Text(
-            subtitle,
-            textAlign: TextAlign.center,
-            style: Styles.poppins(
-              fontSize: 14.sp,
-              fontWeight: Styles.regular,
-              color: context.textTheme.displayLarge!.color,
-            ),
-          ),
-          if (children != null) ...[
-            12.heightSp,
-            ...children!,
-          ],
-          32.heightSp,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (noAct != null)
-                CustomElevatedButton(
-                  label: noAct!.label,
-                  color: noAct!.color,
-                  fontColor: noAct!.fontColor,
-                  elevation: 0,
-                  fontSize: 16.sp,
-                  fixedSize: Size(0.3.sw, 50.sp),
-                  onPressed: () {
-                    context.pop();
-                    if (noAct!.onPressed != null) {
-                      noAct!.onPressed!();
-                    }
-                  },
+          if (!header.isNullOrEmpty)
+            Stack(
+              children: [
+                Container(
+                  height: 130.sp,
+                  width: width,
+                  color: headerColor ?? Styles.green,
                 ),
-              16.widthSp,
-              CustomElevatedButton(
-                label: yesAct.label,
-                color: yesAct.color,
-                fontColor: yesAct.fontColor,
-                elevation: 0,
-                fontSize: 16.sp,
-                fixedSize: Size(0.3.sw, 50.sp),
-                onPressed: () {
-                  context.pop();
-                  dynamic result;
-                  if (yesAct.onPressed != null) {
-                    result = yesAct.onPressed!();
-                  }
-                  if (onComplete != null) {
-                    onComplete!(result);
-                  }
-                },
-              ),
-            ],
+                Positioned(
+                  bottom: 0,
+                  width: width,
+                  height: 80.sp,
+                  child: Image.asset(
+                    'assets/images/background_top.png',
+                    fit: BoxFit.fitWidth,
+                    alignment: Alignment.topCenter,
+                    width: width,
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  width: width,
+                  child: Container(
+                    height: 20.sp,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(14.sp),
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned.fill(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16.sp),
+                    alignment: Alignment.center,
+                    child: Text(
+                      header!,
+                      textAlign: TextAlign.center,
+                      style: Styles.poppins(
+                        fontSize: 14.sp,
+                        fontWeight: Styles.medium,
+                        color: context.textTheme.displayLarge!.color,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          // const SizedBox(width: double.infinity),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 40.sp),
+            child: Column(
+              children: [
+                Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: Styles.poppins(
+                    fontSize: 20.sp,
+                    fontWeight: Styles.semiBold,
+                    color: context.textTheme.displayLarge!.color,
+                  ),
+                ),
+                24.heightSp,
+                Text(
+                  subtitle,
+                  textAlign: TextAlign.center,
+                  style: Styles.poppins(
+                    fontSize: 14.sp,
+                    fontWeight: Styles.regular,
+                    color: context.textTheme.displayLarge!.color,
+                  ),
+                ),
+                if (children != null) ...[
+                  12.heightSp,
+                  ...children!,
+                ],
+                32.heightSp,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (noAct != null)
+                      CustomElevatedButton(
+                        label: noAct!.label,
+                        color: noAct!.color,
+                        fontColor: noAct!.fontColor,
+                        elevation: 0,
+                        fontSize: 16.sp,
+                        fixedSize: Size(0.3.sw, 50.sp),
+                        onPressed: () {
+                          context.pop();
+                          if (noAct!.onPressed != null) {
+                            noAct!.onPressed!();
+                          }
+                        },
+                      ),
+                    16.widthSp,
+                    CustomElevatedButton(
+                      label: yesAct.label,
+                      color: yesAct.color,
+                      fontColor: yesAct.fontColor,
+                      elevation: 0,
+                      fontSize: 16.sp,
+                      fixedSize: Size(0.3.sw, 50.sp),
+                      onPressed: () {
+                        context.pop();
+                        dynamic result;
+                        if (yesAct.onPressed != null) {
+                          result = yesAct.onPressed!();
+                        }
+                        if (onComplete != null) {
+                          onComplete!(result);
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),
