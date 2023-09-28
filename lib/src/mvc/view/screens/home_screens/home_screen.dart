@@ -111,8 +111,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         Page1Home(userSession: widget.userSession),
                         Page2Messages(userSession: widget.userSession),
+                        //TODO my ads for company account
                         Page3Ads(userSession: widget.userSession),
                         Page4AI(userSession: widget.userSession),
+                        //TODO show profile based on account type
                         Page5Profile(
                           userSession: widget.userSession,
                           settingsController: widget.settingsController,
