@@ -134,9 +134,7 @@ class Page5Profile extends StatelessWidget {
             child: CustomElevatedListTile(
               leadingIcon: AwesomeIcons.ads,
               title: AppLocalizations.of(context)!.manage_ads,
-              onTap: () {
-                //TODO manage ads
-              },
+              onTap: () {},
             ),
           ),
           16.sliverSp,

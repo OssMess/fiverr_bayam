@@ -76,7 +76,7 @@ class _MessageTileState extends State<MessageTile> {
               if (widget.message.isAudio) {
                 return VoiceMessage(
                   audioSrc: widget.message.audioUrl!,
-                  played: false, //TODO seen
+                  played: false,
                   me: true,
                   onPlay: () {},
                   meBgColor: Styles.green,

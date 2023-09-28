@@ -76,9 +76,7 @@ class _MainSearchTextFormFieldState extends State<MainSearchTextFormField> {
         readOnly: widget.notifierViewMode.isInPageNormal,
         suffix: widget.notifierViewMode.isNotInPageNormal
             ? InkResponse(
-                onTap: () {
-                  //TODO custom menu button dropdown
-                },
+                onTap: () {},
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [

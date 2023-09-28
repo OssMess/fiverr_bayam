@@ -218,7 +218,6 @@ class _DumentsIdVerificationState extends State<DumentsIdVerification> {
                     ),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
-                        //TODO get blue badge
                         context.pop();
                         context.pop();
                       },
