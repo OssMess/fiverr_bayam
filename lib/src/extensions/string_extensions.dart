@@ -44,6 +44,23 @@ extension StringExtension on String {
         'company': AccountType.company,
         'person': AccountType.person,
       }[this]!;
+
+  AdType get toAdType => {
+        'for_rent': AdType.forRent,
+        'for_sale': AdType.forSell,
+        'want_to_buy': AdType.wantToBuy,
+      }[this]!;
+
+  AccountPreference get toAccountPreference => {
+        'paddyrice': AccountPreference.paddyrice,
+        'hulledrice': AccountPreference.hulledrice,
+        'freshcassava': AccountPreference.freshcassava,
+        'driedcassava': AccountPreference.driedcassava,
+        'sweetpotatoes': AccountPreference.sweetpotatoes,
+        'potatoes': AccountPreference.potatoes,
+        'bananas': AccountPreference.bananas,
+        'blantains': AccountPreference.blantains,
+      }[this]!;
 }
 
 extension StringNullableExtension on String? {

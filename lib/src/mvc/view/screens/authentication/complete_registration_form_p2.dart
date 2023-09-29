@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../../../extensions.dart';
 import '../../../../tools.dart';
 import '../../../model/enums.dart';
 import '../../../model/models.dart';
-import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 import '../../screens.dart';
 
@@ -26,7 +24,24 @@ class CompleteRegistrationFormP2 extends StatefulWidget {
 
 class _CompleteRegistrationFormP2State
     extends State<CompleteRegistrationFormP2> {
-  XFile? file;
+  Set<AccountPreference> pickedPreferences = {};
+  Set<AccountPreference> filteredPreferences = {};
+  Set<AccountPreference> allPreferences = {
+    AccountPreference.paddyrice,
+    AccountPreference.hulledrice,
+    AccountPreference.freshcassava,
+    AccountPreference.driedcassava,
+    AccountPreference.sweetpotatoes,
+    AccountPreference.potatoes,
+    AccountPreference.bananas,
+    AccountPreference.blantains,
+  };
+
+  @override
+  void initState() {
+    super.initState();
+    filteredPreferences.addAll(allPreferences);
+  }
 
   @override
   void dispose() {
@@ -41,9 +56,7 @@ class _CompleteRegistrationFormP2State
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: Text(
-          AppLocalizations.of(context)!.tax_details,
-        ),
+        title: const CustomAppBarLogo(),
         leading: AppBarActionButton(
           icon: context.backButtonIcon,
           onTap: () => context.pop(),
@@ -51,7 +64,7 @@ class _CompleteRegistrationFormP2State
       ),
       floatingActionButton: CustomElevatedButton(
         onPressed: next,
-        label: AppLocalizations.of(context)!.next,
+        label: AppLocalizations.of(context)!.continu,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Column(
@@ -60,67 +73,66 @@ class _CompleteRegistrationFormP2State
             type: AppBarBackgroundType.shrink,
           ),
           Expanded(
-            child: SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 20.sp,
-                  vertical: 10.sp,
-                ).copyWith(bottom: context.viewPadding.bottom + 20.sp),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(16.sp),
-                      decoration: BoxDecoration(
-                        color: Styles.green[50],
-                        borderRadius: BorderRadius.circular(14.sp),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(
-                            AwesomeIcons.id_card,
-                            size: 40.sp,
-                            color: Styles.green,
-                          ),
-                          16.widthSp,
-                          Expanded(
-                            child: Text(
-                              AppLocalizations.of(context)!.person_upload_id,
-                              style: Styles.poppins(
-                                fontSize: 14.sp,
-                                fontWeight: Styles.medium,
-                                color: Styles.green,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 32.sp),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Select at least 3 preferences',
+                    style: Styles.poppins(
+                      fontSize: 18.sp,
+                      fontWeight: Styles.semiBold,
+                      color: context.textTheme.displayLarge!.color,
                     ),
-                    16.heightSp,
-                    InkResponse(
-                      onTap: () async {
-                        if (await Permissions.of(context)
-                            .showPhotoLibraryPermission()) return;
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        height: 0.25.sh,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: context.textTheme.displayLarge!.color!,
-                          borderRadius: BorderRadius.circular(14.sp),
-                        ),
-                        child: CustomTextButton(
-                          button: ModelTextButton(
-                            label: 'Scan ID card',
-                            fontColor: context.scaffoldBackgroundColor,
-                            onPressed: () {},
+                  ),
+                  16.heightSp,
+                  CustomTextFormField(
+                    prefixIcon: AwesomeIcons.magnifying_glass,
+                    suffixIcon: AwesomeIcons.sliders_outlined,
+                    onChanged: (value) {
+                      setState(() {
+                        filteredPreferences.clear();
+                        filteredPreferences.addAll(
+                          allPreferences.where(
+                            (element) => element
+                                .translate(context)
+                                .toLowerCase()
+                                .contains(value),
                           ),
-                        ),
+                        );
+                      });
+                    },
+                  ),
+                  Expanded(
+                    child: ListView.separated(
+                      padding: EdgeInsets.only(
+                        top: 32.sp,
+                        bottom: context.viewPadding.bottom + 90.sp,
                       ),
+                      itemBuilder: (context, index) => StatefulBuilder(
+                        builder: (context, setState) {
+                          AccountPreference preference =
+                              filteredPreferences.elementAt(index);
+                          return PreferenceCheckListTile(
+                            checked: pickedPreferences.contains(preference),
+                            preference: preference,
+                            onChange: (added) {
+                              if (added) {
+                                pickedPreferences.add(preference);
+                              } else {
+                                pickedPreferences.remove(preference);
+                              }
+                              setState(() {});
+                            },
+                          );
+                        },
+                      ),
+                      separatorBuilder: (_, __) => 24.heightSp,
+                      itemCount: filteredPreferences.length,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -135,13 +147,55 @@ class _CompleteRegistrationFormP2State
         await Future.delayed(const Duration(seconds: 1));
       },
       onComplete: (_) {
-        context.push(
-          widget: CompleteRegistrationFormP3(
-            userSession: widget.userSession,
-          ),
-        );
+        if (widget.userSession.isPerson) {
+          context.push(
+            widget: CompleteRegistrationFormP3(
+              userSession: widget.userSession,
+            ),
+          );
+        } else {
+          context.popUntilFirst();
+          widget.userSession.onRegisterCompleted(
+            uid: 0,
+            accountType: AccountType.company,
+            firstName: 's',
+            lastName: 's',
+          );
+        }
       },
       onError: (_) {},
+    );
+  }
+}
+
+class PreferenceCheckListTile extends StatelessWidget {
+  const PreferenceCheckListTile({
+    super.key,
+    required this.checked,
+    required this.preference,
+    required this.onChange,
+  });
+
+  final bool checked;
+  final AccountPreference preference;
+  final Function(bool) onChange;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Expanded(
+          child: CustomCheckBox(
+            value: checked,
+            label: preference.translate(context),
+            onChanged: (value) {
+              if (value == null) return;
+              onChange(value);
+            },
+          ),
+        ),
+      ],
     );
   }
 }

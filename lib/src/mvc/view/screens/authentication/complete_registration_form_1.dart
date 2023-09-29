@@ -387,7 +387,7 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
             break;
           case AccountType.company:
             context.push(
-              widget: CompleteRegistrationFormC2(
+              widget: CompleteRegistrationForm2(
                 userSession: widget.userSession,
               ),
             );

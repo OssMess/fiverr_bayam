@@ -9,9 +9,10 @@ import '../../../model/enums.dart';
 import '../../../model/models.dart';
 import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
+import '../../screens.dart';
 
-class CompleteRegistrationFormC2 extends StatefulWidget {
-  const CompleteRegistrationFormC2({
+class CompleteRegistrationForm2 extends StatefulWidget {
+  const CompleteRegistrationForm2({
     super.key,
     required this.userSession,
   });
@@ -19,12 +20,11 @@ class CompleteRegistrationFormC2 extends StatefulWidget {
   final UserSession userSession;
 
   @override
-  State<CompleteRegistrationFormC2> createState() =>
-      _CompleteRegistrationFormC2State();
+  State<CompleteRegistrationForm2> createState() =>
+      _CompleteRegistrationForm2State();
 }
 
-class _CompleteRegistrationFormC2State
-    extends State<CompleteRegistrationFormC2> {
+class _CompleteRegistrationForm2State extends State<CompleteRegistrationForm2> {
   XFile? file;
 
   @override
@@ -153,12 +153,10 @@ class _CompleteRegistrationFormC2State
             label: AppLocalizations.of(context)!.continu,
           ),
           onComplete: (_) {
-            context.popUntilFirst();
-            widget.userSession.onRegisterCompleted(
-              uid: 0,
-              accountType: AccountType.company,
-              firstName: 's',
-              lastName: 's',
+            context.push(
+              widget: CompleteRegistrationFormP2(
+                userSession: widget.userSession,
+              ),
             );
           },
         );

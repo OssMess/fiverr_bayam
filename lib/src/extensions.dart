@@ -1,4 +1,5 @@
 export 'extensions/account_type_extensions.dart';
+export 'extensions/account_preference_extensions.dart';
 export 'extensions/ad_type_extensions.dart';
 export 'extensions/appbar_background_type_extensions.dart';
 export 'extensions/build_context_extensions.dart';

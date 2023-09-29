@@ -261,6 +261,14 @@
   "promote_an_ad":"Promote an ad",
   "ad_promote_sucess_subtitle":"The promotion of your ad has been successfully submitted, we will notify you when it starts. You can extend the promotion at any time.",
   "daily_budget":"Daily budget",
+  "paddyrice":"Paddy rice",
+  "hulledrice":"Hulled rice",
+  "freshcassava":"Fresh cassava",
+  "driedcassava":"Dried cassava",
+  "sweetpotatoes":"Sweet potatoes",
+  "potatoes":"Potatoes",
+  "bananas":"Bananas",
+  "blantains":"Plantains",
 
   "@min_caracters":{
     "description":"a validator message for minimum length",

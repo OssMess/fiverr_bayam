@@ -10,3 +10,4 @@ export 'enums/faq_type.dart';
 export 'enums/lottie_animation.dart';
 export 'enums/person_view_page.dart';
 export 'enums/search_tab.dart';
+export 'enums/account_preference.dart';

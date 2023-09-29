@@ -256,6 +256,14 @@
     "try_again",
     "promote_an_ad",
     "ad_promote_sucess_subtitle",
-    "daily_budget"
+    "daily_budget",
+    "paddyrice",
+    "hulledrice",
+    "freshcassava",
+    "driedcassava",
+    "sweetpotatoes",
+    "potatoes",
+    "bananas",
+    "blantains"
   ]
 }

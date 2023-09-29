@@ -13,7 +13,7 @@ Map<AdType, Color> backgroundColors = {
 extension AdTypeExtensions on AdType {
   Color get toBackgroundColor => backgroundColors[this]!;
 
-  String toTitle(BuildContext context) {
+  String translate(BuildContext context) {
     return {
       AdType.forRent: AppLocalizations.of(context)!.for_rent,
       AdType.forSell: AppLocalizations.of(context)!.for_sale,

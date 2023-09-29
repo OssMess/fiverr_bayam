@@ -7,6 +7,7 @@ import '../../../../extensions.dart';
 import '../../../../tools.dart';
 import '../../../model/enums.dart';
 import '../../../model/models.dart';
+import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 import '../../screens.dart';
 
@@ -40,37 +41,23 @@ class _CompleteRegistrationFormP3State
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: const CustomAppBarLogo(),
+        title: Text(
+          AppLocalizations.of(context)!.tax_details,
+        ),
         leading: AppBarActionButton(
           icon: context.backButtonIcon,
           onTap: () => context.pop(),
         ),
       ),
-      floatingActionButton: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.sp),
-        child: Row(
-          children: [
-            CustomElevatedButton(
-              onPressed: next,
-              label: AppLocalizations.of(context)!.skip,
-              color: context.textTheme.displaySmall!.color,
-              fixedSize: Size(100.sp, 50.sp),
-            ),
-            16.widthSp,
-            Expanded(
-              child: CustomElevatedButton(
-                onPressed: next,
-                label: AppLocalizations.of(context)!.next,
-              ),
-            ),
-          ],
-        ),
+      floatingActionButton: CustomElevatedButton(
+        onPressed: next,
+        label: AppLocalizations.of(context)!.next,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Column(
         children: [
           const CustomAppBarBackground(
-            type: AppBarBackgroundType.oval,
+            type: AppBarBackgroundType.shrink,
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -79,48 +66,60 @@ class _CompleteRegistrationFormP3State
                   horizontal: 20.sp,
                   vertical: 10.sp,
                 ).copyWith(bottom: context.viewPadding.bottom + 20.sp),
-                child: Align(
-                  heightFactor: 0.2,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 180.w,
-                        height: 180.w,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(16.sp),
+                      decoration: BoxDecoration(
+                        color: Styles.green[50],
+                        borderRadius: BorderRadius.circular(14.sp),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            AwesomeIcons.id_card,
+                            size: 40.sp,
+                            color: Styles.green,
+                          ),
+                          16.widthSp,
+                          Expanded(
+                            child: Text(
+                              AppLocalizations.of(context)!.person_upload_id,
+                              style: Styles.poppins(
+                                fontSize: 14.sp,
+                                fontWeight: Styles.medium,
+                                color: Styles.green,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    16.heightSp,
+                    InkResponse(
+                      onTap: () async {
+                        if (await Permissions.of(context)
+                            .showPhotoLibraryPermission()) return;
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        height: 0.25.sh,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: context.scaffoldBackgroundColor,
-                          boxShadow: [
-                            BoxShadow(
-                              color: context.textTheme.headlineMedium!.color!
-                                  .withOpacity(0.5),
-                              offset: const Offset(0.0, 5.0),
-                              blurRadius: 10.0,
-                            ),
-                          ],
+                          color: context.textTheme.displayLarge!.color!,
+                          borderRadius: BorderRadius.circular(14.sp),
                         ),
-                        child: Icon(
-                          AwesomeIcons.image_gallery,
-                          size: 50.w,
-                          color: Styles.green,
-                        ),
-                      ),
-                      32.heightSp,
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 64.sp),
-                        child: Text(
-                          AppLocalizations.of(context)!.take_upload_photo,
-                          textAlign: TextAlign.center,
-                          style: Styles.poppins(
-                            fontSize: 16.sp,
-                            fontWeight: Styles.regular,
-                            color: context.textTheme.displayMedium!.color,
+                        child: CustomTextButton(
+                          button: ModelTextButton(
+                            label: 'Scan ID card',
+                            fontColor: context.scaffoldBackgroundColor,
+                            onPressed: () {},
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),

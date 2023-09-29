@@ -79,7 +79,7 @@ class DetailsAlbumGallery extends StatelessWidget {
                               borderRadius: BorderRadius.circular(50),
                             ),
                             child: Text(
-                              adType!.toTitle(context),
+                              adType!.translate(context),
                               style: Styles.poppins(
                                 fontSize: 14.sp,
                                 fontWeight: Styles.bold,

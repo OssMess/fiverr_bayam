@@ -8,6 +8,7 @@ import '../../../../tools.dart';
 import '../../../model/enums.dart';
 import '../../../model/models.dart';
 import '../../model_widgets.dart';
+import '../../screens.dart';
 
 class CompleteRegistrationFormP4 extends StatefulWidget {
   const CompleteRegistrationFormP4({
@@ -45,84 +46,82 @@ class _CompleteRegistrationFormP4State
           onTap: () => context.pop(),
         ),
       ),
+      floatingActionButton: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.sp),
+        child: Row(
+          children: [
+            CustomElevatedButton(
+              onPressed: next,
+              label: AppLocalizations.of(context)!.skip,
+              color: context.textTheme.displaySmall!.color,
+              fixedSize: Size(100.sp, 50.sp),
+            ),
+            16.widthSp,
+            Expanded(
+              child: CustomElevatedButton(
+                onPressed: next,
+                label: AppLocalizations.of(context)!.next,
+              ),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Column(
         children: [
           const CustomAppBarBackground(
-            type: AppBarBackgroundType.shrink,
+            type: AppBarBackgroundType.oval,
           ),
           Expanded(
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 20.sp,
-                vertical: 10.sp,
-              ).copyWith(bottom: context.viewPadding.bottom + 20.sp),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(16.sp),
-                    decoration: BoxDecoration(
-                      color: Styles.green[50],
-                      borderRadius: BorderRadius.circular(14.sp),
-                    ),
-                    child: Text(
-                      AppLocalizations.of(context)!.take_selfie,
-                      textAlign: TextAlign.center,
-                      style: Styles.poppins(
-                        fontSize: 14.sp,
-                        fontWeight: Styles.medium,
-                        color: Styles.green,
-                      ),
-                    ),
-                  ),
-                  16.heightSp,
-                  Expanded(
-                    child: InkResponse(
-                      onTap: () async {
-                        if (await Permissions.of(context)
-                            .showPhotoLibraryPermission()) return;
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        height: 0.25.sh,
+            child: SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20.sp,
+                  vertical: 10.sp,
+                ).copyWith(bottom: context.viewPadding.bottom + 20.sp),
+                child: Align(
+                  heightFactor: 0.2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 180.w,
+                        height: 180.w,
+                        alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          color: context.textTheme.displayLarge!.color!,
-                          borderRadius: BorderRadius.circular(14.sp),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            FloatingActionButton(
-                              onPressed: () {},
-                              backgroundColor: Colors.white,
-                              mini: true,
-                              child: Icon(
-                                AwesomeIcons.rotate_right,
-                                color: Styles.green,
-                                size: 24.sp,
-                              ),
+                          shape: BoxShape.circle,
+                          color: context.scaffoldBackgroundColor,
+                          boxShadow: [
+                            BoxShadow(
+                              color: context.textTheme.headlineMedium!.color!
+                                  .withOpacity(0.5),
+                              offset: const Offset(0.0, 5.0),
+                              blurRadius: 10.0,
                             ),
-                            8.heightSp,
-                            Text(
-                              AppLocalizations.of(context)!.retake,
-                              style: Styles.poppins(
-                                fontSize: 12.sp,
-                                fontWeight: Styles.semiBold,
-                                color: Colors.white,
-                              ),
-                            ),
-                            32.heightSp,
                           ],
                         ),
+                        child: Icon(
+                          AwesomeIcons.image_gallery,
+                          size: 50.w,
+                          color: Styles.green,
+                        ),
                       ),
-                    ),
+                      32.heightSp,
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 64.sp),
+                        child: Text(
+                          AppLocalizations.of(context)!.take_upload_photo,
+                          textAlign: TextAlign.center,
+                          style: Styles.poppins(
+                            fontSize: 16.sp,
+                            fontWeight: Styles.regular,
+                            color: context.textTheme.displayMedium!.color,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  16.heightSp,
-                  CustomElevatedButton(
-                    onPressed: next,
-                    label: AppLocalizations.of(context)!.done,
-                  ),
-                ],
+                ),
               ),
             ),
           ),
@@ -137,13 +136,11 @@ class _CompleteRegistrationFormP4State
         await Future.delayed(const Duration(seconds: 1));
       },
       onComplete: (_) {
-        widget.userSession.onRegisterCompleted(
-          uid: 0,
-          accountType: AccountType.person,
-          firstName: 'd',
-          lastName: 'd',
+        context.push(
+          widget: CompleteRegistrationFormP5(
+            userSession: widget.userSession,
+          ),
         );
-        context.popUntilFirst();
       },
       onError: (_) {},
     );

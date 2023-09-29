@@ -35,7 +35,7 @@ class CustomCheckBox extends StatelessWidget {
         style: Styles.poppins(
           fontSize: 16.sp,
           color: Theme.of(context).textTheme.displayLarge!.color,
-          fontWeight: Styles.semiBold,
+          fontWeight: Styles.medium,
         ),
       ),
     );

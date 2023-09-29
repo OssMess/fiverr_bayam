@@ -72,7 +72,7 @@ class AdTile extends StatelessWidget {
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: Text(
-                    ad.adType.toTitle(context),
+                    ad.adType.translate(context),
                     style: Styles.poppins(
                       fontSize: 12.sp,
                       fontWeight: Styles.semiBold,
