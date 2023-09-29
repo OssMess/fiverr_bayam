@@ -59,57 +59,13 @@ class _SearchScreenState extends State<SearchScreen>
                 .contains(widget.notifierViewMode.value)) ...[
               16.sliverSp,
               SliverToBoxAdapter(
-                child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16.sp),
-                  padding: EdgeInsets.all(2.sp),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.sp),
-                    border: Border.all(
-                      width: 1.sp,
-                      color: context.textTheme.headlineMedium!.color!,
-                    ),
-                  ),
-                  child: TabBar(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.sp),
+                  child: CustomTabBar(
                     controller: tabController,
-                    labelPadding: EdgeInsets.symmetric(vertical: 14.sp),
-                    labelColor: Colors.white,
-                    labelStyle: Styles.poppins(
-                      fontSize: 15.sp,
-                      fontWeight: Styles.semiBold,
-                      height: 1.2,
-                    ),
-                    unselectedLabelColor:
-                        context.textTheme.headlineLarge!.color!,
-                    unselectedLabelStyle: Styles.poppins(
-                      fontSize: 15.sp,
-                      fontWeight: Styles.semiBold,
-                      height: 1.2,
-                    ),
-                    indicator: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.sp),
-                      color: Styles.green,
-                    ),
-                    indicatorColor: Styles.green,
-                    indicatorSize: TabBarIndicatorSize.label,
-                    tabAlignment: TabAlignment.fill,
-                    // padding: EdgeInsets.all(16.sp),
                     tabs: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            AppLocalizations.of(context)!.products_and_services,
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            AppLocalizations.of(context)!.companies,
-                          ),
-                        ],
-                      ),
+                      AppLocalizations.of(context)!.products_and_services,
+                      AppLocalizations.of(context)!.companies,
                     ],
                     onTap: (tab) {},
                   ),

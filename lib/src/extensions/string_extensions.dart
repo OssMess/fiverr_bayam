@@ -61,6 +61,22 @@ extension StringExtension on String {
         'bananas': AccountPreference.bananas,
         'blantains': AccountPreference.blantains,
       }[this]!;
+
+  PlanDuration get toPlanDuration => {
+        'monthly': PlanDuration.monthly,
+        'biannual': PlanDuration.biannual,
+        'annual': PlanDuration.annual,
+      }[this]!;
+
+  PlanType get toPlanType => {
+        'by_city': PlanType.byCity,
+        'by_country': PlanType.byCountry,
+      }[this]!;
+  PlanName get toPlanName => {
+        'basic': PlanName.basic,
+        'advanced': PlanName.advanced,
+        'unlimited': PlanName.unlimited,
+      }[this]!;
 }
 
 extension StringNullableExtension on String? {

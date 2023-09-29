@@ -11,7 +11,7 @@ extension FAQTypeExtensions on FAQType {
         FAQType.insurance: 3,
       }[this]!;
 
-  String getTitle(BuildContext context) => {
+  String translate(BuildContext context) => {
         FAQType.payment: AppLocalizations.of(context)!.payment,
         FAQType.cancellations: AppLocalizations.of(context)!.cancellations,
         FAQType.account: AppLocalizations.of(context)!.account,

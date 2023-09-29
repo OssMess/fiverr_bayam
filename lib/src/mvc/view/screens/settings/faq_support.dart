@@ -165,7 +165,7 @@ class _FAQSupportState extends State<FAQSupport> {
                           itemBuilder: (context, index) => CustomChip<int>(
                             value: index,
                             title: ListFAQ.getFAQTypeFromIndex(index)
-                                .getTitle(context),
+                                .translate(context),
                             groupValue: faqTypeIndex,
                             onChange: (index) => setState(
                               () {

@@ -15,3 +15,6 @@ export 'extensions/records_extensions.dart';
 export 'extensions/set_extensions.dart';
 export 'extensions/string_extensions.dart';
 export 'extensions/timeofday_extensions.dart';
+export 'extensions/plan_name_extensions.dart';
+export 'extensions/plan_duration_extensions.dart';
+export 'extensions/plan_type_extensions.dart';

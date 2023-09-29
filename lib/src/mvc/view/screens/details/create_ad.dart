@@ -114,68 +114,16 @@ class _CreateAdState extends State<CreateAd>
                         ),
                       ),
                       16.heightSp,
-                      Container(
-                        padding: EdgeInsets.all(2.sp),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.sp),
-                          border: Border.all(
-                            width: 1.sp,
-                            color: context.textTheme.headlineMedium!.color!,
-                          ),
-                        ),
-                        child: TabBar(
-                          controller: tabController,
-                          labelPadding: EdgeInsets.symmetric(vertical: 14.sp),
-                          labelColor: Colors.white,
-                          labelStyle: Styles.poppins(
-                            fontSize: 15.sp,
-                            fontWeight: Styles.semiBold,
-                            height: 1.2,
-                          ),
-                          unselectedLabelColor:
-                              context.textTheme.headlineLarge!.color!,
-                          unselectedLabelStyle: Styles.poppins(
-                            fontSize: 15.sp,
-                            fontWeight: Styles.semiBold,
-                            height: 1.2,
-                          ),
-                          indicator: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.sp),
-                            color: Styles.green,
-                          ),
-                          indicatorColor: Styles.green,
-                          indicatorSize: TabBarIndicatorSize.label,
-                          tabAlignment: TabAlignment.fill,
-                          tabs: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  AppLocalizations.of(context)!.buy,
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  AppLocalizations.of(context)!.sell,
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  AppLocalizations.of(context)!.rent,
-                                ),
-                              ],
-                            ),
-                          ],
-                          onTap: (tab) {
-                            adTypeIndex = tab;
-                          },
-                        ),
+                      CustomTabBar(
+                        controller: tabController,
+                        tabs: [
+                          AppLocalizations.of(context)!.buy,
+                          AppLocalizations.of(context)!.sell,
+                          AppLocalizations.of(context)!.rent,
+                        ],
+                        onTap: (tab) {
+                          adTypeIndex = tab;
+                        },
                       ),
                       16.heightSp,
                       Container(

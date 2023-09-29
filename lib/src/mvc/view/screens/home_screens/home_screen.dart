@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
               return const SizedBox.shrink();
             }
             return CustomElevatedButton(
-              onPressed: () => context.push(widget: const CreateAd()),
+              onPressed: () => context.push(widget: const SubscribeScreen()),
               label: AppLocalizations.of(context)!.create_ad,
             );
           }),

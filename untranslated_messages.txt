@@ -266,6 +266,21 @@
     "bananas",
     "blantains",
     "commercial_register",
-    "payment_of_taxes"
+    "payment_of_taxes",
+    "by_city",
+    "by_country",
+    "monthly",
+    "biannual",
+    "annual",
+    "monthly_plan",
+    "biannual_plan",
+    "annual_plan",
+    "proposed_plans",
+    "basic",
+    "advanced",
+    "unlimited",
+    "basic_subtitle",
+    "advanced_subtitle",
+    "unlimited_subtitle"
   ]
 }
