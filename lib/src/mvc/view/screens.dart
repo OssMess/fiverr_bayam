@@ -1,7 +1,7 @@
 export './screens/authentication/welcome.dart';
 export './screens/splash_screen.dart';
 export 'screens/authentication/complete_registration_form_1.dart';
-export 'screens/authentication/complete_registration_form_c2.dart';
+export 'screens/authentication/complete_registration_form_2.dart';
 export 'screens/authentication/complete_registration_form_p2.dart';
 export 'screens/authentication/complete_registration_form_p3.dart';
 export 'screens/authentication/complete_registration_form_p4.dart';
