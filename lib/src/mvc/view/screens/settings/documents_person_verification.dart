@@ -10,14 +10,16 @@ import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
 
-class DumentsIdVerification extends StatefulWidget {
-  const DumentsIdVerification({super.key});
+class DocumentsPersonVerification extends StatefulWidget {
+  const DocumentsPersonVerification({super.key});
 
   @override
-  State<DumentsIdVerification> createState() => _DumentsIdVerificationState();
+  State<DocumentsPersonVerification> createState() =>
+      _DocumentsPersonVerificationState();
 }
 
-class _DumentsIdVerificationState extends State<DumentsIdVerification> {
+class _DocumentsPersonVerificationState
+    extends State<DocumentsPersonVerification> {
   int? idType;
 
   @override

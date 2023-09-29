@@ -184,11 +184,15 @@ class _HomeScreenState extends State<HomeScreen> {
                             ? Page3PersonAds(userSession: widget.userSession)
                             : Page3CompanyAds(userSession: widget.userSession),
                         Page4AI(userSession: widget.userSession),
-                        //TODO show profile based on account type
-                        Page5Profile(
-                          userSession: widget.userSession,
-                          settingsController: widget.settingsController,
-                        ),
+                        widget.userSession.isPerson
+                            ? Page5PersonProfile(
+                                userSession: widget.userSession,
+                                settingsController: widget.settingsController,
+                              )
+                            : Page5CompanyProfile(
+                                userSession: widget.userSession,
+                                settingsController: widget.settingsController,
+                              ),
                       ],
                     );
                   },

@@ -377,49 +377,17 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
         await Future.delayed(const Duration(seconds: 1));
       },
       onComplete: (_) {
-        switch (widget.accountType) {
-          case AccountType.person:
-            context.push(
-              widget: CompleteRegistrationFormP2(
-                userSession: widget.userSession,
-              ),
-            );
-            break;
-          case AccountType.company:
-            context.push(
-              widget: CompleteRegistrationForm2(
-                userSession: widget.userSession,
-              ),
-            );
-            break;
-          default:
-        }
-        // Dialogs.of(context).showCustomDialog(
-        //   title: AppLocalizations.of(context)!.success,
-        //   subtitle: AppLocalizations.of(context)!.signup_success_subtitle,
-        //   yesAct: ModelTextButton(
-        //     label: AppLocalizations.of(context)!.continu,
-        //   ),
-        //   onComplete: (_) {
-        //     switch (widget.accountType) {
-        //       case AccountType.customer:
-        //         break;
-        //       case AccountType.company:
-        //         context.push(
-        //           widget: CompleteRegistrationFormC2(
-        //             userSession: widget.userSession,
-        //           ),
-        //         );
-        //         break;
-        //       default:
-        //     }
-        //   },
-        // );
+        context.push(
+          widget: CompleteRegistrationFormP2(
+            userSession: widget.userSession,
+          ),
+        );
       },
       onError: (_) {},
     );
   }
 
   bool get isCustomer => widget.accountType == AccountType.person;
+
   bool get isCompany => widget.accountType == AccountType.company;
 }

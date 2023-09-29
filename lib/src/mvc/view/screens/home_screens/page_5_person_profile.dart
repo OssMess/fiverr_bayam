@@ -12,8 +12,8 @@ import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 import '../../screens.dart';
 
-class Page5Profile extends StatelessWidget {
-  const Page5Profile({
+class Page5PersonProfile extends StatelessWidget {
+  const Page5PersonProfile({
     super.key,
     required this.userSession,
     required this.settingsController,

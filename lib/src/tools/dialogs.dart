@@ -377,7 +377,6 @@ class Dialogs {
               title: AppLocalizations.of(context)!.promote,
               onTap: () {
                 context.pop();
-                //TODO promote ad
                 context.push(
                     widget: PromoteAd(
                   ad: ad,

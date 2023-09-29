@@ -47,7 +47,9 @@ class SettingsScreen extends StatelessWidget {
                       showTrailing: false,
                       padding: EdgeInsets.all(12.sp),
                       onTap: () => context.push(
-                        widget: const EditProfile(),
+                        widget: userSession.isPerson
+                            ? const EditPersonProfile()
+                            : const EditCompanyProfile(),
                       ),
                     ),
                     16.heightSp,
@@ -117,8 +119,11 @@ class SettingsScreen extends StatelessWidget {
                       showContainerDecoration: false,
                       showTrailing: false,
                       padding: EdgeInsets.all(12.sp),
-                      onTap: () =>
-                          context.push(widget: const DumentsIdVerification()),
+                      onTap: () => context.push(
+                        widget: userSession.isPerson
+                            ? const DocumentsPersonVerification()
+                            : const DocumentsCompanyVerification(),
+                      ),
                     ),
                     16.heightSp,
                     CustomElevatedListTile(

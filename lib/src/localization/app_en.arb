@@ -269,6 +269,8 @@
   "potatoes":"Potatoes",
   "bananas":"Bananas",
   "blantains":"Plantains",
+  "commercial_register":"Commercial register",
+  "payment_of_taxes":"Payment of taxes",
 
   "@min_caracters":{
     "description":"a validator message for minimum length",

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:intl/intl.dart';
 import 'package:phone_number/phone_number.dart';
 
 import '../../../../extensions.dart';
@@ -10,18 +9,17 @@ import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
 
-class EditProfile extends StatefulWidget {
-  const EditProfile({super.key});
+class EditCompanyProfile extends StatefulWidget {
+  const EditCompanyProfile({super.key});
 
   @override
-  State<EditProfile> createState() => _EditProfileState();
+  State<EditCompanyProfile> createState() => _EditCompanyProfileState();
 }
 
-class _EditProfileState extends State<EditProfile> {
+class _EditCompanyProfileState extends State<EditCompanyProfile> {
   final GlobalKey<FormState> _keyForm = GlobalKey();
   TextEditingController dateController = TextEditingController();
-  String? fullName, email, phoneNumber;
-  DateTime? borthDate;
+  String? companyName, email, phoneNumber;
 
   @override
   void dispose() {
@@ -70,13 +68,15 @@ class _EditProfileState extends State<EditProfile> {
                       ),
                       16.heightSp,
                       CustomTextFormFieldLabel(
-                        initialValue: fullName,
-                        labelText: AppLocalizations.of(context)!.full_name,
-                        hintText: AppLocalizations.of(context)!.full_name_hint,
+                        initialValue: companyName,
+                        labelText:
+                            AppLocalizations.of(context)!.company_name_label,
+                        hintText:
+                            AppLocalizations.of(context)!.company_name_hint,
                         keyboardType: TextInputType.name,
                         validator: Validators.validateNotNull,
                         onSave: (value) {
-                          fullName = value;
+                          companyName = value;
                         },
                       ),
                       CustomTextFormFieldLabel(
@@ -101,16 +101,6 @@ class _EditProfileState extends State<EditProfile> {
                         },
                         textInputAction: TextInputAction.done,
                       ),
-                      CustomTextFormFieldLabel(
-                        controller: dateController,
-                        initialValue: null,
-                        labelText: AppLocalizations.of(context)!.date_of_birth,
-                        hintText:
-                            AppLocalizations.of(context)!.date_of_birth_hint,
-                        keyboardType: TextInputType.datetime,
-                        validator: Validators.validateNotNull,
-                        onTap: () => pickDate(dateController, borthDate),
-                      ),
                       (context.viewPadding.bottom + 20.sp).height,
                     ],
                   ),
@@ -121,22 +111,6 @@ class _EditProfileState extends State<EditProfile> {
         ],
       ),
     );
-  }
-
-  Future<DateTime?> pickDate(
-    TextEditingController controller,
-    DateTime? initialDate,
-  ) async {
-    DateTime lastDate = DateTime.now().subtract(const Duration(days: 6480));
-    DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: initialDate ?? lastDate,
-      firstDate: DateTime.now().subtract(const Duration(days: 36000)),
-      lastDate: lastDate,
-    );
-    if (pickedDate == null) return null;
-    controller.text = DateFormat('dd/MM/yyyy').format(pickedDate);
-    return pickedDate;
   }
 
   Future<void> next() async {
