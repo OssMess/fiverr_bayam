@@ -254,10 +254,13 @@
   "sell":"Sell",
   "rent":"Rent",
   "add_images":"Add Images",
-  "ad_create_sucess_header":"Thank you for choosing Bayam for the promotion of your products and your activity",
+  "ad_thankyou_header":"Thank you for choosing Bayam for the promotion of your products and your activity",
   "failed":"Failed",
   "ad_create_failed_subtitle":"Sorry your ad was rejected because it does not meet the standards of ads on our platform. Please check your listing and  publish again",
   "try_again":"Try again",
+  "promote_an_ad":"Promote an ad",
+  "ad_promote_sucess_subtitle":"The promotion of your ad has been successfully submitted, we will notify you when it starts. You can extend the promotion at any time.",
+  "daily_budget":"Daily budget",
 
   "@min_caracters":{
     "description":"a validator message for minimum length",

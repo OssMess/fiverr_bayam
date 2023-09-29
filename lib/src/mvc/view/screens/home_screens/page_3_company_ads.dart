@@ -49,7 +49,10 @@ class Page3CompanyAds extends StatelessWidget {
                     ad: ListData.ads[index],
                     expanded: true,
                     showDates: promotedAds,
-                    onTapOptions: () => onTapAdOptions(context),
+                    onTapOptions: () => onTapAdOptions(
+                      context,
+                      ListData.ads[index],
+                    ),
                   ),
                 ),
               ),
@@ -62,7 +65,7 @@ class Page3CompanyAds extends StatelessWidget {
     );
   }
 
-  void onTapAdOptions(BuildContext context) {
-    Dialogs.of(context).showDialogAdsOptions();
+  void onTapAdOptions(BuildContext context, Ad ad) {
+    Dialogs.of(context).showDialogAdsOptions(ad);
   }
 }

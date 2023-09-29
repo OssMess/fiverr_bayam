@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../mvc/model/enums.dart';
 import '../extensions.dart';
+import '../mvc/model/models.dart';
 import '../mvc/model/models_ui.dart';
 import '../mvc/view/dialogs.dart';
 import '../mvc/view/model_widgets.dart';
@@ -338,7 +339,7 @@ class Dialogs {
     );
   }
 
-  Future<void> showDialogAdsOptions() async {
+  Future<void> showDialogAdsOptions(Ad ad) async {
     await context.showAdaptiveModalBottomSheet(
       builder: (_) => Container(
         constraints: BoxConstraints.loose(
@@ -377,7 +378,10 @@ class Dialogs {
               onTap: () {
                 context.pop();
                 //TODO promote ad
-                // context.push(widget: ContactSupport());
+                context.push(
+                    widget: PromoteAd(
+                  ad: ad,
+                ));
               },
             ),
             16.heightSp,

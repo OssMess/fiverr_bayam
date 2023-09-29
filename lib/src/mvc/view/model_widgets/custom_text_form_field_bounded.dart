@@ -65,7 +65,7 @@ class _CustomTextFormFieldBoundedState
   @override
   Widget build(BuildContext context) {
     return InkResponse(
-      onTap: (widget.focusNode ?? focusNode).requestFocus,
+      onTap: widget.onTap ?? (widget.focusNode ?? focusNode).requestFocus,
       child: Container(
         padding: EdgeInsets.symmetric(
           horizontal: 12.sp,

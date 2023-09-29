@@ -328,8 +328,8 @@ class _CreateAdState extends State<CreateAd>
   }
 
   Future<void> next() async {
-    // if (!_keyForm.currentState!.validate()) return;
-    // _keyForm.currentState!.save();
+    if (!_keyForm.currentState!.validate()) return;
+    _keyForm.currentState!.save();
     Dialogs.of(context).runAsyncAction(
       future: () async {
         await Future.delayed(const Duration(seconds: 1), () {
@@ -340,7 +340,7 @@ class _CreateAdState extends State<CreateAd>
       },
       onComplete: (_) {
         Dialogs.of(context).showCustomDialog(
-          header: AppLocalizations.of(context)!.ad_create_sucess_header,
+          header: AppLocalizations.of(context)!.ad_thankyou_header,
           title: AppLocalizations.of(context)!.success,
           subtitle: AppLocalizations.of(context)!.ad_create_sucess_subtitle,
           yesAct: ModelTextButton(
@@ -352,7 +352,7 @@ class _CreateAdState extends State<CreateAd>
       },
       onError: (_) {
         Dialogs.of(context).showCustomDialog(
-          header: AppLocalizations.of(context)!.ad_create_sucess_header,
+          header: AppLocalizations.of(context)!.ad_thankyou_header,
           headerColor: Styles.red[600],
           title: AppLocalizations.of(context)!.failed,
           subtitle: AppLocalizations.of(context)!.ad_create_failed_subtitle,
