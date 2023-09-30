@@ -283,6 +283,10 @@
     "advanced_subtitle",
     "unlimited_subtitle",
     "enable_location",
-    "open_settings"
+    "open_settings",
+    "my_current_location",
+    "my_current_location_subtitle",
+    "manual_selection",
+    "manual_selection_subtitle"
   ]
 }

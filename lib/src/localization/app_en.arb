@@ -288,6 +288,10 @@
   "unlimited_subtitle":"Allows for ad promotion in an unlimited number of cities",
   "enable_location":"Enable Location",
   "open_settings":"Open settings",
+  "my_current_location":"Mu current location",
+  "my_current_location_subtitle":"CHOOSE THE LOCATION FOR YOUR ADS",
+  "manual_selection":"Manual Selection",
+  "manual_selection_subtitle":"Popular locations",
   
 
   "@min_caracters":{

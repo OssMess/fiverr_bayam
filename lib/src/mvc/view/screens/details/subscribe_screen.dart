@@ -237,8 +237,8 @@ class PlanCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkResponse(
-      onTap: () => context.push(
-        widget: PromoteAd(
+      onTap: () => context.pushReplacement(
+        widget: PromoteLocation(
           ad: ad,
         ),
       ),

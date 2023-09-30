@@ -13,6 +13,7 @@ export 'screens/details/create_ad.dart';
 export 'screens/details/details_ad.dart';
 export 'screens/details/details_company.dart';
 export 'screens/details/promote_ad.dart';
+export 'screens/details/promote_location.dart';
 export 'screens/details/report_screen.dart';
 export 'screens/details/subscribe_screen.dart';
 export 'screens/home_screens/home_screen.dart';
