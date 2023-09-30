@@ -186,16 +186,49 @@ class Dialogs {
   Future<void> showPermissionDialog({
     required String title,
     required String subtitle,
+    required String imagePath,
+    required String buttonLabel,
+    required void Function() onPressendButton,
     bool barrierDismissible = true,
   }) async {
-    await context.showAdaptiveModalBottomSheet(
-      builder: (_) => ConfirmationDialog(
-        dialogState: DialogState.confirmation,
-        title: title,
-        subtitle: subtitle,
-        continueLabel: AppLocalizations.of(context)!.close,
-        onContinue: null,
-      ),
+    await showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return Dialog(
+          insetPadding: EdgeInsets.symmetric(horizontal: 24.w),
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14.sp),
+          ),
+          child: CustomAlertDialog(
+            header: subtitle,
+            title: title,
+            yesAct: ModelTextButton(
+              label: buttonLabel,
+              onPressed: onPressendButton,
+              color: Styles.red,
+              fontColor: Colors.white,
+            ),
+            children: [
+              Container(
+                padding: EdgeInsets.all(16.sp),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Styles.green[400],
+                ),
+                child: Image.asset(
+                  imagePath,
+                  width: 40.sp,
+                  height: 40.sp,
+                  fit: BoxFit.contain,
+                  alignment: Alignment.center,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -271,7 +304,7 @@ class Dialogs {
         return WillPopScope(
           onWillPop: () => Future.value(false),
           child: Dialog(
-            insetPadding: EdgeInsets.symmetric(horizontal: 24.sp),
+            insetPadding: EdgeInsets.symmetric(horizontal: 24.w),
             clipBehavior: Clip.antiAliasWithSaveLayer,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(14.sp),
@@ -378,9 +411,10 @@ class Dialogs {
               onTap: () {
                 context.pop();
                 context.push(
-                    widget: PromoteAd(
-                  ad: ad,
-                ));
+                  widget: SubscribeScreen(
+                    ad: ad,
+                  ),
+                );
               },
             ),
             16.heightSp,

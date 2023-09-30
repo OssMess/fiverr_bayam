@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -32,6 +33,9 @@ class Permissions {
                   .dialog_content_permission_photos_ios
               : AppLocalizations.of(context)!
                   .dialog_content_permission_photos_android,
+          imagePath: 'assets/images/permission_location.png',
+          buttonLabel: AppLocalizations.of(context)!.open_settings,
+          onPressendButton: openAppSettings,
         );
       }
       return !hasPermission;
@@ -50,6 +54,9 @@ class Permissions {
                   .dialog_content_permission_location_ios
               : AppLocalizations.of(context)!
                   .dialog_content_permission_location_android,
+          imagePath: 'assets/images/permission_location.png',
+          buttonLabel: AppLocalizations.of(context)!.open_settings,
+          onPressendButton: openAppSettings,
         );
       }
       return !hasPermission;
@@ -67,6 +74,11 @@ class Permissions {
               ? AppLocalizations.of(context)!.dialog_content_enable_location_ios
               : AppLocalizations.of(context)!
                   .dialog_content_enable_location_android,
+          imagePath: 'assets/images/permission_location.png',
+          buttonLabel: AppLocalizations.of(context)!.enable_location,
+          onPressendButton: () => AppSettings.openAppSettings(
+            type: AppSettingsType.location,
+          ),
         );
       }
       return !hasPermission;
@@ -85,6 +97,9 @@ class Permissions {
                   .dialog_content_permission_camera_ios
               : AppLocalizations.of(context)!
                   .dialog_content_permission_camera_android,
+          imagePath: 'assets/images/permission_location.png',
+          buttonLabel: AppLocalizations.of(context)!.open_settings,
+          onPressendButton: openAppSettings,
         );
       }
       return !hasPermission;
@@ -103,6 +118,9 @@ class Permissions {
                   .dialog_content_permission_microphone_ios
               : AppLocalizations.of(context)!
                   .dialog_content_permission_microphone_android,
+          imagePath: 'assets/images/permission_location.png',
+          buttonLabel: AppLocalizations.of(context)!.open_settings,
+          onPressendButton: openAppSettings,
         );
       }
       return !hasPermission;
@@ -193,7 +211,6 @@ class Permissions {
     serviceStatus = await Permission.location.status;
     if (!requestPermission && !serviceStatus.isGranted) return false;
     if (serviceStatus.isPermanentlyDenied) {
-      openAppSettings();
       return false;
     }
     if (!serviceStatus.isGranted) {

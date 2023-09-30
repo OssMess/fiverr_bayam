@@ -5,13 +5,13 @@
   "fr":"Français",
   "dialog_title_permission_required":"Permission required",
   "dialog_content_permission_camera_android":"BookingHero requires access to your camera to take upload and photos.",
-  "dialog_content_permission_camera_ios":"To be able to take and upload photos, go to Settings > Privacy > Camera > WeClick > All Photos.",
+  "dialog_content_permission_camera_ios":"To be able to take and upload photos, go to Settings > Privacy > Camera > Bayam > All Photos.",
   "dialog_content_permission_location_android":"BookingHero requires access to your location to retrieve location address.",
-  "dialog_content_permission_location_ios":"To be able to pick your current location address,  go to Settings > Privacy > Location Services> WeClick > Enable.",
+  "dialog_content_permission_location_ios":"To be able to pick your current location address,  go to Settings > Privacy > Location Services> Bayam > Enable.",
   "dialog_content_permission_microphone_android":"BookingHero requires access to microphone to record videos.",
-  "dialog_content_permission_microphone_ios":"To be able to record videos, go to Settings > Privacy > Microphone > WeClick > Enable.",
+  "dialog_content_permission_microphone_ios":"To be able to record videos, go to Settings > Privacy > Microphone > Bayam > Enable.",
   "dialog_content_permission_photos_android":"BookingHero requires access to your photo library to upload photos to your profile and posts.",
-  "dialog_content_permission_photos_ios":"To be able to upload photos to your profile and posts, go to Settings > Privacy > Photos > WeClick > All Photos.",
+  "dialog_content_permission_photos_ios":"To be able to upload photos to your profile and posts, go to Settings > Privacy > Photos > Bayam > All Photos.",
   "dialog_content_enable_location_android":"Enable your device location to display your location on the map.",
   "dialog_content_enable_location_ios":"Enable your device location to display your location on the map.",
   "min_caracters":"Must be at least {min} caracters",
@@ -286,6 +286,9 @@
   "basic_subtitle":"Allows users to promote their ads in a specific city of their choice",
   "advanced_subtitle":"Offers ad promotion in up to three different cities",
   "unlimited_subtitle":"Allows for ad promotion in an unlimited number of cities",
+  "enable_location":"Enable Location",
+  "open_settings":"Open settings",
+  
 
   "@min_caracters":{
     "description":"a validator message for minimum length",

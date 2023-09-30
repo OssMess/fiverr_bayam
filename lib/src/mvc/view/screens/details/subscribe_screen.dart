@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../extensions.dart';
 import '../../../model/enums.dart';
+import '../../../model/models.dart';
 import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
@@ -12,7 +13,10 @@ import '../../screens.dart';
 class SubscribeScreen extends StatefulWidget {
   const SubscribeScreen({
     super.key,
+    required this.ad,
   });
+
+  final Ad ad;
 
   @override
   State<SubscribeScreen> createState() => _SubscribeScreenState();
@@ -158,6 +162,7 @@ class _SubscribeScreenState extends State<SubscribeScreen>
                     ),
                     16.heightSp,
                     PlanCard(
+                      ad: widget.ad,
                       planName: PlanName.basic,
                       planDuration: planDuration,
                       planType: planType,
@@ -165,6 +170,7 @@ class _SubscribeScreenState extends State<SubscribeScreen>
                     ),
                     16.heightSp,
                     PlanCard(
+                      ad: widget.ad,
                       planName: PlanName.advanced,
                       planDuration: planDuration,
                       planType: planType,
@@ -172,6 +178,7 @@ class _SubscribeScreenState extends State<SubscribeScreen>
                     ),
                     16.heightSp,
                     PlanCard(
+                      ad: widget.ad,
                       planName: PlanName.unlimited,
                       planDuration: planDuration,
                       planType: planType,
@@ -214,12 +221,14 @@ class _SubscribeScreenState extends State<SubscribeScreen>
 class PlanCard extends StatelessWidget {
   const PlanCard({
     super.key,
+    required this.ad,
     required this.planName,
     required this.planDuration,
     required this.planType,
     required this.prices,
   });
 
+  final Ad ad;
   final PlanName planName;
   final PlanDuration planDuration;
   final PlanType planType;
@@ -228,7 +237,11 @@ class PlanCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkResponse(
-      onTap: () => context.push(widget: const CreateAd()),
+      onTap: () => context.push(
+        widget: PromoteAd(
+          ad: ad,
+        ),
+      ),
       child: Container(
         padding: EdgeInsets.symmetric(
           horizontal: 16.sp,
@@ -244,7 +257,7 @@ class PlanCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              width: 100.sp,
+              width: 120.sp,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

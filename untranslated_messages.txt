@@ -281,6 +281,8 @@
     "unlimited",
     "basic_subtitle",
     "advanced_subtitle",
-    "unlimited_subtitle"
+    "unlimited_subtitle",
+    "enable_location",
+    "open_settings"
   ]
 }

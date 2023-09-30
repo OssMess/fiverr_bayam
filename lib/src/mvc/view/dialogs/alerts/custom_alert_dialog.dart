@@ -12,17 +12,17 @@ class CustomAlertDialog<T> extends StatelessWidget {
     this.header,
     this.headerColor,
     required this.title,
-    required this.subtitle,
+    this.subtitle,
     required this.yesAct,
     this.noAct,
     this.children,
     this.onComplete,
-  });
+  }) : assert(header != null || subtitle != null);
 
   final String? header;
   final Color? headerColor;
   final String title;
-  final String subtitle;
+  final String? subtitle;
   final ModelTextButton yesAct;
   final ModelTextButton? noAct;
   final List<Widget>? children;
@@ -30,7 +30,7 @@ class CustomAlertDialog<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = 1.sw - 24.sp * 2;
+    double width = 1.sw - 24.w * 2;
     return Padding(
       padding: EdgeInsets.zero,
       // padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 40.sp),
@@ -89,7 +89,7 @@ class CustomAlertDialog<T> extends StatelessWidget {
             ),
           // const SizedBox(width: double.infinity),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 40.sp),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 40.sp),
             child: Column(
               children: [
                 Text(
@@ -101,16 +101,18 @@ class CustomAlertDialog<T> extends StatelessWidget {
                     color: context.textTheme.displayLarge!.color,
                   ),
                 ),
-                24.heightSp,
-                Text(
-                  subtitle,
-                  textAlign: TextAlign.center,
-                  style: Styles.poppins(
-                    fontSize: 14.sp,
-                    fontWeight: Styles.regular,
-                    color: context.textTheme.displayLarge!.color,
+                if (!subtitle.isNullOrEmpty) ...[
+                  24.heightSp,
+                  Text(
+                    subtitle!,
+                    textAlign: TextAlign.center,
+                    style: Styles.poppins(
+                      fontSize: 14.sp,
+                      fontWeight: Styles.regular,
+                      color: context.textTheme.displayLarge!.color,
+                    ),
                   ),
-                ),
+                ],
                 if (children != null) ...[
                   12.heightSp,
                   ...children!,
@@ -126,7 +128,9 @@ class CustomAlertDialog<T> extends StatelessWidget {
                         fontColor: noAct!.fontColor,
                         elevation: 0,
                         fontSize: 16.sp,
-                        fixedSize: Size(0.3.sw, 50.sp),
+                        minimumSize: Size(0.3.sw, 50.sp),
+                        maximumSize: Size(0.38.sw, 50.sp),
+                        // fixedSize: Size(0.35.sw, 50.sp),
                         onPressed: () {
                           context.pop();
                           if (noAct!.onPressed != null) {
@@ -134,14 +138,16 @@ class CustomAlertDialog<T> extends StatelessWidget {
                           }
                         },
                       ),
-                    16.widthSp,
+                    16.widthW,
                     CustomElevatedButton(
                       label: yesAct.label,
                       color: yesAct.color,
                       fontColor: yesAct.fontColor,
                       elevation: 0,
                       fontSize: 16.sp,
-                      fixedSize: Size(0.3.sw, 50.sp),
+                      minimumSize: Size(0.3.sw, 50.sp),
+                      maximumSize: Size(0.38.sw, 50.sp),
+                      // fixedSize: Size(noAct != null ? 0.35.sw : 0.4.sw, 50.sp),
                       onPressed: () {
                         context.pop();
                         dynamic result;

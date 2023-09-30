@@ -19,6 +19,7 @@ class CustomElevatedButton extends StatelessWidget {
     this.shadowColor,
     this.borderColor,
     this.minimumSize,
+    this.maximumSize,
     this.padding,
     this.borderRadius,
     this.enabled = true,
@@ -30,6 +31,7 @@ class CustomElevatedButton extends StatelessWidget {
   final Color? color;
   final Color? disabledcolor;
   final Size? minimumSize;
+  final Size? maximumSize;
   final Size? fixedSize;
   final double? fontSize;
   final double? elevation;
@@ -54,6 +56,7 @@ class CustomElevatedButton extends StatelessWidget {
           ),
           alignment: Alignment.center,
           minimumSize: minimumSize ?? Size(0.25.sw, 50.sp),
+          maximumSize: maximumSize,
           fixedSize: fixedSize ?? Size(0.9.sw, 50.sp),
           backgroundColor: enabled && onPressed != null
               ? color ?? Styles.green
@@ -71,6 +74,7 @@ class CustomElevatedButton extends StatelessWidget {
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             if (icon != null) ...[
               Icon(
