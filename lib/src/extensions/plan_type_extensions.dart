@@ -9,7 +9,7 @@ extension PlanTypeExtensions on PlanType {
         PlanType.byCountry: AppLocalizations.of(context)!.by_country,
       }[this]!;
 
-  String get getString => {
+  String get key => {
         PlanType.byCity: 'by_city',
         PlanType.byCountry: 'by_country',
       }[this]!;

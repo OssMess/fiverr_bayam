@@ -12,6 +12,7 @@ class CustomElevatedContainer extends StatelessWidget {
     this.height,
     this.color,
     this.borderRadius,
+    this.margin,
     this.padding,
   });
 
@@ -21,6 +22,7 @@ class CustomElevatedContainer extends StatelessWidget {
   final double? height;
   final Color? color;
   final BorderRadiusGeometry? borderRadius;
+  final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
 
   @override
@@ -30,15 +32,16 @@ class CustomElevatedContainer extends StatelessWidget {
       child: Container(
         width: width,
         height: height,
+        margin: margin,
         padding: padding,
         decoration: BoxDecoration(
           color: color ?? context.scaffoldBackgroundColor,
           borderRadius: borderRadius ?? BorderRadius.circular(14.sp),
           boxShadow: [
             BoxShadow(
-              color: context.textTheme.headlineMedium!.color!.withOpacity(0.5),
+              color: context.textTheme.headlineLarge!.color!,
               offset: const Offset(0.0, 2.0),
-              blurRadius: 12.0,
+              blurRadius: 4.0,
             ),
           ],
         ),

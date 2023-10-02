@@ -16,7 +16,7 @@ extension PlanNameExtensions on PlanName {
         PlanName.unlimited: AppLocalizations.of(context)!.unlimited_subtitle,
       }[this]!;
 
-  String get getString => {
+  String get key => {
         PlanName.basic: 'basic',
         PlanName.advanced: 'advanced',
         PlanName.unlimited: 'unlimited',

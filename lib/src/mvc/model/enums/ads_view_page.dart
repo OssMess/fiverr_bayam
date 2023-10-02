@@ -1,5 +1,5 @@
 /// presents the diffrent views for the company ads page
-enum CompanyViewPage {
+enum AdsViewPage {
   /// default view
   myAds,
 

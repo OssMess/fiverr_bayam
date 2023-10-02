@@ -7,6 +7,7 @@ import '../../../../extensions.dart';
 import '../../../model/enums.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
+import '../../model_widgets_screens.dart';
 
 class NotificationSettings extends StatelessWidget {
   const NotificationSettings({super.key});
@@ -32,13 +33,8 @@ class NotificationSettings extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  AppLocalizations.of(context)!.notification_settings,
-                  style: Styles.poppins(
-                    fontSize: 16.sp,
-                    fontWeight: Styles.semiBold,
-                    color: context.textTheme.displayLarge!.color,
-                  ),
+                SettingsHeaderSubtitle(
+                  title: AppLocalizations.of(context)!.notification_settings,
                 ),
                 16.heightSp,
                 CustomSwitchListTile(

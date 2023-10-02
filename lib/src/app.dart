@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:keyboard_detection/keyboard_detection.dart';
 
 import 'mvc/controller/auth_wrapper.dart';
 import 'settings/settings_controller.dart';
@@ -30,29 +31,41 @@ class MyApp extends StatelessWidget {
         return AnimatedBuilder(
           animation: settingsController,
           builder: (BuildContext context, Widget? child) {
-            return MaterialApp(
-              restorationScopeId: 'app',
-              debugShowCheckedModeBanner: false,
-              localizationsDelegates: const [
-                AppLocalizations.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              supportedLocales: const [
-                Locale('en', ''), // English, no country code
-                Locale('fr', ''), // French, no country code
-              ],
-              onGenerateTitle: (BuildContext context) =>
-                  AppLocalizations.of(context)!.appTitle,
-              theme: getLightTheme(),
-              // darkTheme: getDarkTheme(),
-              themeMode: settingsController.themeMode,
-              locale: settingsController.localeMode,
-              home: AuthWrapper(
-                showSplashScreen: showSplashScreen,
-                hideSplashScreen: hideSplashScreen,
-                settingsController: settingsController,
+            return KeyboardDetection(
+              controller: KeyboardDetectionController(
+                onChanged: (value) {
+                  Paddings.updateKeyboardIsVisible(
+                    [
+                      KeyboardState.visibling,
+                      KeyboardState.visible,
+                    ].contains(value),
+                  );
+                },
+              ),
+              child: MaterialApp(
+                restorationScopeId: 'app',
+                debugShowCheckedModeBanner: false,
+                localizationsDelegates: const [
+                  AppLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: const [
+                  Locale('en', ''), // English, no country code
+                  Locale('fr', ''), // French, no country code
+                ],
+                onGenerateTitle: (BuildContext context) =>
+                    AppLocalizations.of(context)!.appTitle,
+                theme: getLightTheme(),
+                // darkTheme: getDarkTheme(),
+                themeMode: settingsController.themeMode,
+                locale: settingsController.localeMode,
+                home: AuthWrapper(
+                  showSplashScreen: showSplashScreen,
+                  hideSplashScreen: hideSplashScreen,
+                  settingsController: settingsController,
+                ),
               ),
             );
           },

@@ -9,7 +9,7 @@ import '../../../model/enums.dart';
 import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
-import '../../screens.dart';
+import '../../model_widgets_screens.dart';
 
 class DocumentsCompanyVerification extends StatefulWidget {
   const DocumentsCompanyVerification({super.key});
@@ -27,11 +27,6 @@ class _DocumentsCompanyVerificationState
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      floatingActionButton: CustomElevatedButton(
-        onPressed: next,
-        label: AppLocalizations.of(context)!.save,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -50,23 +45,11 @@ class _DocumentsCompanyVerificationState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      AppLocalizations.of(context)!.upload_profile_picture,
-                      style: Styles.poppins(
-                        fontSize: 16.sp,
-                        fontWeight: Styles.semiBold,
-                        color: context.textTheme.displayLarge!.color,
-                      ),
-                    ),
-                    12.heightSp,
-                    Text(
-                      AppLocalizations.of(context)!
+                    SettingsHeaderSubtitle(
+                      title:
+                          AppLocalizations.of(context)!.upload_profile_picture,
+                      subtitle: AppLocalizations.of(context)!
                           .upload_profile_picture_subtitle,
-                      style: Styles.poppins(
-                        fontSize: 14.sp,
-                        fontWeight: Styles.medium,
-                        color: context.textTheme.displayMedium!.color,
-                      ),
                     ),
                     12.heightSp,
                     Container(
@@ -162,6 +145,11 @@ class _DocumentsCompanyVerificationState
                           ),
                         ],
                       ),
+                    ),
+                    64.heightSp,
+                    CustomElevatedButton(
+                      onPressed: next,
+                      label: AppLocalizations.of(context)!.submit,
                     ),
                     (context.viewPadding.bottom + 20.sp).height,
                   ],

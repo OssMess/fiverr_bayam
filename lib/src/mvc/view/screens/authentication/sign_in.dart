@@ -1,3 +1,5 @@
+// ignore_for_file: dead_code
+
 import 'dart:math';
 
 import 'package:country_code_picker/country_code_picker.dart';
@@ -50,21 +52,6 @@ class _SignInState extends State<SignIn> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        // leading: AppBarActionButton(
-        //   icon: context.backButtonIcon,
-        //   onTap: () {},
-        // ),
-      ),
-      floatingActionButton: CustomElevatedButton(
-        onPressed: next,
-        label: otpNotSent
-            ? AppLocalizations.of(context)!.sign_in
-            : AppLocalizations.of(context)!.continu,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Column(
         children: [
           const CustomAppBarBackground(
@@ -136,7 +123,7 @@ class _SignInState extends State<SignIn> {
                               return RichText(
                                 text: TextSpan(
                                   style: Styles.poppins(
-                                    fontSize: 14.sp,
+                                    fontSize: 15.sp,
                                     fontWeight: Styles.medium,
                                     color:
                                         context.textTheme.displayLarge!.color,
@@ -146,19 +133,19 @@ class _SignInState extends State<SignIn> {
                                       text:
                                           '${AppLocalizations.of(context)!.didnt_receive_code} ',
                                     ),
-                                    if (duration <= 0)
+                                    if (canResend)
                                       TextSpan(
                                         text: AppLocalizations.of(context)!
                                             .resend,
                                         style: Styles.poppins(
-                                          fontSize: 14.sp,
+                                          fontSize: 15.sp,
                                           fontWeight: Styles.medium,
                                           color: Styles.green,
                                         ),
                                         recognizer: TapGestureRecognizer()
                                           ..onTap = sendOTP,
                                       ),
-                                    if (duration > 0) ...[
+                                    if (!canResend) ...[
                                       TextSpan(
                                         text: AppLocalizations.of(context)!
                                             .resend_in,
@@ -167,9 +154,9 @@ class _SignInState extends State<SignIn> {
                                         text:
                                             ' ${AppLocalizations.of(context)!.nb_seconds(duration)}',
                                         style: Styles.poppins(
-                                          fontSize: 14.sp,
+                                          fontSize: 15.sp,
                                           fontWeight: Styles.medium,
-                                          color: Styles.green,
+                                          color: const Color(0xFFD80027),
                                         ),
                                       ),
                                     ],
@@ -184,11 +171,41 @@ class _SignInState extends State<SignIn> {
                       Text(
                         AppLocalizations.of(context)!.check_sms_hint,
                         style: Styles.poppins(
-                          fontSize: 14.sp,
+                          fontSize: 15.sp,
                           color: context.textTheme.displayMedium!.color,
                           fontWeight: Styles.regular,
                         ),
                       ),
+                      16.heightSp,
+                      Row(
+                        children: [
+                          InkResponse(
+                            onTap: canResend ? sendOTP : null,
+                            child: CustomFlatButton(
+                              padding: EdgeInsets.all(16.sp),
+                              color: context.textTheme.headlineSmall!.color,
+                              child: Text(
+                                AppLocalizations.of(context)!.resend_code,
+                                style: Styles.poppins(
+                                  fontSize: 14.sp,
+                                  fontWeight: Styles.semiBold,
+                                  color: canResend
+                                      ? Styles.green
+                                      : context.textTheme.headlineLarge!.color,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Spacer(),
+                      const Spacer(),
+                      const Spacer(),
+                      CustomElevatedButton(
+                        onPressed: next,
+                        label: AppLocalizations.of(context)!.continu,
+                      ),
+                      const Spacer(),
                     ],
                     if (otpNotSent) ...[
                       Text(
@@ -212,19 +229,21 @@ class _SignInState extends State<SignIn> {
                         labelText: AppLocalizations.of(context)!.phone_number,
                         hintText:
                             AppLocalizations.of(context)!.phone_number_hint,
+                        addSpacer: false,
                         prefix: CountryCodePicker(
                           initialSelection: 'CM',
-                          enabled: false,
+                          enabled: true,
                           favorite: const ['+237'],
                           comparator: (a, b) => b.name!.compareTo(a.name!),
                           boxDecoration: BoxDecoration(
-                            color: context.textTheme.headlineMedium!.color,
+                            color: context.scaffoldBackgroundColor,
                             borderRadius: BorderRadius.circular(10.sp),
                           ),
                           textStyle: Styles.poppins(
                             fontWeight: Styles.medium,
                             color: context.textTheme.displayMedium!.color,
                             fontSize: 14.sp,
+                            height: 1.2,
                           ),
                           onChanged: (code) {
                             countryCode = code.code ?? 'CM';
@@ -241,6 +260,8 @@ class _SignInState extends State<SignIn> {
                         onEditingComplete: next,
                       ),
                       const Spacer(),
+                      const Spacer(),
+                      const Spacer(),
                       Container(
                         padding: EdgeInsets.all(16.sp),
                         decoration: BoxDecoration(
@@ -251,19 +272,25 @@ class _SignInState extends State<SignIn> {
                           AppLocalizations.of(context)!.sign_in_about,
                           textAlign: TextAlign.center,
                           style: Styles.poppins(
-                            fontSize: 14.sp,
+                            fontSize: 16.sp,
                             fontWeight: Styles.medium,
                             color: Styles.green,
                           ),
                         ),
                       ),
-                      (context.viewPadding.bottom + 50.h).heightSp,
+                      16.heightSp,
+                      CustomElevatedButton(
+                        onPressed: next,
+                        label: AppLocalizations.of(context)!.sign_in,
+                      ),
+                      const Spacer(),
                     ],
                   ],
                 ),
               ),
             ),
           ),
+          context.viewInsets.bottom.height,
         ],
       ),
     );
@@ -273,9 +300,11 @@ class _SignInState extends State<SignIn> {
 
   bool get otpNotSent => !otpSent;
 
+  bool get canResend => durationNotifier!.notifier.value <= 0;
+
   Future<void> next() async {
     if (otpNotSent) {
-      if (!_keyForm.currentState!.validate()) return;
+      if (false && !_keyForm.currentState!.validate()) return;
       _keyForm.currentState!.save();
       validatePhoneNumber().then(
         (isValide) {
@@ -290,18 +319,19 @@ class _SignInState extends State<SignIn> {
         },
       );
     } else {
-      if (pinCode == null || pinCode!.length < 4) {
+      if (false && (pinCode == null || pinCode!.length < 4)) {
         Dialogs.of(context).showSnackBar(
           message: AppLocalizations.of(context)!.snackbar_enter_otp,
         );
         return;
       }
       FocusScope.of(context).unfocus();
-      verifyOTP(pinCode!);
+      verifyOTP(pinCode ?? '');
     }
   }
 
   Future<bool> validatePhoneNumber() async {
+    return true;
     try {
       bool isValid = await PhoneNumberUtil().validate(
         phoneNumber!,
@@ -332,6 +362,7 @@ class _SignInState extends State<SignIn> {
       },
       onComplete: (_) {
         setState(() {
+          phoneNumber = '';
           verificationId = 'id';
           forceResendingToken = 0;
           startTimer();

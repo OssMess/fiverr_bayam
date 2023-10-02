@@ -27,8 +27,9 @@ class CompanyTile extends StatelessWidget {
           company: company,
         ),
       ),
-      width: isExpanded ? double.infinity : 185.sp,
-      height: isExpanded ? 200.sp : null,
+      width: isExpanded ? double.infinity : 160.sp,
+      height: isExpanded ? 240.sp : null,
+      borderRadius: BorderRadius.circular(10.sp),
       child: Column(
         children: [
           Expanded(
@@ -44,35 +45,39 @@ class CompanyTile extends StatelessWidget {
                 ),
               ),
               imageBuilder: (context, imageProvider) => Container(
+                margin: isExpanded ? EdgeInsets.all(10.sp) : EdgeInsets.zero,
                 padding: EdgeInsets.all(8.sp),
                 alignment: Alignment.bottomLeft,
                 decoration: BoxDecoration(
                   color: Theme.of(context).textTheme.headlineSmall!.color,
-                  borderRadius: BorderRadius.circular(14.sp),
+                  borderRadius: BorderRadius.circular(10.sp),
                   image: DecorationImage(
                     image: imageProvider,
                     fit: BoxFit.cover,
                   ),
                 ),
                 child: Text(
-                  company.field,
+                  company.category.translateTitle(context),
                   style: Styles.poppins(
-                    fontSize: 14.sp,
+                    fontSize: 18.sp,
                     fontWeight: Styles.semiBold,
                     color: Colors.white,
+                    height: 1.2,
                   ),
                 ),
               ),
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 10.sp),
+            padding: isExpanded
+                ? EdgeInsets.only(bottom: 10.sp)
+                : EdgeInsets.symmetric(vertical: 8.sp),
             child: CompanyHeaderTile(
               logoUrl: company.logoUrl,
               name: company.name,
               isVerified: company.isVerified,
-              sizeOffset: 2.sp,
-              padding: EdgeInsetsDirectional.only(start: 12.sp),
+              sizeOffset: 0,
+              padding: EdgeInsetsDirectional.only(start: 10.sp),
             ),
           ),
         ],

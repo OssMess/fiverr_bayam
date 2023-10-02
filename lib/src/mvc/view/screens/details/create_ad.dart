@@ -9,12 +9,18 @@ import 'package:badges/badges.dart' as badge;
 
 import '../../../../extensions.dart';
 import '../../../model/enums.dart';
+import '../../../model/models.dart';
 import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
 
 class CreateAd extends StatefulWidget {
-  const CreateAd({super.key});
+  const CreateAd({
+    super.key,
+    required this.ad,
+  });
+
+  final Ad? ad;
 
   @override
   State<CreateAd> createState() => _CreateAdState();
@@ -24,7 +30,8 @@ class _CreateAdState extends State<CreateAd>
     with SingleTickerProviderStateMixin {
   final GlobalKey<FormState> _keyForm = GlobalKey();
   int adTypeIndex = -1;
-  String? title, category, description, location;
+  String? title, description, location;
+  Category? category;
   Set<String> tags = {
     'Eco-Friendly',
     'Vegan',
@@ -36,6 +43,17 @@ class _CreateAdState extends State<CreateAd>
 
   @override
   void initState() {
+    if (widget.ad != null) {
+      adTypeIndex = widget.ad?.adType.key ?? -1;
+      title = widget.ad!.title;
+      description = widget.ad!.description;
+      category = widget.ad!.category;
+      location = widget.ad!.location;
+      tags.addAll(widget.ad!.tags);
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        categoryConttroller.text = category?.translateTitle(context) ?? '';
+      });
+    }
     tabController = TabController(
       length: 3,
       vsync: this,
@@ -89,27 +107,33 @@ class _CreateAdState extends State<CreateAd>
                         labelText: AppLocalizations.of(context)!.category,
                         hintText: AppLocalizations.of(context)!.category_hint,
                         suffixIcon: Icons.arrow_drop_down,
-                        onSaved: (value) {
-                          category = value;
-                        },
                         validator: Validators.validateNotNull,
                         keyboardType: TextInputType.name,
                         onTap: () =>
                             Dialogs.of(context).showSingleValuePickerDialog(
                           title: AppLocalizations.of(context)!
                               .pick_a_department_hint,
-                          values: [
-                            Category.agriculture.title,
-                            Category.livestock.title,
-                            Category.fishing.title,
-                            Category.phytosnitary.title,
-                            Category.localFoodProducts.title,
-                            Category.rentalStorageFacilities.title,
-                          ],
-                          initialvalue: category,
+                          values: Category.values
+                              .map(
+                                (e) => e.translateTitle(context),
+                              )
+                              .toList(),
+                          initialvalue: category?.translateTitle(context),
                           onPick: (value) {
                             categoryConttroller.text = value;
-                            category = value;
+                            category = {
+                              0: Category.agriculture,
+                              1: Category.livestock,
+                              2: Category.fishing,
+                              3: Category.phytosnitary,
+                              4: Category.localFoodProducts,
+                              5: Category.rentalStorageFacilities,
+                            }[Category.values
+                                .map(
+                                  (e) => e.translateTitle(context),
+                                )
+                                .toList()
+                                .indexOf(value)]!;
                           },
                         ),
                       ),
@@ -215,11 +239,6 @@ class _CreateAdState extends State<CreateAd>
                         onEditingComplete: onAddTag,
                       ),
                       16.heightSp,
-                      CustomElevatedButton(
-                        label: AppLocalizations.of(context)!.contact_support,
-                        onPressed: next,
-                      ),
-                      16.heightSp,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -254,6 +273,11 @@ class _CreateAdState extends State<CreateAd>
                             ),
                           ),
                         ],
+                      ),
+                      24.heightSp,
+                      CustomElevatedButton(
+                        label: AppLocalizations.of(context)!.submit,
+                        onPressed: next,
                       ),
                       (context.viewPadding.bottom + 20.sp).height,
                     ],

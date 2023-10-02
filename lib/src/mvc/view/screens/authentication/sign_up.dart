@@ -1,3 +1,5 @@
+// ignore_for_file: dead_code
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -36,19 +38,6 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        // leading: AppBarActionButton(
-        //   icon: context.backButtonIcon,
-        //   onTap: () {},
-        // ),
-      ),
-      floatingActionButton: CustomElevatedButton(
-        onPressed: next,
-        label: AppLocalizations.of(context)!.sign_up,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Column(
         children: [
           const CustomAppBarBackground(
@@ -62,94 +51,109 @@ class _SignUpState extends State<SignUp> {
                 padding: EdgeInsets.symmetric(
                   horizontal: 20.sp,
                   vertical: 10.sp,
-                ).copyWith(bottom: context.viewPadding.bottom + 20.sp),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      AppLocalizations.of(context)!.sign_up_title,
-                      style: Styles.poppins(
-                          fontSize: 22.sp,
-                          color: context.textTheme.displayLarge!.color,
-                          fontWeight: Styles.bold),
-                    ),
-                    Text(
-                      AppLocalizations.of(context)!.sign_up_subtitle,
-                      style: Styles.poppins(
-                        fontSize: 14.sp,
-                        color: context.textTheme.displayMedium!.color,
-                        fontWeight: Styles.regular,
+                ).copyWith(bottom: 20.sp),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        AppLocalizations.of(context)!.sign_up_title,
+                        style: Styles.poppins(
+                            fontSize: 22.sp,
+                            color: context.textTheme.displayLarge!.color,
+                            fontWeight: Styles.bold),
                       ),
-                    ),
-                    32.heightSp,
-                    CustomTextFormFieldBounded(
-                      labelText: AppLocalizations.of(context)!.first_name_label,
-                      hintText: AppLocalizations.of(context)!.first_name_hint,
-                      labelPrefixIcon: AwesomeIcons.user_large_outlined,
-                      keyboardType: TextInputType.name,
-                      validator: Validators.validateNotNull,
-                      onSaved: (value) {
-                        firstName = value;
-                      },
-                      textInputAction: TextInputAction.next,
-                    ),
-                    16.heightSp,
-                    CustomTextFormFieldBounded(
-                      labelText: AppLocalizations.of(context)!.last_name_label,
-                      hintText: AppLocalizations.of(context)!.last_name_hint,
-                      labelPrefixIcon: AwesomeIcons.user_large_outlined,
-                      keyboardType: TextInputType.name,
-                      validator: Validators.validateNotNull,
-                      onSaved: (value) {
-                        lastName = value;
-                      },
-                      onEditingComplete: next,
-                    ),
-                    32.heightSp,
-                    Text(
-                      AppLocalizations.of(context)!.i_am_a,
-                      style: Styles.poppins(
-                        fontSize: 14.sp,
-                        color: context.textTheme.displayLarge!.color,
-                        fontWeight: Styles.medium,
+                      Text(
+                        AppLocalizations.of(context)!.sign_up_subtitle,
+                        style: Styles.poppins(
+                          fontSize: 14.sp,
+                          color: context.textTheme.displayMedium!.color,
+                          fontWeight: Styles.regular,
+                        ),
                       ),
-                    ),
-                    16.heightSp,
-                    Row(
-                      children: [
-                        Expanded(
-                          child: AccountTypePicker(
-                            value: AccountType.person,
-                            groupValue: accountType,
-                            onChange: (type) => setState(() {
-                              accountType = type;
-                            }),
-                          ),
+                      if (accountType == AccountType.person) ...[
+                        32.heightSp,
+                        CustomTextFormFieldBounded(
+                          labelText:
+                              AppLocalizations.of(context)!.first_name_label,
+                          hintText:
+                              AppLocalizations.of(context)!.first_name_hint,
+                          labelPrefixIcon: AwesomeIcons.user_large_outlined,
+                          keyboardType: TextInputType.name,
+                          validator: Validators.validateNotNull,
+                          onSaved: (value) {
+                            firstName = value;
+                          },
+                          textInputAction: TextInputAction.next,
                         ),
-                        16.widthSp,
-                        Expanded(
-                          child: AccountTypePicker(
-                            value: AccountType.company,
-                            groupValue: accountType,
-                            onChange: (type) => setState(() {
-                              accountType = type;
-                            }),
-                          ),
+                        16.heightSp,
+                        CustomTextFormFieldBounded(
+                          labelText:
+                              AppLocalizations.of(context)!.last_name_label,
+                          hintText:
+                              AppLocalizations.of(context)!.last_name_hint,
+                          labelPrefixIcon: AwesomeIcons.user_large_outlined,
+                          keyboardType: TextInputType.name,
+                          validator: Validators.validateNotNull,
+                          onSaved: (value) {
+                            lastName = value;
+                          },
+                          onEditingComplete: next,
                         ),
+                        16.heightSp,
                       ],
-                    )
-                  ],
+                      16.heightSp,
+                      Text(
+                        AppLocalizations.of(context)!.i_am_a,
+                        style: Styles.poppins(
+                          fontSize: 14.sp,
+                          color: context.textTheme.displayLarge!.color,
+                          fontWeight: Styles.medium,
+                        ),
+                      ),
+                      16.heightSp,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: AccountTypePicker(
+                              value: AccountType.person,
+                              groupValue: accountType,
+                              onChange: (type) => setState(() {
+                                accountType = type;
+                              }),
+                            ),
+                          ),
+                          16.widthSp,
+                          Expanded(
+                            child: AccountTypePicker(
+                              value: AccountType.company,
+                              groupValue: accountType,
+                              onChange: (type) => setState(() {
+                                accountType = type;
+                              }),
+                            ),
+                          ),
+                        ],
+                      ),
+                      32.heightSp,
+                      CustomElevatedButton(
+                        onPressed: next,
+                        label: AppLocalizations.of(context)!.sign_up,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
+          context.viewPadding.bottom.height,
         ],
       ),
     );
   }
 
   Future<void> next() async {
-    if (!_keyForm.currentState!.validate()) return;
+    if (false && !_keyForm.currentState!.validate()) return;
     _keyForm.currentState!.save();
     FocusScope.of(context).unfocus();
     Dialogs.of(context).runAsyncAction(
@@ -157,12 +161,25 @@ class _SignUpState extends State<SignUp> {
         await Future.delayed(const Duration(seconds: 1));
       },
       onComplete: (_) {
-        context.push(
-          widget: CompleteRegistrationForm1(
-            userSession: widget.userSession,
-            accountType: accountType,
-          ),
-        );
+        switch (accountType) {
+          case AccountType.company:
+            context.push(
+              widget: CompleteRegistrationForm1(
+                userSession: widget.userSession,
+                accountType: accountType,
+              ),
+            );
+            break;
+          case AccountType.person:
+            context.push(
+              widget: CompleteRegistrationForm2(
+                userSession: widget.userSession,
+                accountType: accountType,
+              ),
+            );
+            break;
+          default:
+        }
       },
       onError: (_) {},
     );
@@ -201,9 +218,9 @@ class AccountTypePicker extends StatelessWidget {
         child: Text(
           value.translate(context),
           style: Styles.poppins(
-            fontSize: 14.sp,
+            fontSize: 16.sp,
             color: Styles.green,
-            fontWeight: Styles.medium,
+            fontWeight: Styles.semiBold,
           ),
         ),
       ),

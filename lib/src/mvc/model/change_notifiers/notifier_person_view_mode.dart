@@ -20,8 +20,6 @@ class NotifierPersonViewMode extends ValueNotifier<PersonViewPage> {
 
   bool get isInPageResults => value == PersonViewPage.results;
 
-  bool get isInPageSearch => value == PersonViewPage.search;
-
   bool get isInTabProducts => searchTab == SearchTab.products;
 
   bool get isInTabCompanies => searchTab == SearchTab.companies;
@@ -29,11 +27,6 @@ class NotifierPersonViewMode extends ValueNotifier<PersonViewPage> {
   void reset() {
     value = PersonViewPage.normal;
     searchTab = SearchTab.products;
-    notifyListeners();
-  }
-
-  void openPageSearch() {
-    value = PersonViewPage.search;
     notifyListeners();
   }
 

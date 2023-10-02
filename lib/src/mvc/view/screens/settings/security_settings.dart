@@ -8,6 +8,7 @@ import '../../../model/models.dart';
 import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
+import '../../model_widgets_screens.dart';
 import '../../screens.dart';
 
 class SecuritySettings extends StatelessWidget {
@@ -37,13 +38,8 @@ class SecuritySettings extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    AppLocalizations.of(context)!.security_settings,
-                    style: Styles.poppins(
-                      fontSize: 16.sp,
-                      fontWeight: Styles.semiBold,
-                      color: context.textTheme.displayLarge!.color,
-                    ),
+                  SettingsHeaderSubtitle(
+                    title: AppLocalizations.of(context)!.security_settings,
                   ),
                   16.heightSp,
                   CustomElevatedListTile(
@@ -72,8 +68,9 @@ class SecuritySettings extends StatelessWidget {
                     showTrailing: false,
                     padding: EdgeInsets.all(12.sp),
                     onTap: () => Dialogs.of(context).showCustomDialog(
-                      title: AppLocalizations.of(context)!.logout,
-                      subtitle: AppLocalizations.of(context)!.logout_subtitle,
+                      title: AppLocalizations.of(context)!.delete_account_title,
+                      subtitle:
+                          AppLocalizations.of(context)!.delete_account_subtitle,
                       yesAct: ModelTextButton(
                         label: AppLocalizations.of(context)!.continu,
                         color: Styles.red,

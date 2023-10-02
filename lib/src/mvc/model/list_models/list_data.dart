@@ -6,9 +6,11 @@ class ListData {
   static final List<Map<String, dynamic>> data = [
     {
       'name': 'Samak',
+      'title': 'We are N°1 when it come to corn',
       'description':
           'We are offering pesticide services for corn, wheat crops and many more.',
-      'field': 'Agriculture',
+      'location': 'example location',
+      'category': 'phytosnitary',
       'userPhotoUrl':
           'https://i.pinimg.com/1200x/a1/1e/2a/a11e2a9d5803e4dc2c034819ce12a16e.jpg',
       'logoUrl':
@@ -17,12 +19,21 @@ class ListData {
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGdwTxs6lW7B5VgaAceI0p2XfmabWvee-MHlZ_ODsRB3VvM07vzNA3RVmu0OVYrdAHCYU&usqp=CAU',
       'isVerified': true,
       'adType': AdType.forSell,
+      'tags': [
+        'Eco-Friendly',
+        'Vegan',
+        'Top Rated',
+        'Climate/Eco-Friendly',
+        'Technology',
+      ],
     },
     {
       'name': 'NetSol',
+      'title': 'NetSol for your agriculture jobs',
       'description':
           'Get all kind of IT services related to agricultural Development and other related needs.',
-      'field': 'IT Services',
+      'location': 'example location',
+      'category': 'fishing',
       'userPhotoUrl':
           'https://i.pinimg.com/1200x/a1/1e/2a/a11e2a9d5803e4dc2c034819ce12a16e.jpg',
       'logoUrl':
@@ -31,12 +42,18 @@ class ListData {
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmLXC4LINhJsgIbgOHRpRLOCwYAO9ENT1T4Q&usqp=CAU',
       'isVerified': false,
       'adType': AdType.forRent,
+      'tags': [
+        'Eco-Friendly',
+        'Technology',
+      ],
     },
     {
       'name': 'GOPro',
+      'title': 'Corn, Corps and many more',
       'description':
           'We are offering pesticide services for corn, wheat crops and many more.',
-      'field': 'Construction',
+      'location': 'example location',
+      'category': 'livestock',
       'userPhotoUrl':
           'https://i.pinimg.com/1200x/a1/1e/2a/a11e2a9d5803e4dc2c034819ce12a16e.jpg',
       'logoUrl':
@@ -45,12 +62,18 @@ class ListData {
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSG0f7KQxS_bLNbWHfcWWwI4jYyd3JDTZGIJQ&usqp=CAU',
       'isVerified': true,
       'adType': AdType.wantToBuy,
+      'tags': [
+        'Climate/Eco-Friendly',
+        'Technology',
+      ],
     },
     {
       'name': 'Agriland',
+      'title': 'Agriland, is the one for you',
       'description':
           'Get all kind of IT services related to agricultural Development and other related needs.',
-      'field': 'Agriculture',
+      'location': 'example location',
+      'category': 'agriculture',
       'userPhotoUrl':
           'https://i.pinimg.com/1200x/a1/1e/2a/a11e2a9d5803e4dc2c034819ce12a16e.jpg',
       'logoUrl':
@@ -59,6 +82,11 @@ class ListData {
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReYgkm2MrQ56u1DHyKiWwcp7bP6y9DxSIeRw&usqp=CAU',
       'isVerified': false,
       'adType': AdType.forSell,
+      'tags': [
+        'Eco-Friendly',
+        'Top Rated',
+        'Technology',
+      ],
     },
   ];
 
@@ -67,7 +95,9 @@ class ListData {
   static List<Ad> premiumAds =
       [data[1], data[0], data[3]].map(Ad.fromJson).toList();
 
-  static List<Ad> ads = [data[3], data[2], data[0]].map(Ad.fromJson).toList();
+  static List<Ad> ads = [data[3], data[2], data[0], data[3], data[2], data[0]]
+      .map(Ad.fromJson)
+      .toList();
 
   static List<Chat> chats = [
     {

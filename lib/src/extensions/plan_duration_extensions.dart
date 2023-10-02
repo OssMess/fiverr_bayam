@@ -16,7 +16,7 @@ extension PlanDurationExtensions on PlanDuration {
         PlanDuration.annual: AppLocalizations.of(context)!.annual_plan,
       }[this]!;
 
-  String get getString => {
+  String get key => {
         PlanDuration.monthly: 'monthly',
         PlanDuration.biannual: 'biannual',
         PlanDuration.annual: 'annual',

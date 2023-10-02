@@ -1,36 +1,46 @@
 import 'package:flutter/material.dart';
 
+import '../../../extensions.dart';
 import '../enums.dart';
 
 class Ad with ChangeNotifier {
   final String name;
-  final String userPhotoUrl;
+  final String title;
   final String description;
+  final String location;
+  final Category category;
+  final String userPhotoUrl;
   final String logoUrl;
   final String coverUrl;
-  final String field;
   final bool isVerified;
   final AdType adType;
+  final List<String> tags;
 
   Ad({
     required this.name,
-    required this.userPhotoUrl,
+    required this.title,
     required this.description,
+    required this.location,
+    required this.category,
+    required this.userPhotoUrl,
     required this.logoUrl,
     required this.coverUrl,
-    required this.field,
     required this.isVerified,
     required this.adType,
+    required this.tags,
   });
 
   factory Ad.fromJson(Map<String, dynamic> json) => Ad(
         name: json['name'],
-        userPhotoUrl: json['userPhotoUrl'],
+        title: json['title'],
         description: json['description'],
+        location: json['location'],
+        category: (json['category'] as String).toCategory,
+        userPhotoUrl: json['userPhotoUrl'],
         logoUrl: json['logoUrl'],
         coverUrl: json['coverUrl'],
-        field: json['field'],
         isVerified: json['isVerified'],
         adType: json['adType'],
+        tags: json['tags'],
       );
 }

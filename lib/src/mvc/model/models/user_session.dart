@@ -59,7 +59,7 @@ class UserSession with ChangeNotifier {
       uid: uid,
       firstName: json['firstName'],
       lastName: json['lastName'],
-      accountType: (json['accountType'] as String).toAccountType,
+      accountType: (json['accountType'] as String?)?.toAccountType,
     );
   }
 
@@ -68,7 +68,7 @@ class UserSession with ChangeNotifier {
         'uid': uid,
         'firstName': firstName,
         'lastName': lastName,
-        'accountType': accountType?.getString,
+        'accountType': accountType?.key,
       };
 
   /// return true if awaiting for user sessions

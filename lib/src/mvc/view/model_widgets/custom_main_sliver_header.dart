@@ -40,9 +40,9 @@ class SliverHeaderTile extends StatelessWidget {
                 child: Text(
                   trailing!,
                   style: Styles.poppins(
-                    fontSize: 10.sp,
-                    fontWeight: Styles.semiBold,
-                    color: context.textTheme.displayMedium!.color,
+                    fontSize: 12.sp,
+                    fontWeight: Styles.medium,
+                    color: context.textTheme.displayLarge!.color,
                     textDecoration: TextDecoration.underline,
                   ),
                 ),

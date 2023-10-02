@@ -9,6 +9,7 @@ import '../../../model/enums.dart';
 import '../../../model/list_models.dart';
 import '../../../model/models.dart';
 import '../../model_widgets.dart';
+import '../../screens.dart';
 import '../../tiles.dart';
 
 class Page3CompanyAds extends StatelessWidget {
@@ -21,9 +22,9 @@ class Page3CompanyAds extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ValueNotifier<CompanyViewPage>>(
+    return Consumer<ValueNotifier<AdsViewPage>>(
       builder: (context, viewPage, _) {
-        bool promotedAds = viewPage.value == CompanyViewPage.promotedAds;
+        bool promotedAds = viewPage.value == AdsViewPage.promotedAds;
         return CustomRefreshIndicator(
           onRefresh: () async {
             await Future.delayed(const Duration(seconds: 1));
@@ -33,13 +34,23 @@ class Page3CompanyAds extends StatelessWidget {
             slivers: [
               16.sliverSp,
               SliverHeaderTile(
-                title: viewPage.value == CompanyViewPage.myAds
+                title: viewPage.value == AdsViewPage.myAds
                     ? AppLocalizations.of(context)!.my_ads
                     : AppLocalizations.of(context)!.promoted_ads,
-                trailing: '${AppLocalizations.of(context)!.nb_results(43)} >',
-                onTapTrailing: () {},
+                trailing: AppLocalizations.of(context)!.m_ago(3),
               ),
-              16.sliverSp,
+              SliverPadding(
+                padding: EdgeInsets.all(16.sp),
+                sliver: SliverToBoxAdapter(
+                  child: CustomElevatedButton(
+                    onPressed: () => context.push(
+                        widget: const CreateAd(
+                      ad: null,
+                    )),
+                    label: AppLocalizations.of(context)!.create_ad,
+                  ),
+                ),
+              ),
               SliverPadding(
                 padding: EdgeInsets.symmetric(horizontal: 16.sp),
                 sliver: SliverList.separated(

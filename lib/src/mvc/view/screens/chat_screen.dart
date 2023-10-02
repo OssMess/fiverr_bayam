@@ -125,6 +125,14 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
             onPressed: () {},
           ),
+          IconButton(
+            icon: Icon(
+              AwesomeIcons.video,
+              color: Colors.white,
+              size: 20.sp,
+            ),
+            onPressed: () {},
+          ),
           AppBarActionButton(
             icon: AwesomeIcons.magnifying_glass,
             onTap: () {},

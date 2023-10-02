@@ -28,11 +28,6 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      floatingActionButton: CustomElevatedButton(
-        label: AppLocalizations.of(context)!.agree_and_continue,
-        onPressed: context.pop,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -94,7 +89,12 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                         color: context.textTheme.displayLarge!.color,
                       ),
                     ),
-                    (context.viewPadding.bottom + 90.sp).height,
+                    32.heightSp,
+                    CustomElevatedButton(
+                      label: AppLocalizations.of(context)!.agree_and_continue,
+                      onPressed: context.pop,
+                    ),
+                    (context.viewPadding.bottom + 20.sp).height,
                   ],
                 ),
               ),

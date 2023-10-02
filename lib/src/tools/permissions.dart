@@ -45,6 +45,8 @@ class Permissions {
   ///Check if app have permission to access device location, if yes return `false`,
   ///else show a dialog with title `Permission required` then return `true`
   Future<bool> showLocationPermission() async {
+    bool enabled = await showLocationEnabled();
+    if (enabled) return true;
     return await getLocationPermission().then((hasPermission) {
       if (!hasPermission) {
         Dialogs.of(context).showPermissionDialog(

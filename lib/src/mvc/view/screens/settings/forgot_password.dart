@@ -6,6 +6,7 @@ import '../../../../extensions.dart';
 import '../../../model/enums.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
+import '../../model_widgets_screens.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -22,11 +23,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      floatingActionButton: CustomElevatedButton(
-        onPressed: next,
-        label: AppLocalizations.of(context)!.save,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -49,21 +45,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        AppLocalizations.of(context)!.forgot_password,
-                        style: Styles.poppins(
-                          fontSize: 16.sp,
-                          fontWeight: Styles.semiBold,
-                          color: context.textTheme.displayLarge!.color,
-                        ),
-                      ),
-                      Text(
-                        AppLocalizations.of(context)!.forgot_password_subtitle,
-                        style: Styles.poppins(
-                          fontSize: 14.sp,
-                          fontWeight: Styles.medium,
-                          color: context.textTheme.displaySmall!.color,
-                        ),
+                      SettingsHeaderSubtitle(
+                        title: AppLocalizations.of(context)!.forgot_password,
+                        subtitle: AppLocalizations.of(context)!
+                            .forgot_password_subtitle,
                       ),
                       16.heightSp,
                       CustomTextFormFieldLabel(
@@ -75,6 +60,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         onSave: (value) {
                           email = value;
                         },
+                      ),
+                      32.heightSp,
+                      CustomElevatedButton(
+                        onPressed: next,
+                        label: AppLocalizations.of(context)!.save,
                       ),
                       (context.viewPadding.bottom + 20.sp).height,
                     ],

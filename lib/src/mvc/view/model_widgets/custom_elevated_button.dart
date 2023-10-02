@@ -55,14 +55,14 @@ class CustomElevatedButton extends StatelessWidget {
             horizontal: 12.sp,
           ),
           alignment: Alignment.center,
-          minimumSize: minimumSize ?? Size(0.25.sw, 50.sp),
+          minimumSize: minimumSize ?? Size(0.25.sw, 55.sp),
           maximumSize: maximumSize,
-          fixedSize: fixedSize ?? Size(0.9.sw, 50.sp),
+          fixedSize: fixedSize ?? Size(0.9.sw, 55.sp),
           backgroundColor: enabled && onPressed != null
               ? color ?? Styles.green
               : disabledcolor ?? context.textThemeHeadlineMedium!.color,
           shape: RoundedRectangleBorder(
-            borderRadius: borderRadius ?? BorderRadius.circular(10.sp),
+            borderRadius: borderRadius ?? BorderRadius.circular(14.sp),
             side: borderColor == null
                 ? BorderSide.none
                 : BorderSide(
@@ -89,11 +89,12 @@ class CustomElevatedButton extends StatelessWidget {
             Text(
               label,
               style: Styles.poppins(
-                fontSize: fontSize ?? 18.sp,
+                fontSize: fontSize ?? 20.sp,
                 color: enabled && onPressed != null
                     ? (fontColor ?? Colors.white)
                     : Colors.grey,
                 fontWeight: Styles.semiBold,
+                height: 1.2,
               ),
             ),
             if (icon != null) SizedBox(width: 46.sp),

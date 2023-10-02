@@ -6,7 +6,6 @@ import '../../settings/settings_controller.dart';
 import '../../tools.dart';
 import '../model/list_models.dart';
 import '../model/models.dart';
-import '../model/models_ui.dart';
 import '../view/screens.dart';
 
 /// This class is responsable for data flow down the widget tree as well as managing which widget is displayed including:
@@ -52,7 +51,6 @@ class _AuthWrapperState extends State<AuthWrapper> {
       precacheImages(context);
       Paddings.init(context);
       ////// init translations
-      Categories.init(context);
       ListFAQ.init(context);
       //////
       Future.delayed(

@@ -9,6 +9,7 @@ import '../../../model/enums.dart';
 import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
+import '../../model_widgets_screens.dart';
 
 class DocumentsPersonVerification extends StatefulWidget {
   const DocumentsPersonVerification({super.key});
@@ -49,23 +50,11 @@ class _DocumentsPersonVerificationState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      AppLocalizations.of(context)!.upload_profile_picture,
-                      style: Styles.poppins(
-                        fontSize: 16.sp,
-                        fontWeight: Styles.semiBold,
-                        color: context.textTheme.displayLarge!.color,
-                      ),
-                    ),
-                    12.heightSp,
-                    Text(
-                      AppLocalizations.of(context)!
+                    SettingsHeaderSubtitle(
+                      title:
+                          AppLocalizations.of(context)!.upload_profile_picture,
+                      subtitle: AppLocalizations.of(context)!
                           .upload_profile_picture_subtitle,
-                      style: Styles.poppins(
-                        fontSize: 14.sp,
-                        fontWeight: Styles.medium,
-                        color: context.textTheme.displayMedium!.color,
-                      ),
                     ),
                     12.heightSp,
                     Container(
@@ -255,55 +244,6 @@ class _DocumentsPersonVerificationState
       maxHeight: 1080,
       maxWidth: 1080,
       imageQuality: 80,
-    );
-  }
-}
-
-class CircularIconButton extends StatelessWidget {
-  const CircularIconButton({
-    super.key,
-    required this.label,
-    required this.icon,
-    required this.onTap,
-  });
-
-  final String label;
-  final IconData icon;
-  final void Function() onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkResponse(
-      onTap: onTap,
-      child: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.all(12.sp),
-            decoration: BoxDecoration(
-              color: context.textTheme.headlineSmall!.color,
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: context.scaffoldBackgroundColor,
-                width: 3.sp,
-              ),
-            ),
-            child: Icon(
-              icon,
-              color: context.textTheme.displayMedium!.color,
-              size: 24.sp,
-            ),
-          ),
-          4.heightSp,
-          Text(
-            label,
-            style: Styles.poppins(
-              fontSize: 14.sp,
-              fontWeight: Styles.medium,
-              color: context.textTheme.displayMedium!.color,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

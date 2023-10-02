@@ -29,7 +29,7 @@ class SearchHistoryTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  searchHistory.category.title,
+                  searchHistory.category.translateTitle(context),
                   style: Styles.poppins(
                     fontSize: 15.sp,
                     fontWeight: Styles.semiBold,
@@ -37,7 +37,7 @@ class SearchHistoryTile extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  searchHistory.category.subtitle,
+                  searchHistory.category.translateSubtitle(context),
                   style: Styles.poppins(
                     fontSize: 12.sp,
                     fontWeight: Styles.medium,

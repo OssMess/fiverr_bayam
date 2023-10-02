@@ -6,6 +6,7 @@ import '../../../../extensions.dart';
 import '../../../model/enums.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
+import '../../model_widgets_screens.dart';
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({super.key});
@@ -49,13 +50,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        AppLocalizations.of(context)!.change_password,
-                        style: Styles.poppins(
-                          fontSize: 16.sp,
-                          fontWeight: Styles.semiBold,
-                          color: context.textTheme.displayLarge!.color,
-                        ),
+                      SettingsHeaderSubtitle(
+                        title: AppLocalizations.of(context)!.change_password,
                       ),
                       16.heightSp,
                       CustomTextFormFieldLabel(
@@ -92,6 +88,24 @@ class _ChangePasswordState extends State<ChangePassword> {
                         onSave: (value) {
                           checkNewPassword = value;
                         },
+                      ),
+                      16.heightSp,
+                      Container(
+                        padding: EdgeInsets.all(16.sp),
+                        decoration: BoxDecoration(
+                          color: Styles.green[50],
+                          borderRadius: BorderRadius.circular(14.sp),
+                        ),
+                        child: Text(
+                          AppLocalizations.of(context)!
+                              .check_information_confirm,
+                          textAlign: TextAlign.center,
+                          style: Styles.poppins(
+                            fontSize: 16.sp,
+                            fontWeight: Styles.medium,
+                            color: Styles.green,
+                          ),
+                        ),
                       ),
                       (context.viewPadding.bottom + 20.sp).height,
                     ],

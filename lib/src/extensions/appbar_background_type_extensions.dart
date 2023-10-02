@@ -5,29 +5,28 @@ import '../mvc/model/enums.dart';
 import '../tools.dart';
 
 extension AppBarBackgroundTypeExtensions on AppBarBackgroundType {
-  double height(BuildContext context) => {
-        AppBarBackgroundType.shrink:
-            Paddings.viewPadding.top + kToolbarHeight + 30.h,
-        AppBarBackgroundType.expanded:
-            Paddings.viewPadding.top + kToolbarHeight + 0.15.sh,
-        AppBarBackgroundType.oval:
-            Paddings.viewPadding.top + kToolbarHeight + 0.3.sh,
-      }[this]!;
+  Color? get backgroundColor => {
+        AppBarBackgroundType.shrink: Styles.green,
+        AppBarBackgroundType.expanded: Styles.green,
+      }[this];
 
-  double topPadding(BuildContext context) => {
-        AppBarBackgroundType.shrink: Paddings.viewPadding.top + 15.h,
-        AppBarBackgroundType.expanded: Paddings.viewPadding.top + 50.h,
-        AppBarBackgroundType.oval: Paddings.viewPadding.top + 100.h,
+  String get backgroundPngPath => {
+        AppBarBackgroundType.shrink: 'assets/images/appbar_shrink.png',
+        AppBarBackgroundType.expanded: 'assets/images/appbar_expanded.png',
+        AppBarBackgroundType.oval: 'assets/images/appbar_oval.png',
       }[this]!;
-
-  BorderRadiusGeometry borderRadius() {
-    switch (this) {
-      case AppBarBackgroundType.oval:
-        return BorderRadius.vertical(
-          bottom: Radius.elliptical(300.sp, 200.sp),
-        );
-      default:
-        return BorderRadius.zero;
-    }
-  }
+  double height(
+    BuildContext context,
+    bool resizeToAvoidBottomInset,
+  ) =>
+      !resizeToAvoidBottomInset || Paddings.showAppBar
+          ? {
+              AppBarBackgroundType.shrink:
+                  Paddings.viewPadding.top + kToolbarHeight + 30.h,
+              AppBarBackgroundType.expanded:
+                  Paddings.viewPadding.top + kToolbarHeight + 0.15.sh,
+              AppBarBackgroundType.oval:
+                  Paddings.viewPadding.top + kToolbarHeight + 0.25.sh,
+            }[this]!
+          : Paddings.viewPadding.top + 20.sp;
 }

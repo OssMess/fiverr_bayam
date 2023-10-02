@@ -23,12 +23,6 @@ class _ReportScreenState extends State<ReportScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      floatingActionButton: CustomElevatedButton(
-        onPressed: next,
-        label: AppLocalizations.of(context)!.report,
-        color: Styles.red,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -55,16 +49,16 @@ class _ReportScreenState extends State<ReportScreen> {
                         color: context.textTheme.displayLarge!.color,
                       ),
                     ),
-                    12.heightSp,
+                    16.heightSp,
                     Text(
                       AppLocalizations.of(context)!.why_report_subtitle,
                       style: Styles.poppins(
                         fontSize: 14.sp,
-                        fontWeight: Styles.medium,
-                        color: context.textTheme.displayMedium!.color,
+                        fontWeight: Styles.semiBold,
+                        color: context.textTheme.displayLarge!.color,
                       ),
                     ),
-                    12.heightSp,
+                    16.heightSp,
                     Form(
                       key: _keyForm,
                       autovalidateMode: AutovalidateMode.disabled,
@@ -77,7 +71,17 @@ class _ReportScreenState extends State<ReportScreen> {
                         },
                         textInputAction: TextInputAction.newline,
                         maxLines: 10,
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 16.sp,
+                          vertical: 16.sp,
+                        ),
                       ),
+                    ),
+                    60.heightH,
+                    CustomElevatedButton(
+                      onPressed: next,
+                      label: AppLocalizations.of(context)!.report,
+                      color: Styles.red,
                     ),
                     (context.viewPadding.bottom + 20.sp).height,
                   ],

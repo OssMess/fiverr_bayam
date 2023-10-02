@@ -20,7 +20,7 @@ extension AccountPreferenceExtensions on AccountPreference {
     }[this]!;
   }
 
-  String get getString => {
+  String get key => {
         AccountPreference.paddyrice: 'paddyrice',
         AccountPreference.hulledrice: 'hulledrice',
         AccountPreference.freshcassava: 'freshcassava',

@@ -119,11 +119,20 @@ class SettingsScreen extends StatelessWidget {
                       showContainerDecoration: false,
                       showTrailing: false,
                       padding: EdgeInsets.all(12.sp),
-                      onTap: () => context.push(
-                        widget: userSession.isPerson
-                            ? const DocumentsPersonVerification()
-                            : const DocumentsCompanyVerification(),
-                      ),
+                      onTap: () {
+                        if (userSession.isPerson) {
+                          context.push(
+                            widget: CompleteRegistrationForm1(
+                              userSession: userSession,
+                              accountType: AccountType.person,
+                            ),
+                          );
+                        } else {
+                          context.push(
+                            widget: const DocumentsCompanyVerification(),
+                          );
+                        }
+                      },
                     ),
                     16.heightSp,
                     CustomElevatedListTile(

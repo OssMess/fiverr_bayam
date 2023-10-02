@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../../../extensions.dart';
 import '../../../../tools.dart';
 import '../../../model/enums.dart';
 import '../../../model/models.dart';
-import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 import '../../screens.dart';
 
@@ -15,9 +13,11 @@ class CompleteRegistrationForm2 extends StatefulWidget {
   const CompleteRegistrationForm2({
     super.key,
     required this.userSession,
+    required this.accountType,
   });
 
   final UserSession userSession;
+  final AccountType accountType;
 
   @override
   State<CompleteRegistrationForm2> createState() =>
@@ -25,7 +25,24 @@ class CompleteRegistrationForm2 extends StatefulWidget {
 }
 
 class _CompleteRegistrationForm2State extends State<CompleteRegistrationForm2> {
-  XFile? file;
+  Set<AccountPreference> pickedPreferences = {};
+  Set<AccountPreference> filteredPreferences = {};
+  Set<AccountPreference> allPreferences = {
+    AccountPreference.paddyrice,
+    AccountPreference.hulledrice,
+    AccountPreference.freshcassava,
+    AccountPreference.driedcassava,
+    AccountPreference.sweetpotatoes,
+    AccountPreference.potatoes,
+    AccountPreference.bananas,
+    AccountPreference.blantains,
+  };
+
+  @override
+  void initState() {
+    super.initState();
+    filteredPreferences.addAll(allPreferences);
+  }
 
   @override
   void dispose() {
@@ -36,102 +53,84 @@ class _CompleteRegistrationForm2State extends State<CompleteRegistrationForm2> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      resizeToAvoidBottomInset: true,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        title: Text(
-          AppLocalizations.of(context)!.tax_details,
-        ),
-        leading: AppBarActionButton(
-          icon: context.backButtonIcon,
-          onTap: () => context.pop(),
-        ),
-      ),
+      resizeToAvoidBottomInset: false,
       floatingActionButton: CustomElevatedButton(
         onPressed: next,
-        label: AppLocalizations.of(context)!.done,
+        label: AppLocalizations.of(context)!.continu,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Column(
         children: [
-          const CustomAppBarBackground(
+          CustomAppBarBackground(
             type: AppBarBackgroundType.shrink,
+            appBarTitleWidget: const CustomAppBarLogo(),
+            appBarLeading: AppBarActionButton(
+              icon: context.backButtonIcon,
+              onTap: () => context.pop(),
+            ),
           ),
           Expanded(
-            child: SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 20.sp,
-                  vertical: 10.sp,
-                ).copyWith(bottom: context.viewPadding.bottom + 20.sp),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(16.sp),
-                      decoration: BoxDecoration(
-                        color: Styles.green[50],
-                        borderRadius: BorderRadius.circular(14.sp),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(
-                            AwesomeIcons.folder,
-                            size: 40.sp,
-                            color: Styles.green,
-                          ),
-                          16.widthSp,
-                          Expanded(
-                            child: Text(
-                              AppLocalizations.of(context)!
-                                  .company_upload_tax_documents,
-                              style: Styles.poppins(
-                                fontSize: 14.sp,
-                                fontWeight: Styles.medium,
-                                color: Styles.green,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 32.sp),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!
+                        .select_at_least_nb_preferences,
+                    style: Styles.poppins(
+                      fontSize: 18.sp,
+                      fontWeight: Styles.semiBold,
+                      color: context.textTheme.displayLarge!.color,
                     ),
-                    16.heightSp,
-                    InkResponse(
-                      onTap: () async {
-                        if (await Permissions.of(context)
-                            .showPhotoLibraryPermission()) return;
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        height: 0.25.sh,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: context.textTheme.headlineSmall!.color!,
-                          borderRadius: BorderRadius.circular(14.sp),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              AwesomeIcons.cloud_arrow_up,
-                              color: Styles.green,
-                              size: 40.sp,
-                            ),
-                            Text(
-                              AppLocalizations.of(context)!.upload_documents,
-                              style: Styles.poppins(
-                                fontSize: 12.sp,
-                                fontWeight: Styles.semiBold,
-                                color: Styles.green,
-                              ),
-                            ),
-                          ],
-                        ),
+                  ),
+                  16.heightSp,
+                  CustomTextFormField(
+                    prefixIcon: AwesomeIcons.magnifying_glass,
+                    suffixIcon: AwesomeIcons.sliders_outlined,
+                    onChanged: (value) {
+                      setState(() {
+                        filteredPreferences.clear();
+                        filteredPreferences.addAll(
+                          allPreferences.where(
+                            (element) => element
+                                .translate(context)
+                                .toLowerCase()
+                                .contains(value),
+                          ),
+                        );
+                      });
+                    },
+                  ),
+                  Expanded(
+                    child: ListView.separated(
+                      padding: EdgeInsets.only(
+                        top: 32.sp,
+                        bottom: context.viewPadding.bottom + 90.sp,
                       ),
+                      itemBuilder: (context, index) => StatefulBuilder(
+                        builder: (context, setState) {
+                          AccountPreference preference =
+                              filteredPreferences.elementAt(index);
+                          return PreferenceCheckListTile(
+                            checked: pickedPreferences.contains(preference),
+                            preference: preference,
+                            onChange: (added) {
+                              if (added) {
+                                pickedPreferences.add(preference);
+                              } else {
+                                pickedPreferences.remove(preference);
+                              }
+                              setState(() {});
+                            },
+                          );
+                        },
+                      ),
+                      separatorBuilder: (_, __) => 24.heightSp,
+                      itemCount: filteredPreferences.length,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -140,28 +139,73 @@ class _CompleteRegistrationForm2State extends State<CompleteRegistrationForm2> {
     );
   }
 
+  bool get isPerson => widget.accountType == AccountType.person;
+
+  bool get isCompany => widget.accountType == AccountType.company;
+
   Future<void> next() async {
+    if (pickedPreferences.length < 3) {
+      Dialogs.of(context).showSnackBar(
+        message: AppLocalizations.of(context)!.select_at_least_nb_preferences,
+      );
+      return;
+    }
     Dialogs.of(context).runAsyncAction(
       future: () async {
         await Future.delayed(const Duration(seconds: 1));
       },
       onComplete: (_) {
-        Dialogs.of(context).showCustomDialog(
-          title: AppLocalizations.of(context)!.success,
-          subtitle: AppLocalizations.of(context)!.signup_success_subtitle,
-          yesAct: ModelTextButton(
-            label: AppLocalizations.of(context)!.continu,
-          ),
-          onComplete: (_) {
+        switch (widget.accountType) {
+          case AccountType.company:
             context.push(
-              widget: CompleteRegistrationFormP2(
+              widget: CompleteRegistrationFormC3(
                 userSession: widget.userSession,
               ),
             );
-          },
-        );
+            break;
+          case AccountType.person:
+            context.push(
+              widget: CompleteRegistrationFormP4(
+                userSession: widget.userSession,
+              ),
+            );
+            break;
+          default:
+        }
       },
       onError: (_) {},
+    );
+  }
+}
+
+class PreferenceCheckListTile extends StatelessWidget {
+  const PreferenceCheckListTile({
+    super.key,
+    required this.checked,
+    required this.preference,
+    required this.onChange,
+  });
+
+  final bool checked;
+  final AccountPreference preference;
+  final Function(bool) onChange;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Expanded(
+          child: CustomCheckBox(
+            value: checked,
+            label: preference.translate(context),
+            onChanged: (value) {
+              if (value == null) return;
+              onChange(value);
+            },
+          ),
+        ),
+      ],
     );
   }
 }

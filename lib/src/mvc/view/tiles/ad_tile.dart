@@ -33,9 +33,10 @@ class AdTile extends StatelessWidget {
           ad: ad,
         ),
       ),
-      width: expanded ? double.infinity : 300.sp,
-      height: expanded ? (showDates ? 295.sp : 250.sp) : null,
-      padding: EdgeInsets.all(8.sp),
+      width: expanded ? double.infinity : 280.sp,
+      height: expanded ? (showDates ? 325.sp : 280.sp) : null,
+      padding: EdgeInsets.all(10.sp),
+      borderRadius: BorderRadius.circular(10.sp),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -56,7 +57,7 @@ class AdTile extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 decoration: BoxDecoration(
                   color: context.textTheme.headlineSmall!.color,
-                  borderRadius: BorderRadius.circular(14.sp),
+                  borderRadius: BorderRadius.circular(10.sp),
                   image: DecorationImage(
                     image: imageProvider,
                     fit: BoxFit.cover,
@@ -64,7 +65,7 @@ class AdTile extends StatelessWidget {
                 ),
                 child: Container(
                   padding: EdgeInsets.symmetric(
-                    horizontal: 10.sp,
+                    horizontal: 20.sp,
                     vertical: 6.sp,
                   ),
                   decoration: BoxDecoration(
@@ -74,7 +75,7 @@ class AdTile extends StatelessWidget {
                   child: Text(
                     ad.adType.translate(context),
                     style: Styles.poppins(
-                      fontSize: 12.sp,
+                      fontSize: 14.sp,
                       fontWeight: Styles.semiBold,
                       color: Colors.white,
                     ),
@@ -96,7 +97,9 @@ class AdTile extends StatelessWidget {
           ),
           CustomDivider(
             padding: EdgeInsets.symmetric(vertical: 8.sp),
+            color: context.textTheme.displayLarge!.color,
           ),
+          8.heightSp,
           CompanyHeaderTile(
             logoUrl: ad.logoUrl,
             name: ad.name,

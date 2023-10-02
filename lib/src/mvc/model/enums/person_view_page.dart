@@ -3,9 +3,6 @@ enum PersonViewPage {
   /// default view
   normal,
 
-  /// search history view
-  search,
-
   /// suggestions view
   suggestions,
 

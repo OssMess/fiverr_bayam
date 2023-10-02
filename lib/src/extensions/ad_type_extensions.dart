@@ -7,7 +7,7 @@ import '../tools.dart';
 Map<AdType, Color> backgroundColors = {
   AdType.forRent: Styles.orange,
   AdType.forSell: Styles.green,
-  AdType.wantToBuy: Styles.red,
+  AdType.wantToBuy: const Color(0xFFD80027),
 };
 
 extension AdTypeExtensions on AdType {
@@ -20,4 +20,10 @@ extension AdTypeExtensions on AdType {
       AdType.wantToBuy: AppLocalizations.of(context)!.want_to_buy,
     }[this]!;
   }
+
+  int get key => {
+        AdType.forRent: 0,
+        AdType.forSell: 1,
+        AdType.wantToBuy: 3,
+      }[this]!;
 }

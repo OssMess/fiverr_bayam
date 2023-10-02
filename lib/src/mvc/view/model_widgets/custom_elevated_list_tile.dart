@@ -15,6 +15,7 @@ class CustomElevatedListTile extends StatelessWidget {
     this.showContainerDecoration = true,
     this.showTrailing = true,
     required this.onTap,
+    this.margin,
     this.padding,
   });
 
@@ -24,6 +25,7 @@ class CustomElevatedListTile extends StatelessWidget {
   final Widget? trailing;
   final bool showContainerDecoration;
   final bool showTrailing;
+  final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
   final void Function() onTap;
 
@@ -31,13 +33,14 @@ class CustomElevatedListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomElevatedContainer(
       onTap: onTap,
-      padding: padding ?? EdgeInsets.all(8.sp),
+      margin: margin,
+      padding: padding ?? EdgeInsets.all(12.sp),
       child: Row(
         children: [
           if (leadingIcon != null) ...[
             Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.all(10.sp),
+              padding: EdgeInsets.all(14.sp),
               decoration: showContainerDecoration
                   ? BoxDecoration(
                       color: Styles.green[50]!,
@@ -46,7 +49,7 @@ class CustomElevatedListTile extends StatelessWidget {
                   : null,
               child: Icon(
                 leadingIcon,
-                size: 25.sp,
+                size: 28.sp,
                 color: leadingIconColor ?? Styles.green,
               ),
             ),
@@ -56,7 +59,7 @@ class CustomElevatedListTile extends StatelessWidget {
             child: Text(
               title,
               style: Styles.poppins(
-                fontSize: 14.sp,
+                fontSize: 16.sp,
                 fontWeight: Styles.semiBold,
                 color: context.textTheme.displayLarge!.color,
               ),
@@ -67,8 +70,8 @@ class CustomElevatedListTile extends StatelessWidget {
             trailing ??
                 Icon(
                   Icons.keyboard_arrow_right_rounded,
-                  size: 20.sp,
-                  color: context.textTheme.headlineMedium!.color,
+                  size: 28.sp,
+                  color: context.textTheme.headlineLarge!.color,
                 ),
           ],
         ],

@@ -34,16 +34,6 @@ class _ContactSupportState extends State<ContactSupport> {
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        floatingActionButton: msgSent
-            ? CustomElevatedButton(
-                label: AppLocalizations.of(context)!.back_to_profile,
-                onPressed: context.popUntilFirst,
-              )
-            : CustomElevatedButton(
-                label: AppLocalizations.of(context)!.submit_request,
-                onPressed: next,
-              ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         body: Form(
           key: _keyForm,
           autovalidateMode: AutovalidateMode.disabled,
@@ -62,9 +52,7 @@ class _ContactSupportState extends State<ContactSupport> {
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.sp),
                   child: Column(
-                    crossAxisAlignment: msgSent
-                        ? CrossAxisAlignment.center
-                        : CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: msgSent
                         ? MainAxisAlignment.center
                         : MainAxisAlignment.start,
@@ -85,6 +73,11 @@ class _ContactSupportState extends State<ContactSupport> {
                             fontWeight: Styles.medium,
                             color: context.textTheme.displayLarge!.color,
                           ),
+                        ),
+                        96.heightSp,
+                        CustomElevatedButton(
+                          label: AppLocalizations.of(context)!.back_to_profile,
+                          onPressed: context.popUntilFirst,
                         ),
                         (context.viewPadding.bottom + 90.sp).height,
                       ],
@@ -142,7 +135,11 @@ class _ContactSupportState extends State<ContactSupport> {
                           textInputAction: TextInputAction.done,
                           maxLines: 10,
                         ),
-                        16.heightSp,
+                        96.heightSp,
+                        CustomElevatedButton(
+                          label: AppLocalizations.of(context)!.submit_request,
+                          onPressed: next,
+                        ),
                         (context.viewPadding.bottom + 90.sp).height,
                       ],
                     ],

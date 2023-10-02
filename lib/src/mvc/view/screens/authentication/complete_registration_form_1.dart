@@ -1,3 +1,5 @@
+// ignore_for_file: dead_code
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,6 +11,7 @@ import '../../../../extensions.dart';
 import '../../../../tools.dart';
 import '../../../model/enums.dart';
 import '../../../model/models.dart';
+import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 import '../../screens.dart';
 
@@ -52,24 +55,18 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      resizeToAvoidBottomInset: true,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        title: Text(
-          isCompany
-              ? AppLocalizations.of(context)!.company_details
-              : AppLocalizations.of(context)!.customer_details,
-        ),
-        leading: AppBarActionButton(
-          icon: context.backButtonIcon,
-          onTap: () => context.pop(),
-        ),
-      ),
+      resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          const CustomAppBarBackground(
+          CustomAppBarBackground(
             type: AppBarBackgroundType.shrink,
+            appBarTitle: isCompany
+                ? AppLocalizations.of(context)!.company_details
+                : AppLocalizations.of(context)!.customer_details,
+            appBarLeading: AppBarActionButton(
+              icon: context.backButtonIcon,
+              onTap: () => context.pop(),
+            ),
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -84,7 +81,7 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      if (isCustomer) ...[
+                      if (isPerson) ...[
                         CustomTextFormFieldBounded(
                           labelText:
                               AppLocalizations.of(context)!.first_name_id_label,
@@ -290,7 +287,7 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
                         textInputAction: TextInputAction.next,
                         // onTap: () {},
                       ),
-                      16.heightSp,
+                      32.heightSp,
                       CustomElevatedButton(
                         onPressed: next,
                         label: AppLocalizations.of(context)!.continu,
@@ -370,16 +367,37 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
   }
 
   Future<void> next() async {
-    if (!_keyForm.currentState!.validate()) return;
+    if (false && !_keyForm.currentState!.validate()) return;
     _keyForm.currentState!.save();
     Dialogs.of(context).runAsyncAction(
       future: () async {
         await Future.delayed(const Duration(seconds: 1));
       },
       onComplete: (_) {
-        context.push(
-          widget: CompleteRegistrationFormP2(
-            userSession: widget.userSession,
+        Dialogs.of(context).showCustomDialog(
+          title: AppLocalizations.of(context)!.success,
+          subtitle:
+              AppLocalizations.of(context)!.your_information_has_been_saved,
+          yesAct: ModelTextButton(
+            label: AppLocalizations.of(context)!.continu,
+            onPressed: () {
+              switch (widget.accountType) {
+                case AccountType.person:
+                  context.pushReplacement(
+                    widget: const DocumentsPersonVerification(),
+                  );
+                  break;
+                case AccountType.company:
+                  context.push(
+                    widget: CompleteRegistrationForm2(
+                      userSession: widget.userSession,
+                      accountType: widget.accountType,
+                    ),
+                  );
+                  break;
+                default:
+              }
+            },
           ),
         );
       },
@@ -387,7 +405,7 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
     );
   }
 
-  bool get isCustomer => widget.accountType == AccountType.person;
+  bool get isPerson => widget.accountType == AccountType.person;
 
   bool get isCompany => widget.accountType == AccountType.company;
 }

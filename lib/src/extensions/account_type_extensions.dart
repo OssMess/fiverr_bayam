@@ -10,7 +10,7 @@ extension AccountTypeExtensions on AccountType {
     );
   }
 
-  String get getString => {
+  String get key => {
         AccountType.company: 'company',
         AccountType.person: 'person',
       }[this]!;

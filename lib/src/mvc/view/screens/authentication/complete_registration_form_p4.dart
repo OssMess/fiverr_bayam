@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../extensions.dart';
@@ -25,7 +26,7 @@ class CompleteRegistrationFormP4 extends StatefulWidget {
 
 class _CompleteRegistrationFormP4State
     extends State<CompleteRegistrationFormP4> {
-  XFile? file;
+  XFile? imageFile;
 
   @override
   void dispose() {
@@ -37,15 +38,6 @@ class _CompleteRegistrationFormP4State
     return Scaffold(
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: true,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        title: const CustomAppBarLogo(),
-        leading: AppBarActionButton(
-          icon: context.backButtonIcon,
-          onTap: () => context.pop(),
-        ),
-      ),
       floatingActionButton: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.sp),
         child: Row(
@@ -69,8 +61,13 @@ class _CompleteRegistrationFormP4State
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Column(
         children: [
-          const CustomAppBarBackground(
+          CustomAppBarBackground(
             type: AppBarBackgroundType.oval,
+            appBarTitleWidget: const CustomAppBarLogo(),
+            appBarLeading: AppBarActionButton(
+              icon: context.backButtonIcon,
+              onTap: () => context.pop(),
+            ),
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -80,7 +77,7 @@ class _CompleteRegistrationFormP4State
                   vertical: 10.sp,
                 ).copyWith(bottom: context.viewPadding.bottom + 20.sp),
                 child: Align(
-                  heightFactor: 0.2,
+                  heightFactor: 0.4,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -115,9 +112,24 @@ class _CompleteRegistrationFormP4State
                           style: Styles.poppins(
                             fontSize: 16.sp,
                             fontWeight: Styles.regular,
-                            color: context.textTheme.displayMedium!.color,
+                            color: context.textTheme.displayLarge!.color,
                           ),
                         ),
+                      ),
+                      48.heightSp,
+                      Text(
+                        AppLocalizations.of(context)!.please_wait,
+                        textAlign: TextAlign.center,
+                        style: Styles.poppins(
+                          fontSize: 16.sp,
+                          fontWeight: Styles.regular,
+                          color: context.textTheme.displayMedium!.color,
+                        ),
+                      ),
+                      24.heightSp,
+                      SpinKitRing(
+                        color: context.textTheme.displayMedium!.color!,
+                        size: 40.sp,
                       ),
                     ],
                   ),
@@ -127,6 +139,48 @@ class _CompleteRegistrationFormP4State
           ),
         ],
       ),
+    );
+  }
+
+  Future<void> pickImageFromGallery() async {
+    await Permissions.of(context).showPhotoLibraryPermission().then(
+      (value) async {
+        if (value) return;
+        await ImagePicker()
+            .pickImage(
+          source: ImageSource.gallery,
+          imageQuality: 80,
+          maxHeight: 1080,
+          maxWidth: 1080,
+        )
+            .then(
+          (xfile) {
+            if (xfile == null) return;
+            imageFile = xfile;
+          },
+        );
+      },
+    );
+  }
+
+  Future<void> pickImageFromCamera() async {
+    await Permissions.of(context).showCameraPermission().then(
+      (value) async {
+        if (value) return;
+        await ImagePicker()
+            .pickImage(
+          source: ImageSource.camera,
+          imageQuality: 80,
+          maxHeight: 1080,
+          maxWidth: 1080,
+        )
+            .then(
+          (xfile) {
+            if (xfile == null) return;
+            imageFile = xfile;
+          },
+        );
+      },
     );
   }
 

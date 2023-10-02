@@ -9,7 +9,7 @@ class CustomAppBarLogo extends StatelessWidget {
       'assets/images/logo_transparent.png',
       fit: BoxFit.contain,
       alignment: Alignment.center,
-      height: 50,
+      height: 48,
     );
   }
 }

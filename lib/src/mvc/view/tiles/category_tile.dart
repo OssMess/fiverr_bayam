@@ -43,7 +43,7 @@ class CategoryTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  category.title,
+                  category.translateTitle(context),
                   style: Styles.poppins(
                     fontSize: 15.sp,
                     fontWeight: Styles.semiBold,
@@ -51,7 +51,7 @@ class CategoryTile extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  category.subtitle,
+                  category.translateSubtitle(context),
                   style: Styles.poppins(
                     fontSize: 12.sp,
                     fontWeight: Styles.medium,

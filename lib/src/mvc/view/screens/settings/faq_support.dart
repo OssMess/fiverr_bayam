@@ -44,74 +44,6 @@ class _FAQSupportState extends State<FAQSupport> {
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        floatingActionButton: pickFAQView
-            ? CustomElevatedButton(
-                label: AppLocalizations.of(context)!.contact_support,
-                onPressed: () => context.push(widget: const ContactSupport()),
-              )
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.all(32.sp),
-                    margin: EdgeInsets.symmetric(horizontal: 32.sp),
-                    decoration: BoxDecoration(
-                      color: context.textTheme.headlineSmall!.color,
-                      borderRadius: BorderRadius.circular(14.sp),
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          AppLocalizations.of(context)!.was_the_answer_helpful,
-                          style: Styles.poppins(
-                            fontSize: 16.sp,
-                            fontWeight: Styles.semiBold,
-                            color: context.textTheme.displayLarge!.color,
-                          ),
-                        ),
-                        32.heightSp,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            (
-                              AwesomeIcons.thumbs_up,
-                              Styles.green,
-                              () {},
-                            ),
-                            (
-                              AwesomeIcons.thumbs_down,
-                              Styles.red,
-                              () {},
-                            ),
-                          ]
-                              .map(
-                                (button) => InkResponse(
-                                  onTap: button.$3,
-                                  child: Container(
-                                    padding: EdgeInsets.all(16.sp),
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 8.sp),
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: button.$2,
-                                    ),
-                                    child: Icon(
-                                      button.$1,
-                                      size: 30.sp,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              )
-                              .toList(),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -180,9 +112,8 @@ class _FAQSupportState extends State<FAQSupport> {
                       ),
                       Expanded(
                         child: ListView.separated(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 16.sp,
-                            vertical: 8.sp,
+                          padding: EdgeInsets.all(
+                            16.sp,
                           ).copyWith(
                             bottom: context.viewPadding.bottom + 90.sp,
                           ),
@@ -193,11 +124,19 @@ class _FAQSupportState extends State<FAQSupport> {
                             }),
                           ),
                           separatorBuilder: (context, index) => CustomDivider(
-                            height: 24.sp,
+                            height: 32.sp,
                           ),
                           itemCount: listFAQ.length,
                         ),
                       ),
+                      Center(
+                        child: CustomElevatedButton(
+                          label: AppLocalizations.of(context)!.contact_support,
+                          onPressed: () =>
+                              context.push(widget: const ContactSupport()),
+                        ),
+                      ),
+                      0.15.sh.height,
                     ],
                     if (showFAQView) ...[
                       Text(
@@ -211,15 +150,81 @@ class _FAQSupportState extends State<FAQSupport> {
                       CustomDivider(
                         height: 48.sp,
                       ),
-                      Text(
-                        faq!.answer,
-                        style: Styles.poppins(
-                          fontSize: 16.sp,
-                          fontWeight: Styles.medium,
-                          color: context.textTheme.displayMedium!.color,
+                      Expanded(
+                        child: Text(
+                          faq!.answer,
+                          style: Styles.poppins(
+                            fontSize: 16.sp,
+                            fontWeight: Styles.medium,
+                            color: context.textTheme.displayMedium!.color,
+                          ),
                         ),
                       ),
-                      (context.viewPadding.bottom + 90.sp).height,
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.all(32.sp),
+                            margin: EdgeInsets.symmetric(horizontal: 32.sp),
+                            decoration: BoxDecoration(
+                              color: context.textTheme.headlineSmall!.color,
+                              borderRadius: BorderRadius.circular(14.sp),
+                            ),
+                            child: Column(
+                              children: [
+                                Text(
+                                  AppLocalizations.of(context)!
+                                      .was_the_answer_helpful,
+                                  style: Styles.poppins(
+                                    fontSize: 16.sp,
+                                    fontWeight: Styles.semiBold,
+                                    color:
+                                        context.textTheme.displayLarge!.color,
+                                  ),
+                                ),
+                                32.heightSp,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    (
+                                      AwesomeIcons.thumbs_up,
+                                      Styles.green,
+                                      () {},
+                                    ),
+                                    (
+                                      AwesomeIcons.thumbs_down,
+                                      Styles.red,
+                                      () {},
+                                    ),
+                                  ]
+                                      .map(
+                                        (button) => InkResponse(
+                                          onTap: button.$3,
+                                          child: Container(
+                                            padding: EdgeInsets.all(16.sp),
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 8.sp),
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: button.$2,
+                                            ),
+                                            child: Icon(
+                                              button.$1,
+                                              size: 30.sp,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                      .toList(),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      0.15.sh.height,
                     ],
                   ],
                 ),
@@ -232,6 +237,7 @@ class _FAQSupportState extends State<FAQSupport> {
   }
 
   bool get pickFAQView => faq == null;
+
   bool get showFAQView => faq != null;
 }
 

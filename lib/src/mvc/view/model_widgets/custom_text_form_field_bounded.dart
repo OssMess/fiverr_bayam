@@ -20,6 +20,7 @@ class CustomTextFormFieldBounded extends StatefulWidget {
     this.focusNode,
     this.textInputAction,
     this.maxLines,
+    this.addSpacer = true,
     this.validator,
     this.onSaved,
     this.onEditingComplete,
@@ -39,6 +40,7 @@ class CustomTextFormFieldBounded extends StatefulWidget {
   final FocusNode? focusNode;
   final TextInputAction? textInputAction;
   final int? maxLines;
+  final bool addSpacer;
   final String? Function(String?)? validator;
   final void Function(String?)? onSaved;
   final void Function()? onEditingComplete;
@@ -103,22 +105,24 @@ class _CustomTextFormFieldBoundedState
                         if (widget.labelPrefixIcon != null) ...[
                           Icon(
                             widget.labelPrefixIcon,
-                            size: 16.sp,
+                            size: 12.sp,
                             color: Styles.green,
                           ),
                           8.widthSp,
                         ],
-                        Text(
-                          widget.labelText,
-                          style: Styles.poppins(
-                            fontSize: 14.sp,
-                            fontWeight: Styles.medium,
-                            color: context.textTheme.displayMedium!.color,
-                            height: 1.2,
+                        if (widget.labelText.isNotEmpty)
+                          Text(
+                            widget.labelText,
+                            style: Styles.poppins(
+                              fontSize: 14.sp,
+                              fontWeight: Styles.medium,
+                              color: context.textTheme.displayMedium!.color,
+                              height: 1.2,
+                            ),
                           ),
-                        ),
                       ],
                     ),
+                    if (widget.addSpacer) 8.heightSp,
                     TextFormField(
                       controller: widget.controller,
                       focusNode: widget.focusNode ?? focusNode,
@@ -139,12 +143,18 @@ class _CustomTextFormFieldBoundedState
                       onTapOutside: (_) => FocusScope.of(context).unfocus(),
                       textInputAction: widget.textInputAction,
                       maxLines: widget.maxLines,
+                      style: Styles.poppins(
+                        fontSize: 16.sp,
+                        fontWeight: Styles.regular,
+                        color: context.textTheme.displayLarge!.color,
+                        height: 1.2,
+                      ),
                       decoration: InputDecoration(
                         isDense: true,
                         hintText: widget.hintText,
                         border: InputBorder.none,
                         hintStyle: Styles.poppins(
-                          fontSize: 14.sp,
+                          fontSize: 16.sp,
                           fontWeight: Styles.regular,
                           color: context.textTheme.displayMedium!.color,
                           height: 1.2,

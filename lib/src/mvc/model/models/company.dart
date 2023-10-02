@@ -1,17 +1,20 @@
+import 'package:bayam/src/extensions.dart';
 import 'package:flutter/material.dart';
+
+import '../enums.dart';
 
 class Company with ChangeNotifier {
   final String name;
   final String logoUrl;
   final String coverUrl;
-  final String field;
+  final Category category;
   final bool isVerified;
 
   Company({
     required this.name,
     required this.logoUrl,
     required this.coverUrl,
-    required this.field,
+    required this.category,
     required this.isVerified,
   });
 
@@ -19,7 +22,7 @@ class Company with ChangeNotifier {
         name: json['name'],
         logoUrl: json['logoUrl'],
         coverUrl: json['coverUrl'],
-        field: json['field'],
+        category: (json['category'] as String).toCategory,
         isVerified: json['isVerified'],
       );
 }

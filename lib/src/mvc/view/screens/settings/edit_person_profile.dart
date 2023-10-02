@@ -9,6 +9,7 @@ import '../../../model/enums.dart';
 import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
+import '../../model_widgets_screens.dart';
 
 class EditPersonProfile extends StatefulWidget {
   const EditPersonProfile({super.key});
@@ -33,11 +34,6 @@ class _EditPersonProfileState extends State<EditPersonProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      floatingActionButton: CustomElevatedButton(
-        onPressed: next,
-        label: AppLocalizations.of(context)!.save,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -60,13 +56,8 @@ class _EditPersonProfileState extends State<EditPersonProfile> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        AppLocalizations.of(context)!.edit_profile,
-                        style: Styles.poppins(
-                          fontSize: 16.sp,
-                          fontWeight: Styles.semiBold,
-                          color: context.textTheme.displayLarge!.color,
-                        ),
+                      SettingsHeaderSubtitle(
+                        title: AppLocalizations.of(context)!.edit_profile,
                       ),
                       16.heightSp,
                       CustomTextFormFieldLabel(
@@ -110,6 +101,11 @@ class _EditPersonProfileState extends State<EditPersonProfile> {
                         keyboardType: TextInputType.datetime,
                         validator: Validators.validateNotNull,
                         onTap: () => pickDate(dateController, borthDate),
+                      ),
+                      64.heightSp,
+                      CustomElevatedButton(
+                        onPressed: next,
+                        label: AppLocalizations.of(context)!.save,
                       ),
                       (context.viewPadding.bottom + 20.sp).height,
                     ],
@@ -158,7 +154,7 @@ class _EditPersonProfileState extends State<EditPersonProfile> {
             Dialogs.of(context).showCustomDialog(
               title: AppLocalizations.of(context)!.success,
               subtitle:
-                  AppLocalizations.of(context)!.edit_profile_sucess_subtitle,
+                  AppLocalizations.of(context)!.your_information_has_been_saved,
               yesAct: ModelTextButton(
                 label: AppLocalizations.of(context)!.continu,
               ),

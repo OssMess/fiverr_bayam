@@ -36,19 +36,15 @@ class _CompleteRegistrationFormP5State
     return Scaffold(
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: true,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        title: const CustomAppBarLogo(),
-        leading: AppBarActionButton(
-          icon: context.backButtonIcon,
-          onTap: () => context.pop(),
-        ),
-      ),
       body: Column(
         children: [
-          const CustomAppBarBackground(
+          CustomAppBarBackground(
             type: AppBarBackgroundType.shrink,
+            appBarTitleWidget: const CustomAppBarLogo(),
+            appBarLeading: AppBarActionButton(
+              icon: context.backButtonIcon,
+              onTap: () => context.pop(),
+            ),
           ),
           Expanded(
             child: Container(
@@ -75,7 +71,7 @@ class _CompleteRegistrationFormP5State
                       ),
                     ),
                   ),
-                  16.heightSp,
+                  20.heightSp,
                   Expanded(
                     child: InkResponse(
                       onTap: () async {
@@ -117,7 +113,7 @@ class _CompleteRegistrationFormP5State
                       ),
                     ),
                   ),
-                  16.heightSp,
+                  20.heightSp,
                   CustomElevatedButton(
                     onPressed: next,
                     label: AppLocalizations.of(context)!.done,

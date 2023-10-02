@@ -21,7 +21,7 @@ class CustomDivider extends StatelessWidget {
       padding: padding ?? EdgeInsets.zero,
       child: Divider(
         height: height ?? 1.sp,
-        color: color ?? context.textTheme.headlineMedium!.color,
+        color: color ?? context.textTheme.displaySmall!.color,
         thickness: 0.5,
       ),
     );

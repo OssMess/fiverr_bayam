@@ -423,7 +423,11 @@ class Dialogs {
               title: AppLocalizations.of(context)!.modify,
               onTap: () {
                 context.pop();
-                context.push(widget: const CreateAd());
+                context.push(
+                  widget: CreateAd(
+                    ad: ad,
+                  ),
+                );
               },
             ),
             16.heightSp,

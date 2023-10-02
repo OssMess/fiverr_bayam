@@ -107,7 +107,7 @@ class CustomAlertDialog<T> extends StatelessWidget {
                     subtitle!,
                     textAlign: TextAlign.center,
                     style: Styles.poppins(
-                      fontSize: 14.sp,
+                      fontSize: 16.sp,
                       fontWeight: Styles.regular,
                       color: context.textTheme.displayLarge!.color,
                     ),

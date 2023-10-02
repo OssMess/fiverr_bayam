@@ -237,11 +237,18 @@ class PlanCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkResponse(
-      onTap: () => context.pushReplacement(
-        widget: PromoteLocation(
-          ad: ad,
-        ),
-      ),
+      onTap: () async {
+        Permissions.of(context).showLocationPermission().then(
+          (value) {
+            if (value) return;
+            context.pushReplacement(
+              widget: PromoteLocation(
+                ad: ad,
+              ),
+            );
+          },
+        );
+      },
       child: Container(
         padding: EdgeInsets.symmetric(
           horizontal: 16.sp,

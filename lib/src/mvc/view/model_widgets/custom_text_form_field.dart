@@ -152,15 +152,16 @@ class CustomTextFormField extends StatelessWidget {
           color: context.textThemeDisplaySmall!.color,
           fontWeight: Styles.regular,
         ),
-        contentPadding: prefixIcon == null
-            ? EdgeInsets.symmetric(
-                horizontal: 14.sp,
-                // vertical: 12.sp,
-              )
-            : EdgeInsets.symmetric(
-                horizontal: 8.sp,
-                // vertical: 12.sp,
-              ),
+        contentPadding: contentPadding ??
+            (prefixIcon == null
+                ? EdgeInsets.symmetric(
+                    horizontal: 14.sp,
+                    // vertical: 12.sp,
+                  )
+                : EdgeInsets.symmetric(
+                    horizontal: 8.sp,
+                    // vertical: 12.sp,
+                  )),
         border: outlineInputBorder,
         focusedBorder: colorBorderOnFocus
             ? outlineInputBorder.copyWith(
