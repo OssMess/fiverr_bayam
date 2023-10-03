@@ -105,7 +105,7 @@ class ConfirmationFutureDialog<T> extends StatelessWidget {
           style: Styles.poppins(
             fontSize: 22.sp,
             fontWeight: Styles.bold,
-            color: Theme.of(context).textTheme.displayLarge!.color,
+            color: context.textTheme.displayLarge!.color,
           ),
         ),
         SizedBox(height: 20.sp),
@@ -117,7 +117,7 @@ class ConfirmationFutureDialog<T> extends StatelessWidget {
             style: Styles.poppins(
               fontSize: 18.sp,
               fontWeight: Styles.medium,
-              color: Theme.of(context).textTheme.displayLarge!.color,
+              color: context.textTheme.displayLarge!.color,
             ),
           ),
         ),

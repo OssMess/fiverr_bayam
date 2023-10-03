@@ -66,6 +66,7 @@ class SingleValuePickerDialog extends StatelessWidget {
         label: AppLocalizations.of(context)!.continu,
         fontColor: Styles.green,
         onPressed: () async {
+          context.pop();
           if (pickedValue.isEmpty) {
             return;
           }
@@ -88,7 +89,7 @@ class SingleValuePickerDialog extends StatelessWidget {
           style: Styles.poppins(
             fontSize: 20.sp,
             fontWeight: Styles.bold,
-            color: Theme.of(context).textTheme.displayLarge!.color,
+            color: context.textTheme.displayLarge!.color,
           ),
         ),
         SizedBox(height: 20.sp),

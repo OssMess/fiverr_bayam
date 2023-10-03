@@ -111,8 +111,7 @@ class _CreateAdState extends State<CreateAd>
                         keyboardType: TextInputType.name,
                         onTap: () =>
                             Dialogs.of(context).showSingleValuePickerDialog(
-                          title: AppLocalizations.of(context)!
-                              .pick_a_department_hint,
+                          title: AppLocalizations.of(context)!.category_hint,
                           values: Category.values
                               .map(
                                 (e) => e.translateTitle(context),

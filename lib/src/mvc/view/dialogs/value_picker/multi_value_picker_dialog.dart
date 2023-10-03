@@ -54,8 +54,8 @@ class MultiValuePickerDialog extends StatelessWidget {
       continueAct: ModelTextButton(
         label: AppLocalizations.of(context)!.continu,
         onPressed: () async {
-          onPick(pickedValues);
           context.pop();
+          onPick(pickedValues);
         },
       ),
       cancelAct: ModelTextButton(
@@ -68,7 +68,7 @@ class MultiValuePickerDialog extends StatelessWidget {
           style: Styles.poppins(
             fontSize: 20.sp,
             fontWeight: Styles.bold,
-            color: Theme.of(context).textTheme.displayLarge!.color,
+            color: context.textTheme.displayLarge!.color,
           ),
         ),
         SizedBox(height: 20.sp),

@@ -93,7 +93,7 @@ class CustomTextFormField extends StatelessWidget {
     TextStyle style = Styles.poppins(
       fontSize: fontSize ?? 15.sp,
       fontWeight: Styles.medium,
-      color: Theme.of(context).textTheme.displayLarge!.color,
+      color: context.textTheme.displayLarge!.color,
       // height: 1.2,
     );
     Widget textFormField = TextFormField(
@@ -133,7 +133,7 @@ class CustomTextFormField extends StatelessWidget {
         alignLabelWithHint: true,
         floatingLabelAlignment: FloatingLabelAlignment.start,
         labelStyle: style.copyWith(
-          color: Theme.of(context).textTheme.displayLarge!.color,
+          color: context.textTheme.displayLarge!.color,
           fontWeight: Styles.bold,
           fontSize: 15.sp,
         ),

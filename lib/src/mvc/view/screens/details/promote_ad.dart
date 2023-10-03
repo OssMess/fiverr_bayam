@@ -160,7 +160,7 @@ class _PromoteAdState extends State<PromoteAd> {
                       ),
                       32.heightSp,
                       CustomElevatedButton(
-                        label: AppLocalizations.of(context)!.create_ad,
+                        label: AppLocalizations.of(context)!.pay,
                         onPressed: next,
                       ),
                     ],

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -13,9 +15,11 @@ class CompleteRegistrationFormP5 extends StatefulWidget {
   const CompleteRegistrationFormP5({
     super.key,
     required this.userSession,
+    required this.image,
   });
 
   final UserSession userSession;
+  final XFile image;
 
   @override
   State<CompleteRegistrationFormP5> createState() =>
@@ -36,6 +40,11 @@ class _CompleteRegistrationFormP5State
     return Scaffold(
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: true,
+      floatingActionButton: CustomElevatedButton(
+        onPressed: next,
+        label: AppLocalizations.of(context)!.done,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Column(
         children: [
           CustomAppBarBackground(
@@ -72,51 +81,43 @@ class _CompleteRegistrationFormP5State
                     ),
                   ),
                   20.heightSp,
-                  Expanded(
-                    child: InkResponse(
-                      onTap: () async {
-                        if (await Permissions.of(context)
-                            .showPhotoLibraryPermission()) return;
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        height: 0.25.sh,
-                        decoration: BoxDecoration(
-                          color: context.textTheme.displayLarge!.color!,
-                          borderRadius: BorderRadius.circular(14.sp),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            FloatingActionButton(
-                              onPressed: () {},
-                              backgroundColor: Colors.white,
-                              mini: true,
-                              child: Icon(
-                                AwesomeIcons.rotate_right,
-                                color: Styles.green,
-                                size: 24.sp,
-                              ),
-                            ),
-                            8.heightSp,
-                            Text(
-                              AppLocalizations.of(context)!.retake,
-                              style: Styles.poppins(
-                                fontSize: 12.sp,
-                                fontWeight: Styles.semiBold,
-                                color: Colors.white,
-                              ),
-                            ),
-                            32.heightSp,
-                          ],
-                        ),
+                  AspectRatio(
+                    aspectRatio: 1,
+                    child: Padding(
+                      padding: EdgeInsets.all(32.sp),
+                      child: CircleAvatar(
+                        backgroundImage: Image.file(
+                          File(
+                            widget.image.path,
+                          ),
+                        ).image,
                       ),
                     ),
                   ),
-                  20.heightSp,
-                  CustomElevatedButton(
-                    onPressed: next,
-                    label: AppLocalizations.of(context)!.done,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      FloatingActionButton(
+                        onPressed: context.pop,
+                        backgroundColor: Colors.white,
+                        mini: true,
+                        child: Icon(
+                          AwesomeIcons.rotate_right,
+                          color: Styles.green,
+                          size: 24.sp,
+                        ),
+                      ),
+                      8.heightSp,
+                      Text(
+                        AppLocalizations.of(context)!.retake,
+                        style: Styles.poppins(
+                          fontSize: 12.sp,
+                          fontWeight: Styles.semiBold,
+                          color: context.textTheme.displayLarge!.color,
+                        ),
+                      ),
+                      32.heightSp,
+                    ],
                   ),
                 ],
               ),

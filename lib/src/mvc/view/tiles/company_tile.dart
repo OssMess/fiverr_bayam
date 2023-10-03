@@ -36,7 +36,7 @@ class CompanyTile extends StatelessWidget {
             child: CachedNetworkImage(
               imageUrl: company.coverUrl,
               fit: BoxFit.cover,
-              color: Theme.of(context).textTheme.headlineSmall!.color,
+              color: context.textTheme.headlineSmall!.color,
               progressIndicatorBuilder: (context, url, progress) => Container(
                 alignment: Alignment.center,
                 child: CircularProgressIndicator(
@@ -49,7 +49,7 @@ class CompanyTile extends StatelessWidget {
                 padding: EdgeInsets.all(8.sp),
                 alignment: Alignment.bottomLeft,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).textTheme.headlineSmall!.color,
+                  color: context.textTheme.headlineSmall!.color,
                   borderRadius: BorderRadius.circular(10.sp),
                   image: DecorationImage(
                     image: imageProvider,

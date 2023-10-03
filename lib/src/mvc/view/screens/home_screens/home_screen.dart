@@ -63,6 +63,22 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           bottomNavigationBar: const CustomBottomNavigationBar(),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
+          floatingActionButton: Consumer<NotifierPage>(
+            builder: (context, pageNotifier, _) {
+              if (pageNotifier.currentPage == 2) {
+                return CustomElevatedButton(
+                  onPressed: () => context.push(
+                      widget: const CreateAd(
+                    ad: null,
+                  )),
+                  label: AppLocalizations.of(context)!.create_ad,
+                );
+              }
+              return const SizedBox.shrink();
+            },
+          ),
           body: Column(
             children: [
               Consumer2<NotifierPage, ValueNotifier<AdsViewPage>?>(
@@ -70,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   return CustomAppBarBackground(
                     type: AppBarBackgroundType.shrink,
                     appBarTitleWidget: const CustomAppBarLogo(),
-                    appBarLeading: pageNotifier.currentPage < 4
+                    appBarLeading: pageNotifier.currentPage == 0
                         ? AppBarActionButton(
                             icon: AwesomeIcons.magnifying_glass,
                             onTap: () {
@@ -90,8 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 badgeColor: Styles.green,
                                 elevation: 0,
                                 borderSide: BorderSide(
-                                  color:
-                                      Theme.of(context).scaffoldBackgroundColor,
+                                  color: context.scaffoldBackgroundColor,
                                   width: 2.sp,
                                 ),
                                 padding: EdgeInsets.all(6.sp),
@@ -115,7 +130,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               child: AppBarActionButton(
                                 icon: AwesomeIcons.bell,
-                                onTap: () {},
+                                onTap: () => context.push(
+                                  widget: const NotificationScreen(),
+                                ),
                               ),
                             );
                           } else {

@@ -164,7 +164,6 @@
   "language":"Language",
   "document_id_verification":"Document & Identity Verification",
   "faq_and_support":"FAQ's & Support",
-  "deactive_account":"Deactive Account",
   "full_name":"Full name",
   "full_name_hint":"Enter your full name",
   "email":"Email",
@@ -302,7 +301,16 @@
   "delete_account_title":"Are you sure you want to delete your account?",
   "delete_account_subtitle":"Note that this action can not be undone.",
   "submit":"Submit",
-  
+  "notification_created_ad":"created an ad",
+  "notification_liked_ad":"liked your ad",
+  "notification_liked_ad_many":"and others liked your ad",
+  "notification_saved_ad":"saved your ad",
+  "notification_saved_ad_many":"and others saved your ad",
+  "notification_liked_profile":"liked your profile",
+  "notification_liked_profile_many":"and others liked your profile",
+  "notifications":"Notifications",
+  "nouveau":"New",
+  "pay":"Pay",
 
   "@min_caracters":{
     "description":"a validator message for minimum length",

@@ -137,7 +137,7 @@ class _MessageTileState extends State<MessageTile> {
             decoration: BoxDecoration(
               color: Colors.transparent,
               border: Border.all(
-                color: Theme.of(context).primaryColor,
+                color: context.primaryColor,
                 width: 2.sp,
               ),
               shape: BoxShape.circle,

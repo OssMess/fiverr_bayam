@@ -263,4 +263,88 @@ class ListData {
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsXVt1xzsYvk-qV28jaF26jiNfm8bpuv-T8Q&usqp=CAU',
     },
   ].map(SearchHistory.fromJson).toList();
+
+  static List<AppNotification> listNotifications = [
+    {
+      'leadingPhotoUrls': [
+        'https://i.pinimg.com/1200x/07/4c/36/074c3657009f20fa39f82dd00098bbb1.jpg',
+      ],
+      'trailingPhotourl':
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGdwTxs6lW7B5VgaAceI0p2XfmabWvee-MHlZ_ODsRB3VvM07vzNA3RVmu0OVYrdAHCYU&usqp=CAU',
+      'displayName': 'Julies Dien',
+      'type': 'notification_created_ad',
+      'hasBorderRadius': true,
+      'createdAt': DateTime.now().subtract(const Duration(hours: 0)),
+    },
+    {
+      'leadingPhotoUrls': [
+        'https://images.unsplash.com/photo-1611432579699-484f7990b127?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aGVhZHNob3R8ZW58MHx8MHx8fDA%3D&w=1000&q=80',
+      ],
+      'trailingPhotourl':
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmLXC4LINhJsgIbgOHRpRLOCwYAO9ENT1T4Q&usqp=CAU',
+      'displayName': 'Richard B.',
+      'type': 'notification_liked_ad',
+      'hasBorderRadius': true,
+      'createdAt': DateTime.now().subtract(const Duration(hours: 1)),
+    },
+    {
+      'leadingPhotoUrls': [
+        'https://danielturbertphotography.com/wp-content/uploads/2022/12/Business-Headshots-Durham-732x1024.jpg',
+        'https://images.unsplash.com/photo-1611432579699-484f7990b127?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aGVhZHNob3R8ZW58MHx8MHx8fDA%3D&w=1000&q=80',
+        'https://images.unsplash.com/photo-1611432579699-484f7990b127?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aGVhZHNob3R8ZW58MHx8MHx8fDA%3D&w=1000&q=80',
+      ],
+      'trailingPhotourl':
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSG0f7KQxS_bLNbWHfcWWwI4jYyd3JDTZGIJQ&usqp=CAU',
+      'displayName': 'Xavier Will',
+      'type': 'notification_liked_ad_many',
+      'hasBorderRadius': true,
+      'createdAt': DateTime.now().subtract(const Duration(hours: 3)),
+    },
+    {
+      'leadingPhotoUrls': [
+        'https://retratosbarcelona.com/wp-content/uploads/2022/09/Retratos-Barcelona-What-to-wear-for-womens-corporate-headshot-1.jpg',
+      ],
+      'trailingPhotourl':
+          'https://media.istockphoto.com/id/1350800599/photo/happy-indian-business-man-leader-manager-standing-in-office-headshot-portrait.webp?b=1&s=170667a&w=0&k=20&c=pz5kwfLy64_AQIwiv9FDDJWWkAzb2Lf1F5fjZW23dBo=',
+      'displayName': 'Blair Dota',
+      'type': 'notification_liked_profile',
+      'hasBorderRadius': false,
+      'createdAt': DateTime.now().subtract(const Duration(hours: 30)),
+    },
+    {
+      'leadingPhotoUrls': [
+        'https://retratosbarcelona.com/wp-content/uploads/2022/09/Retratos-Barcelona-What-to-wear-for-womens-corporate-headshot-1.jpg',
+        'https://media.istockphoto.com/id/1350800599/photo/happy-indian-business-man-leader-manager-standing-in-office-headshot-portrait.webp?b=1&s=170667a&w=0&k=20&c=pz5kwfLy64_AQIwiv9FDDJWWkAzb2Lf1F5fjZW23dBo=',
+      ],
+      'trailingPhotourl':
+          'https://media.istockphoto.com/id/1350800599/photo/happy-indian-business-man-leader-manager-standing-in-office-headshot-portrait.webp?b=1&s=170667a&w=0&k=20&c=pz5kwfLy64_AQIwiv9FDDJWWkAzb2Lf1F5fjZW23dBo=',
+      'displayName': 'Molly Clark',
+      'type': 'notification_liked_profile_many',
+      'hasBorderRadius': false,
+      'createdAt': DateTime.now().subtract(const Duration(hours: 48)),
+    },
+    {
+      'leadingPhotoUrls': [
+        'https://images.squarespace-cdn.com/content/v1/51ef4493e4b0561c90fa76d6/1667315513383-NIYMELXNAZDL63LEAGAH/20210210_SLP0397-Edit2.jpg?format=1000w',
+      ],
+      'trailingPhotourl':
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReYgkm2MrQ56u1DHyKiWwcp7bP6y9DxSIeRw&usqp=CAU',
+      'displayName': 'Ashley Williams',
+      'type': 'notification_saved_ad',
+      'hasBorderRadius': true,
+      'createdAt': DateTime.now().subtract(const Duration(hours: 76)),
+    },
+    {
+      'leadingPhotoUrls': [
+        'https://images.squarespace-cdn.com/content/v1/51ef4493e4b0561c90fa76d6/1667315513383-NIYMELXNAZDL63LEAGAH/20210210_SLP0397-Edit2.jpg?format=1000w',
+        'https://images.squarespace-cdn.com/content/v1/51ef4493e4b0561c90fa76d6/1667315513383-NIYMELXNAZDL63LEAGAH/20210210_SLP0397-Edit2.jpg?format=1000w',
+      ],
+      'trailingPhotourl':
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReYgkm2MrQ56u1DHyKiWwcp7bP6y9DxSIeRw&usqp=CAU',
+      'displayName': 'Ashley Williams',
+      'type': 'notification_saved_ad_many',
+      'hasBorderRadius': true,
+      'createdAt': DateTime.now().subtract(const Duration(hours: 120)),
+    },
+  ].map(AppNotification.fromJson).toList();
 }

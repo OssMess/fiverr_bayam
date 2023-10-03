@@ -52,6 +52,16 @@ extension StringExtension on String {
         'advanced': PlanName.advanced,
         'unlimited': PlanName.unlimited,
       }[this]!;
+
+  AppNotificationType get toAppNotificationType => {
+        'notification_created_ad': AppNotificationType.createdAd,
+        'notification_liked_ad': AppNotificationType.likedAd,
+        'notification_liked_ad_many': AppNotificationType.likedAdMany,
+        'notification_liked_profile': AppNotificationType.likedProfile,
+        'notification_liked_profile_many': AppNotificationType.likedProfileMany,
+        'notification_saved_ad': AppNotificationType.savedAd,
+        'notification_saved_ad_many': AppNotificationType.savedAdMany,
+      }[this]!;
 }
 
 extension StringNullableExtension on String? {

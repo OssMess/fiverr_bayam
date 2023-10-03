@@ -39,9 +39,9 @@ class CustomElevatedContainer extends StatelessWidget {
           borderRadius: borderRadius ?? BorderRadius.circular(14.sp),
           boxShadow: [
             BoxShadow(
-              color: context.textTheme.headlineLarge!.color!,
+              color: context.textTheme.headlineMedium!.color!.withOpacity(0.5),
               offset: const Offset(0.0, 2.0),
-              blurRadius: 4.0,
+              blurRadius: 10.0,
             ),
           ],
         ),

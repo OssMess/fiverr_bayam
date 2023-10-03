@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../extensions.dart';
 import '../../../tools.dart';
 
 class CustomCheckBox extends StatelessWidget {
@@ -34,7 +35,7 @@ class CustomCheckBox extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
         style: Styles.poppins(
           fontSize: 16.sp,
-          color: Theme.of(context).textTheme.displayLarge!.color,
+          color: context.textTheme.displayLarge!.color,
           fontWeight: Styles.medium,
         ),
       ),

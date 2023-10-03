@@ -10,7 +10,7 @@ export 'extensions/faq_type_extensions.dart';
 export 'extensions/int_extensions.dart';
 export 'extensions/iterable_extensions.dart';
 export 'extensions/lottie_animation_extensions.dart';
-export 'extensions/notification_type_extensions.dart';
+export 'extensions/app_notification_type_extensions.dart';
 export 'extensions/num_extensions.dart';
 export 'extensions/plan_duration_extensions.dart';
 export 'extensions/plan_name_extensions.dart';

@@ -9,7 +9,7 @@ export 'enums/category.dart';
 export 'enums/dialog_state.dart';
 export 'enums/faq_type.dart';
 export 'enums/lottie_animation.dart';
-export 'enums/notification_type.dart';
+export 'enums/app_notification_type.dart';
 export 'enums/person_view_page.dart';
 export 'enums/plan_duration.dart';
 export 'enums/plan_name.dart';

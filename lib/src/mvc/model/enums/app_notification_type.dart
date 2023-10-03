@@ -1,4 +1,4 @@
-enum NotificationType {
+enum AppNotificationType {
   createdAd,
   savedAd,
   savedAdMany,

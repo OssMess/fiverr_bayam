@@ -161,7 +161,6 @@
     "language",
     "document_id_verification",
     "faq_and_support",
-    "deactive_account",
     "full_name",
     "full_name_hint",
     "email",
@@ -297,6 +296,16 @@
     "check_information_confirm",
     "delete_account_title",
     "delete_account_subtitle",
-    "submit"
+    "submit",
+    "notification_created_ad",
+    "notification_liked_ad",
+    "notification_liked_ad_many",
+    "notification_saved_ad",
+    "notification_saved_ad_many",
+    "notification_liked_profile",
+    "notification_liked_profile_many",
+    "notifications",
+    "nouveau",
+    "pay"
   ]
 }
