@@ -15,9 +15,11 @@ class PromoteAd extends StatefulWidget {
   const PromoteAd({
     super.key,
     required this.ad,
+    required this.price,
   });
 
   final Ad ad;
+  final String price;
 
   @override
   State<PromoteAd> createState() => _PromoteAdState();
@@ -29,6 +31,19 @@ class _PromoteAdState extends State<PromoteAd> {
   TextEditingController endDateController = TextEditingController();
   DateTime? startDate, endDate;
   String? budget;
+
+  @override
+  void initState() {
+    super.initState();
+    startDateController.text = DateFormat('dd/MM/yyyy').format(DateTime.now());
+    endDateController.text = DateFormat('dd/MM/yyyy').format(
+      DateTime(
+        DateTime.now().year,
+        DateTime.now().month + 1,
+        0,
+      ),
+    );
+  }
 
   @override
   void dispose() {
@@ -94,7 +109,8 @@ class _PromoteAdState extends State<PromoteAd> {
                       ),
                       16.heightSp,
                       CustomTextFormFieldBounded(
-                        labelText: AppLocalizations.of(context)!.daily_budget,
+                        initialValue: widget.price,
+                        labelText: AppLocalizations.of(context)!.budget,
                         hintText: '\$',
                         validator: Validators.validateNumberInt,
                         keyboardType: TextInputType.number,

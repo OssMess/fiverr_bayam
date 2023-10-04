@@ -244,6 +244,7 @@ class PlanCard extends StatelessWidget {
             context.pushReplacement(
               widget: PromoteLocation(
                 ad: ad,
+                price: '${prices[planDuration]![planType]![planName]!}\$',
               ),
             );
           },

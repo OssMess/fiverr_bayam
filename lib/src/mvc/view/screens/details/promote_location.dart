@@ -16,16 +16,18 @@ class PromoteLocation extends StatefulWidget {
   const PromoteLocation({
     super.key,
     required this.ad,
+    required this.price,
   });
 
   final Ad ad;
+  final String price;
 
   @override
   State<PromoteLocation> createState() => _PromoteLocationState();
 }
 
 class _PromoteLocationState extends State<PromoteLocation> {
-  int typeLocationIndex = 0;
+  int typeLocationIndex = 1;
   int popularLocationIndex = -1;
   List<String> locations = [
     'Yaoundé',
@@ -208,6 +210,7 @@ class _PromoteLocationState extends State<PromoteLocation> {
                           onPressed: () => context.pushReplacement(
                             widget: PromoteAd(
                               ad: widget.ad,
+                              price: widget.price,
                             ),
                           ),
                         ),
