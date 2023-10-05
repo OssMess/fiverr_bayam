@@ -32,6 +32,9 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       backgroundColor: Styles.green,
       body: Center(

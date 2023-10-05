@@ -75,7 +75,6 @@ class SingleValuePickerDialog extends StatelessWidget {
           } else {
             onPick(pickedValue);
           }
-          context.pop();
         },
       ),
       cancelAct: ModelTextButton(
@@ -113,23 +112,25 @@ class SingleValuePickerDialog extends StatelessWidget {
             return StatefulBuilder(
               builder: (context, setState) {
                 var container = Container(
-                  foregroundDecoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        context.scaffoldBackgroundColor,
-                        Theme.of(context)
-                            .scaffoldBackgroundColor
-                            .withOpacity(0),
-                        Theme.of(context)
-                            .scaffoldBackgroundColor
-                            .withOpacity(0),
-                        context.scaffoldBackgroundColor
-                      ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      stops: const [0, 0.1, 0.85, 1],
-                    ),
-                  ),
+                  foregroundDecoration: mainAxisSize == MainAxisSize.max
+                      ? BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              context.scaffoldBackgroundColor,
+                              Theme.of(context)
+                                  .scaffoldBackgroundColor
+                                  .withOpacity(0),
+                              Theme.of(context)
+                                  .scaffoldBackgroundColor
+                                  .withOpacity(0),
+                              context.scaffoldBackgroundColor
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            stops: const [0, 0.1, 0.85, 1],
+                          ),
+                        )
+                      : null,
                   child: ListView.separated(
                     shrinkWrap: true,
                     physics: physics,
@@ -137,7 +138,7 @@ class SingleValuePickerDialog extends StatelessWidget {
                       10.w,
                       20.h,
                       0,
-                      25.h,
+                      0,
                     ),
                     itemBuilder: (context, index) => CustomRadioButton<String>(
                       value: elements.elementAt(index),

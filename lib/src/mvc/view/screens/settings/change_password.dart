@@ -23,6 +23,8 @@ class _ChangePasswordState extends State<ChangePassword> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(),
       floatingActionButton: CustomElevatedButton(
         onPressed: next,
         label: AppLocalizations.of(context)!.confirm,

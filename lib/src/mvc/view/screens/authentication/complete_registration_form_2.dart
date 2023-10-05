@@ -52,8 +52,9 @@ class _CompleteRegistrationForm2State extends State<CompleteRegistrationForm2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(),
       floatingActionButton: CustomElevatedButton(
         onPressed: next,
         label: AppLocalizations.of(context)!.continu,

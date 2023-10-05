@@ -45,7 +45,12 @@ class AdaptiveBottomSheet extends StatelessWidget {
         35.w,
         5.h,
         35.w,
-        min(30.h, 15.h + Paddings.viewPadding.bottom),
+        context.viewInsets.bottom > 0
+            ? 0
+            : min(30.h, 15.h + Paddings.viewPadding.bottom),
+      ),
+      margin: EdgeInsets.only(
+        bottom: context.viewInsets.bottom,
       ),
       decoration: BoxDecoration(
         color: context.scaffoldBackgroundColor,

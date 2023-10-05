@@ -41,6 +41,7 @@ class _ChatScreenState extends State<ChatScreen> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0,
+        toolbarHeight: kToolbarHeight,
         backgroundColor: Colors.transparent,
         titleSpacing: 0,
         title: Row(

@@ -15,3 +15,4 @@ export 'enums/plan_duration.dart';
 export 'enums/plan_name.dart';
 export 'enums/plan_type.dart';
 export 'enums/search_tab.dart';
+export 'enums/filter_type.dart';

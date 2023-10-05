@@ -36,8 +36,9 @@ class _CompleteRegistrationFormP3State
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: true,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(),
       body: Column(
         children: [
           CustomAppBarBackground(

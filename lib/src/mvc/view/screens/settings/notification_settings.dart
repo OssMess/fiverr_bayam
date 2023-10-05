@@ -17,7 +17,9 @@ class NotificationSettings extends StatelessWidget {
     bool isOnEmail = true;
     bool isOnNotification = true;
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(),
       body: Column(
         children: [
           CustomAppBarBackground(

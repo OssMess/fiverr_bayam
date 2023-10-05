@@ -116,7 +116,7 @@ class MyApp extends StatelessWidget {
           statusBarIconBrightness: Brightness.light, //only for android
           statusBarBrightness: Brightness.dark, //only for iOS
           systemNavigationBarContrastEnforced: true,
-          systemNavigationBarColor: Colors.black,
+          systemNavigationBarColor: Colors.white,
           systemNavigationBarIconBrightness: Brightness.light,
           systemNavigationBarDividerColor: Colors.transparent,
         ),

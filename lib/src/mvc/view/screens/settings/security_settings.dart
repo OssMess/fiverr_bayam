@@ -22,6 +22,9 @@ class SecuritySettings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(),
       body: Column(
         children: [
           CustomAppBarBackground(

@@ -39,8 +39,9 @@ class _CompleteRegistrationFormP4State
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: true,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(),
       floatingActionButton: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.sp),
         child: Row(

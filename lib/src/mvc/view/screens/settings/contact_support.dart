@@ -34,6 +34,8 @@ class _ContactSupportState extends State<ContactSupport> {
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(),
         body: Form(
           key: _keyForm,
           autovalidateMode: AutovalidateMode.disabled,

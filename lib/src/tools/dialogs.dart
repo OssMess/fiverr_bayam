@@ -372,6 +372,23 @@ class Dialogs {
     );
   }
 
+  Future<void> showTextValuePickerDialog({
+    required String title,
+    required String? initialvalue,
+    required String hintText,
+    required void Function(String?) onPick,
+  }) async {
+    await context.showAdaptiveModalBottomSheet(
+      builder: (context) => TextValuePickerDialog(
+        title: title,
+        hintText: hintText,
+        initialValue: initialvalue,
+        mainAxisSize: MainAxisSize.min,
+        onPick: onPick,
+      ),
+    );
+  }
+
   Future<void> showDialogAdsOptions(Ad ad) async {
     await context.showAdaptiveModalBottomSheet(
       builder: (_) => Container(

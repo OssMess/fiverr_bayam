@@ -54,8 +54,9 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(),
       body: Column(
         children: [
           CustomAppBarBackground(

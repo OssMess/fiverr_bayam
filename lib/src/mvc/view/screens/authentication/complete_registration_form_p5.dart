@@ -38,8 +38,9 @@ class _CompleteRegistrationFormP5State
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: true,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(),
       floatingActionButton: CustomElevatedButton(
         onPressed: next,
         label: AppLocalizations.of(context)!.done,
