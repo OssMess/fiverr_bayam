@@ -17,10 +17,12 @@ class PromoteLocation extends StatefulWidget {
     super.key,
     required this.ad,
     required this.price,
+    required this.months,
   });
 
   final Ad ad;
   final String price;
+  final int months;
 
   @override
   State<PromoteLocation> createState() => _PromoteLocationState();
@@ -211,6 +213,7 @@ class _PromoteLocationState extends State<PromoteLocation> {
                             widget: PromoteAd(
                               ad: widget.ad,
                               price: widget.price,
+                              months: widget.months,
                             ),
                           ),
                         ),

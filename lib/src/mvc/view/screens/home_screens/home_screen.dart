@@ -61,7 +61,9 @@ class _HomeScreenState extends State<HomeScreen> {
           }
         },
         child: Scaffold(
-          resizeToAvoidBottomInset: false,
+          resizeToAvoidBottomInset: pageNotifier.currentPage == 3,
+          extendBodyBehindAppBar: true,
+          appBar: AppBar(),
           bottomNavigationBar: const CustomBottomNavigationBar(),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,

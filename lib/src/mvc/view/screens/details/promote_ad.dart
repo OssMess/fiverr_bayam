@@ -16,10 +16,12 @@ class PromoteAd extends StatefulWidget {
     super.key,
     required this.ad,
     required this.price,
+    required this.months,
   });
 
   final Ad ad;
   final String price;
+  final int months;
 
   @override
   State<PromoteAd> createState() => _PromoteAdState();
@@ -37,11 +39,16 @@ class _PromoteAdState extends State<PromoteAd> {
     super.initState();
     startDateController.text = DateFormat('dd/MM/yyyy').format(DateTime.now());
     endDateController.text = DateFormat('dd/MM/yyyy').format(
-      DateTime(
-        DateTime.now().year,
-        DateTime.now().month + 1,
-        0,
+      DateTime.now().add(
+        Duration(
+          days: widget.months * 30,
+        ),
       ),
+      // DateTime(
+      //   DateTime.now().year,
+      //   DateTime.now().month + 1,
+      //   0,
+      // ),
     );
   }
 

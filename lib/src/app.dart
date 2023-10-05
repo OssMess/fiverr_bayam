@@ -98,7 +98,9 @@ class MyApp extends StatelessWidget {
         selectionHandleColor: const Color(0xFF619B2F),
       ),
       appBarTheme: AppBarTheme(
-        backgroundColor: const Color(0xFF619B2F),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        toolbarHeight: 0,
         titleTextStyle: Styles.poppins(
           fontSize: 16.sp,
           color: Colors.white,

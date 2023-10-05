@@ -10,6 +10,12 @@ import '../../model_widgets.dart';
 import '../../../../tools.dart';
 import '../../screens.dart';
 
+final Map<PlanDuration, int> months = {
+  PlanDuration.monthly: 1,
+  PlanDuration.biannual: 6,
+  PlanDuration.annual: 12,
+};
+
 class SubscribeScreen extends StatefulWidget {
   const SubscribeScreen({
     super.key,
@@ -245,6 +251,7 @@ class PlanCard extends StatelessWidget {
               widget: PromoteLocation(
                 ad: ad,
                 price: '${prices[planDuration]![planType]![planName]!}\$',
+                months: months[planDuration]!,
               ),
             );
           },
