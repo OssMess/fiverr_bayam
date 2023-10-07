@@ -313,6 +313,7 @@
   "pay":"Pay",
   "filter_by_region":"Filter by region",
   "filter_ads_by_type":"Filter ads by type",
+  "unknown_error":"Something went wrong! try again",
 
   "@min_caracters":{
     "description":"a validator message for minimum length",

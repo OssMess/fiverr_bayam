@@ -12,6 +12,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../../extensions.dart';
 import '../../../../tools.dart';
+import '../../../controller/services.dart';
 import '../../../model/change_notifiers.dart';
 import '../../../model/enums.dart';
 import '../../../model/models.dart';
@@ -368,12 +369,7 @@ class _SignInState extends State<SignIn> {
   Future<void> sendOTP() async {
     Dialogs.of(context).runAsyncAction(
       future: () async {
-        await Future.delayed(
-          const Duration(seconds: 1),
-          () {
-            // throw Exception();
-          },
-        );
+        await AuthServices.sendSMS(phoneNumber!);
       },
       onComplete: (_) {
         setState(() {
@@ -382,11 +378,6 @@ class _SignInState extends State<SignIn> {
           forceResendingToken = 0;
           startTimer();
         });
-      },
-      onError: (_) {
-        Dialogs.of(context).showSnackBar(
-          message: AppLocalizations.of(context)!.snackbar_too_many_attempts,
-        );
       },
     );
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../mvc/model/models.dart';
+
 class Functions {
   final BuildContext context;
 
@@ -20,6 +22,13 @@ class Functions {
       'company': AppLocalizations.of(context)!.company,
     };
     return translation[key] ?? key;
+  }
+
+  /// translate [exception] into a message.
+  String translateException(BackendException exception) {
+    Map<String, String> translation = {};
+    return translation[exception] ??
+        AppLocalizations.of(context)!.unknown_error;
   }
 
   ///Merge two iterables [a] and [b] into one. Mainly used to create a `TextSpam`

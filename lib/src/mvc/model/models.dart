@@ -1,4 +1,5 @@
 export './models/ip_location.dart';
+export './models/backend_exception.dart';
 export './models/ad.dart';
 export './models/chat.dart';
 export './models/company.dart';

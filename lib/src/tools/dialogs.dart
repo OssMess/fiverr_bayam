@@ -166,12 +166,22 @@ class Dialogs {
       } else {
         try {
           rethrow;
-        } on Exception catch (e) {
+        } on BackendException catch (e) {
           if (kDebugMode) {
             print(e);
           }
           Dialogs.of(context).handleBackendException(
             exception: e,
+          );
+        } on Exception catch (e) {
+          if (kDebugMode) {
+            print(e);
+          }
+          Dialogs.of(context).handleBackendException(
+            exception: BackendException(
+              code: '',
+              statusCode: 0,
+            ),
           );
         }
       }
@@ -271,18 +281,16 @@ class Dialogs {
 
   /// Handle backend [exception] and show an adaptive dialog explaining the problem.
   Future<void> handleBackendException({
-    required Exception exception,
+    required BackendException exception,
   }) async {
-    // await context.showAdaptiveModalBottomSheet(
-    //   builder: (_) => ConfirmationDialog(
-    //     dialogState: DialogState.error,
-    //     subtitle: exception is BookingHeroException
-    //         ? exception.message
-    //         : AppLocalizations.of(context)!.unknown_error,
-    //     continueLabel: AppLocalizations.of(context)!.ignore_close,
-    //     onContinue: null,
-    //   ),
-    // );
+    await context.showAdaptiveModalBottomSheet(
+      builder: (_) => ConfirmationDialog(
+        dialogState: DialogState.error,
+        subtitle: Functions.of(context).translateException(exception),
+        continueLabel: AppLocalizations.of(context)!.close,
+        onContinue: null,
+      ),
+    );
   }
 
   /// Shows a custom alert dialog with [title], [subtitle], [yesAct] button as
