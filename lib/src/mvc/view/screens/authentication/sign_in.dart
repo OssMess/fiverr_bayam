@@ -22,9 +22,11 @@ class SignIn extends StatefulWidget {
   const SignIn({
     super.key,
     required this.userSession,
+    required this.ipLocation,
   });
 
   final UserSession userSession;
+  final IPLocation? ipLocation;
 
   @override
   State<SignIn> createState() => _SignInState();
@@ -32,7 +34,7 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   final GlobalKey<FormState> _keyForm = GlobalKey();
-  String countryCode = 'CM';
+  late String countryCode;
   String? phoneNumber;
   String? verificationId;
   int? forceResendingToken;
@@ -40,6 +42,12 @@ class _SignInState extends State<SignIn> {
   FocusNode focusNode = FocusNode();
   Bouncer? bouncer;
   NotifierInt? durationNotifier;
+
+  @override
+  void initState() {
+    countryCode = widget.ipLocation?.countryCode ?? 'CM';
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -238,7 +246,7 @@ class _SignInState extends State<SignIn> {
                             AppLocalizations.of(context)!.phone_number_hint,
                         addSpacer: false,
                         prefix: CountryCodePicker(
-                          initialSelection: 'CM',
+                          initialSelection: countryCode,
                           enabled: true,
                           favorite: const ['+237'],
                           comparator: (a, b) => b.name!.compareTo(a.name!),

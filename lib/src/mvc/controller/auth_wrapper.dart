@@ -7,6 +7,7 @@ import '../../tools.dart';
 import '../model/list_models.dart';
 import '../model/models.dart';
 import '../view/screens.dart';
+import 'services.dart';
 
 /// This class is responsable for data flow down the widget tree as well as managing which widget is displayed including:
 /// - `SplashScreen`: displayed when the data is still being prepared and the app is still not ready for use,
@@ -35,6 +36,7 @@ class AuthWrapper extends StatefulWidget {
 }
 
 class _AuthWrapperState extends State<AuthWrapper> {
+  IPLocation? ipLocation;
   late bool showSplashScreen;
   Set<String> imagesAssets = {
     'assets/images/background_bottom.png',
@@ -45,6 +47,9 @@ class _AuthWrapperState extends State<AuthWrapper> {
   @override
   void initState() {
     super.initState();
+    OtherServices.getIPLocation().then(
+      (value) => ipLocation = value,
+    );
     showSplashScreen = widget.showSplashScreen;
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (!context.mounted) return;
@@ -86,6 +91,7 @@ class _AuthWrapperState extends State<AuthWrapper> {
         if (userSession.isUnAuthenticated) {
           return SignIn(
             userSession: userSession,
+            ipLocation: ipLocation,
           );
         }
         if (userSession.requiredInitAccountDetails) {
