@@ -6,9 +6,9 @@ import '../../model/models.dart';
 import '../services.dart';
 
 class AuthServices {
-  static const String baseUrl = 'https://api.bayam.sitee';
+  static const String baseUrl = 'https://api.bayam.site';
 
-  static Future<void> sendSMS(String phoneNumber) async {
+  static Future<void> sendOTP(String phoneNumber) async {
     var headers = {
       'Content-Type': 'application/json',
     };
@@ -29,6 +29,28 @@ class AuthServices {
       Map<int, String> statusCodesPhrases = {
         400: 'Unauthorized',
         422: 'Unprocessable entity',
+        500: 'internal-server-error',
+      };
+      throw BackendException(
+        code: statusCodesPhrases[response.statusCode],
+        statusCode: response.statusCode,
+      );
+    }
+  }
+
+  static Future<void> verifyOTP(String phoneNumber, String otp) async {
+    var request = http.Request(
+      'GET',
+      Uri.parse(
+        '$baseUrl/api/notify/$phoneNumber/verify/$otp',
+      ),
+    );
+    http.Response response = await HttpRequest.attemptHttpCall(request);
+    if (response.statusCode == 200) {
+      return;
+    } else {
+      Map<int, String> statusCodesPhrases = {
+        404: 'Resource not found',
         500: 'internal-server-error',
       };
       throw BackendException(

@@ -13,7 +13,7 @@ class HttpRequest {
   static Future<http.Response> attemptHttpCall(
     http.Request request, [
     int retries = 5,
-    Duration delay = const Duration(milliseconds: 500),
+    Duration delay = const Duration(milliseconds: 5000),
     Duration timeout = const Duration(seconds: 5),
   ]) async {
     request.headers.addAll({

@@ -42,9 +42,13 @@ class Dialogs {
         dialogState: dialogState ?? DialogState.confirmation,
         title: title,
         subtitle: subtitle,
-        continueLabel: continueLabel ?? AppLocalizations.of(context)!.yes,
-        cancelLabel: AppLocalizations.of(context)!.cancel,
-        onContinue: onContinue,
+        continueButton: ModelTextButton(
+          label: continueLabel ?? AppLocalizations.of(context)!.yes,
+          onPressed: onContinue,
+        ),
+        cancelButton: ModelTextButton(
+          label: AppLocalizations.of(context)!.cancel,
+        ),
       ),
     );
   }
@@ -74,9 +78,13 @@ class Dialogs {
         dialogState: dialogState ?? DialogState.confirmation,
         title: title,
         subtitle: subtitle,
-        continueLabel: continueLabel,
-        cancelLabel: AppLocalizations.of(context)!.cancel,
-        onContinue: future,
+        continueButton: ModelTextButton(
+          label: continueLabel,
+          onPressed: future,
+        ),
+        cancelButton: ModelTextButton(
+          label: AppLocalizations.of(context)!.cancel,
+        ),
         onComplete: onComplete,
         messageOnComplete: messageOnComplete,
         onError: onError,
@@ -287,8 +295,10 @@ class Dialogs {
       builder: (_) => ConfirmationDialog(
         dialogState: DialogState.error,
         subtitle: Functions.of(context).translateException(exception),
-        continueLabel: AppLocalizations.of(context)!.close,
-        onContinue: null,
+        continueButton: ModelTextButton(
+          label: AppLocalizations.of(context)!.close,
+          fontColor: Styles.red,
+        ),
       ),
     );
   }

@@ -37,8 +37,6 @@ class _SignInState extends State<SignIn> {
   final GlobalKey<FormState> _keyForm = GlobalKey();
   late String countryCode;
   String? phoneNumber;
-  String? verificationId;
-  int? forceResendingToken;
   String? pinCode;
   FocusNode focusNode = FocusNode();
   Bouncer? bouncer;
@@ -101,7 +99,7 @@ class _SignInState extends State<SignIn> {
                         focusNode: focusNode,
                         errorTextSpace: 8.sp,
                         appContext: context,
-                        length: 4,
+                        length: 6,
                         onChanged: (value) {
                           pinCode = value;
                         },
@@ -116,8 +114,8 @@ class _SignInState extends State<SignIn> {
                           borderWidth: 2.sp,
                           shape: PinCodeFieldShape.box,
                           borderRadius: BorderRadius.circular(15.sp),
-                          fieldHeight: 70.w,
-                          fieldWidth: 70.w,
+                          fieldHeight: 50.w, //70.w
+                          fieldWidth: 50.w,
                           inactiveColor:
                               context.textTheme.headlineMedium!.color,
                           activeColor: Styles.green,
@@ -268,11 +266,11 @@ class _SignInState extends State<SignIn> {
                           flagWidth: 30.sp,
                         ),
                         keyboardType: TextInputType.phone,
-                        validator: (value) =>
-                            Validators.validatePhoneNumber(value),
                         onSaved: (value) {
                           phoneNumber = value;
                         },
+                        validator: (value) =>
+                            Validators.validatePhoneNumber(value),
                         onEditingComplete: next,
                       ),
                       const Spacer(),
@@ -312,7 +310,7 @@ class _SignInState extends State<SignIn> {
     );
   }
 
-  bool get otpSent => verificationId != null && phoneNumber != null;
+  bool get otpSent => bouncer != null && phoneNumber != null;
 
   bool get otpNotSent => !otpSent;
 
@@ -347,7 +345,6 @@ class _SignInState extends State<SignIn> {
   }
 
   Future<bool> validatePhoneNumber() async {
-    return true;
     try {
       bool isValid = await PhoneNumberUtil().validate(
         phoneNumber!,
@@ -358,7 +355,7 @@ class _SignInState extends State<SignIn> {
           phoneNumber!,
           regionCode: countryCode,
         );
-        phoneNumber = number.international;
+        phoneNumber = number.international.replaceAll(' ', '');
       }
       return isValid;
     } catch (e) {
@@ -369,13 +366,10 @@ class _SignInState extends State<SignIn> {
   Future<void> sendOTP() async {
     Dialogs.of(context).runAsyncAction(
       future: () async {
-        await AuthServices.sendSMS(phoneNumber!);
+        await AuthServices.sendOTP(phoneNumber!);
       },
       onComplete: (_) {
         setState(() {
-          phoneNumber = '';
-          verificationId = 'id';
-          forceResendingToken = 0;
           startTimer();
         });
       },
@@ -399,21 +393,13 @@ class _SignInState extends State<SignIn> {
     pinCode = code;
     Dialogs.of(context).runAsyncAction(
       future: () async {
-        await Future.delayed(
-          const Duration(seconds: 1),
-          () {
-            // throw Exception();
-            widget.userSession.onSignInCompleted(uid: 0);
-          },
+        await AuthServices.verifyOTP(
+          phoneNumber!,
+          pinCode!,
         );
       },
       onComplete: (_) {
-        // on complete authentication
-      },
-      onError: (_) {
-        Dialogs.of(context).showSnackBar(
-          message: AppLocalizations.of(context)!.snackbar_otp_incorrect,
-        );
+        widget.userSession.onSignInCompleted(phoneNumber: phoneNumber!);
       },
     );
   }

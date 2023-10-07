@@ -28,7 +28,7 @@ class AuthStateChange {
   static Future<void> save(UserSession userSession) async {
     await clear();
     await _box.put(
-      userSession.uid,
+      userSession.phoneNumber,
       userSession.toMap,
     );
     _userSession = userSession;

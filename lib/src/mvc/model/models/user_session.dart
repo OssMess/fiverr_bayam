@@ -11,6 +11,7 @@ class UserSession with ChangeNotifier {
 
   /// user Id
   int? uid;
+  String? phoneNumber;
   String? firstName;
   String? lastName;
   AccountType? accountType;
@@ -18,6 +19,7 @@ class UserSession with ChangeNotifier {
   UserSession({
     required this.authState,
     required this.uid,
+    required this.phoneNumber,
     required this.firstName,
     required this.lastName,
     required this.accountType,
@@ -42,6 +44,7 @@ class UserSession with ChangeNotifier {
     var user = UserSession(
       authState: authState,
       uid: null,
+      phoneNumber: null,
       firstName: null,
       lastName: null,
       accountType: null,
@@ -57,6 +60,7 @@ class UserSession with ChangeNotifier {
     return UserSession(
       authState: AuthState.authenticated,
       uid: uid,
+      phoneNumber: json['phoneNumber'],
       firstName: json['firstName'],
       lastName: json['lastName'],
       accountType: (json['accountType'] as String?)?.toAccountType,
@@ -66,6 +70,7 @@ class UserSession with ChangeNotifier {
   /// return a `Map` of this instance
   Map<String, dynamic> get toMap => {
         'uid': uid,
+        'phoneNumber': phoneNumber,
         'firstName': firstName,
         'lastName': lastName,
         'accountType': accountType?.key,
@@ -106,6 +111,7 @@ class UserSession with ChangeNotifier {
   void updateFromUserSession(UserSession user) {
     authState = user.authState;
     uid = user.uid;
+    phoneNumber = user.phoneNumber;
     firstName = user.firstName;
     lastName = user.lastName;
     accountType = user.accountType;
@@ -136,14 +142,11 @@ class UserSession with ChangeNotifier {
   ///with statusCode `200`, update user session with [uid] and also save user
   ///session to hive box `auth_state_change`.
   Future<void> onSignInCompleted({
-    required int uid,
+    required String phoneNumber,
   }) async {
-    this.uid = uid;
+    this.phoneNumber = phoneNumber;
     authState = AuthState.authenticated;
     await AuthStateChange.save(this);
-    // updateFromMap(
-    //   await APIClient.of(this).getAccountDetails(),
-    // );
     notifyListeners();
   }
 

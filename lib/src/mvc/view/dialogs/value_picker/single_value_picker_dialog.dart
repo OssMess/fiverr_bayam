@@ -62,7 +62,7 @@ class SingleValuePickerDialog extends StatelessWidget {
     NotifierString searchNotifier = NotifierString.init('');
     return AdaptiveBottomSheet(
       mainAxisSize: mainAxisSize,
-      continueAct: ModelTextButton(
+      continueButton: ModelTextButton(
         label: AppLocalizations.of(context)!.continu,
         fontColor: Styles.green,
         onPressed: () async {
@@ -77,7 +77,7 @@ class SingleValuePickerDialog extends StatelessWidget {
           }
         },
       ),
-      cancelAct: ModelTextButton(
+      cancelButton: ModelTextButton(
         label: AppLocalizations.of(context)!.close,
         fontColor: Styles.red,
         onPressed: () => context.pop(),

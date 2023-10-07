@@ -94,13 +94,13 @@ class _AuthWrapperState extends State<AuthWrapper> {
             ipLocation: ipLocation,
           );
         }
-        if (userSession.requiredInitAccountDetails) {
-          return SplashScreen(
-            userSession: userSession,
-            isLoading: true,
-            // error: (snapshot.error as BookingHeroException).message,
-          );
-        }
+        // if (userSession.requiredInitAccountDetails) {
+        //   return SplashScreen(
+        //     userSession: userSession,
+        //     isLoading: true,
+        //     // error: (snapshot.error as BookingHeroException).message,
+        //   );
+        // }
         if (userSession.requireCompleteRegistration) {
           return SignUp(userSession: userSession);
         }

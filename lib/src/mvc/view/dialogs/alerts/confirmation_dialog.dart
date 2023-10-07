@@ -17,9 +17,8 @@ class ConfirmationDialog<T> extends StatelessWidget {
     required this.dialogState,
     this.title,
     required this.subtitle,
-    required this.continueLabel,
-    this.onContinue,
-    this.cancelLabel,
+    required this.continueButton,
+    this.cancelButton,
   });
 
   /// dialog state, can be `confirmation`, `success`, or `error`. it defines the
@@ -32,14 +31,11 @@ class ConfirmationDialog<T> extends StatelessWidget {
   /// dialog subtitle
   final String subtitle;
 
-  /// continue button label
-  final String continueLabel;
+  /// Continue button
+  final ModelTextButton continueButton;
 
-  /// continue button onPressed behavior. a Future function with a return type of `T`.
-  final void Function()? onContinue;
-
-  /// cancel button label
-  final String? cancelLabel;
+  /// Cancel button
+  final ModelTextButton? cancelButton;
 
   @override
   Widget build(BuildContext context) {
@@ -47,22 +43,31 @@ class ConfirmationDialog<T> extends StatelessWidget {
     String dialogTitle = title ?? dialogState.toStringTitle(context);
     return AdaptiveBottomSheet(
       mainAxisSize: MainAxisSize.min,
-      continueAct: ModelTextButton(
-        label: continueLabel,
-        fontColor: cancelLabel != null
-            ? Styles.red
-            : context.textThemeDisplayMedium!.color,
+      continueButton: ModelTextButton(
+        label: continueButton.label,
+        color: continueButton.color,
+        fontColor: continueButton.fontColor ??
+            (cancelButton != null
+                ? Styles.red
+                : context.textTheme.displayMedium!.color),
         onPressed: () async {
           context.pop();
-          if (onContinue != null) {
-            onContinue!();
+          if (continueButton.onPressed != null) {
+            continueButton.onPressed!();
           }
         },
       ),
-      cancelAct: cancelLabel != null
+      cancelButton: cancelButton != null
           ? ModelTextButton(
-              label: cancelLabel!,
-              onPressed: () => context.pop(),
+              label: cancelButton!.label,
+              color: cancelButton!.color,
+              fontColor: cancelButton!.fontColor,
+              onPressed: () async {
+                context.pop();
+                if (cancelButton!.onPressed != null) {
+                  cancelButton!.onPressed!();
+                }
+              },
             )
           : null,
       children: [
@@ -91,7 +96,7 @@ class ConfirmationDialog<T> extends StatelessWidget {
           subtitle,
           textAlign: TextAlign.center,
           style: Styles.poppins(
-            fontSize: 14.sp,
+            fontSize: 16.sp,
             fontWeight: Styles.medium,
             color: context.textTheme.displayMedium!.color,
           ),

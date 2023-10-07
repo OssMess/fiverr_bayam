@@ -43,7 +43,7 @@ class _TextValuePickerDialogState extends State<TextValuePickerDialog> {
   Widget build(BuildContext context) {
     return AdaptiveBottomSheet(
       mainAxisSize: widget.mainAxisSize,
-      continueAct: ModelTextButton(
+      continueButton: ModelTextButton(
         label: AppLocalizations.of(context)!.continu,
         fontColor: Styles.green,
         onPressed: () async {
@@ -51,7 +51,7 @@ class _TextValuePickerDialogState extends State<TextValuePickerDialog> {
           widget.onPick(text);
         },
       ),
-      cancelAct: ModelTextButton(
+      cancelButton: ModelTextButton(
         label: AppLocalizations.of(context)!.close,
         fontColor: Styles.red,
         onPressed: () => context.pop(),

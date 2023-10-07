@@ -27,7 +27,7 @@ class CustomTextButton extends StatelessWidget {
       style: Styles.poppins(
         fontSize: fontSize ?? 16.sp,
         color: textColor,
-        fontWeight: Styles.medium,
+        fontWeight: Styles.semiBold,
       ),
     );
     if (button.icon == null) {

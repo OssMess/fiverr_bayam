@@ -18,11 +18,10 @@ class ConfirmationFutureDialog<T> extends StatelessWidget {
     required this.dialogState,
     this.title,
     required this.subtitle,
-    required this.continueLabel,
-    required this.onContinue,
-    this.cancelLabel,
+    required this.continueButton,
+    this.cancelButton,
     this.onComplete,
-    required this.messageOnComplete,
+    this.messageOnComplete,
     this.onError,
   });
 
@@ -36,14 +35,11 @@ class ConfirmationFutureDialog<T> extends StatelessWidget {
   /// dialog subtitle
   final String subtitle;
 
-  /// continue button label
-  final String continueLabel;
+  /// Continue button
+  final ModelTextButton<T> continueButton;
 
-  /// continue button onPressed behavior. a Future function with a return type of `T`.
-  final Future<T> Function() onContinue;
-
-  /// cancel button label
-  final String? cancelLabel;
+  /// Cancel button
+  final ModelTextButton? cancelButton;
 
   /// takes the result of the async function `onContinue` to perform a behavior.
   final void Function(T?)? onComplete;
@@ -56,17 +52,22 @@ class ConfirmationFutureDialog<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    assert(continueButton.onPressed != null);
     Color primary = dialogState.toColorPrimary;
     LottieAnimation lottieAnimation = dialogState.toLottieAnimation;
     String dialogTitle = title ?? dialogState.toStringTitle(context);
     return AdaptiveBottomSheet(
       mainAxisSize: MainAxisSize.min,
-      continueAct: ModelTextButton(
-        label: continueLabel,
-        fontColor: primary,
+      continueButton: ModelTextButton(
+        label: continueButton.label,
+        color: continueButton.color,
+        fontColor: continueButton.fontColor ??
+            (cancelButton != null
+                ? primary
+                : context.textTheme.displayMedium!.color),
         onPressed: () async {
           await Dialogs.of(context).runAsyncAction(
-            future: onContinue,
+            future: continueButton.onPressed! as Future<T> Function(),
             onComplete: (value) {
               context.pop();
               if (onComplete != null) {
@@ -83,8 +84,8 @@ class ConfirmationFutureDialog<T> extends StatelessWidget {
           );
         },
       ),
-      cancelAct: ModelTextButton(
-        label: cancelLabel ?? AppLocalizations.of(context)!.close,
+      cancelButton: ModelTextButton(
+        label: cancelButton?.label ?? AppLocalizations.of(context)!.close,
         onPressed: () => context.pop(),
       ),
       children: [

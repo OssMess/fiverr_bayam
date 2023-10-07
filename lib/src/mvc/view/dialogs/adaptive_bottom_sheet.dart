@@ -14,16 +14,16 @@ class AdaptiveBottomSheet extends StatelessWidget {
   const AdaptiveBottomSheet({
     super.key,
     required this.children,
-    required this.continueAct,
-    required this.cancelAct,
+    required this.continueButton,
+    required this.cancelButton,
     required this.mainAxisSize,
   });
 
   /// continue button
-  final ModelTextButton continueAct;
+  final ModelTextButton continueButton;
 
   /// cancel or no button. if `null`, don't show it
-  final ModelTextButton? cancelAct;
+  final ModelTextButton? cancelButton;
 
   /// content of the bottom sheet
   final List<Widget> children;
@@ -78,7 +78,7 @@ class AdaptiveBottomSheet extends StatelessWidget {
               if (showTextButton) ...[
                 Expanded(
                   child: CustomTextButton(
-                    button: cancelAct!,
+                    button: cancelButton!,
                   ),
                 ),
                 SizedBox(
@@ -92,7 +92,7 @@ class AdaptiveBottomSheet extends StatelessWidget {
               ],
               Expanded(
                 child: CustomTextButton(
-                  button: continueAct,
+                  button: continueButton,
                 ),
               ),
             ],
@@ -103,5 +103,5 @@ class AdaptiveBottomSheet extends StatelessWidget {
     );
   }
 
-  bool get showTextButton => cancelAct != null;
+  bool get showTextButton => cancelButton != null;
 }

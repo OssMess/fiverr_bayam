@@ -51,14 +51,14 @@ class MultiValuePickerDialog extends StatelessWidget {
     NotifierString searchNotifier = NotifierString.init('');
     return AdaptiveBottomSheet(
       mainAxisSize: MainAxisSize.min,
-      continueAct: ModelTextButton(
+      continueButton: ModelTextButton(
         label: AppLocalizations.of(context)!.continu,
         onPressed: () async {
           context.pop();
           onPick(pickedValues);
         },
       ),
-      cancelAct: ModelTextButton(
+      cancelButton: ModelTextButton(
         label: AppLocalizations.of(context)!.close,
         onPressed: () => context.pop(),
       ),

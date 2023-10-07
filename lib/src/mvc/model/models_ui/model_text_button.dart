@@ -1,8 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class ModelTextButton<T> {
   final String label;
-  final T Function()? onPressed;
+  final FutureOr<T> Function()? onPressed;
   final Color? fontColor;
   final Color? color;
   final IconData? icon;
