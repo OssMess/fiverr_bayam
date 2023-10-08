@@ -393,13 +393,16 @@ class _SignInState extends State<SignIn> {
     pinCode = code;
     Dialogs.of(context).runAsyncAction(
       future: () async {
-        await AuthServices.verifyOTP(
+        return await AuthServices.verifyOTP(
           phoneNumber!,
           pinCode!,
         );
       },
-      onComplete: (_) {
-        widget.userSession.onSignInCompleted(phoneNumber: phoneNumber!);
+      onComplete: (uid) {
+        widget.userSession.onSignInCompleted(
+          uid: uid!,
+          phoneNumber: phoneNumber!,
+        );
       },
     );
   }

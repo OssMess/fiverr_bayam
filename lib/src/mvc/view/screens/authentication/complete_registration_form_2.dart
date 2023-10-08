@@ -151,31 +151,25 @@ class _CompleteRegistrationForm2State extends State<CompleteRegistrationForm2> {
       );
       return;
     }
-    Dialogs.of(context).runAsyncAction(
-      future: () async {
-        await Future.delayed(const Duration(seconds: 1));
-      },
-      onComplete: (_) {
-        switch (widget.accountType) {
-          case AccountType.company:
-            context.push(
-              widget: CompleteRegistrationFormC3(
-                userSession: widget.userSession,
-              ),
-            );
-            break;
-          case AccountType.person:
-            context.push(
-              widget: CompleteRegistrationFormP4(
-                userSession: widget.userSession,
-              ),
-            );
-            break;
-          default:
-        }
-      },
-      onError: (_) {},
-    );
+    widget.userSession.preferences =
+        pickedPreferences.map((e) => e.key).toList();
+    switch (widget.accountType) {
+      case AccountType.company:
+        context.push(
+          widget: CompleteRegistrationFormC3(
+            userSession: widget.userSession,
+          ),
+        );
+        break;
+      case AccountType.person:
+        context.push(
+          widget: CompleteRegistrationFormP4(
+            userSession: widget.userSession,
+          ),
+        );
+        break;
+      default:
+    }
   }
 }
 

@@ -10,11 +10,19 @@ class UserSession with ChangeNotifier {
   AuthState authState;
 
   /// user Id
-  int? uid;
+  String? uid;
   String? phoneNumber;
   String? firstName;
   String? lastName;
   AccountType? accountType;
+  List<String>? preferences;
+  String? email;
+  String? birthDate;
+  String? city;
+  String? bio;
+  String? streetAddress;
+  String? postalCode;
+  String? region;
 
   UserSession({
     required this.authState,
@@ -23,6 +31,14 @@ class UserSession with ChangeNotifier {
     required this.firstName,
     required this.lastName,
     required this.accountType,
+    required this.preferences,
+    required this.email,
+    required this.bio,
+    required this.birthDate,
+    required this.city,
+    required this.postalCode,
+    required this.region,
+    required this.streetAddress,
   });
 
   /// creates an instance of `UserSession` where `authState` is set to `authState: AuthState.unauthenticated`.
@@ -48,6 +64,14 @@ class UserSession with ChangeNotifier {
       firstName: null,
       lastName: null,
       accountType: null,
+      preferences: null,
+      email: null,
+      bio: null,
+      birthDate: null,
+      city: null,
+      postalCode: null,
+      region: null,
+      streetAddress: null,
     );
     if (authState == AuthState.awaiting) {
       user.getAuthState();
@@ -56,14 +80,21 @@ class UserSession with ChangeNotifier {
   }
 
   factory UserSession.fromMap(Map<String, dynamic> json) {
-    var uid = json['uid'];
     return UserSession(
       authState: AuthState.authenticated,
-      uid: uid,
+      uid: json['uid'],
       phoneNumber: json['phoneNumber'],
       firstName: json['firstName'],
       lastName: json['lastName'],
       accountType: (json['accountType'] as String?)?.toAccountType,
+      preferences: json['preferences'],
+      email: json['email'],
+      bio: json['bio'],
+      birthDate: json['birthDate'],
+      city: json['city'],
+      postalCode: json['postalCode'],
+      region: json['region'],
+      streetAddress: json['streetAddress'],
     );
   }
 
@@ -74,6 +105,14 @@ class UserSession with ChangeNotifier {
         'firstName': firstName,
         'lastName': lastName,
         'accountType': accountType?.key,
+        'preferences': preferences,
+        'email': email,
+        'bio': bio,
+        'birthDate': birthDate,
+        'city': city,
+        'postalCode': postalCode,
+        'region': region,
+        'streetAddress': streetAddress,
       };
 
   /// return true if awaiting for user sessions
@@ -115,6 +154,20 @@ class UserSession with ChangeNotifier {
     firstName = user.firstName;
     lastName = user.lastName;
     accountType = user.accountType;
+    preferences = user.preferences;
+    email = user.email;
+    bio = user.bio;
+    birthDate = user.birthDate;
+    city = user.city;
+    postalCode = user.postalCode;
+    region = user.region;
+    streetAddress = user.streetAddress;
+    notifyListeners();
+  }
+
+  Future<void> onRegisterClientCompleted() async {
+    authState = AuthState.authenticated;
+    await AuthStateChange.save(this);
     notifyListeners();
   }
 
@@ -126,15 +179,12 @@ class UserSession with ChangeNotifier {
     required String firstName,
     required String lastName,
   }) async {
-    this.uid = uid;
+    // this.uid = uid;
     this.accountType = accountType;
     this.firstName = firstName;
     this.lastName = lastName;
     authState = AuthState.authenticated;
     await AuthStateChange.save(this);
-    // updateFromMap(
-    //   await APIClient.of(this).getAccountDetails(),
-    // );
     notifyListeners();
   }
 
@@ -142,8 +192,10 @@ class UserSession with ChangeNotifier {
   ///with statusCode `200`, update user session with [uid] and also save user
   ///session to hive box `auth_state_change`.
   Future<void> onSignInCompleted({
+    required String uid,
     required String phoneNumber,
   }) async {
+    this.uid = uid;
     this.phoneNumber = phoneNumber;
     authState = AuthState.authenticated;
     await AuthStateChange.save(this);

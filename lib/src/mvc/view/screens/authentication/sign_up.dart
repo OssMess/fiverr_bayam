@@ -154,36 +154,29 @@ class _SignUpState extends State<SignUp> {
   }
 
   Future<void> next() async {
-    if (false && !_keyForm.currentState!.validate()) return;
+    if (!_keyForm.currentState!.validate()) return;
     _keyForm.currentState!.save();
-    FocusScope.of(context).unfocus();
-    Dialogs.of(context).runAsyncAction(
-      future: () async {
-        await Future.delayed(const Duration(seconds: 1));
-      },
-      onComplete: (_) {
-        switch (accountType) {
-          case AccountType.company:
-            context.push(
-              widget: CompleteRegistrationForm1(
-                userSession: widget.userSession,
-                accountType: accountType,
-              ),
-            );
-            break;
-          case AccountType.person:
-            context.push(
-              widget: CompleteRegistrationForm2(
-                userSession: widget.userSession,
-                accountType: accountType,
-              ),
-            );
-            break;
-          default:
-        }
-      },
-      onError: (_) {},
-    );
+    switch (accountType) {
+      case AccountType.company:
+        context.push(
+          widget: CompleteRegistrationForm1(
+            userSession: widget.userSession,
+            accountType: accountType,
+          ),
+        );
+        break;
+      case AccountType.person:
+        widget.userSession.firstName = firstName;
+        widget.userSession.firstName = lastName;
+        context.push(
+          widget: CompleteRegistrationForm2(
+            userSession: widget.userSession,
+            accountType: accountType,
+          ),
+        );
+        break;
+      default:
+    }
   }
 }
 

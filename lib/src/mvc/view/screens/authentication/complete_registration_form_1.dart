@@ -42,8 +42,15 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
   String? zip;
   String? country;
   String? state;
-  DateTime? dob;
-  DateTime? startup;
+  DateTime? birthDate;
+  DateTime? startupDate;
+
+  @override
+  void initState() {
+    firstName = widget.userSession.firstName;
+    lastName = widget.userSession.lastName;
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -128,10 +135,10 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
                           validator: Validators.validateNotNull,
                           textInputAction: TextInputAction.next,
                           suffixIcon: AwesomeIcons.calendar,
-                          onTap: () => pickDate(dateController, dob).then(
+                          onTap: () => pickDate(dateController, birthDate).then(
                             (value) {
                               if (value == null) return;
-                              startup = value;
+                              startupDate = value;
                             },
                           ),
                         ),
@@ -220,10 +227,11 @@ class _CompleteRegistrationForm1State extends State<CompleteRegistrationForm1> {
                           validator: Validators.validateNotNull,
                           textInputAction: TextInputAction.next,
                           suffixIcon: AwesomeIcons.calendar,
-                          onTap: () => pickDate(dateController, startup).then(
+                          onTap: () =>
+                              pickDate(dateController, startupDate).then(
                             (value) {
                               if (value == null) return;
-                              startup = value;
+                              startupDate = value;
                             },
                           ),
                         ),

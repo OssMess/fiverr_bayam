@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../../extensions.dart';
 import '../../../../tools.dart';
+import '../../../controller/services.dart';
 import '../../../model/enums.dart';
 import '../../../model/models.dart';
 import '../../model_widgets.dart';
@@ -262,37 +263,24 @@ class _CompleteRegistrationFormP4State
       );
       return;
     }
-    Dialogs.of(context).runAsyncAction(
-      future: () async {
-        await Future.delayed(const Duration(seconds: 1));
-      },
-      onComplete: (_) {
-        context.push(
-          widget: CompleteRegistrationFormP5(
-            userSession: widget.userSession,
-            image: imageFile!,
-          ),
-        );
-      },
-      onError: (_) {},
+    context.push(
+      widget: CompleteRegistrationFormP5(
+        userSession: widget.userSession,
+        image: imageFile!,
+      ),
     );
   }
 
   Future<void> skip() async {
     Dialogs.of(context).runAsyncAction(
       future: () async {
-        await Future.delayed(const Duration(seconds: 1));
+        await AuthServices.postUserClient(
+          userSession: widget.userSession,
+        );
       },
       onComplete: (_) {
-        widget.userSession.onRegisterCompleted(
-          uid: 0,
-          accountType: AccountType.person,
-          firstName: 'd',
-          lastName: 'd',
-        );
         context.popUntilFirst();
       },
-      onError: (_) {},
     );
   }
 }
