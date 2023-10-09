@@ -187,7 +187,7 @@ class _SignUpState extends State<SignUp> {
         break;
       case AccountType.person:
         widget.userSession.firstName = firstName;
-        widget.userSession.firstName = lastName;
+        widget.userSession.lastName = lastName;
         context.push(
           widget: CompletePreferences(
             userSession: widget.userSession,

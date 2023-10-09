@@ -7,7 +7,6 @@ import '../../tools.dart';
 import '../model/list_models.dart';
 import '../model/models.dart';
 import '../view/screens.dart';
-import 'services.dart';
 
 /// This class is responsable for data flow down the widget tree as well as managing which widget is displayed including:
 /// - `SplashScreen`: displayed when the data is still being prepared and the app is still not ready for use,
@@ -95,22 +94,12 @@ class _AuthWrapperState extends State<AuthWrapper> {
             geocodingLocation: geocodingLocation,
           );
         }
-        // if (userSession.requiredInitAccountDetails) {
-        //   return SplashScreen(
-        //     userSession: userSession,
-        //     isLoading: true,
-        //     // error: (snapshot.error as BookingHeroException).message,
-        //   );
-        // }
         if (userSession.requireCompleteRegistration) {
           return SignUp(
             userSession: userSession,
             geocodingLocation: geocodingLocation,
           );
         }
-        // if (userSession.requiredInitAccountDetails && snapshot.hasData) {
-        //   userSession.updateFromMap(snapshot.data!);
-        // }
         return HomeScreen(
           userSession: userSession,
           settingsController: widget.settingsController,

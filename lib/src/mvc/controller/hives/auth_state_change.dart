@@ -13,6 +13,7 @@ class AuthStateChange {
   /// refrence to `_userSession` with last saved active session if it exists.
   static Future<UserSession> init() async {
     _box = await Hive.openBox('auth_state_change');
+    // _box.clear();
     if (_box.isEmpty) {
       // _box is empty, no saved session
       _userSession = UserSession.initUnauthenticated();

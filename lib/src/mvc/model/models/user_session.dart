@@ -219,19 +219,25 @@ class UserSession with ChangeNotifier {
     }
   }
 
-  Future<void> onSignUpCompleted() async {
-    authState = AuthState.authenticated;
-    await AuthStateChange.save(this);
-    notifyListeners();
-  }
+  // Future<void> onSignUpCompleted() async {
+  //   authState = AuthState.authenticated;
+  //   await AuthStateChange.save(this);
+  //   notifyListeners();
+  // }
 
   Future<void> onSignInCompleted(Map<String, dynamic> json) async {
     uid = json['uuid'];
     phoneNumber = json['phoneNumber'];
+    accountType = null;
+    if (json['firstName'] is String) {
+      accountType = AccountType.person;
+    }
+    if (json['companyName'] is String) {
+      accountType = AccountType.company;
+    }
     firstName = json['firstName'];
     lastName = json['lastName'];
     companyName = json['companyName'];
-    accountType = json['accountType'];
     bio = json['bio'];
     birthDate = json['birthDate'];
     city = json['city'];

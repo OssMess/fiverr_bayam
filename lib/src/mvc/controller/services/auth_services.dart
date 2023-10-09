@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bayam/src/extensions.dart';
 import 'package:http/http.dart' as http;
 
 import '../../model/models.dart';
@@ -96,95 +97,59 @@ class AuthServices {
     }
   }
 
-  static Future<void> postUserClient({
+  static Future<void> postUser({
     required UserSession userSession,
   }) async {
     var headers = {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/merge-patch+json',
     };
     var request = http.Request(
-      'POST',
+      'PATCH',
       Uri.parse(
-        '$baseUrl/api/notify/sms/send',
+        '$baseUrl/api/users',
       ),
     );
     request.body = json.encode({
-      'phoneNumber': userSession.phoneNumber ?? '',
-      'firstName': userSession.firstName ?? '',
-      'lastName': userSession.lastName ?? '',
       'isCompanyOrClient': true,
-      'email': userSession.email ?? '',
-      'birthdate': userSession.birthDate ?? '',
-      'city': userSession.city ?? '',
-      'bio': userSession.bio ?? '',
-      'streetAddress': userSession.streetAddress ?? '',
-      'postalCode': userSession.postalCode ?? '',
-      'region': userSession.region ?? '',
-      'country': userSession.country,
-      'companyName': userSession.companyName ?? '',
-      'uuid': userSession.uid,
-      'facebookUrl': userSession.facebookUrl ?? '',
-      'linkedinUrl': userSession.linkedinUrl ?? '',
-      'twitterUrl': userSession.twitterUrl ?? '',
-      'uniqueRegisterNumber': userSession.registrationNumber ?? '',
-      'preferenceList': userSession.preferences ?? [],
       'isVerified': false,
+      'uuid': userSession.uid,
+      'phoneNumber': userSession.phoneNumber,
+      if (userSession.firstName.isNotNullOrEmpty)
+        'firstName': userSession.firstName,
+      if (userSession.lastName.isNotNullOrEmpty)
+        'lastName': userSession.lastName,
+      if (userSession.email.isNotNullOrEmpty) 'email': userSession.email,
+      if (userSession.birthDate.isNotNullOrEmpty)
+        'birthdate': userSession.birthDate,
+      if (userSession.city.isNotNullOrEmpty) 'city': userSession.city,
+      if (userSession.bio.isNotNullOrEmpty) 'bio': userSession.bio,
+      if (userSession.streetAddress.isNotNullOrEmpty)
+        'streetAddress': userSession.streetAddress,
+      if (userSession.postalCode.isNotNullOrEmpty)
+        'postalCode': userSession.postalCode,
+      if (userSession.region.isNotNullOrEmpty) 'region': userSession.region,
+      'country': userSession.country,
+      if (userSession.companyName.isNotNullOrEmpty)
+        'companyName': userSession.companyName,
+      if (userSession.facebookUrl.isNotNullOrEmpty)
+        'facebookUrl': userSession.facebookUrl,
+      if (userSession.linkedinUrl.isNotNullOrEmpty)
+        'linkedinUrl': userSession.linkedinUrl,
+      if (userSession.twitterUrl.isNotNullOrEmpty)
+        'twitterUrl': userSession.twitterUrl,
+      if (userSession.registrationNumber.isNotNullOrEmpty)
+        'uniqueRegisterNumber': userSession.registrationNumber,
+      'preferenceList': userSession.preferences ?? [],
     });
     request.headers.addAll(headers);
     http.Response response = await HttpRequest.attemptHttpCall(request);
-    if (response.statusCode == 201) {
-      await userSession.onSignUpCompleted();
-    } else {
-      Map<int, String> statusCodesPhrases = {
-        400: 'Invalid input',
-        422: 'Unprocessable entity',
-        500: 'internal-server-error',
-      };
-      throw BackendException(
-        code: statusCodesPhrases[response.statusCode],
-        statusCode: response.statusCode,
+    if (response.statusCode == 200) {
+      await userSession.onSignInCompleted(
+        jsonDecode(
+          response.body,
+        ),
       );
-    }
-  }
-
-  static Future<void> postUserCompany({
-    required UserSession userSession,
-  }) async {
-    var headers = {
-      'Content-Type': 'application/json',
-    };
-    var request = http.Request(
-      'POST',
-      Uri.parse(
-        '$baseUrl/api/notify/sms/send',
-      ),
-    );
-    request.body = json.encode({
-      'phoneNumber': userSession.phoneNumber ?? '',
-      'firstName': userSession.firstName ?? '',
-      'lastName': userSession.lastName ?? '',
-      'isCompanyOrClient': true,
-      'email': userSession.email ?? '',
-      'birthdate': userSession.birthDate ?? '',
-      'city': userSession.city ?? '',
-      'bio': userSession.bio ?? '',
-      'streetAddress': userSession.streetAddress ?? '',
-      'postalCode': userSession.postalCode ?? '',
-      'region': userSession.region ?? '',
-      'country': userSession.country,
-      'companyName': userSession.companyName ?? '',
-      'uuid': userSession.uid,
-      'facebookUrl': userSession.facebookUrl ?? '',
-      'linkedinUrl': userSession.linkedinUrl ?? '',
-      'twitterUrl': userSession.twitterUrl ?? '',
-      'uniqueRegisterNumber': userSession.registrationNumber ?? '',
-      'preferenceList': userSession.preferences ?? [],
-      'isVerified': false,
-    });
-    request.headers.addAll(headers);
-    http.Response response = await HttpRequest.attemptHttpCall(request);
-    if (response.statusCode == 201) {
-      await userSession.onSignUpCompleted();
+      // await userSession.onSignUpCompleted();
     } else {
       Map<int, String> statusCodesPhrases = {
         400: 'Invalid input',
