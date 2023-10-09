@@ -5,14 +5,14 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../../extensions.dart';
 import '../../../../tools.dart';
+import '../../../controller/services.dart';
 import '../../../model/enums.dart';
 import '../../../model/models.dart';
 import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
-import '../../screens.dart';
 
-class CompleteRegistrationFormP3 extends StatefulWidget {
-  const CompleteRegistrationFormP3({
+class CompleteRegistrationC2 extends StatefulWidget {
+  const CompleteRegistrationC2({
     super.key,
     required this.userSession,
   });
@@ -20,12 +20,10 @@ class CompleteRegistrationFormP3 extends StatefulWidget {
   final UserSession userSession;
 
   @override
-  State<CompleteRegistrationFormP3> createState() =>
-      _CompleteRegistrationFormP3State();
+  State<CompleteRegistrationC2> createState() => _CompleteRegistrationC2State();
 }
 
-class _CompleteRegistrationFormP3State
-    extends State<CompleteRegistrationFormP3> {
+class _CompleteRegistrationC2State extends State<CompleteRegistrationC2> {
   XFile? file;
 
   @override
@@ -36,14 +34,14 @@ class _CompleteRegistrationFormP3State
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
       appBar: AppBar(),
       body: Column(
         children: [
           CustomAppBarBackground(
             type: AppBarBackgroundType.shrink,
-            appBarTitle: AppLocalizations.of(context)!.customer_details,
+            appBarTitle: AppLocalizations.of(context)!.tax_details,
             appBarLeading: AppBarActionButton(
               icon: context.backButtonIcon,
               onTap: () => context.pop(),
@@ -66,14 +64,15 @@ class _CompleteRegistrationFormP3State
                   child: Row(
                     children: [
                       Icon(
-                        AwesomeIcons.id_card,
+                        AwesomeIcons.folder,
                         size: 40.sp,
                         color: Styles.green,
                       ),
                       16.widthSp,
                       Expanded(
                         child: Text(
-                          AppLocalizations.of(context)!.person_upload_id,
+                          AppLocalizations.of(context)!
+                              .company_upload_tax_documents,
                           style: Styles.poppins(
                             fontSize: 14.sp,
                             fontWeight: Styles.medium,
@@ -84,7 +83,7 @@ class _CompleteRegistrationFormP3State
                     ],
                   ),
                 ),
-                20.heightSp,
+                16.heightSp,
                 InkResponse(
                   onTap: () async {
                     if (await Permissions.of(context)
@@ -95,22 +94,33 @@ class _CompleteRegistrationFormP3State
                     height: 0.25.sh,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      color: context.textTheme.displayLarge!.color!,
+                      color: context.textTheme.headlineSmall!.color!,
                       borderRadius: BorderRadius.circular(14.sp),
                     ),
-                    child: CustomTextButton(
-                      button: ModelTextButton(
-                        label: AppLocalizations.of(context)!.scan_id_card,
-                        fontColor: context.scaffoldBackgroundColor,
-                        onPressed: () {},
-                      ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          AwesomeIcons.cloud_arrow_up,
+                          color: Styles.green,
+                          size: 40.sp,
+                        ),
+                        Text(
+                          AppLocalizations.of(context)!.upload_documents,
+                          style: Styles.poppins(
+                            fontSize: 12.sp,
+                            fontWeight: Styles.semiBold,
+                            color: Styles.green,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
                 54.heightSp,
                 CustomElevatedButton(
                   onPressed: next,
-                  label: AppLocalizations.of(context)!.next,
+                  label: AppLocalizations.of(context)!.done,
                 ),
               ],
             ),
@@ -123,12 +133,20 @@ class _CompleteRegistrationFormP3State
   Future<void> next() async {
     Dialogs.of(context).runAsyncAction(
       future: () async {
-        await Future.delayed(const Duration(seconds: 1));
+        await AuthServices.postUserCompany(
+          userSession: widget.userSession,
+        );
       },
       onComplete: (_) {
-        context.push(
-          widget: CompleteRegistrationFormP4(
-            userSession: widget.userSession,
+        Dialogs.of(context).showCustomDialog(
+          title: AppLocalizations.of(context)!.success,
+          subtitle:
+              AppLocalizations.of(context)!.your_information_has_been_saved,
+          yesAct: ModelTextButton(
+            label: AppLocalizations.of(context)!.continu,
+            onPressed: () {
+              context.popUntilFirst();
+            },
           ),
         );
       },

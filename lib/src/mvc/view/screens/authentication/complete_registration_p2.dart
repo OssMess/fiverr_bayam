@@ -10,10 +10,11 @@ import '../../../../tools.dart';
 import '../../../controller/services.dart';
 import '../../../model/enums.dart';
 import '../../../model/models.dart';
+import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 
-class CompleteRegistrationFormP5 extends StatefulWidget {
-  const CompleteRegistrationFormP5({
+class CompleteRegistrationP2 extends StatefulWidget {
+  const CompleteRegistrationP2({
     super.key,
     required this.userSession,
     required this.image,
@@ -23,12 +24,10 @@ class CompleteRegistrationFormP5 extends StatefulWidget {
   final XFile image;
 
   @override
-  State<CompleteRegistrationFormP5> createState() =>
-      _CompleteRegistrationFormP5State();
+  State<CompleteRegistrationP2> createState() => _CompleteRegistrationP2State();
 }
 
-class _CompleteRegistrationFormP5State
-    extends State<CompleteRegistrationFormP5> {
+class _CompleteRegistrationP2State extends State<CompleteRegistrationP2> {
   XFile? file;
 
   @override
@@ -131,14 +130,22 @@ class _CompleteRegistrationFormP5State
   }
 
   Future<void> next() async {
-    Dialogs.of(context).runAsyncAction(
+    await Dialogs.of(context).runAsyncAction(
       future: () async {
         await AuthServices.postUserClient(
           userSession: widget.userSession,
         );
       },
       onComplete: (_) {
-        context.popUntilFirst();
+        Dialogs.of(context).showCustomDialog(
+          title: AppLocalizations.of(context)!.success,
+          subtitle:
+              AppLocalizations.of(context)!.your_information_has_been_saved,
+          yesAct: ModelTextButton(
+            label: AppLocalizations.of(context)!.continu,
+            onPressed: context.popUntilFirst,
+          ),
+        );
       },
     );
   }

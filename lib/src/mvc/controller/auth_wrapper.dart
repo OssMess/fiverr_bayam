@@ -36,7 +36,7 @@ class AuthWrapper extends StatefulWidget {
 }
 
 class _AuthWrapperState extends State<AuthWrapper> {
-  IPLocation? ipLocation;
+  GeoCodingLocation? geocodingLocation;
   late bool showSplashScreen;
   Set<String> imagesAssets = {
     'assets/images/background_bottom.png',
@@ -47,12 +47,13 @@ class _AuthWrapperState extends State<AuthWrapper> {
   @override
   void initState() {
     super.initState();
-    OtherServices.getIPLocation().then(
-      (value) => ipLocation = value,
-    );
+
     showSplashScreen = widget.showSplashScreen;
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (!context.mounted) return;
+      getGeoCodingLocation(context).then(
+        (value) => geocodingLocation = value,
+      );
       precacheImages(context);
       Paddings.init(context);
       ////// init translations
@@ -91,7 +92,7 @@ class _AuthWrapperState extends State<AuthWrapper> {
         if (userSession.isUnAuthenticated) {
           return SignIn(
             userSession: userSession,
-            ipLocation: ipLocation,
+            geocodingLocation: geocodingLocation,
           );
         }
         // if (userSession.requiredInitAccountDetails) {
@@ -102,7 +103,10 @@ class _AuthWrapperState extends State<AuthWrapper> {
         //   );
         // }
         if (userSession.requireCompleteRegistration) {
-          return SignUp(userSession: userSession);
+          return SignUp(
+            userSession: userSession,
+            geocodingLocation: geocodingLocation,
+          );
         }
         // if (userSession.requiredInitAccountDetails && snapshot.hasData) {
         //   userSession.updateFromMap(snapshot.data!);

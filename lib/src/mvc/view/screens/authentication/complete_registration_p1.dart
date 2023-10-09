@@ -11,12 +11,13 @@ import '../../../../tools.dart';
 import '../../../controller/services.dart';
 import '../../../model/enums.dart';
 import '../../../model/models.dart';
+import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 import '../../model_widgets_screens.dart';
 import '../../screens.dart';
 
-class CompleteRegistrationFormP4 extends StatefulWidget {
-  const CompleteRegistrationFormP4({
+class CompleteRegistrationP1 extends StatefulWidget {
+  const CompleteRegistrationP1({
     super.key,
     required this.userSession,
   });
@@ -24,12 +25,10 @@ class CompleteRegistrationFormP4 extends StatefulWidget {
   final UserSession userSession;
 
   @override
-  State<CompleteRegistrationFormP4> createState() =>
-      _CompleteRegistrationFormP4State();
+  State<CompleteRegistrationP1> createState() => _CompleteRegistrationP1State();
 }
 
-class _CompleteRegistrationFormP4State
-    extends State<CompleteRegistrationFormP4> {
+class _CompleteRegistrationP1State extends State<CompleteRegistrationP1> {
   XFile? imageFile;
 
   @override
@@ -264,7 +263,7 @@ class _CompleteRegistrationFormP4State
       return;
     }
     context.push(
-      widget: CompleteRegistrationFormP5(
+      widget: CompleteRegistrationP2(
         userSession: widget.userSession,
         image: imageFile!,
       ),
@@ -272,14 +271,22 @@ class _CompleteRegistrationFormP4State
   }
 
   Future<void> skip() async {
-    Dialogs.of(context).runAsyncAction(
+    await Dialogs.of(context).runAsyncAction(
       future: () async {
         await AuthServices.postUserClient(
           userSession: widget.userSession,
         );
       },
       onComplete: (_) {
-        context.popUntilFirst();
+        Dialogs.of(context).showCustomDialog(
+          title: AppLocalizations.of(context)!.success,
+          subtitle:
+              AppLocalizations.of(context)!.your_information_has_been_saved,
+          yesAct: ModelTextButton(
+            label: AppLocalizations.of(context)!.continu,
+            onPressed: context.popUntilFirst,
+          ),
+        );
       },
     );
   }

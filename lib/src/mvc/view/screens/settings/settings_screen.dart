@@ -125,9 +125,8 @@ class SettingsScreen extends StatelessWidget {
                       onTap: () {
                         if (userSession.isPerson) {
                           context.push(
-                            widget: CompleteRegistrationForm1(
+                            widget: CompletePersonProfile(
                               userSession: userSession,
-                              accountType: AccountType.person,
                             ),
                           );
                         } else {

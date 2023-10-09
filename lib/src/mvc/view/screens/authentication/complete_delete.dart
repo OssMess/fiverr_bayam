@@ -1,3 +1,4 @@
+//TODO delete
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -7,10 +8,12 @@ import '../../../../extensions.dart';
 import '../../../../tools.dart';
 import '../../../model/enums.dart';
 import '../../../model/models.dart';
+import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
+import '../../screens.dart';
 
-class CompleteRegistrationFormC3 extends StatefulWidget {
-  const CompleteRegistrationFormC3({
+class CompleteDelete extends StatefulWidget {
+  const CompleteDelete({
     super.key,
     required this.userSession,
   });
@@ -18,12 +21,10 @@ class CompleteRegistrationFormC3 extends StatefulWidget {
   final UserSession userSession;
 
   @override
-  State<CompleteRegistrationFormC3> createState() =>
-      _CompleteRegistrationFormC3State();
+  State<CompleteDelete> createState() => _CompleteDeleteState();
 }
 
-class _CompleteRegistrationFormC3State
-    extends State<CompleteRegistrationFormC3> {
+class _CompleteDeleteState extends State<CompleteDelete> {
   XFile? file;
 
   @override
@@ -34,14 +35,14 @@ class _CompleteRegistrationFormC3State
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       extendBodyBehindAppBar: true,
       appBar: AppBar(),
       body: Column(
         children: [
           CustomAppBarBackground(
             type: AppBarBackgroundType.shrink,
-            appBarTitle: AppLocalizations.of(context)!.tax_details,
+            appBarTitle: AppLocalizations.of(context)!.customer_details,
             appBarLeading: AppBarActionButton(
               icon: context.backButtonIcon,
               onTap: () => context.pop(),
@@ -64,15 +65,14 @@ class _CompleteRegistrationFormC3State
                   child: Row(
                     children: [
                       Icon(
-                        AwesomeIcons.folder,
+                        AwesomeIcons.id_card,
                         size: 40.sp,
                         color: Styles.green,
                       ),
                       16.widthSp,
                       Expanded(
                         child: Text(
-                          AppLocalizations.of(context)!
-                              .company_upload_tax_documents,
+                          AppLocalizations.of(context)!.person_upload_id,
                           style: Styles.poppins(
                             fontSize: 14.sp,
                             fontWeight: Styles.medium,
@@ -83,7 +83,7 @@ class _CompleteRegistrationFormC3State
                     ],
                   ),
                 ),
-                16.heightSp,
+                20.heightSp,
                 InkResponse(
                   onTap: () async {
                     if (await Permissions.of(context)
@@ -94,33 +94,22 @@ class _CompleteRegistrationFormC3State
                     height: 0.25.sh,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      color: context.textTheme.headlineSmall!.color!,
+                      color: context.textTheme.displayLarge!.color!,
                       borderRadius: BorderRadius.circular(14.sp),
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          AwesomeIcons.cloud_arrow_up,
-                          color: Styles.green,
-                          size: 40.sp,
-                        ),
-                        Text(
-                          AppLocalizations.of(context)!.upload_documents,
-                          style: Styles.poppins(
-                            fontSize: 12.sp,
-                            fontWeight: Styles.semiBold,
-                            color: Styles.green,
-                          ),
-                        ),
-                      ],
+                    child: CustomTextButton(
+                      button: ModelTextButton(
+                        label: AppLocalizations.of(context)!.scan_id_card,
+                        fontColor: context.scaffoldBackgroundColor,
+                        onPressed: () {},
+                      ),
                     ),
                   ),
                 ),
                 54.heightSp,
                 CustomElevatedButton(
                   onPressed: next,
-                  label: AppLocalizations.of(context)!.done,
+                  label: AppLocalizations.of(context)!.next,
                 ),
               ],
             ),
@@ -136,13 +125,11 @@ class _CompleteRegistrationFormC3State
         await Future.delayed(const Duration(seconds: 1));
       },
       onComplete: (_) {
-        widget.userSession.onRegisterCompleted(
-          uid: 0,
-          accountType: AccountType.company,
-          firstName: 's',
-          lastName: 's',
+        context.push(
+          widget: CompleteRegistrationP1(
+            userSession: widget.userSession,
+          ),
         );
-        context.popUntilFirst();
       },
       onError: (_) {},
     );

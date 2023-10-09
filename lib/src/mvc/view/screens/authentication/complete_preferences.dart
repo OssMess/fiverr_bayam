@@ -9,8 +9,8 @@ import '../../../model/models.dart';
 import '../../model_widgets.dart';
 import '../../screens.dart';
 
-class CompleteRegistrationForm2 extends StatefulWidget {
-  const CompleteRegistrationForm2({
+class CompletePreferences extends StatefulWidget {
+  const CompletePreferences({
     super.key,
     required this.userSession,
     required this.accountType,
@@ -20,11 +20,10 @@ class CompleteRegistrationForm2 extends StatefulWidget {
   final AccountType accountType;
 
   @override
-  State<CompleteRegistrationForm2> createState() =>
-      _CompleteRegistrationForm2State();
+  State<CompletePreferences> createState() => _CompletePreferencesState();
 }
 
-class _CompleteRegistrationForm2State extends State<CompleteRegistrationForm2> {
+class _CompletePreferencesState extends State<CompletePreferences> {
   Set<AccountPreference> pickedPreferences = {};
   Set<AccountPreference> filteredPreferences = {};
   Set<AccountPreference> allPreferences = {
@@ -140,10 +139,6 @@ class _CompleteRegistrationForm2State extends State<CompleteRegistrationForm2> {
     );
   }
 
-  bool get isPerson => widget.accountType == AccountType.person;
-
-  bool get isCompany => widget.accountType == AccountType.company;
-
   Future<void> next() async {
     if (pickedPreferences.length < 3) {
       Dialogs.of(context).showSnackBar(
@@ -156,14 +151,14 @@ class _CompleteRegistrationForm2State extends State<CompleteRegistrationForm2> {
     switch (widget.accountType) {
       case AccountType.company:
         context.push(
-          widget: CompleteRegistrationFormC3(
+          widget: CompleteRegistrationC2(
             userSession: widget.userSession,
           ),
         );
         break;
       case AccountType.person:
         context.push(
-          widget: CompleteRegistrationFormP4(
+          widget: CompleteRegistrationP1(
             userSession: widget.userSession,
           ),
         );

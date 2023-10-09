@@ -23,11 +23,11 @@ class SignIn extends StatefulWidget {
   const SignIn({
     super.key,
     required this.userSession,
-    required this.ipLocation,
+    required this.geocodingLocation,
   });
 
   final UserSession userSession;
-  final IPLocation? ipLocation;
+  final GeoCodingLocation? geocodingLocation;
 
   @override
   State<SignIn> createState() => _SignInState();
@@ -44,7 +44,7 @@ class _SignInState extends State<SignIn> {
 
   @override
   void initState() {
-    countryCode = widget.ipLocation?.countryCode ?? 'CM';
+    countryCode = widget.geocodingLocation?.countryCode ?? 'CM';
     super.initState();
   }
 
@@ -393,17 +393,13 @@ class _SignInState extends State<SignIn> {
     pinCode = code;
     Dialogs.of(context).runAsyncAction(
       future: () async {
-        return await AuthServices.verifyOTP(
+        await AuthServices.verifyOTP(
+          widget.userSession,
           phoneNumber!,
           pinCode!,
         );
       },
-      onComplete: (uid) {
-        widget.userSession.onSignInCompleted(
-          uid: uid!,
-          phoneNumber: phoneNumber!,
-        );
-      },
+      onComplete: (_) {},
     );
   }
 }

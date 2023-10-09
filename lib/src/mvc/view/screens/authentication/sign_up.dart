@@ -15,9 +15,11 @@ class SignUp extends StatefulWidget {
   const SignUp({
     super.key,
     required this.userSession,
+    required this.geocodingLocation,
   });
 
   final UserSession userSession;
+  final GeoCodingLocation? geocodingLocation;
 
   @override
   State<SignUp> createState() => _SignUpState();
@@ -156,12 +158,30 @@ class _SignUpState extends State<SignUp> {
   Future<void> next() async {
     if (!_keyForm.currentState!.validate()) return;
     _keyForm.currentState!.save();
+    widget.userSession.firstName = null;
+    widget.userSession.lastName = null;
+    widget.userSession.companyName = null;
+    widget.userSession.preferences = null;
+    widget.userSession.email = null;
+    widget.userSession.bio = null;
+    widget.userSession.birthDate = null;
+    widget.userSession.city = null;
+    widget.userSession.postalCode = null;
+    widget.userSession.region = null;
+    widget.userSession.streetAddress = null;
+    widget.userSession.country = null;
+    widget.userSession.registrationNumber = null;
+    widget.userSession.uniqueRegistrationNumber = null;
+    widget.userSession.facebookUrl = null;
+    widget.userSession.linkedinUrl = null;
+    widget.userSession.twitterUrl = null;
+
     switch (accountType) {
       case AccountType.company:
         context.push(
-          widget: CompleteRegistrationForm1(
+          widget: CompleteRegistrationPageC1(
             userSession: widget.userSession,
-            accountType: accountType,
+            geocodingLocation: widget.geocodingLocation,
           ),
         );
         break;
@@ -169,7 +189,7 @@ class _SignUpState extends State<SignUp> {
         widget.userSession.firstName = firstName;
         widget.userSession.firstName = lastName;
         context.push(
-          widget: CompleteRegistrationForm2(
+          widget: CompletePreferences(
             userSession: widget.userSession,
             accountType: accountType,
           ),

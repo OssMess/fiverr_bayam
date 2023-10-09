@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../extensions.dart';
 import '../../controller/hives.dart';
+import '../../controller/services.dart';
 import '../enums.dart';
 
 /// this model represents user session
@@ -12,17 +13,26 @@ class UserSession with ChangeNotifier {
   /// user Id
   String? uid;
   String? phoneNumber;
-  String? firstName;
-  String? lastName;
   AccountType? accountType;
+  String? bio;
   List<String>? preferences;
   String? email;
-  String? birthDate;
   String? city;
-  String? bio;
   String? streetAddress;
   String? postalCode;
   String? region;
+  String? country;
+  String? uniqueRegistrationNumber;
+  String? registrationNumber;
+  String? facebookUrl;
+  String? linkedinUrl;
+  String? twitterUrl;
+  //user
+  String? firstName;
+  String? lastName;
+  String? birthDate;
+  //company
+  String? companyName;
 
   UserSession({
     required this.authState,
@@ -30,15 +40,22 @@ class UserSession with ChangeNotifier {
     required this.phoneNumber,
     required this.firstName,
     required this.lastName,
+    required this.companyName,
     required this.accountType,
-    required this.preferences,
-    required this.email,
     required this.bio,
     required this.birthDate,
     required this.city,
+    required this.country,
+    required this.email,
+    required this.facebookUrl,
+    required this.linkedinUrl,
     required this.postalCode,
+    required this.preferences,
     required this.region,
+    required this.registrationNumber,
     required this.streetAddress,
+    required this.twitterUrl,
+    required this.uniqueRegistrationNumber,
   });
 
   /// creates an instance of `UserSession` where `authState` is set to `authState: AuthState.unauthenticated`.
@@ -61,18 +78,29 @@ class UserSession with ChangeNotifier {
       authState: authState,
       uid: null,
       phoneNumber: null,
+      // authState: AuthState.authenticated,
+      // uid: 'e400f468-7876-40ea-baba-148e06fb1140',
+      // phoneNumber: '+237698305411',
       firstName: null,
       lastName: null,
+      companyName: null,
       accountType: null,
-      preferences: null,
-      email: null,
       bio: null,
       birthDate: null,
       city: null,
+      country: null,
+      email: null,
+      facebookUrl: null,
+      linkedinUrl: null,
       postalCode: null,
+      preferences: null,
       region: null,
+      registrationNumber: null,
       streetAddress: null,
+      twitterUrl: null,
+      uniqueRegistrationNumber: null,
     );
+    // AuthStateChange.save(user);
     if (authState == AuthState.awaiting) {
       user.getAuthState();
     }
@@ -86,15 +114,22 @@ class UserSession with ChangeNotifier {
       phoneNumber: json['phoneNumber'],
       firstName: json['firstName'],
       lastName: json['lastName'],
+      companyName: json['companyName'],
       accountType: (json['accountType'] as String?)?.toAccountType,
-      preferences: json['preferences'],
-      email: json['email'],
       bio: json['bio'],
       birthDate: json['birthDate'],
       city: json['city'],
+      country: json['country'],
+      email: json['email'],
+      facebookUrl: json['facebookUrl'],
+      linkedinUrl: json['linkedinUrl'],
       postalCode: json['postalCode'],
+      preferences: json['preferences'],
       region: json['region'],
+      registrationNumber: json['registrationNumber'],
       streetAddress: json['streetAddress'],
+      twitterUrl: json['twitterUrl'],
+      uniqueRegistrationNumber: json['uniqueRegistrationNumber'],
     );
   }
 
@@ -104,15 +139,22 @@ class UserSession with ChangeNotifier {
         'phoneNumber': phoneNumber,
         'firstName': firstName,
         'lastName': lastName,
+        'companyName': companyName,
         'accountType': accountType?.key,
         'preferences': preferences,
-        'email': email,
         'bio': bio,
         'birthDate': birthDate,
         'city': city,
+        'country': country,
+        'email': email,
+        'facebookUrl': facebookUrl,
+        'linkedinUrl': linkedinUrl,
         'postalCode': postalCode,
         'region': region,
+        'registrationNumber': registrationNumber,
         'streetAddress': streetAddress,
+        'twitterUrl': twitterUrl,
+        'uniqueRegistrationNumber': uniqueRegistrationNumber,
       };
 
   /// return true if awaiting for user sessions
@@ -130,7 +172,7 @@ class UserSession with ChangeNotifier {
 
   /// return `true` if user account requires completion
   bool get requireCompleteRegistration =>
-      isAuthenticated && firstName.isNullOrEmpty;
+      isAuthenticated && firstName.isNullOrEmpty && companyName.isNullOrEmpty;
 
   /// return `true` if user is of type `AccountType.person`
   bool get isPerson => accountType == AccountType.person;
@@ -148,62 +190,67 @@ class UserSession with ChangeNotifier {
   /// copy the attributes from [user] to `this` user session, and notify
   /// listeners to rebuild the widget tree and sync the changes
   void updateFromUserSession(UserSession user) {
-    authState = user.authState;
     uid = user.uid;
-    phoneNumber = user.phoneNumber;
-    firstName = user.firstName;
-    lastName = user.lastName;
-    accountType = user.accountType;
-    preferences = user.preferences;
-    email = user.email;
-    bio = user.bio;
-    birthDate = user.birthDate;
-    city = user.city;
-    postalCode = user.postalCode;
-    region = user.region;
-    streetAddress = user.streetAddress;
-    notifyListeners();
+    if (uid.isNotNullOrEmpty) {
+      AuthServices.getUser(this);
+    } else {
+      authState = user.authState;
+      phoneNumber = user.phoneNumber;
+      firstName = user.firstName;
+      lastName = user.lastName;
+      companyName = user.companyName;
+      accountType = user.accountType;
+      bio = user.bio;
+      birthDate = user.birthDate;
+      city = user.city;
+      country = user.country;
+      email = user.email;
+      facebookUrl = user.facebookUrl;
+      linkedinUrl = user.linkedinUrl;
+      postalCode = user.postalCode;
+      preferences = user.preferences;
+      region = user.region;
+      registrationNumber = user.registrationNumber;
+      streetAddress = user.streetAddress;
+      twitterUrl = user.facebookUrl;
+      uniqueRegistrationNumber = user.uniqueRegistrationNumber;
+
+      notifyListeners();
+    }
   }
 
-  Future<void> onRegisterClientCompleted() async {
+  Future<void> onSignUpCompleted() async {
     authState = AuthState.authenticated;
     await AuthStateChange.save(this);
     notifyListeners();
   }
 
-  ///Once the call for `/api/client/mobile/register` endpoint finishes with
-  ///statusCode `200`, update user session with [uid].
-  void onRegisterCompleted({
-    required int uid,
-    required AccountType accountType,
-    required String firstName,
-    required String lastName,
-  }) async {
-    // this.uid = uid;
-    this.accountType = accountType;
-    this.firstName = firstName;
-    this.lastName = lastName;
+  Future<void> onSignInCompleted(Map<String, dynamic> json) async {
+    uid = json['uuid'];
+    phoneNumber = json['phoneNumber'];
+    firstName = json['firstName'];
+    lastName = json['lastName'];
+    companyName = json['companyName'];
+    accountType = json['accountType'];
+    bio = json['bio'];
+    birthDate = json['birthDate'];
+    city = json['city'];
+    country = json['country'];
+    email = json['email'];
+    facebookUrl = json['facebookUrl'];
+    linkedinUrl = json['linkedinUrl'];
+    postalCode = json['postalCode'];
+    preferences = json['preferences'];
+    region = json['region'];
+    registrationNumber = json['registrationNumber'];
+    streetAddress = json['streetAddress'];
+    twitterUrl = json['facebookUrl'];
+    uniqueRegistrationNumber = json['uniqueRegistrationNumber'];
     authState = AuthState.authenticated;
     await AuthStateChange.save(this);
     notifyListeners();
   }
 
-  ///Once the call for `/api/client/mobile/confirm/[user.uid]` endpoint finishes
-  ///with statusCode `200`, update user session with [uid] and also save user
-  ///session to hive box `auth_state_change`.
-  Future<void> onSignInCompleted({
-    required String uid,
-    required String phoneNumber,
-  }) async {
-    this.uid = uid;
-    this.phoneNumber = phoneNumber;
-    authState = AuthState.authenticated;
-    await AuthStateChange.save(this);
-    notifyListeners();
-  }
-
-  /// on signout, reset all attributes related to current user session, and notify
-  /// listeners to rebuild the widget tree.
   Future<void> onSignout() async {
     updateFromUserSession(
       await AuthStateChange.clear(),
