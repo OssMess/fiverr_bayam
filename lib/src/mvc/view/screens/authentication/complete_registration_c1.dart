@@ -33,7 +33,7 @@ class _CompleteRegistrationPageC1State
   TextEditingController dateController = TextEditingController();
   String? companyName;
   XFile? companyImage;
-  String? registrationNumber;
+  String? uniqueRegisterNumber;
   String? streetAddress;
   String? city;
   String? postalCode;
@@ -44,7 +44,7 @@ class _CompleteRegistrationPageC1State
   @override
   void initState() {
     companyName = widget.userSession.companyName;
-    registrationNumber = widget.userSession.registrationNumber;
+    uniqueRegisterNumber = widget.userSession.uniqueRegisterNumber;
     streetAddress = widget.userSession.streetAddress ??
         widget.geocodingLocation?.streetAddress;
     postalCode =
@@ -159,12 +159,12 @@ class _CompleteRegistrationPageC1State
                       ),
                       16.heightSp,
                       CustomTextFormFieldBounded(
-                        initialValue: registrationNumber,
+                        initialValue: uniqueRegisterNumber,
                         labelText: AppLocalizations.of(context)!.reg_num_label,
                         hintText: AppLocalizations.of(context)!.reg_num_hint,
                         keyboardType: TextInputType.number,
                         onSaved: (value) {
-                          registrationNumber = value;
+                          uniqueRegisterNumber = value;
                         },
                         textInputAction: TextInputAction.next,
                       ),
@@ -333,7 +333,7 @@ class _CompleteRegistrationPageC1State
     if (!_keyForm.currentState!.validate()) return;
     _keyForm.currentState!.save();
     widget.userSession.companyName = companyName;
-    widget.userSession.registrationNumber = registrationNumber;
+    widget.userSession.uniqueRegisterNumber = uniqueRegisterNumber;
     widget.userSession.streetAddress = streetAddress;
     widget.userSession.postalCode = postalCode;
     widget.userSession.city = city;

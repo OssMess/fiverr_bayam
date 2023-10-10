@@ -22,6 +22,7 @@ class ProfileRowActions extends StatelessWidget {
             (action) => Padding(
               padding: EdgeInsets.symmetric(horizontal: 8.sp),
               child: CustomFlatButton(
+                onTap: action.onPressed,
                 icon: action.icon,
                 iconColor: action.color,
                 iconSize: 36.sp,

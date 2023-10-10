@@ -1,7 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:badges/badges.dart' as badge;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:badges/badges.dart' as badge;
 
 import '../../../extensions.dart';
 import '../../../tools.dart';
@@ -19,16 +20,18 @@ class ProfileHeader extends StatelessWidget {
     this.description,
     this.actions,
     this.margin,
+    this.onTapDescription,
   });
 
   final String displayName;
-  final String email;
-  final String photoUrl;
+  final String? email;
+  final String? photoUrl;
   final bool isVerified;
   final bool isOnline;
   final String? description;
   final List<ModelIconButton>? actions;
   final EdgeInsetsGeometry? margin;
+  final void Function()? onTapDescription;
 
   @override
   Widget build(BuildContext context) {
@@ -58,9 +61,11 @@ class ProfileHeader extends StatelessWidget {
             child: CircleAvatar(
               radius: 55.sp,
               backgroundColor: context.textTheme.headlineSmall!.color,
-              foregroundImage: CachedNetworkImageProvider(
-                photoUrl,
-              ),
+              foregroundImage: photoUrl.isNotNullOrEmpty
+                  ? CachedNetworkImageProvider(
+                      photoUrl!,
+                    )
+                  : null,
             ),
           ),
           12.heightSp,
@@ -85,25 +90,57 @@ class ProfileHeader extends StatelessWidget {
               ],
             ],
           ),
-          Text(
-            email,
-            style: Styles.poppins(
-              fontSize: 16.sp,
-              fontWeight: Styles.regular,
-              color: context.textTheme.displaySmall!.color,
+          if (email.isNotNullOrEmpty)
+            Text(
+              email!,
+              style: Styles.poppins(
+                fontSize: 16.sp,
+                fontWeight: Styles.regular,
+                color: context.textTheme.displaySmall!.color,
+              ),
             ),
-          ),
           if (!description.isNullOrEmpty) ...[
             CustomDivider(
               height: 32.sp,
             ),
-            Text(
-              description!,
-              textAlign: TextAlign.center,
-              style: Styles.poppins(
-                fontSize: 16.sp,
-                fontWeight: Styles.medium,
-                color: context.textTheme.displayLarge!.color,
+            InkResponse(
+              onTap: onTapDescription,
+              child: Text(
+                description!,
+                textAlign: TextAlign.center,
+                style: Styles.poppins(
+                  fontSize: 16.sp,
+                  fontWeight: Styles.medium,
+                  color: context.textTheme.displayLarge!.color,
+                ),
+              ),
+            ),
+          ],
+          if (description.isNullOrEmpty && onTapDescription != null) ...[
+            CustomDivider(
+              height: 32.sp,
+            ),
+            InkResponse(
+              onTap: onTapDescription,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!.about,
+                    textAlign: TextAlign.center,
+                    style: Styles.poppins(
+                      fontSize: 16.sp,
+                      fontWeight: Styles.medium,
+                      color: context.textTheme.displayMedium!.color,
+                    ),
+                  ),
+                  8.widthSp,
+                  Icon(
+                    Icons.edit,
+                    color: context.textTheme.displayMedium!.color,
+                    size: 20.sp,
+                  ),
+                ],
               ),
             ),
           ],

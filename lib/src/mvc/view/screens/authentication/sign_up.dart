@@ -170,8 +170,7 @@ class _SignUpState extends State<SignUp> {
     widget.userSession.region = null;
     widget.userSession.streetAddress = null;
     widget.userSession.country = null;
-    widget.userSession.registrationNumber = null;
-    widget.userSession.uniqueRegistrationNumber = null;
+    widget.userSession.uniqueRegisterNumber = null;
     widget.userSession.facebookUrl = null;
     widget.userSession.linkedinUrl = null;
     widget.userSession.twitterUrl = null;

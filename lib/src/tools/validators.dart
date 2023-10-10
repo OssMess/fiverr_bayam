@@ -12,6 +12,29 @@ class Validators {
     return Validators(context);
   }
 
+  /// return `null` if [value] is not null or empty, and a valide url.
+  static String? validateUrl(String? value) {
+    if (value.isNullOrEmpty) {
+      // return AppLocalizations.of(context)!.field_required;
+      return '';
+    }
+    if (Uri.tryParse(value!)?.hasAbsolutePath ?? false) {
+      return null;
+    }
+    return '';
+  }
+
+  /// return `null` if [value] is null or empty, or a valide url.
+  static String? validateUrlOptional(String? value) {
+    if (value.isNullOrEmpty) {
+      return null;
+    }
+    if (Uri.tryParse(value!)?.hasAbsolutePath ?? false) {
+      return null;
+    }
+    return '';
+  }
+
   /// return `null` if [value] is a valide phone number.
   static String? validatePhoneNumber(String? value) {
     if (value.isNullOrEmpty) {
@@ -49,6 +72,19 @@ class Validators {
       return '';
     } else if (value.length < minLength) {
       return AppLocalizations.of(context)!.min_caracters(minLength.toString());
+    }
+    return null;
+  }
+
+  static String? validateLength(
+    String? value,
+    int length,
+  ) {
+    if (value.isNullOrEmpty) {
+      // return AppLocalizations.of(context)!.field_required;
+      return '';
+    } else if (value!.length != length) {
+      return '';
     }
     return null;
   }

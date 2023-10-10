@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 
 import '../../../../extensions.dart';
 import '../../../../tools.dart';
+import '../../../controller/services.dart';
 import '../../../model/enums.dart';
 import '../../../model/models.dart';
 import '../../../model/models_ui.dart';
@@ -34,6 +35,7 @@ class _CompletePersonProfileState extends State<CompletePersonProfile> {
   String? postalCode;
   String? country;
   String? region;
+  String? uniqueRegisterNumber;
   DateTime? birthDate;
 
   @override
@@ -44,6 +46,8 @@ class _CompletePersonProfileState extends State<CompletePersonProfile> {
     city = widget.userSession.city;
     country = widget.userSession.country;
     region = widget.userSession.region;
+    streetAddress = widget.userSession.streetAddress;
+    uniqueRegisterNumber = widget.userSession.uniqueRegisterNumber;
     birthDate = DateTime.tryParse(widget.userSession.birthDate ?? '');
     dateController.text = widget.userSession.birthDate ?? '';
     super.initState();
@@ -85,6 +89,7 @@ class _CompletePersonProfileState extends State<CompletePersonProfile> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       CustomTextFormFieldBounded(
+                        initialValue: firstName,
                         labelText:
                             AppLocalizations.of(context)!.first_name_id_label,
                         hintText:
@@ -98,6 +103,7 @@ class _CompletePersonProfileState extends State<CompletePersonProfile> {
                       ),
                       16.heightSp,
                       CustomTextFormFieldBounded(
+                        initialValue: lastName,
                         labelText:
                             AppLocalizations.of(context)!.last_name_id_label,
                         hintText:
@@ -106,6 +112,19 @@ class _CompletePersonProfileState extends State<CompletePersonProfile> {
                         validator: Validators.validateNotNull,
                         onSaved: (value) {
                           lastName = value;
+                        },
+                        textInputAction: TextInputAction.next,
+                      ),
+                      16.heightSp,
+                      CustomTextFormFieldBounded(
+                        initialValue: uniqueRegisterNumber,
+                        labelText: AppLocalizations.of(context)!.reg_num_label,
+                        hintText: AppLocalizations.of(context)!.reg_num_hint,
+                        keyboardType: TextInputType.name,
+                        validator: (value) =>
+                            Validators.validateLength(value, 14),
+                        onSaved: (value) {
+                          uniqueRegisterNumber = value;
                         },
                         textInputAction: TextInputAction.next,
                       ),
@@ -127,18 +146,7 @@ class _CompletePersonProfileState extends State<CompletePersonProfile> {
                       ),
                       16.heightSp,
                       CustomTextFormFieldBounded(
-                        labelText:
-                            AppLocalizations.of(context)!.street_adr_label,
-                        hintText: AppLocalizations.of(context)!.street_adr_hint,
-                        keyboardType: TextInputType.streetAddress,
-                        validator: Validators.validateNotNull,
-                        onSaved: (value) {
-                          lastName = value;
-                        },
-                        textInputAction: TextInputAction.next,
-                      ),
-                      16.heightSp,
-                      CustomTextFormFieldBounded(
+                        initialValue: streetAddress,
                         labelText:
                             AppLocalizations.of(context)!.street_adr_label,
                         hintText: AppLocalizations.of(context)!.street_adr_hint,
@@ -151,6 +159,7 @@ class _CompletePersonProfileState extends State<CompletePersonProfile> {
                       ),
                       16.heightSp,
                       CustomTextFormFieldBounded(
+                        initialValue: city,
                         labelText: AppLocalizations.of(context)!.town_label,
                         hintText: AppLocalizations.of(context)!.town_hint,
                         keyboardType: TextInputType.name,
@@ -162,6 +171,7 @@ class _CompletePersonProfileState extends State<CompletePersonProfile> {
                       ),
                       16.heightSp,
                       CustomTextFormFieldBounded(
+                        initialValue: postalCode,
                         labelText: AppLocalizations.of(context)!.zip_label,
                         hintText: AppLocalizations.of(context)!.zip_hint,
                         keyboardType: TextInputType.name,
@@ -173,6 +183,7 @@ class _CompletePersonProfileState extends State<CompletePersonProfile> {
                       ),
                       16.heightSp,
                       CustomTextFormFieldBounded(
+                        initialValue: region,
                         labelText: AppLocalizations.of(context)!.state_label,
                         hintText: AppLocalizations.of(context)!.state_hint,
                         keyboardType: TextInputType.name,
@@ -186,6 +197,7 @@ class _CompletePersonProfileState extends State<CompletePersonProfile> {
                       ),
                       16.heightSp,
                       CustomTextFormFieldBounded(
+                        initialValue: country,
                         labelText: AppLocalizations.of(context)!.country_label,
                         hintText: AppLocalizations.of(context)!.country_hint,
                         keyboardType: TextInputType.name,
@@ -288,11 +300,11 @@ class _CompletePersonProfileState extends State<CompletePersonProfile> {
         widget.userSession.city = city;
         widget.userSession.country = country;
         widget.userSession.region = region;
+        widget.userSession.uniqueRegisterNumber = uniqueRegisterNumber;
         widget.userSession.birthDate = dateController.text;
-        //TODO update user profile
-        // await AuthServices.postUserClient(
-        //   userSession: widget.userSession,
-        // );
+        await UserServices.postUser(
+          userSession: widget.userSession,
+        );
       },
       onComplete: (_) {
         Dialogs.of(context).showCustomDialog(

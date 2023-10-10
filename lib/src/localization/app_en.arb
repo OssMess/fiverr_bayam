@@ -314,6 +314,12 @@
   "filter_by_region":"Filter by region",
   "filter_ads_by_type":"Filter ads by type",
   "unknown_error":"Something went wrong! try again",
+  "facebook_url":"Facebook profile",
+  "twitter_url":"Twitter profile",
+  "linkedin_url":"LinkedIn profile",
+  "url_hint":"Link to your profile",
+  "first_name":"First name",
+  "last_name":"Last name",
 
   "@min_caracters":{
     "description":"a validator message for minimum length",

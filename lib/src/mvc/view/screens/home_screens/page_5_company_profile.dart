@@ -30,46 +30,112 @@ class Page5CompanyProfile extends StatelessWidget {
     return CustomScrollView(
       physics: const AlwaysScrollableScrollPhysics(),
       slivers: [
-        const SliverToBoxAdapter(
-          child: ProfileHeader(
-            displayName: 'BigMop',
-            email: 'Bigmop@gmail.com',
-            photoUrl:
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDLL2FyAeYaShg5h1YrW3gEyDHDCUb5o2_lw&usqp=CAU',
-            isVerified: false,
-            isOnline: false,
-            description:
-                'Lorem ipsum dolor sit amet, consectetur adiing elit, sed do eiusmod tempor incididunt ut labore et dore magna alua. Ut enim ad minim venm, quis nostrud exercitation ullamco laboris nisi ut.',
-          ),
+        StatefulBuilder(
+          builder: (context, setState) {
+            return SliverToBoxAdapter(
+              child: ProfileHeader(
+                displayName: userSession.companyName!,
+                email: userSession.email,
+                photoUrl: userSession.photoUrl,
+                isVerified: userSession.isVerified,
+                isOnline: false,
+                description: userSession.bio,
+                onTapDescription: () =>
+                    Dialogs.of(context).showTextValuePickerDialog(
+                  title: AppLocalizations.of(context)!.about,
+                  hintText: AppLocalizations.of(context)!.description_hint,
+                  initialvalue: userSession.bio,
+                  onPick: (value) {
+                    if (userSession.bio == value) return;
+                    userSession.bio = value;
+                    userSession.updateUserSession(context, setState);
+                  },
+                  validator: Validators.validateNotNull,
+                  maxLines: 5,
+                  maxLength: 200,
+                  textInputType: TextInputType.multiline,
+                ),
+              ),
+            );
+          },
         ),
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 32.sp),
-            child: ProfileRowActions(
-              actions: [
-                ModelIconButton(
-                  icon: AwesomeIcons.facebook_f,
-                  color: const Color(0xFF3B5998),
+        StatefulBuilder(
+          builder: (context, setState) {
+            return SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 32.sp),
+                child: ProfileRowActions(
+                  actions: [
+                    ModelIconButton(
+                      icon: AwesomeIcons.facebook_f,
+                      color: userSession.facebookUrl.isNullOrEmpty
+                          ? context.textTheme.headlineLarge!.color
+                          : const Color(0xFF3B5998),
+                      onPressed: () =>
+                          Dialogs.of(context).showTextValuePickerDialog(
+                        title: AppLocalizations.of(context)!.facebook_url,
+                        hintText: AppLocalizations.of(context)!.url_hint,
+                        initialvalue: userSession.facebookUrl,
+                        showPasteButton: true,
+                        onPick: (value) {
+                          if (userSession.facebookUrl == value) return;
+                          userSession.facebookUrl = value;
+                          userSession.updateUserSession(context, setState);
+                        },
+                        validator: Validators.validateUrlOptional,
+                      ),
+                    ),
+                    ModelIconButton(
+                      icon: AwesomeIcons.twitter,
+                      color: userSession.twitterUrl.isNullOrEmpty
+                          ? context.textTheme.headlineLarge!.color
+                          : const Color(0xFF00ACEE),
+                      onPressed: () =>
+                          Dialogs.of(context).showTextValuePickerDialog(
+                        title: AppLocalizations.of(context)!.twitter_url,
+                        hintText: AppLocalizations.of(context)!.url_hint,
+                        initialvalue: userSession.twitterUrl,
+                        showPasteButton: true,
+                        onPick: (value) {
+                          if (userSession.twitterUrl == value) return;
+                          userSession.twitterUrl = value;
+                          userSession.updateUserSession(context, setState);
+                        },
+                        validator: Validators.validateUrlOptional,
+                      ),
+                    ),
+                    ModelIconButton(
+                      icon: AwesomeIcons.linkedin_in,
+                      color: userSession.linkedinUrl.isNullOrEmpty
+                          ? context.textTheme.headlineLarge!.color
+                          : const Color(0xFF0A66C2),
+                      onPressed: () =>
+                          Dialogs.of(context).showTextValuePickerDialog(
+                        title: AppLocalizations.of(context)!.linkedin_url,
+                        hintText: AppLocalizations.of(context)!.url_hint,
+                        initialvalue: userSession.linkedinUrl,
+                        showPasteButton: true,
+                        onPick: (value) {
+                          if (userSession.linkedinUrl == value) return;
+                          userSession.linkedinUrl = value;
+                          userSession.updateUserSession(context, setState);
+                        },
+                        validator: Validators.validateUrlOptional,
+                      ),
+                    ),
+                    ModelIconButton(
+                      icon: AwesomeIcons.share_from_square,
+                      color: Styles.green,
+                      onPressed: () => Share.share(
+                        'Share example, what to write here will be changed later',
+                        subject: 'Title share',
+                      ),
+                    ),
+                  ],
                 ),
-                ModelIconButton(
-                  icon: AwesomeIcons.twitter,
-                  color: const Color(0xFF00ACEE),
-                ),
-                ModelIconButton(
-                  icon: AwesomeIcons.linkedin_in,
-                  color: const Color(0xFF0A66C2),
-                ),
-                ModelIconButton(
-                  icon: AwesomeIcons.share_from_square,
-                  color: Styles.green,
-                  onPressed: () => Share.share(
-                    'Share example, what to write here will be changed later',
-                    subject: 'Title share',
-                  ),
-                ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         ),
         SliverToBoxAdapter(
           child: CustomElevatedListTile(

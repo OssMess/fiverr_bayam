@@ -51,7 +51,9 @@ class SettingsScreen extends StatelessWidget {
                       padding: EdgeInsets.all(12.sp),
                       onTap: () => context.push(
                         widget: userSession.isPerson
-                            ? const EditPersonProfile()
+                            ? EditPersonProfile(
+                                userSession: userSession,
+                              )
                             : const EditCompanyProfile(),
                       ),
                     ),

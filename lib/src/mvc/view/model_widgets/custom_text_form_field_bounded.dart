@@ -111,13 +111,15 @@ class _CustomTextFormFieldBoundedState
                           8.widthSp,
                         ],
                         if (widget.labelText.isNotEmpty)
-                          Text(
-                            widget.labelText,
-                            style: Styles.poppins(
-                              fontSize: 14.sp,
-                              fontWeight: Styles.medium,
-                              color: context.textTheme.displayMedium!.color,
-                              height: 1.2,
+                          Expanded(
+                            child: Text(
+                              widget.labelText,
+                              style: Styles.poppins(
+                                fontSize: 14.sp,
+                                fontWeight: Styles.medium,
+                                color: context.textTheme.displayMedium!.color,
+                                height: 1.2,
+                              ),
                             ),
                           ),
                       ],

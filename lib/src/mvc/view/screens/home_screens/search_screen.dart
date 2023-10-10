@@ -126,6 +126,7 @@ class _SearchScreenState extends State<SearchScreen>
                                   hintText: AppLocalizations.of(context)!
                                       .filter_by_region,
                                   initialvalue: region,
+                                  showPasteButton: false,
                                   onPick: (value) {
                                     setState(() {
                                       region = value;

@@ -273,7 +273,7 @@ class _CompleteRegistrationP1State extends State<CompleteRegistrationP1> {
   Future<void> skip() async {
     await Dialogs.of(context).runAsyncAction(
       future: () async {
-        await AuthServices.postUser(
+        await UserServices.postUser(
           userSession: widget.userSession,
         );
       },

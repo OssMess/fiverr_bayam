@@ -394,15 +394,25 @@ class Dialogs {
     required String title,
     required String? initialvalue,
     required String hintText,
+    bool showPasteButton = false,
     required void Function(String?) onPick,
+    String? Function(String?)? validator,
+    int? maxLines,
+    int? maxLength,
+    TextInputType? textInputType,
   }) async {
     await context.showAdaptiveModalBottomSheet(
       builder: (context) => TextValuePickerDialog(
         title: title,
         hintText: hintText,
         initialValue: initialvalue,
+        showPasteButton: showPasteButton,
         mainAxisSize: MainAxisSize.min,
         onPick: onPick,
+        validator: validator,
+        maxLines: maxLines,
+        maxLength: maxLength,
+        textInputType: textInputType,
       ),
     );
   }

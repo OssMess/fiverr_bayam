@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -14,8 +15,13 @@ class TextValuePickerDialog extends StatefulWidget {
     required this.title,
     required this.initialValue,
     required this.hintText,
+    required this.showPasteButton,
     required this.onPick,
     required this.mainAxisSize,
+    required this.validator,
+    required this.maxLines,
+    required this.maxLength,
+    required this.textInputType,
   });
 
   final String title;
@@ -23,20 +29,39 @@ class TextValuePickerDialog extends StatefulWidget {
   final String? initialValue;
 
   final String hintText;
+
+  final bool showPasteButton;
+
   final void Function(String?) onPick;
+
   final MainAxisSize mainAxisSize;
+
+  final int? maxLines;
+
+  final int? maxLength;
+
+  final TextInputType? textInputType;
+
+  final String? Function(String?)? validator;
 
   @override
   State<TextValuePickerDialog> createState() => _TextValuePickerDialogState();
 }
 
 class _TextValuePickerDialogState extends State<TextValuePickerDialog> {
-  String? text;
+  final GlobalKey<FormState> _keyForm = GlobalKey();
+  TextEditingController controller = TextEditingController();
 
   @override
   void initState() {
-    text = widget.initialValue;
+    controller.text = widget.initialValue ?? '';
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -47,8 +72,9 @@ class _TextValuePickerDialogState extends State<TextValuePickerDialog> {
         label: AppLocalizations.of(context)!.continu,
         fontColor: Styles.green,
         onPressed: () async {
+          if (!_keyForm.currentState!.validate()) return;
           context.pop();
-          widget.onPick(text);
+          widget.onPick(controller.text);
         },
       ),
       cancelButton: ModelTextButton(
@@ -66,15 +92,31 @@ class _TextValuePickerDialogState extends State<TextValuePickerDialog> {
           ),
         ),
         SizedBox(height: 40.sp),
-        CustomTextFormField(
-          hintText: widget.hintText,
-          // prefixIcon: AwesomeIcons.magnifying_glass,
-          // fillColor: Styles.green.shade50,
-          // prefixColor: Styles.green,
-          height: 55.sp,
-          onChanged: (value) {
-            text = value;
-          },
+        Form(
+          key: _keyForm,
+          autovalidateMode: AutovalidateMode.disabled,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: 0.2.sh,
+            ),
+            child: CustomTextFormField(
+              controller: controller,
+              hintText: widget.hintText,
+              suffixIcon: widget.showPasteButton ? Icons.paste : null,
+              suffixOnTap: widget.showPasteButton
+                  ? () async {
+                      ClipboardData? cdata =
+                          await Clipboard.getData(Clipboard.kTextPlain);
+                      if (cdata?.text == null) return;
+                      controller.text = cdata!.text!;
+                    }
+                  : null,
+              validator: widget.validator,
+              maxLines: widget.maxLines ?? 1,
+              maxLength: widget.maxLength,
+              keyboardType: widget.textInputType,
+            ),
+          ),
         ),
       ],
     );

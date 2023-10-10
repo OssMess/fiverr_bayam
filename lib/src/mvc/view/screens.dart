@@ -3,7 +3,6 @@ export './screens/splash_screen.dart';
 export 'screens/authentication/complete_registration_c1.dart';
 export 'screens/authentication/complete_preferences.dart';
 export 'screens/authentication/complete_registration_c2.dart';
-export 'screens/authentication/complete_delete.dart';
 export 'screens/authentication/complete_registration_p1.dart';
 export 'screens/authentication/complete_registration_p2.dart';
 export 'screens/authentication/sign_in.dart';

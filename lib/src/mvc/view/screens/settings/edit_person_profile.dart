@@ -5,14 +5,21 @@ import 'package:intl/intl.dart';
 import 'package:phone_number/phone_number.dart';
 
 import '../../../../extensions.dart';
+import '../../../controller/services.dart';
 import '../../../model/enums.dart';
+import '../../../model/models.dart';
 import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
 import '../../model_widgets_screens.dart';
 
 class EditPersonProfile extends StatefulWidget {
-  const EditPersonProfile({super.key});
+  const EditPersonProfile({
+    super.key,
+    required this.userSession,
+  });
+
+  final UserSession userSession;
 
   @override
   State<EditPersonProfile> createState() => _EditPersonProfileState();
@@ -21,8 +28,19 @@ class EditPersonProfile extends StatefulWidget {
 class _EditPersonProfileState extends State<EditPersonProfile> {
   final GlobalKey<FormState> _keyForm = GlobalKey();
   TextEditingController dateController = TextEditingController();
-  String? fullName, email, phoneNumber;
-  DateTime? borthDate;
+  String? firstName, lastName, email, phoneNumber;
+  DateTime? birthDate;
+
+  @override
+  void initState() {
+    super.initState();
+    firstName = widget.userSession.firstName;
+    lastName = widget.userSession.lastName;
+    email = widget.userSession.email;
+    phoneNumber = widget.userSession.phoneNumber;
+    birthDate = DateTime.tryParse(widget.userSession.birthDate ?? '');
+    dateController.text = widget.userSession.birthDate ?? '';
+  }
 
   @override
   void dispose() {
@@ -36,6 +54,11 @@ class _EditPersonProfileState extends State<EditPersonProfile> {
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
       appBar: AppBar(),
+      floatingActionButton: CustomElevatedButton(
+        onPressed: next,
+        label: AppLocalizations.of(context)!.save,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -63,13 +86,23 @@ class _EditPersonProfileState extends State<EditPersonProfile> {
                       ),
                       16.heightSp,
                       CustomTextFormFieldLabel(
-                        initialValue: fullName,
-                        labelText: AppLocalizations.of(context)!.full_name,
-                        hintText: AppLocalizations.of(context)!.full_name_hint,
+                        initialValue: firstName,
+                        labelText: AppLocalizations.of(context)!.first_name,
+                        hintText: AppLocalizations.of(context)!.first_name_hint,
                         keyboardType: TextInputType.name,
                         validator: Validators.validateNotNull,
                         onSave: (value) {
-                          fullName = value;
+                          firstName = value;
+                        },
+                      ),
+                      CustomTextFormFieldLabel(
+                        initialValue: lastName,
+                        labelText: AppLocalizations.of(context)!.last_name,
+                        hintText: AppLocalizations.of(context)!.last_name_hint,
+                        keyboardType: TextInputType.name,
+                        validator: Validators.validateNotNull,
+                        onSave: (value) {
+                          lastName = value;
                         },
                       ),
                       CustomTextFormFieldLabel(
@@ -102,14 +135,9 @@ class _EditPersonProfileState extends State<EditPersonProfile> {
                             AppLocalizations.of(context)!.date_of_birth_hint,
                         keyboardType: TextInputType.datetime,
                         validator: Validators.validateNotNull,
-                        onTap: () => pickDate(dateController, borthDate),
+                        onTap: () => pickDate(dateController, birthDate),
                       ),
-                      64.heightSp,
-                      CustomElevatedButton(
-                        onPressed: next,
-                        label: AppLocalizations.of(context)!.save,
-                      ),
-                      (context.viewPadding.bottom + 20.sp).height,
+                      (context.viewPadding.bottom + 60.sp).height,
                     ],
                   ),
                 ),
@@ -150,7 +178,12 @@ class _EditPersonProfileState extends State<EditPersonProfile> {
         }
         Dialogs.of(context).runAsyncAction(
           future: () async {
-            await Future.delayed(const Duration(seconds: 1));
+            widget.userSession.firstName = firstName;
+            widget.userSession.lastName = lastName;
+            widget.userSession.email = email;
+            widget.userSession.phoneNumber = phoneNumber;
+            widget.userSession.birthDate = dateController.text;
+            await UserServices.postUser(userSession: widget.userSession);
           },
           onComplete: (_) {
             Dialogs.of(context).showCustomDialog(
@@ -180,7 +213,7 @@ class _EditPersonProfileState extends State<EditPersonProfile> {
         PhoneNumber number = await PhoneNumberUtil().parse(
           phoneNumber!,
         );
-        phoneNumber = number.international;
+        phoneNumber = number.international.replaceAll(' ', '');
       }
       return isValid;
     } catch (e) {

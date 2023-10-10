@@ -4,14 +4,21 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:phone_number/phone_number.dart';
 
 import '../../../../extensions.dart';
+import '../../../controller/services.dart';
 import '../../../model/enums.dart';
+import '../../../model/models.dart';
 import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
 import '../../model_widgets_screens.dart';
 
 class EditCompanyProfile extends StatefulWidget {
-  const EditCompanyProfile({super.key});
+  const EditCompanyProfile({
+    super.key,
+    required this.userSession,
+  });
+
+  final UserSession userSession;
 
   @override
   State<EditCompanyProfile> createState() => _EditCompanyProfileState();
@@ -19,13 +26,14 @@ class EditCompanyProfile extends StatefulWidget {
 
 class _EditCompanyProfileState extends State<EditCompanyProfile> {
   final GlobalKey<FormState> _keyForm = GlobalKey();
-  TextEditingController dateController = TextEditingController();
   String? companyName, email, phoneNumber;
 
   @override
-  void dispose() {
-    dateController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    companyName = widget.userSession.companyName;
+    email = widget.userSession.email;
+    phoneNumber = widget.userSession.phoneNumber;
   }
 
   @override
@@ -34,6 +42,11 @@ class _EditCompanyProfileState extends State<EditCompanyProfile> {
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
       appBar: AppBar(),
+      floatingActionButton: CustomElevatedButton(
+        onPressed: next,
+        label: AppLocalizations.of(context)!.save,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -94,12 +107,7 @@ class _EditCompanyProfileState extends State<EditCompanyProfile> {
                         },
                         textInputAction: TextInputAction.done,
                       ),
-                      64.heightSp,
-                      CustomElevatedButton(
-                        onPressed: next,
-                        label: AppLocalizations.of(context)!.save,
-                      ),
-                      (context.viewPadding.bottom + 20.sp).height,
+                      (context.viewPadding.bottom + 60.sp).height,
                     ],
                   ),
                 ),
@@ -124,7 +132,10 @@ class _EditCompanyProfileState extends State<EditCompanyProfile> {
         }
         Dialogs.of(context).runAsyncAction(
           future: () async {
-            await Future.delayed(const Duration(seconds: 1));
+            companyName = widget.userSession.companyName;
+            email = widget.userSession.email;
+            phoneNumber = widget.userSession.phoneNumber;
+            await UserServices.postUser(userSession: widget.userSession);
           },
           onComplete: (_) {
             Dialogs.of(context).showCustomDialog(
@@ -154,7 +165,7 @@ class _EditCompanyProfileState extends State<EditCompanyProfile> {
         PhoneNumber number = await PhoneNumberUtil().parse(
           phoneNumber!,
         );
-        phoneNumber = number.international;
+        phoneNumber = number.international.replaceAll(' ', '');
       }
       return isValid;
     } catch (e) {

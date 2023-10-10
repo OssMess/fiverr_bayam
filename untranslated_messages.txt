@@ -1,5 +1,11 @@
 {
   "fr": [
-    "unknown_error"
+    "unknown_error",
+    "facebook_url",
+    "twitter_url",
+    "linkedin_url",
+    "url_hint",
+    "first_name",
+    "last_name"
   ]
 }

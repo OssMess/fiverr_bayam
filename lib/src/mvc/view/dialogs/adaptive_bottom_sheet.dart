@@ -71,7 +71,7 @@ class AdaptiveBottomSheet extends StatelessWidget {
           ),
           10.heightSp,
           ...children,
-          40.heightSp,
+          20.heightSp,
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
