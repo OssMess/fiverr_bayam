@@ -11,11 +11,12 @@ class HttpRequest {
   /// code different than 500, return it, else return a response with status
   /// code `408` or `500`.
   static Future<http.Response> attemptHttpCall(
-    http.Request request, [
+    http.Request request, {
     int retries = 5,
-    Duration delay = const Duration(milliseconds: 5000),
+    Duration delay = const Duration(milliseconds: 100),
     Duration timeout = const Duration(seconds: 5),
-  ]) async {
+    bool forceSkipRetries = false,
+  }) async {
     request.headers.addAll({
       ...Cookies.valideCookies,
     });
@@ -34,7 +35,9 @@ class HttpRequest {
         },
       ),
     );
-    if (retries > 0 && ([500, 408].contains(streamedResponse.statusCode))) {
+    if (!forceSkipRetries &&
+        retries > 0 &&
+        ([500, 408].contains(streamedResponse.statusCode))) {
       //server error or timeout
       late http.Request newRequest = http.Request(
         request.method,
@@ -45,7 +48,10 @@ class HttpRequest {
       log('trying attempts left: $retries');
       return await attemptHttpCall(
         newRequest,
-        retries - 1,
+        retries: retries - 1,
+        delay: delay,
+        timeout: timeout,
+        forceSkipRetries: forceSkipRetries,
       );
     } else {
       return await Cookies.update(streamedResponse);

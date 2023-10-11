@@ -320,6 +320,7 @@
   "url_hint":"Link to your profile",
   "first_name":"First name",
   "last_name":"Last name",
+  "add_tag_error":"Please add at least one tag!",
 
   "@min_caracters":{
     "description":"a validator message for minimum length",

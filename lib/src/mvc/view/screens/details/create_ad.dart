@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:badges/badges.dart' as badge;
 
 import '../../../../extensions.dart';
+import '../../../controller/services.dart';
 import '../../../model/enums.dart';
 import '../../../model/models.dart';
 import '../../../model/models_ui.dart';
@@ -32,10 +32,7 @@ class _CreateAdState extends State<CreateAd>
   int adTypeIndex = -1;
   String? title, description, location;
   Category? category;
-  Set<String> tags = {
-    'Eco-Friendly',
-    'Vegan',
-  };
+  Set<String> stringTags = {};
   Set<String> images = {};
   late TabController tabController;
   TextEditingController categoryConttroller = TextEditingController();
@@ -49,7 +46,7 @@ class _CreateAdState extends State<CreateAd>
       description = widget.ad!.description;
       category = widget.ad!.category;
       location = widget.ad!.location;
-      tags.addAll(widget.ad!.tags);
+      stringTags.addAll(widget.ad!.tags);
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         categoryConttroller.text = category?.translateTitle(context) ?? '';
       });
@@ -249,12 +246,12 @@ class _CreateAdState extends State<CreateAd>
                               runAlignment: WrapAlignment.start,
                               runSpacing: 8.sp,
                               spacing: 8.sp,
-                              children: tags
+                              children: stringTags
                                   .map(
                                     (text) => CustomFlatButton(
                                       onTap: () {
                                         setState(() {
-                                          tags.remove(text);
+                                          stringTags.remove(text);
                                         });
                                       },
                                       color: Styles.green[50],
@@ -292,7 +289,7 @@ class _CreateAdState extends State<CreateAd>
 
   void onAddTag() {
     if (tagsConttroller.text.isNotEmpty &&
-        tags.add(tagsConttroller.text.capitalizeFirstLetter)) {
+        stringTags.add(tagsConttroller.text.capitalizeFirstLetter)) {
       tagsConttroller.text = '';
       setState(() {});
     }
@@ -301,13 +298,26 @@ class _CreateAdState extends State<CreateAd>
   Future<void> next() async {
     if (!_keyForm.currentState!.validate()) return;
     _keyForm.currentState!.save();
+    if (stringTags.isEmpty) {
+      Dialogs.of(context).showSnackBar(
+        message: AppLocalizations.of(context)!.add_tag_error,
+      );
+      return;
+    }
     Dialogs.of(context).runAsyncAction(
       future: () async {
-        await Future.delayed(const Duration(seconds: 1), () {
-          if (Random().nextBool()) {
-            throw Exception();
+        List<Tag> tags = [];
+        for (var stringTag in stringTags) {
+          late Tag tag;
+          try {
+            tag = await TagsServices.post(stringTag);
+          } catch (e) {
+            tag = await TagsServices.get(stringTag);
+          } finally {
+            tags.add(tag);
           }
-        });
+        }
+        //TODO create post
       },
       onComplete: (_) {
         Dialogs.of(context).showCustomDialog(

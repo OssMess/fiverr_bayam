@@ -54,7 +54,9 @@ class SettingsScreen extends StatelessWidget {
                             ? EditPersonProfile(
                                 userSession: userSession,
                               )
-                            : const EditCompanyProfile(),
+                            : EditCompanyProfile(
+                                userSession: userSession,
+                              ),
                       ),
                     ),
                     16.heightSp,
