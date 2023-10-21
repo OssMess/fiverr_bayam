@@ -41,52 +41,55 @@ class AdTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: CachedNetworkImage(
-              imageUrl: ad.coverUrl,
-              fit: BoxFit.cover,
-              color: context.textTheme.headlineSmall!.color,
-              progressIndicatorBuilder: (context, url, progress) => Container(
-                alignment: Alignment.center,
-                child: CircularProgressIndicator(
-                  value: progress.progress,
-                  color: Styles.green,
-                ),
-              ),
-              imageBuilder: (context, imageProvider) => Container(
-                padding: EdgeInsets.all(8.sp),
-                alignment: Alignment.topLeft,
-                decoration: BoxDecoration(
-                  color: context.textTheme.headlineSmall!.color,
-                  borderRadius: BorderRadius.circular(10.sp),
-                  image: DecorationImage(
-                    image: imageProvider,
+            child: ad.coverPhotoUrl.isNotNullOrEmpty
+                ? CachedNetworkImage(
+                    imageUrl: ad.coverPhotoUrl,
                     fit: BoxFit.cover,
-                  ),
-                ),
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 20.sp,
-                    vertical: 6.sp,
-                  ),
-                  decoration: BoxDecoration(
-                    color: ad.adType.toBackgroundColor,
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  child: Text(
-                    ad.adType.translate(context),
-                    style: Styles.poppins(
-                      fontSize: 14.sp,
-                      fontWeight: Styles.semiBold,
-                      color: Colors.white,
+                    color: context.textTheme.headlineSmall!.color,
+                    progressIndicatorBuilder: (context, url, progress) =>
+                        Container(
+                      alignment: Alignment.center,
+                      child: CircularProgressIndicator(
+                        value: progress.progress,
+                        color: Styles.green,
+                      ),
                     ),
-                  ),
-                ),
-              ),
-            ),
+                    imageBuilder: (context, imageProvider) => Container(
+                      padding: EdgeInsets.all(8.sp),
+                      alignment: Alignment.topLeft,
+                      decoration: BoxDecoration(
+                        color: context.textTheme.headlineSmall!.color,
+                        borderRadius: BorderRadius.circular(10.sp),
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20.sp,
+                          vertical: 6.sp,
+                        ),
+                        decoration: BoxDecoration(
+                          color: ad.type.toBackgroundColor,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: Text(
+                          ad.type.translate(context),
+                          style: Styles.poppins(
+                            fontSize: 14.sp,
+                            fontWeight: Styles.semiBold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                : const SizedBox.shrink(),
           ),
           8.heightSp,
           Text(
-            ad.description,
+            ad.content,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: Styles.poppins(
@@ -101,11 +104,10 @@ class AdTile extends StatelessWidget {
           ),
           8.heightSp,
           CompanyHeaderTile(
-            logoUrl: ad.logoUrl,
-            name: ad.name,
-            isVerified: ad.isVerified,
-            trailingUrl:
-                'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Flag_of_Cameroon.png/640px-Flag_of_Cameroon.png',
+            logoUrl: ad.author.photoUrl,
+            name: ad.author.fullName,
+            isVerified: ad.author.isVerified,
+            trailingUrl: null,
             onTapOptions: onTapOptions,
           ),
           if (showDates) ...[

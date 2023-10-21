@@ -17,7 +17,7 @@ class CompanyHeaderTile extends StatelessWidget {
     this.onTapOptions,
   });
 
-  final String logoUrl;
+  final String? logoUrl;
   final String name;
   final bool isVerified;
   final double sizeOffset;
@@ -45,9 +45,11 @@ class CompanyHeaderTile extends StatelessWidget {
             ),
             child: CircleAvatar(
               backgroundColor: context.textTheme.headlineSmall!.color,
-              backgroundImage: CachedNetworkImageProvider(
-                logoUrl,
-              ),
+              backgroundImage: logoUrl.isNotNullOrEmpty
+                  ? CachedNetworkImageProvider(
+                      logoUrl!,
+                    )
+                  : null,
             ),
           ),
           8.widthSp,

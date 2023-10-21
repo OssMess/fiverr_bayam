@@ -5,6 +5,7 @@ import '../../../tools.dart';
 import '../../controller/hives.dart';
 import '../../controller/services.dart';
 import '../enums.dart';
+import 'author.dart';
 
 /// this model represents user session
 class UserSession with ChangeNotifier {
@@ -86,8 +87,9 @@ class UserSession with ChangeNotifier {
       uid: null,
       phoneNumber: null,
       // authState: AuthState.authenticated,
-      // uid: 'e400f468-7876-40ea-baba-148e06fb1140',
-      // phoneNumber: '+237698305411',
+      // uid:
+      //     'c0688dfe-f914-45fb-817a-ffa6ff71f7cf', //'e400f468-7876-40ea-baba-148e06fb1140',
+      // phoneNumber: '+237698305411', //'+237698305411',
       photoUrl: null,
       firstName: null,
       lastName: null,
@@ -143,6 +145,55 @@ class UserSession with ChangeNotifier {
       isVerified: json['isVerified'],
     );
   }
+
+  Map<dynamic, dynamic> get toAuthorMap => {
+        'isCompanyOrClient': true,
+        'isVerified': false,
+        'uuid': uid,
+        'phoneNumber': phoneNumber,
+        if (firstName.isNotNullOrEmpty) 'firstName': firstName,
+        if (lastName.isNotNullOrEmpty) 'lastName': lastName,
+        if (email.isNotNullOrEmpty) 'email': email,
+        if (birthDate.isNotNullOrEmpty) 'birthdate': birthDate,
+        if (city.isNotNullOrEmpty) 'city': city,
+        if (bio.isNotNullOrEmpty) 'bio': bio,
+        if (streetAddress.isNotNullOrEmpty) 'streetAddress': streetAddress,
+        if (postalCode.isNotNullOrEmpty) 'postalCode': postalCode,
+        if (region.isNotNullOrEmpty) 'region': region,
+        'country': country,
+        if (companyName.isNotNullOrEmpty) 'companyName': companyName,
+        if (facebookUrl.isNotNullOrEmpty) 'facebookUrl': facebookUrl,
+        if (linkedinUrl.isNotNullOrEmpty) 'linkedinUrl': linkedinUrl,
+        if (twitterUrl.isNotNullOrEmpty) 'twitterUrl': twitterUrl,
+        if (uniqueRegisterNumber.isNotNullOrEmpty)
+          'uniqueRegisterNumber': uniqueRegisterNumber,
+        'preferenceList': preferences ?? [],
+      };
+
+  Author get toAuthor => Author(
+        uid: uid!,
+        phoneNumber: phoneNumber!,
+        photoUrl: photoUrl,
+        firstName: firstName,
+        lastName: lastName,
+        companyName: companyName,
+        accountType: accountType!,
+        bio: bio,
+        birthDate: birthDate,
+        city: city,
+        country: country,
+        email: email,
+        facebookUrl: facebookUrl,
+        linkedinUrl: linkedinUrl,
+        postalCode: postalCode,
+        preferences: preferences!,
+        region: region,
+        uniqueRegisterNumber: uniqueRegisterNumber,
+        streetAddress: streetAddress,
+        twitterUrl: twitterUrl,
+        isActive: isActive,
+        isVerified: isVerified,
+      );
 
   /// return a `Map` of this instance
   Map<String, dynamic> get toMap => {

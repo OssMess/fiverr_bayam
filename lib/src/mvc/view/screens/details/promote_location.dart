@@ -57,48 +57,51 @@ class _PromoteLocationState extends State<PromoteLocation> {
             padding: EdgeInsets.symmetric(horizontal: 32.sp),
             child: AspectRatio(
               aspectRatio: 2.5,
-              child: CachedNetworkImage(
-                imageUrl: widget.ad.coverUrl,
-                fit: BoxFit.cover,
-                color: context.textTheme.headlineSmall!.color,
-                progressIndicatorBuilder: (context, url, progress) => Container(
-                  alignment: Alignment.center,
-                  child: CircularProgressIndicator(
-                    value: progress.progress,
-                    color: Styles.green,
-                  ),
-                ),
-                imageBuilder: (context, imageProvider) => Container(
-                  padding: EdgeInsets.all(8.sp),
-                  alignment: Alignment.topLeft,
-                  decoration: BoxDecoration(
-                    color: context.textTheme.headlineSmall!.color,
-                    borderRadius: BorderRadius.circular(14.sp),
-                    image: DecorationImage(
-                      image: imageProvider,
+              child: widget.ad.coverPhotoUrl.isNotNullOrEmpty
+                  ? CachedNetworkImage(
+                      imageUrl: widget.ad.coverPhotoUrl,
                       fit: BoxFit.cover,
-                    ),
-                  ),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 10.sp,
-                      vertical: 6.sp,
-                    ),
-                    decoration: BoxDecoration(
-                      color: widget.ad.adType.toBackgroundColor,
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    child: Text(
-                      widget.ad.adType.translate(context),
-                      style: Styles.poppins(
-                        fontSize: 12.sp,
-                        fontWeight: Styles.semiBold,
-                        color: Colors.white,
+                      color: context.textTheme.headlineSmall!.color,
+                      progressIndicatorBuilder: (context, url, progress) =>
+                          Container(
+                        alignment: Alignment.center,
+                        child: CircularProgressIndicator(
+                          value: progress.progress,
+                          color: Styles.green,
+                        ),
                       ),
-                    ),
-                  ),
-                ),
-              ),
+                      imageBuilder: (context, imageProvider) => Container(
+                        padding: EdgeInsets.all(8.sp),
+                        alignment: Alignment.topLeft,
+                        decoration: BoxDecoration(
+                          color: context.textTheme.headlineSmall!.color,
+                          borderRadius: BorderRadius.circular(14.sp),
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10.sp,
+                            vertical: 6.sp,
+                          ),
+                          decoration: BoxDecoration(
+                            color: widget.ad.type.toBackgroundColor,
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          child: Text(
+                            widget.ad.type.translate(context),
+                            style: Styles.poppins(
+                              fontSize: 12.sp,
+                              fontWeight: Styles.semiBold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  : null,
             ),
           ),
           Expanded(

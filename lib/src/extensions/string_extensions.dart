@@ -12,9 +12,9 @@ extension StringExtension on String {
       }[this]!;
 
   AdType get toAdType => {
-        'for_rent': AdType.forRent,
-        'for_sale': AdType.forSell,
-        'want_to_buy': AdType.wantToBuy,
+        'for_rent': AdType.rent,
+        'for_sale': AdType.sell,
+        'want_to_buy': AdType.want,
       }[this]!;
 
   AccountPreference get toAccountPreference => {

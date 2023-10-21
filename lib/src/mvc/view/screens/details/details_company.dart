@@ -54,8 +54,6 @@ class _DetailsCompanyState extends State<DetailsCompany> {
               child: Column(
                 children: [
                   DetailsAlbumGallery(
-                    flagUrl:
-                        'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Flag_of_Cameroon.png/640px-Flag_of_Cameroon.png',
                     photosUrl: [
                       widget.company.coverUrl,
                       widget.company.coverUrl,
@@ -63,8 +61,7 @@ class _DetailsCompanyState extends State<DetailsCompany> {
                       widget.company.coverUrl,
                       widget.company.coverUrl,
                     ],
-                    description:
-                        'We are offering pesticide services for corn, wheat crops and many more.',
+                    description: 'widget.company.bio',
                     pageController: pageController,
                   ),
                   16.heightSp,

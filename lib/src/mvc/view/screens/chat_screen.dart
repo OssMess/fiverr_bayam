@@ -25,7 +25,7 @@ class ChatScreen extends StatefulWidget {
   });
 
   final String displayName;
-  final String photoUrl;
+  final String? photoUrl;
   final bool? isOnline;
   final DateTime? lastSeen;
 
@@ -68,9 +68,11 @@ class _ChatScreenState extends State<ChatScreen> {
               child: CircleAvatar(
                 radius: 25.sp,
                 backgroundColor: Styles.green[200],
-                backgroundImage: CachedNetworkImageProvider(
-                  widget.photoUrl,
-                ),
+                backgroundImage: widget.photoUrl.isNotNullOrEmpty
+                    ? CachedNetworkImageProvider(
+                        widget.photoUrl!,
+                      )
+                    : null,
               ),
             ),
             8.widthSp,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -54,17 +55,12 @@ class _DetailsAdState extends State<DetailsAd> {
               child: Column(
                 children: [
                   DetailsAlbumGallery(
-                    flagUrl:
-                        'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Flag_of_Cameroon.png/640px-Flag_of_Cameroon.png',
-                    photosUrl: [
-                      widget.ad.coverUrl,
-                      widget.ad.coverUrl,
-                      widget.ad.coverUrl,
-                      widget.ad.coverUrl,
-                      widget.ad.coverUrl,
+                    photosUrl: const [
+                      // widget.ad.coverUrl ??
+                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGdwTxs6lW7B5VgaAceI0p2XfmabWvee-MHlZ_ODsRB3VvM07vzNA3RVmu0OVYrdAHCYU&usqp=CAU'
                     ],
-                    description: widget.ad.description,
-                    adType: widget.ad.adType,
+                    description: widget.ad.content,
+                    adType: widget.ad.type,
                     pageController: pageController,
                   ),
                   16.heightSp,
@@ -79,30 +75,29 @@ class _DetailsAdState extends State<DetailsAd> {
                       spacing: 8.sp,
                     ),
                   ),
-                  16.heightSp,
-                  DetailsCreatorBanner(
-                    name: 'Xavier wills',
-                    photoUrl: widget.ad.userPhotoUrl,
-                    service: AppLocalizations.of(context)!.agriculture,
-                  ),
+                  if (widget.ad.author.isPerson) ...[
+                    16.heightSp,
+                    DetailsCreatorBanner(
+                      name: widget.ad.author.fullName,
+                      photoUrl: widget.ad.author.photoUrl,
+                      service: AppLocalizations.of(context)!.agriculture,
+                    ),
+                  ],
                   16.heightSp,
                   DetailsDescriptionBanner(
-                    description: widget.ad.description,
-                    address: '13-A Clements Road, NYC',
-                    tags: [
-                      AppLocalizations.of(context)!.top_rated,
-                      AppLocalizations.of(context)!.climate_eco,
-                      AppLocalizations.of(context)!.technology,
-                    ],
-                    likes: 43,
-                    date: '13-03-23',
+                    description: widget.ad.content,
+                    address: widget.ad.location,
+                    tags: widget.ad.tags.map((e) => e.name).toList(),
+                    likes: widget.ad.likes,
+                    date: DateFormat('dd-MM-yy').format(widget.ad.createdAt),
                   ),
-                  16.heightSp,
-                  const DetailsCompanyBanner(
-                    name: 'Samak Enterprises',
-                    logoUrl:
-                        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjCuB_T9XRgCcwrQi4u8_zhnVFoQcsIOGa6Q&usqp=CAU',
-                  ),
+                  if (widget.ad.author.isCompany) ...[
+                    16.heightSp,
+                    DetailsCompanyBanner(
+                      name: widget.ad.author.fullName,
+                      logoUrl: widget.ad.author.photoUrl,
+                    ),
+                  ],
                   (context.viewPadding.bottom + 20.sp).height,
                 ],
               ),

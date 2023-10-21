@@ -5,9 +5,9 @@ import '../mvc/model/enums.dart';
 import '../tools.dart';
 
 Map<AdType, Color> backgroundColors = {
-  AdType.forRent: Styles.orange,
-  AdType.forSell: Styles.green,
-  AdType.wantToBuy: const Color(0xFFD80027),
+  AdType.rent: Styles.orange,
+  AdType.sell: Styles.green,
+  AdType.want: const Color(0xFFD80027),
 };
 
 extension AdTypeExtensions on AdType {
@@ -15,21 +15,21 @@ extension AdTypeExtensions on AdType {
 
   String translate(BuildContext context) {
     return {
-      AdType.forRent: AppLocalizations.of(context)!.for_rent,
-      AdType.forSell: AppLocalizations.of(context)!.for_sale,
-      AdType.wantToBuy: AppLocalizations.of(context)!.want_to_buy,
+      AdType.rent: AppLocalizations.of(context)!.for_rent,
+      AdType.sell: AppLocalizations.of(context)!.for_sale,
+      AdType.want: AppLocalizations.of(context)!.want_to_buy,
     }[this]!;
   }
 
   int get index => {
-        AdType.forRent: 0,
-        AdType.forSell: 1,
-        AdType.wantToBuy: 3,
+        AdType.rent: 0,
+        AdType.sell: 1,
+        AdType.want: 3,
       }[this]!;
 
   String get key => {
-        AdType.forRent: 'for_rent',
-        AdType.forSell: 'for_sell',
-        AdType.wantToBuy: 'want_buy',
+        AdType.rent: 'rent',
+        AdType.sell: 'sell',
+        AdType.want: 'want',
       }[this]!;
 }

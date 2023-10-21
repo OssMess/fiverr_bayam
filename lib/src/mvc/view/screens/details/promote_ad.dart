@@ -207,9 +207,10 @@ class _PromoteAdState extends State<PromoteAd> {
     Dialogs.of(context).runAsyncAction(
       future: () async {
         await PromotionServices.post(
-          id: widget.ad.id,
+          id: widget.ad.uuid,
           startDate: startDate!,
           endDate: endDate!,
+          //TODO
           content: '',
           budget: int.parse(budget!),
         );
@@ -277,52 +278,55 @@ class AdBanner extends StatelessWidget {
         children: [
           AspectRatio(
             aspectRatio: 2.5,
-            child: CachedNetworkImage(
-              imageUrl: ad.coverUrl,
-              fit: BoxFit.cover,
-              color: context.textTheme.headlineSmall!.color,
-              progressIndicatorBuilder: (context, url, progress) => Container(
-                alignment: Alignment.center,
-                child: CircularProgressIndicator(
-                  value: progress.progress,
-                  color: Styles.green,
-                ),
-              ),
-              imageBuilder: (context, imageProvider) => Container(
-                padding: EdgeInsets.all(8.sp),
-                alignment: Alignment.topLeft,
-                decoration: BoxDecoration(
-                  color: context.textTheme.headlineSmall!.color,
-                  borderRadius: BorderRadius.circular(14.sp),
-                  image: DecorationImage(
-                    image: imageProvider,
+            child: ad.coverPhotoUrl.isNotNullOrEmpty
+                ? CachedNetworkImage(
+                    imageUrl: ad.coverPhotoUrl,
                     fit: BoxFit.cover,
-                  ),
-                ),
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 10.sp,
-                    vertical: 6.sp,
-                  ),
-                  decoration: BoxDecoration(
-                    color: ad.adType.toBackgroundColor,
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  child: Text(
-                    ad.adType.translate(context),
-                    style: Styles.poppins(
-                      fontSize: 12.sp,
-                      fontWeight: Styles.semiBold,
-                      color: Colors.white,
+                    color: context.textTheme.headlineSmall!.color,
+                    progressIndicatorBuilder: (context, url, progress) =>
+                        Container(
+                      alignment: Alignment.center,
+                      child: CircularProgressIndicator(
+                        value: progress.progress,
+                        color: Styles.green,
+                      ),
                     ),
-                  ),
-                ),
-              ),
-            ),
+                    imageBuilder: (context, imageProvider) => Container(
+                      padding: EdgeInsets.all(8.sp),
+                      alignment: Alignment.topLeft,
+                      decoration: BoxDecoration(
+                        color: context.textTheme.headlineSmall!.color,
+                        borderRadius: BorderRadius.circular(14.sp),
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10.sp,
+                          vertical: 6.sp,
+                        ),
+                        decoration: BoxDecoration(
+                          color: ad.type.toBackgroundColor,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: Text(
+                          ad.type.translate(context),
+                          style: Styles.poppins(
+                            fontSize: 12.sp,
+                            fontWeight: Styles.semiBold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                : null,
           ),
           8.heightSp,
           Text(
-            ad.description,
+            ad.content,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: Styles.poppins(

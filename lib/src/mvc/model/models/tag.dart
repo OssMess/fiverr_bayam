@@ -1,6 +1,6 @@
 import '../../../extensions.dart';
 
-Tag jsonToTag(Map<String, dynamic> json) => Tag.fromJson(json);
+Tag jsonToTag(Map<String, dynamic> json) => Tag.fromMap(json);
 
 class Tag {
   final String id;
@@ -13,7 +13,7 @@ class Tag {
     required this.description,
   });
 
-  factory Tag.fromJson(Map<String, dynamic> json) => Tag(
+  factory Tag.fromMap(Map<dynamic, dynamic> json) => Tag(
         id: json['uuid'],
         name: json['name'],
         description: json['description'],

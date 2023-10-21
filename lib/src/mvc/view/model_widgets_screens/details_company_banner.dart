@@ -16,7 +16,7 @@ class DetailsCompanyBanner extends StatelessWidget {
   });
 
   final String name;
-  final String logoUrl;
+  final String? logoUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +39,11 @@ class DetailsCompanyBanner extends StatelessWidget {
             ),
             child: CircleAvatar(
               backgroundColor: context.textTheme.headlineSmall!.color,
-              backgroundImage: CachedNetworkImageProvider(
-                logoUrl,
-              ),
+              backgroundImage: logoUrl.isNotNullOrEmpty
+                  ? CachedNetworkImageProvider(
+                      logoUrl!,
+                    )
+                  : null,
             ),
           ),
           16.widthSp,

@@ -1,24 +1,15 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 
-import '../../../extensions.dart';
-import '../../model/enums.dart';
 import '../../model/models.dart';
 import '../services.dart';
 
 class AdServices {
   static const String baseUrl = 'https://api.bayam.site';
 
-  static Future<void> post({
-    required String uid,
-    required String title,
-    required String description,
-    required String location,
-    required AdType adType,
-    required Category category,
-    required List<Tag> tags,
-  }) async {
+  static Future<Ad> post(Ad ad) async {
     var headers = {
       'Content-Type': 'application/json',
     };
@@ -28,23 +19,16 @@ class AdServices {
         '$baseUrl/api/post',
       ),
     );
-    request.body = json.encode({
-      'author': uid,
-      'isPromotion': true,
-      'location': location,
-      'content': description,
-      'tags': tags.map((e) => e.id).toList(),
-      'category': category.key,
-    });
+    request.body = json.encode(ad.toMapInit);
     request.headers.addAll(headers);
     http.Response response = await HttpRequest.attemptHttpCall(
       request,
       forceSkipRetries: true,
     );
     if (response.statusCode == 201) {
-      //FIXME return  ad
-      return;
+      return Ad.fromResponse(response.body);
     } else {
+      log(response.body);
       Map<int, String> statusCodesPhrases = {
         400: 'Invalid input',
         422: 'Unprocessable entity',
@@ -81,4 +65,6 @@ class AdServices {
       );
     }
   }
+
+  static Future<void> list() async {}
 }

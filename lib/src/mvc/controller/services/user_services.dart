@@ -37,6 +37,31 @@ class UserServices {
     }
   }
 
+  static Future<Author> getUserById(String uid) async {
+    var request = http.Request(
+      'GET',
+      Uri.parse(
+        '$baseUrl/api/user/me/$uid',
+      ),
+    );
+    http.Response response = await HttpRequest.attemptHttpCall(request);
+    if (response.statusCode == 200) {
+      return (jsonDecode(
+        response.body,
+      ) as Map<dynamic, dynamic>)
+          .toAuthor;
+    } else {
+      Map<int, String> statusCodesPhrases = {
+        404: 'Resource not found',
+        500: 'internal-server-error',
+      };
+      throw BackendException(
+        code: statusCodesPhrases[response.statusCode],
+        statusCode: response.statusCode,
+      );
+    }
+  }
+
   static Future<void> postUser({
     required UserSession userSession,
   }) async {

@@ -9,14 +9,12 @@ import '../../model/enums.dart';
 class DetailsAlbumGallery extends StatelessWidget {
   const DetailsAlbumGallery({
     super.key,
-    required this.flagUrl,
     required this.photosUrl,
     required this.description,
     this.adType,
     required this.pageController,
   });
 
-  final String flagUrl;
   final List<String> photosUrl;
   final String description;
   final AdType? adType;

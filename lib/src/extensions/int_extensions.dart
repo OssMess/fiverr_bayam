@@ -11,8 +11,8 @@ extension IntExtensions on int {
   }
 
   AdType get toAdType => {
-        0: AdType.forRent,
-        1: AdType.forSell,
-        2: AdType.wantToBuy,
+        0: AdType.rent,
+        1: AdType.sell,
+        2: AdType.want,
       }[this]!;
 }

@@ -17,7 +17,7 @@ class DetailsCreatorBanner extends StatelessWidget {
   });
 
   final String name;
-  final String photoUrl;
+  final String? photoUrl;
   final String service;
 
   @override
@@ -42,9 +42,11 @@ class DetailsCreatorBanner extends StatelessWidget {
               CircleAvatar(
                 radius: 24.sp,
                 backgroundColor: context.textTheme.headlineSmall!.color,
-                backgroundImage: CachedNetworkImageProvider(
-                  photoUrl,
-                ),
+                backgroundImage: photoUrl.isNotNullOrEmpty
+                    ? CachedNetworkImageProvider(
+                        photoUrl!,
+                      )
+                    : null,
               ),
               16.widthSp,
               Expanded(

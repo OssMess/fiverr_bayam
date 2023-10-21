@@ -1,5 +1,5 @@
 enum AdType {
-  forRent,
-  forSell,
-  wantToBuy,
+  rent,
+  sell,
+  want,
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bayam/src/extensions.dart';
 import 'package:http/http.dart' as http;
 
 import '../../model/models.dart';
@@ -8,11 +9,11 @@ import '../services.dart';
 class TagServices {
   static const String baseUrl = 'https://api.bayam.site';
 
-  static Future<Tag> get(String name) async {
+  static Future<Tag> get(String id) async {
     var request = http.Request(
       'GET',
       Uri.parse(
-        '$baseUrl/api/tag/$name',
+        '$baseUrl/api/tag/$id',
       ),
     );
     http.Response response = await HttpRequest.attemptHttpCall(
@@ -20,7 +21,7 @@ class TagServices {
       forceSkipRetries: true,
     );
     if (response.statusCode == 200) {
-      return Tag.fromJson(jsonDecode(response.body));
+      return (jsonDecode(response.body) as Map<dynamic, dynamic>).toTag;
     } else {
       Map<int, String> statusCodesPhrases = {
         404: 'Resource not found',
@@ -53,7 +54,7 @@ class TagServices {
       forceSkipRetries: true,
     );
     if (response.statusCode == 201) {
-      return Tag.fromJson(jsonDecode(response.body));
+      return Tag.fromMap(jsonDecode(response.body));
     } else {
       Map<int, String> statusCodesPhrases = {
         400: 'Invalid input',

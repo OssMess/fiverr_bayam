@@ -146,21 +146,21 @@ class _SearchScreenState extends State<SearchScreen>
                                       .filter_ads_by_type,
                                   values: [
                                     AppLocalizations.of(context)!.all,
-                                    AdType.forRent.translate(context),
-                                    AdType.forSell.translate(context),
-                                    AdType.wantToBuy.translate(context),
+                                    AdType.rent.translate(context),
+                                    AdType.sell.translate(context),
+                                    AdType.want.translate(context),
                                   ],
                                   initialvalue: adType?.translate(context) ??
                                       AppLocalizations.of(context)!.all,
                                   onPick: (value) {
                                     setState(() {
                                       adType = {
-                                        AdType.forRent.translate(context):
-                                            AdType.forRent,
-                                        AdType.forSell.translate(context):
-                                            AdType.forSell,
-                                        AdType.wantToBuy.translate(context):
-                                            AdType.wantToBuy,
+                                        AdType.rent.translate(context):
+                                            AdType.rent,
+                                        AdType.sell.translate(context):
+                                            AdType.sell,
+                                        AdType.want.translate(context):
+                                            AdType.want,
                                         AppLocalizations.of(context)!.all: null,
                                       }[value];
                                     });

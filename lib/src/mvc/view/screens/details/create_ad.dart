@@ -32,7 +32,7 @@ class _CreateAdState extends State<CreateAd>
     with SingleTickerProviderStateMixin {
   final GlobalKey<FormState> _keyForm = GlobalKey();
   int adTypeIndex = 0;
-  String? title, description, location;
+  String? title, content, location;
   Category? category;
   Set<String> stringTags = {};
   Set<String> images = {};
@@ -43,12 +43,12 @@ class _CreateAdState extends State<CreateAd>
   @override
   void initState() {
     if (widget.ad != null) {
-      adTypeIndex = widget.ad?.adType.index ?? -1;
+      adTypeIndex = widget.ad?.type.index ?? -1;
       title = widget.ad!.title;
-      description = widget.ad!.description;
+      content = widget.ad!.content;
       category = widget.ad!.category;
       location = widget.ad!.location;
-      stringTags.addAll(widget.ad!.tags);
+      stringTags.addAll(widget.ad!.tags.map((e) => e.name));
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         categoryConttroller.text = category?.translateTitle(context) ?? '';
       });
@@ -197,10 +197,10 @@ class _CreateAdState extends State<CreateAd>
                         labelText: AppLocalizations.of(context)!.description,
                         hintText:
                             AppLocalizations.of(context)!.description_hint,
-                        initialValue: description,
+                        initialValue: content,
                         maxLines: 8,
                         onSaved: (value) {
-                          description = value;
+                          content = value;
                         },
                         validator: Validators.validateNotNull,
                         keyboardType: TextInputType.multiline,
@@ -320,13 +320,15 @@ class _CreateAdState extends State<CreateAd>
           }
         }
         await AdServices.post(
-          uid: widget.userSession.uid!,
-          title: title!,
-          description: description!,
-          location: location!,
-          adType: adTypeIndex.toAdType,
-          category: category!,
-          tags: tags,
+          Ad.init(
+            user: widget.userSession,
+            title: title!,
+            content: content!,
+            location: location!,
+            adType: adTypeIndex.toAdType,
+            category: category!,
+            tags: tags,
+          ),
         );
       },
       onComplete: (_) {

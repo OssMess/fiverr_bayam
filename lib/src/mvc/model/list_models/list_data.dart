@@ -18,7 +18,7 @@ class ListData {
       'coverUrl':
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGdwTxs6lW7B5VgaAceI0p2XfmabWvee-MHlZ_ODsRB3VvM07vzNA3RVmu0OVYrdAHCYU&usqp=CAU',
       'isVerified': true,
-      'adType': AdType.forSell,
+      'adType': AdType.sell,
       'tags': [
         'Eco-Friendly',
         'Vegan',
@@ -41,7 +41,7 @@ class ListData {
       'coverUrl':
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmLXC4LINhJsgIbgOHRpRLOCwYAO9ENT1T4Q&usqp=CAU',
       'isVerified': false,
-      'adType': AdType.forRent,
+      'adType': AdType.rent,
       'tags': [
         'Eco-Friendly',
         'Technology',
@@ -61,7 +61,7 @@ class ListData {
       'coverUrl':
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSG0f7KQxS_bLNbWHfcWWwI4jYyd3JDTZGIJQ&usqp=CAU',
       'isVerified': true,
-      'adType': AdType.wantToBuy,
+      'adType': AdType.want,
       'tags': [
         'Climate/Eco-Friendly',
         'Technology',
@@ -81,7 +81,7 @@ class ListData {
       'coverUrl':
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReYgkm2MrQ56u1DHyKiWwcp7bP6y9DxSIeRw&usqp=CAU',
       'isVerified': false,
-      'adType': AdType.forSell,
+      'adType': AdType.sell,
       'tags': [
         'Eco-Friendly',
         'Top Rated',
@@ -92,12 +92,13 @@ class ListData {
 
   static List<Company> popularCompanies = data.map(Company.fromJson).toList();
 
-  static List<Ad> premiumAds =
-      [data[1], data[0], data[3]].map(Ad.fromJson).toList();
+  static List<Ad> premiumAds = [];
+  // [data[1], data[0], data[3]].map(Ad.fromJson).toList();
 
-  static List<Ad> ads = [data[3], data[2], data[0], data[3], data[2], data[0]]
-      .map(Ad.fromJson)
-      .toList();
+  static List<Ad> ads = [];
+  // [data[3], data[2], data[0], data[3], data[2], data[0]]
+  //     .map(Ad.fromJson)
+  //     .toList();
 
   static List<Chat> chats = [
     {
