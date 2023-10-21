@@ -21,9 +21,15 @@ extension AdTypeExtensions on AdType {
     }[this]!;
   }
 
-  int get key => {
+  int get index => {
         AdType.forRent: 0,
         AdType.forSell: 1,
         AdType.wantToBuy: 3,
+      }[this]!;
+
+  String get key => {
+        AdType.forRent: 'for_rent',
+        AdType.forSell: 'for_sell',
+        AdType.wantToBuy: 'want_buy',
       }[this]!;
 }

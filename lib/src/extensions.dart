@@ -20,3 +20,4 @@ export 'extensions/records_extensions.dart';
 export 'extensions/set_extensions.dart';
 export 'extensions/string_extensions.dart';
 export 'extensions/timeofday_extensions.dart';
+export 'extensions/map_extensions.dart';

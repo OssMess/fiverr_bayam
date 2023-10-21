@@ -17,9 +17,11 @@ import '../../../../tools.dart';
 class CreateAd extends StatefulWidget {
   const CreateAd({
     super.key,
+    required this.userSession,
     required this.ad,
   });
 
+  final UserSession userSession;
   final Ad? ad;
 
   @override
@@ -29,7 +31,7 @@ class CreateAd extends StatefulWidget {
 class _CreateAdState extends State<CreateAd>
     with SingleTickerProviderStateMixin {
   final GlobalKey<FormState> _keyForm = GlobalKey();
-  int adTypeIndex = -1;
+  int adTypeIndex = 0;
   String? title, description, location;
   Category? category;
   Set<String> stringTags = {};
@@ -41,7 +43,7 @@ class _CreateAdState extends State<CreateAd>
   @override
   void initState() {
     if (widget.ad != null) {
-      adTypeIndex = widget.ad?.adType.key ?? -1;
+      adTypeIndex = widget.ad?.adType.index ?? -1;
       title = widget.ad!.title;
       description = widget.ad!.description;
       category = widget.ad!.category;
@@ -310,14 +312,22 @@ class _CreateAdState extends State<CreateAd>
         for (var stringTag in stringTags) {
           late Tag tag;
           try {
-            tag = await TagsServices.post(stringTag);
+            tag = await TagServices.get(stringTag);
           } catch (e) {
-            tag = await TagsServices.get(stringTag);
+            tag = await TagServices.post(stringTag);
           } finally {
             tags.add(tag);
           }
         }
-        //TODO create post
+        await AdServices.post(
+          uid: widget.userSession.uid!,
+          title: title!,
+          description: description!,
+          location: location!,
+          adType: adTypeIndex.toAdType,
+          category: category!,
+          tags: tags,
+        );
       },
       onComplete: (_) {
         Dialogs.of(context).showCustomDialog(

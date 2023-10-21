@@ -9,3 +9,4 @@ export './models/ip_location.dart';
 export './models/message.dart';
 export './models/tag.dart';
 export './models/user_session.dart';
+export './models/discussion.dart';

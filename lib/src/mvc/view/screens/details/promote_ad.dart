@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../extensions.dart';
+import '../../../controller/services.dart';
 import '../../../model/enums.dart';
 import '../../../model/models.dart';
 import '../../../model/models_ui.dart';
@@ -205,8 +206,12 @@ class _PromoteAdState extends State<PromoteAd> {
     _keyForm.currentState!.save();
     Dialogs.of(context).runAsyncAction(
       future: () async {
-        await Future.delayed(
-          const Duration(seconds: 1),
+        await PromotionServices.post(
+          id: widget.ad.id,
+          startDate: startDate!,
+          endDate: endDate!,
+          content: '',
+          budget: int.parse(budget!),
         );
       },
       onComplete: (_) {

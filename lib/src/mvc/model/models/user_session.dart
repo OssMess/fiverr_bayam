@@ -14,6 +14,7 @@ class UserSession with ChangeNotifier {
   /// user Id
   String? uid;
   String? phoneNumber;
+  //FIXME
   String? photoUrl;
   AccountType? accountType;
   String? bio;

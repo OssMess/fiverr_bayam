@@ -72,7 +72,8 @@ class _HomeScreenState extends State<HomeScreen> {
               if (pageNotifier.currentPage == 2) {
                 return CustomElevatedButton(
                   onPressed: () => context.push(
-                      widget: const CreateAd(
+                      widget: CreateAd(
+                    userSession: widget.userSession,
                     ad: null,
                   )),
                   label: AppLocalizations.of(context)!.create_ad,

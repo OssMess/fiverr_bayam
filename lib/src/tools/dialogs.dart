@@ -417,7 +417,10 @@ class Dialogs {
     );
   }
 
-  Future<void> showDialogAdsOptions(Ad ad) async {
+  Future<void> showDialogAdsOptions(
+    UserSession userSession,
+    Ad ad,
+  ) async {
     await context.showAdaptiveModalBottomSheet(
       builder: (_) => Container(
         constraints: BoxConstraints.loose(
@@ -470,6 +473,7 @@ class Dialogs {
                 context.pop();
                 context.push(
                   widget: CreateAd(
+                    userSession: userSession,
                     ad: ad,
                   ),
                 );

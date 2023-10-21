@@ -313,46 +313,35 @@ class DateTimeUtils {
     return DateFormat.d(getLanguageCode()).format(datetime);
   }
 
-  /// Parse [time] to `TimeOfDay`.
-  static TimeOfDay stringToTimeOfDay(String time) {
-    List<String> values = time.split(':');
-    return TimeOfDay(
-      hour: int.parse(values[0]),
-      minute: int.parse(values[1]),
-    );
-  }
-
-  /// Return all time slots `List<TimeOfDay>` between [start] and [end] with a
-  /// duration of [slotDuration] for each time slot.
-  static List<TimeOfDay> getAllTimeSlots(
-    TimeOfDay start,
-    TimeOfDay end,
-    int slotDuration,
-  ) {
-    List<TimeOfDay> slots = [];
-    while (start.hour < end.hour ||
-        (start.hour == end.hashCode && start.minute < end.minute)) {
-      slots.add(start);
-      start = start.add(slotDuration);
+  ///returns a `DateTime` from [value].
+  ///
+  ///If [value] is null:
+  ///- if [initIfNull] is true: return `DateTime.now()`
+  ///- else: return null
+  static DateTime? getDateTimefromTimestamp(
+    dynamic value, [
+    bool initIfNull = true,
+  ]) {
+    try {
+      // if (value is Timestamp) {
+      //   return DateTime.fromMillisecondsSinceEpoch(value.seconds * 1000)
+      //       .toLocal();
+      // } else
+      if (value is DateTime) {
+        return value;
+      } else if (value is int) {
+        return DateTime.fromMillisecondsSinceEpoch(value);
+      } else if (value is String) {
+        return DateTime.parse(value);
+      } else {
+        throw Exception();
+      }
+    } on Exception {
+      if (initIfNull) {
+        return DateTime.now();
+      } else {
+        return null;
+      }
     }
-    return slots;
-  }
-
-  /// Format [timeOfDay] to `HOUR24_MINUTE` or `Hm` (e.g. 16:35).
-  String formatTimeOfDay(TimeOfDay timeOfDay) {
-    return '${NumberFormat('00').format(timeOfDay.hour)}:${NumberFormat('00').format(timeOfDay.minute)}';
-  }
-
-  /// Return the `index` of the [day].
-  static int indexDayOfTheWeek(String day) {
-    return {
-      'Monday': 1,
-      'Tuesday': 2,
-      'Wednesday': 3,
-      'Thursday': 4,
-      'Friday': 5,
-      'Saturday': 6,
-      'Sunday': 7,
-    }[day]!;
   }
 }
