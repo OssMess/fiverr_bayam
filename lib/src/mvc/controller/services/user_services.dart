@@ -9,13 +9,13 @@ import '../services.dart';
 class UserServices {
   static const String baseUrl = 'https://api.bayam.site';
 
-  static Future<void> getUser(
+  static Future<void> getUserSession(
     UserSession userSession,
   ) async {
     var request = http.Request(
       'GET',
       Uri.parse(
-        '$baseUrl/api/user/me/${userSession.uid}',
+        '$baseUrl/api/user/me',
       ),
     );
     http.Response response = await HttpRequest.attemptHttpCall(request);
@@ -37,11 +37,11 @@ class UserServices {
     }
   }
 
-  static Future<Author> getUserById(String uid) async {
+  static Future<Author> get() async {
     var request = http.Request(
       'GET',
       Uri.parse(
-        '$baseUrl/api/user/me/$uid',
+        '$baseUrl/api/user/me',
       ),
     );
     http.Response response = await HttpRequest.attemptHttpCall(request);
@@ -62,7 +62,7 @@ class UserServices {
     }
   }
 
-  static Future<void> postUser({
+  static Future<void> post({
     required UserSession userSession,
   }) async {
     var headers = {
@@ -77,7 +77,6 @@ class UserServices {
     request.body = json.encode({
       'isCompanyOrClient': true,
       'isVerified': false,
-      'uuid': userSession.uid,
       'phoneNumber': userSession.phoneNumber,
       if (userSession.firstName.isNotNullOrEmpty)
         'firstName': userSession.firstName,

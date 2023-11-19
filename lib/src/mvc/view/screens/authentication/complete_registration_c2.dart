@@ -133,7 +133,7 @@ class _CompleteRegistrationC2State extends State<CompleteRegistrationC2> {
   Future<void> next() async {
     Dialogs.of(context).runAsyncAction(
       future: () async {
-        await UserServices.postUser(
+        await UserServices.post(
           userSession: widget.userSession,
         );
       },

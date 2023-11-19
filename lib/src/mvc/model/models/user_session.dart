@@ -254,7 +254,7 @@ class UserSession with ChangeNotifier {
   ) async {
     await Dialogs.of(context).runAsyncAction(
       future: () async {
-        await UserServices.postUser(userSession: this);
+        await UserServices.post(userSession: this);
       },
       onComplete: (_) => setState(() {}),
     );
@@ -272,7 +272,7 @@ class UserSession with ChangeNotifier {
   void updateFromUserSession(UserSession user) {
     uid = user.uid;
     if (uid.isNotNullOrEmpty) {
-      UserServices.getUser(this);
+      UserServices.getUserSession(this);
     } else {
       authState = user.authState;
       phoneNumber = user.phoneNumber;

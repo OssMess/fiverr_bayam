@@ -302,7 +302,7 @@ class _CompletePersonProfileState extends State<CompletePersonProfile> {
         widget.userSession.region = region;
         widget.userSession.uniqueRegisterNumber = uniqueRegisterNumber;
         widget.userSession.birthDate = dateController.text;
-        await UserServices.postUser(
+        await UserServices.post(
           userSession: widget.userSession,
         );
       },

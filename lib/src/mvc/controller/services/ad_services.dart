@@ -67,4 +67,80 @@ class AdServices {
   }
 
   static Future<void> list() async {}
+
+  static Future<void> like({
+    required String userId,
+    required String adId,
+    required String actionType,
+  }) async {
+    var headers = {
+      'Content-Type': 'application/Id+json',
+    };
+    var request = http.Request(
+      'POST',
+      Uri.parse(
+        '$baseUrl/api/post/like',
+      ),
+    );
+    request.body = json.encode({
+      'user': userId,
+      'post': adId,
+      'actionType': actionType,
+    });
+    request.headers.addAll(headers);
+    http.Response response = await HttpRequest.attemptHttpCall(
+      request,
+      forceSkipRetries: true,
+    );
+    if (response.statusCode != 201) {
+      log(response.body);
+      Map<int, String> statusCodesPhrases = {
+        400: 'Invalid input',
+        422: 'Unprocessable entity',
+        500: 'internal-server-error',
+      };
+      throw BackendException(
+        code: statusCodesPhrases[response.statusCode],
+        statusCode: response.statusCode,
+      );
+    }
+  }
+
+  static Future<void> comment({
+    required String userId,
+    required String adId,
+    required String content,
+  }) async {
+    var headers = {
+      'Content-Type': 'application/Id+json',
+    };
+    var request = http.Request(
+      'POST',
+      Uri.parse(
+        '$baseUrl/api/post/comment',
+      ),
+    );
+    request.body = json.encode({
+      'user': userId,
+      'post': adId,
+      'content': content,
+    });
+    request.headers.addAll(headers);
+    http.Response response = await HttpRequest.attemptHttpCall(
+      request,
+      forceSkipRetries: true,
+    );
+    if (response.statusCode != 201) {
+      log(response.body);
+      Map<int, String> statusCodesPhrases = {
+        400: 'Invalid input',
+        422: 'Unprocessable entity',
+        500: 'internal-server-error',
+      };
+      throw BackendException(
+        code: statusCodesPhrases[response.statusCode],
+        statusCode: response.statusCode,
+      );
+    }
+  }
 }

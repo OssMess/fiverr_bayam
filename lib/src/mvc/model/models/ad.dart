@@ -77,12 +77,13 @@ class Ad with ChangeNotifier {
         createdAt: DateTime.parse(json['created_at']),
         isPromotion: json['isPromotion'],
         promotions: List.from(json['promotions']),
+        //TODO add likes, cover photo url, isLiked
         likes: 0,
         coverPhotoUrl: '',
       );
 
   Map<dynamic, dynamic> get toMapInit => {
-        'author': author.uid,
+        // 'author': author.uid,
         'title': title,
         'content': content,
         'category': category.key,
