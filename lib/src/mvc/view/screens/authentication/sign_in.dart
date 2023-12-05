@@ -366,7 +366,7 @@ class _SignInState extends State<SignIn> {
   Future<void> sendOTP() async {
     Dialogs.of(context).runAsyncAction(
       future: () async {
-        await AuthServices.sendOTP(phoneNumber!);
+        await AuthServices.of(widget.userSession).sendOTP(phoneNumber!);
       },
       onComplete: (_) {
         setState(() {
@@ -393,8 +393,7 @@ class _SignInState extends State<SignIn> {
     pinCode = code;
     Dialogs.of(context).runAsyncAction(
       future: () async {
-        await AuthServices.verifyOTP(
-          widget.userSession,
+        await AuthServices.of(widget.userSession).verifyOTP(
           phoneNumber!,
           pinCode!,
         );

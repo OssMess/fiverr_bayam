@@ -35,13 +35,15 @@ class CustomTextFormFieldLabel extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         4.heightSp,
-        Text(
-          labelText,
-          style: Styles.poppins(
-            fontSize: 14.sp,
-            fontWeight: Styles.medium,
-            color: context.textTheme.displayLarge!.color,
-            height: 1.2,
+        IgnorePointer(
+          child: Text(
+            labelText,
+            style: Styles.poppins(
+              fontSize: 14.sp,
+              fontWeight: Styles.medium,
+              color: context.textTheme.displayLarge!.color,
+              height: 1.2,
+            ),
           ),
         ),
         8.heightSp,

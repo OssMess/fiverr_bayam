@@ -82,13 +82,15 @@ class _CustomTextFormFieldBoundedState
             //prefix
             if (widget.prefix != null) ...[
               widget.prefix!,
-              SizedBox(
-                height: 40.sp,
-                width: 32.sp,
-                child: VerticalDivider(
-                  color: context.textTheme.headlineMedium!.color,
-                  width: 1.sp,
-                  thickness: 1.sp,
+              IgnorePointer(
+                child: SizedBox(
+                  height: 40.sp,
+                  width: 32.sp,
+                  child: VerticalDivider(
+                    color: context.textTheme.headlineMedium!.color,
+                    width: 1.sp,
+                    thickness: 1.sp,
+                  ),
                 ),
               ),
             ],
@@ -100,29 +102,31 @@ class _CustomTextFormFieldBoundedState
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        if (widget.labelPrefixIcon != null) ...[
-                          Icon(
-                            widget.labelPrefixIcon,
-                            size: 12.sp,
-                            color: Styles.green,
-                          ),
-                          8.widthSp,
-                        ],
-                        if (widget.labelText.isNotEmpty)
-                          Expanded(
-                            child: Text(
-                              widget.labelText,
-                              style: Styles.poppins(
-                                fontSize: 14.sp,
-                                fontWeight: Styles.medium,
-                                color: context.textTheme.displayMedium!.color,
-                                height: 1.2,
+                    IgnorePointer(
+                      child: Row(
+                        children: [
+                          if (widget.labelPrefixIcon != null) ...[
+                            Icon(
+                              widget.labelPrefixIcon,
+                              size: 12.sp,
+                              color: Styles.green,
+                            ),
+                            8.widthSp,
+                          ],
+                          if (widget.labelText.isNotEmpty)
+                            Expanded(
+                              child: Text(
+                                widget.labelText,
+                                style: Styles.poppins(
+                                  fontSize: 14.sp,
+                                  fontWeight: Styles.medium,
+                                  color: context.textTheme.displayMedium!.color,
+                                  height: 1.2,
+                                ),
                               ),
                             ),
-                          ),
-                      ],
+                        ],
+                      ),
                     ),
                     if (widget.addSpacer) 8.heightSp,
                     TextFormField(

@@ -72,6 +72,11 @@ class UserSession with ChangeNotifier {
         authState: AuthState.unauthenticated,
       );
 
+  /// creates an instance of `UserSession` where `authState` is set to `authState: AuthState.authenticated`.
+  factory UserSession.initAuthenticated() => UserSession._init(
+        authState: AuthState.authenticated,
+      );
+
   /// creates an instance of `UserSession` where `authState` is set to `authState: AuthState.awaiting`,
   /// this will make the `UserSession` instance call `AuthStateChange` Hive to retrieve last known user session if it exists.
   factory UserSession.initAwaiting() => UserSession._init(
@@ -263,7 +268,7 @@ class UserSession with ChangeNotifier {
   /// while the authState is `AuthState.awaiting`, initialize and retrieve last known user session from `AuthStateChange`,
   /// and clone it into `this`, and rebuild the widget tree to sync the changes.
   Future<void> getAuthState() async {
-    var user = await AuthStateChange.init();
+    var user = await HiveTokens.getAuthState();
     updateFromUserSession(user);
   }
 
@@ -271,33 +276,32 @@ class UserSession with ChangeNotifier {
   /// listeners to rebuild the widget tree and sync the changes
   void updateFromUserSession(UserSession user) {
     uid = user.uid;
-    if (uid.isNotNullOrEmpty) {
-      UserServices.getUserSession(this);
-    } else {
-      authState = user.authState;
-      phoneNumber = user.phoneNumber;
-      photoUrl = user.photoUrl;
-      firstName = user.firstName;
-      lastName = user.lastName;
-      companyName = user.companyName;
-      accountType = user.accountType;
-      bio = user.bio;
-      birthDate = user.birthDate;
-      city = user.city;
-      country = user.country;
-      email = user.email;
-      facebookUrl = user.facebookUrl;
-      linkedinUrl = user.linkedinUrl;
-      postalCode = user.postalCode;
-      preferences = user.preferences;
-      region = user.region;
-      uniqueRegisterNumber = user.uniqueRegisterNumber;
-      streetAddress = user.streetAddress;
-      _isActive = user._isActive;
-      _isVerified = user._isVerified;
-
-      notifyListeners();
-    }
+    // if (uid.isNotNullOrEmpty) {
+    //   UserServices.getUserSession(this);
+    // } else {
+    authState = user.authState;
+    phoneNumber = user.phoneNumber;
+    photoUrl = user.photoUrl;
+    firstName = user.firstName;
+    lastName = user.lastName;
+    companyName = user.companyName;
+    accountType = user.accountType;
+    bio = user.bio;
+    birthDate = user.birthDate;
+    city = user.city;
+    country = user.country;
+    email = user.email;
+    facebookUrl = user.facebookUrl;
+    linkedinUrl = user.linkedinUrl;
+    postalCode = user.postalCode;
+    preferences = user.preferences;
+    region = user.region;
+    uniqueRegisterNumber = user.uniqueRegisterNumber;
+    streetAddress = user.streetAddress;
+    _isActive = user._isActive;
+    _isVerified = user._isVerified;
+    notifyListeners();
+    // }
   }
 
   Future<void> onSignInCompleted(Map<String, dynamic> json) async {
@@ -307,14 +311,10 @@ class UserSession with ChangeNotifier {
     if (json['firstName'] is String) {
       accountType = AccountType.person;
       photoUrl = json['photoUrl'];
-      //  ??
-      //     'https://images.squarespace-cdn.com/content/v1/51ef4493e4b0561c90fa76d6/1667315513383-NIYMELXNAZDL63LEAGAH/20210210_SLP0397-Edit2.jpg?format=1000w';
     }
     if (json['companyName'] is String) {
       accountType = AccountType.company;
       photoUrl = json['photoUrl'];
-      //  ??
-      //     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDLL2FyAeYaShg5h1YrW3gEyDHDCUb5o2_lw&usqp=CAU';
     }
     firstName = json['firstName'];
     lastName = json['lastName'];
@@ -335,15 +335,14 @@ class UserSession with ChangeNotifier {
     _isActive = json['isActive'];
     _isVerified = json['isVerified'];
     authState = AuthState.authenticated;
-    await AuthStateChange.save(this);
+    // await HiveAuthState.save(this);
     notifyListeners();
   }
 
   Future<void> onSignout() async {
-    updateFromUserSession(
-      await AuthStateChange.clear(),
-    );
-    await Cookies.clear();
+    updateFromUserSession(UserSession.initUnauthenticated());
+    await HiveCookies.clear();
+    await HiveTokens.clear();
     notifyListeners();
   }
 }

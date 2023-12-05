@@ -18,7 +18,7 @@ class HttpRequest {
     bool forceSkipRetries = false,
   }) async {
     request.headers.addAll({
-      ...Cookies.valideCookies,
+      ...HiveCookies.valideCookies,
     });
     http.StreamedResponse streamedResponse = await Future.delayed(
       retries == 5 ? Duration.zero : delay,
@@ -54,7 +54,10 @@ class HttpRequest {
         forceSkipRetries: forceSkipRetries,
       );
     } else {
-      return await Cookies.update(streamedResponse);
+      http.Response response = await http.Response.fromStream(streamedResponse);
+      await HiveCookies.update(response);
+      await HiveTokens.update(response);
+      return response;
     }
   }
 }

@@ -6,7 +6,7 @@ import 'package:sweet_cookie_jar/sweet_cookie_jar.dart';
 
 import '../../../extensions.dart';
 
-class Cookies {
+class HiveCookies {
   /// Hive box named `temporary_reset_token` used to store cookies
   static late Box _box;
 
@@ -21,12 +21,12 @@ class Cookies {
         (string) => Cookie.fromSetCookieValue(string),
       ),
     );
-    await Cookies.deleteById('temporary_reset_token');
+    await HiveCookies.deleteById('temporary_reset_token');
   }
 
   /// Save [cookie] to `_box` and also add it to `_set`.
   static Future<void> save(Cookie cookie) async {
-    await Cookies.deleteById(cookie.name);
+    await HiveCookies.deleteById(cookie.name);
     if (cookie.value.isEmpty) return;
     await _box.put(
       cookie.name,
@@ -58,26 +58,17 @@ class Cookies {
     _set.clear();
   }
 
-  /// Update stored and saved cookies in `_box` and `_set` with HTTP
-  /// [streamedResponse], and return HTTP `Response` for the caller to use.
-  static Future<http.Response> update(
-    http.StreamedResponse streamedResponse,
+  /// Update stored and saved cookies in `_box` and `_set`.
+  static Future<void> update(
+    http.Response response,
   ) async {
-    String? setCookie = streamedResponse.headers[HttpHeaders.setCookieHeader];
-    http.Response response = await http.Response.fromStream(streamedResponse);
-    if (setCookie == null) return response;
+    String? setCookie = response.headers[HttpHeaders.setCookieHeader];
+    if (setCookie == null) return;
     SweetCookieJar sweetCookieJar = SweetCookieJar.from(
       response: response,
     );
-    if (setCookie.contains('temporary_reset_token')) {
-      await Cookies.deleteById('temporary_reset_token');
-    }
-    Cookie cookieAuthorization =
-        sweetCookieJar.find(name: 'temporary_reset_token');
     Cookie cookieRefresh = sweetCookieJar.find(name: 'client_token');
-    await Cookies.save(cookieAuthorization);
-    await Cookies.save(cookieRefresh);
-    return response;
+    await HiveCookies.save(cookieRefresh);
   }
 
   /// returns a map with one key: `cookie` and value: `all saved cookies`.
