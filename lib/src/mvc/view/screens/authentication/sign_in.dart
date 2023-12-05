@@ -95,31 +95,34 @@ class _SignInState extends State<SignIn> {
                         ),
                       ),
                       32.heightSp,
-                      PinCodeTextField(
-                        focusNode: focusNode,
-                        errorTextSpace: 8.sp,
-                        appContext: context,
-                        length: 6,
-                        onChanged: (value) {
-                          pinCode = value;
-                        },
-                        onCompleted: verifyOTP,
-                        keyboardType: TextInputType.number,
-                        textStyle: Styles.poppins(
-                          fontSize: 24.w,
-                          fontWeight: Styles.bold,
-                          color: Styles.green,
-                        ),
-                        pinTheme: PinTheme(
-                          borderWidth: 2.sp,
-                          shape: PinCodeFieldShape.box,
-                          borderRadius: BorderRadius.circular(15.sp),
-                          fieldHeight: 50.w, //70.w
-                          fieldWidth: 50.w,
-                          inactiveColor:
-                              context.textTheme.headlineMedium!.color,
-                          activeColor: Styles.green,
-                          selectedColor: Styles.green,
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 40.w),
+                        child: PinCodeTextField(
+                          focusNode: focusNode,
+                          errorTextSpace: 8.sp,
+                          appContext: context,
+                          length: 4,
+                          onChanged: (value) {
+                            pinCode = value;
+                          },
+                          onCompleted: verifyOTP,
+                          keyboardType: TextInputType.number,
+                          textStyle: Styles.poppins(
+                            fontSize: 24.w,
+                            fontWeight: Styles.bold,
+                            color: Styles.green,
+                          ),
+                          pinTheme: PinTheme(
+                            borderWidth: 2.sp,
+                            shape: PinCodeFieldShape.box,
+                            borderRadius: BorderRadius.circular(15.sp),
+                            fieldHeight: 50.w, //70.w
+                            fieldWidth: 50.w,
+                            inactiveColor:
+                                context.textTheme.headlineMedium!.color,
+                            activeColor: Styles.green,
+                            selectedColor: Styles.green,
+                          ),
                         ),
                       ),
                       16.heightSp,
@@ -366,7 +369,7 @@ class _SignInState extends State<SignIn> {
   Future<void> sendOTP() async {
     Dialogs.of(context).runAsyncAction(
       future: () async {
-        await AuthServices.of(widget.userSession).sendOTP(phoneNumber!);
+        // await AuthServices.of(widget.userSession).sendOTP(phoneNumber!);
       },
       onComplete: (_) {
         setState(() {

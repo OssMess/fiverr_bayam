@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
@@ -9,15 +10,22 @@ import '../services.dart';
 class UserServices {
   static const String baseUrl = 'https://api.bayam.site';
 
-  static Future<void> getUserSession(
-    UserSession userSession,
-  ) async {
+  final UserSession userSession;
+
+  UserServices(this.userSession);
+
+  static UserServices of(UserSession userSession) {
+    return UserServices(userSession);
+  }
+
+  Future<void> get() async {
     var request = http.Request(
       'GET',
       Uri.parse(
         '$baseUrl/api/user/me',
       ),
     );
+    request.headers.addAll(Services.headersldJson);
     http.Response response = await HttpRequest.attemptHttpCall(request);
     if (response.statusCode == 200) {
       await userSession.onSignInCompleted(
@@ -27,7 +35,7 @@ class UserServices {
       );
     } else {
       Map<int, String> statusCodesPhrases = {
-        404: 'Resource not found',
+        404: 'user-not-found',
         500: 'internal-server-error',
       };
       throw BackendException(
@@ -37,43 +45,17 @@ class UserServices {
     }
   }
 
-  static Future<Author> get() async {
-    var request = http.Request(
-      'GET',
-      Uri.parse(
-        '$baseUrl/api/user/me',
-      ),
-    );
-    http.Response response = await HttpRequest.attemptHttpCall(request);
-    if (response.statusCode == 200) {
-      return (jsonDecode(
-        response.body,
-      ) as Map<dynamic, dynamic>)
-          .toAuthor;
-    } else {
-      Map<int, String> statusCodesPhrases = {
-        404: 'Resource not found',
-        500: 'internal-server-error',
-      };
-      throw BackendException(
-        code: statusCodesPhrases[response.statusCode],
-        statusCode: response.statusCode,
-      );
-    }
-  }
-
-  static Future<void> post({
-    required UserSession userSession,
-  }) async {
-    var headers = {
-      'Content-Type': 'application/merge-patch+json',
-    };
+  Future<void> post() async {
     var request = http.Request(
       'PATCH',
       Uri.parse(
         '$baseUrl/api/users',
       ),
     );
+    request.headers.addAll({
+      HttpHeaders.contentTypeHeader: 'application/merge-patch+json',
+      ...Services.headerAcceptldJson,
+    });
     request.body = json.encode({
       'isCompanyOrClient': true,
       'isVerified': false,
@@ -105,7 +87,6 @@ class UserServices {
         'uniqueRegisterNumber': userSession.uniqueRegisterNumber,
       'preferenceList': userSession.preferences ?? [],
     });
-    request.headers.addAll(headers);
     http.Response response = await HttpRequest.attemptHttpCall(request);
     if (response.statusCode == 200) {
       await userSession.onSignInCompleted(

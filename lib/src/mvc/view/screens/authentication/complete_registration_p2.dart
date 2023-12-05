@@ -132,9 +132,7 @@ class _CompleteRegistrationP2State extends State<CompleteRegistrationP2> {
   Future<void> next() async {
     await Dialogs.of(context).runAsyncAction(
       future: () async {
-        await UserServices.post(
-          userSession: widget.userSession,
-        );
+        await UserServices.of(widget.userSession).post();
       },
       onComplete: (_) {
         Dialogs.of(context).showCustomDialog(

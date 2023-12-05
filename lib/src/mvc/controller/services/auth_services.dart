@@ -18,20 +18,20 @@ class AuthServices {
   }
 
   Future<void> refresh() async {
-    var headers = {
-      'Content-Type': 'application/json',
-    };
     var request = http.Request(
       'POST',
       Uri.parse(
         '$baseUrl/api/login/token/refresh',
       ),
     );
+    request.headers.addAll(Services.headersldJson);
     request.body = json.encode({
       ...HiveTokens.tokens,
     });
-    request.headers.addAll(headers);
-    http.Response response = await HttpRequest.attemptHttpCall(request);
+    http.Response response = await HttpRequest.attemptHttpCall(
+      request,
+      ignoreAuthorization: true,
+    );
     if (response.statusCode == 201) {
       await userSession.onSignInCompleted(
         jsonDecode(response.body),
@@ -39,6 +39,7 @@ class AuthServices {
     } else {
       Map<int, String> statusCodesPhrases = {
         400: 'invalid-input',
+        403: 'unauthorized',
         422: 'unprocessable-entity',
         500: 'internal-server-error',
       };
@@ -50,19 +51,16 @@ class AuthServices {
   }
 
   Future<void> sendOTP(String phoneNumber) async {
-    var headers = {
-      'Content-Type': 'application/Id+json',
-    };
     var request = http.Request(
       'POST',
       Uri.parse(
         '$baseUrl/api/notify/sms/send',
       ),
     );
+    request.headers.addAll(Services.headersldJson);
     request.body = json.encode({
       'phoneNumber': phoneNumber,
     });
-    request.headers.addAll(headers);
     http.Response response = await HttpRequest.attemptHttpCall(request);
     if (response.statusCode == 201) {
       return;
@@ -89,6 +87,7 @@ class AuthServices {
         '$baseUrl/api/notify/$phoneNumber/verify/$otp',
       ),
     );
+    request.headers.addAll(Services.headerAcceptldJson);
     http.Response response = await HttpRequest.attemptHttpCall(request);
     if (response.statusCode == 200) {
       await userSession.onSignInCompleted(

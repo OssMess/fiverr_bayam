@@ -259,7 +259,7 @@ class UserSession with ChangeNotifier {
   ) async {
     await Dialogs.of(context).runAsyncAction(
       future: () async {
-        await UserServices.post(userSession: this);
+        await UserServices.of(this).post();
       },
       onComplete: (_) => setState(() {}),
     );

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
@@ -18,11 +19,7 @@ class HiveTokens {
   static Future<void> init() async {
     _box = await Hive.openBox('tokens');
     if (_box.isNotEmpty) {
-      _set = Map<String, dynamic>.from(
-        Map<String, dynamic>.from(_box.values.first),
-      );
-      // ignore: avoid_print
-      print(_set);
+      _set = Map<String, dynamic>.from(_box.values.first);
     }
   }
 
@@ -45,6 +42,11 @@ class HiveTokens {
   }
 
   static Map<String, dynamic> get tokens => _set;
+
+  static Map<String, String> get authorization => {
+        if (_set['token'] != null)
+          HttpHeaders.authorizationHeader: 'Bearer ${_set['token']}',
+      };
 
   /// Update saved tokens to `_box` and `_set` using http [response], to save or
   /// refresh user session.

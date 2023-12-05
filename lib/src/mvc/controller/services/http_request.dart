@@ -12,6 +12,7 @@ class HttpRequest {
   /// code `408` or `500`.
   static Future<http.Response> attemptHttpCall(
     http.Request request, {
+    bool ignoreAuthorization = true,
     int retries = 5,
     Duration delay = const Duration(milliseconds: 100),
     Duration timeout = const Duration(seconds: 5),
@@ -19,6 +20,7 @@ class HttpRequest {
   }) async {
     request.headers.addAll({
       ...HiveCookies.valideCookies,
+      if (!ignoreAuthorization) ...HiveTokens.authorization,
     });
     http.StreamedResponse streamedResponse = await Future.delayed(
       retries == 5 ? Duration.zero : delay,
@@ -48,6 +50,7 @@ class HttpRequest {
       log('trying attempts left: $retries');
       return await attemptHttpCall(
         newRequest,
+        ignoreAuthorization: ignoreAuthorization,
         retries: retries - 1,
         delay: delay,
         timeout: timeout,
