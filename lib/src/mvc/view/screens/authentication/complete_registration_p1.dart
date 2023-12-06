@@ -273,9 +273,7 @@ class _CompleteRegistrationP1State extends State<CompleteRegistrationP1> {
   Future<void> skip() async {
     await Dialogs.of(context).runAsyncAction(
       future: () async {
-        await UserServices.of(widget.userSession).post(
-          imageProfile: imageFile?.toFile,
-        );
+        await UserServices.of(widget.userSession).post();
       },
       onComplete: (_) {
         Dialogs.of(context).showCustomDialog(

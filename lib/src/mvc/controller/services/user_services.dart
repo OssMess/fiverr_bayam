@@ -91,8 +91,6 @@ class UserServices {
       if (userSession.uniqueRegisterNumber.isNotNullOrEmpty)
         'uniqueRegisterNumber': userSession.uniqueRegisterNumber,
       'preferenceList': userSession.preferences ?? [],
-      if (imageUserIdentity != null)
-        'imageUserIdentity': imageUserIdentity.map((e) => e.toBase64String()),
     };
     if (imageProfile != null) {
       await imageProfile.toBase64String().then((value) => body.addAll({

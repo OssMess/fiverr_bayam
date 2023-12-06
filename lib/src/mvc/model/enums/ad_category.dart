@@ -1,4 +1,4 @@
-enum Category {
+enum AdCategory {
   agriculture,
   livestock,
   fishing,

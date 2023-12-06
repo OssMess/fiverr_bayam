@@ -1,35 +1,26 @@
-class Preference {
+class Category {
   final String name;
   final String description;
   final String uuid;
   // final String createdAt;
   // final String updatedAt;
-  // final String category;
+  // final String subCategories;
 
-  Preference({
+  Category({
     required this.name,
     required this.description,
     required this.uuid,
     // required this.createdAt,
     // required this.updatedAt,
-    // required this.category,
+    // required this.subCategories,
   });
 
-  factory Preference.fromJson(Map<String, dynamic> json) => Preference(
+  factory Category.fromJson(Map<String, dynamic> json) => Category(
         name: json['name'],
         description: json['description'],
         uuid: json['uuid'],
         // createdAt: json['created_at'],
         // updatedAt: json['updated_at'],
-        // category: json['category'],
+        // category: json['subCategories'],
       );
-
-  Map<String, dynamic> toJson() => {
-        'name': name,
-        'description': description,
-        'uuid': uuid,
-        // 'created_at': createdAt,
-        // 'updated_at': updatedAt,
-        // 'category': category,
-      };
 }

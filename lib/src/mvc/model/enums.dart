@@ -5,7 +5,7 @@ export 'enums/ads_view_page.dart';
 export 'enums/appbar_background_type.dart';
 export 'enums/auth_route.dart';
 export 'enums/auth_state.dart';
-export 'enums/category.dart';
+export 'enums/ad_category.dart';
 export 'enums/dialog_state.dart';
 export 'enums/faq_type.dart';
 export 'enums/lottie_animation.dart';

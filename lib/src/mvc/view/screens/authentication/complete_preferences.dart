@@ -25,9 +25,9 @@ class CompletePreferences extends StatefulWidget {
 }
 
 class _CompletePreferencesState extends State<CompletePreferences> {
-  Set<Preference> pickedPreferences = {};
-  Set<Preference>? filteredPreferences;
-  Set<Preference>? allPreferences;
+  Set<CategorySub> pickedPreferences = {};
+  Set<CategorySub>? filteredPreferences;
+  Set<CategorySub>? allPreferences;
 
   @override
   void initState() {
@@ -41,9 +41,9 @@ class _CompletePreferencesState extends State<CompletePreferences> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Preference>>(
+    return FutureBuilder<List<CategorySub>>(
       future: allPreferences == null
-          ? PreferencesServices.of(widget.userSession).get()
+          ? CategoriesSubServices.of(widget.userSession).get()
           : null,
       builder: (context, snapshot) {
         if (snapshot.hasData && allPreferences == null) {
@@ -113,7 +113,7 @@ class _CompletePreferencesState extends State<CompletePreferences> {
                                 itemBuilder: (context, index) =>
                                     StatefulBuilder(
                                   builder: (context, setState) {
-                                    Preference preference =
+                                    CategorySub preference =
                                         filteredPreferences!.elementAt(index);
                                     return PreferenceCheckListTile(
                                       checked: pickedPreferences
@@ -151,6 +151,12 @@ class _CompletePreferencesState extends State<CompletePreferences> {
   }
 
   Future<void> next() async {
+    // CategoriesSubServices.of(widget.userSession).post(
+    //   name: 'sub-category 4',
+    //   description: '',
+    //   category: '68672060-6fa5-4e5b-8852-7fe8a1d735c2',
+    // );
+    // return;
     if (pickedPreferences.length < 3) {
       Dialogs.of(context).showSnackBar(
         message: AppLocalizations.of(context)!.select_at_least_nb_preferences,
@@ -188,7 +194,7 @@ class PreferenceCheckListTile extends StatelessWidget {
   });
 
   final bool checked;
-  final Preference preference;
+  final CategorySub preference;
   final Function(bool) onChange;
 
   @override

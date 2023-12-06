@@ -1,7 +1,7 @@
 import '../enums.dart';
 
 class SearchHistory {
-  final Category category;
+  final AdCategory category;
   final String companyName;
   final String companyPhotoUrl;
 

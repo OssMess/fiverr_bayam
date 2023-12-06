@@ -8,7 +8,7 @@ class Company with ChangeNotifier {
   final String name;
   final String logoUrl;
   final String coverUrl;
-  final Category category;
+  final AdCategory category;
   final bool isVerified;
 
   Company({

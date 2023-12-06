@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../mvc/model/enums.dart';
@@ -38,13 +39,13 @@ extension StringExtension on String {
         'annual': PlanDuration.annual,
       }[this]!;
 
-  Category get toCategory => {
-        'agriculture': Category.agriculture,
-        'livestock': Category.livestock,
-        'fishing': Category.fishing,
-        'phytosnitary': Category.phytosnitary,
-        'localFoodProducts': Category.localFoodProducts,
-        'rentalStorageFacilities': Category.rentalStorageFacilities,
+  AdCategory get toCategory => {
+        'agriculture': AdCategory.agriculture,
+        'livestock': AdCategory.livestock,
+        'fishing': AdCategory.fishing,
+        'phytosnitary': AdCategory.phytosnitary,
+        'localFoodProducts': AdCategory.localFoodProducts,
+        'rentalStorageFacilities': AdCategory.rentalStorageFacilities,
       }[this]!;
 
   PlanType get toPlanType => {
@@ -86,4 +87,7 @@ extension StringNullableExtension on String? {
 
   Image? get toImageFromBase64String =>
       this == null ? null : Image.memory(const Base64Decoder().convert(this!));
+
+  ImageProvider<Object>? get toImageProvider =>
+      isNullOrEmpty ? null : CachedNetworkImageProvider(this!);
 }

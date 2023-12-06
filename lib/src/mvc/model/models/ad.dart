@@ -15,7 +15,7 @@ class Ad with ChangeNotifier {
   final String content;
   final String location;
   final AdType type;
-  final Category category;
+  final AdCategory category;
   final List<Tag> tags;
   final DateTime createdAt;
   final bool isPromotion;
@@ -46,7 +46,7 @@ class Ad with ChangeNotifier {
     required String content,
     required String location,
     required AdType adType,
-    required Category category,
+    required AdCategory category,
     required List<Tag> tags,
   }) =>
       Ad(

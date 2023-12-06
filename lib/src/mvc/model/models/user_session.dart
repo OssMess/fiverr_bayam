@@ -126,12 +126,9 @@ class UserSession with ChangeNotifier {
       authState: AuthState.authenticated,
       uid: json['uid'],
       phoneNumber: json['phoneNumber'],
-      imageProfile:
-          ((json['imageProfile'] as String?).toImageFromBase64String)?.image,
-      // imageCompany:
-      // ((json['imageCompany'] as String?).toImageFromBase64String)?.image,
+      imageProfile: (json['imageProfile'] as String?).toImageProvider,
       imageCompany: List.from(json['imageCompany'] ?? [])
-          .map((e) => (e as String).toImageFromBase64String.image)
+          .map((e) => (e as String).toImageProvider!)
           .toList(),
       firstName: json['firstName'],
       lastName: json['lastName'],
@@ -316,12 +313,9 @@ class UserSession with ChangeNotifier {
     if (json['companyName'] is String) {
       accountType = AccountType.company;
     }
-    imageProfile =
-        ((json['imageProfile'] as String?).toImageFromBase64String)?.image;
-    // imageCompany =
-    // ((json['imageCompany'] as String?).toImageFromBase64String)?.image;
+    imageProfile = (json['imageProfile'] as String?).toImageProvider;
     imageCompany = List.from(json['imageCompany'] ?? [])
-        .map((e) => (e as String).toImageFromBase64String.image)
+        .map((e) => (e as String).toImageProvider!)
         .toList();
     firstName = json['firstName'];
     lastName = json['lastName'];

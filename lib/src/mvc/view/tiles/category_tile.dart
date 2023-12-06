@@ -13,7 +13,7 @@ class CategoryTile extends StatelessWidget {
     required this.onTap,
   });
 
-  final Category category;
+  final AdCategory category;
   final void Function() onTap;
 
   @override

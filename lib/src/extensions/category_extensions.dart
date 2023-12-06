@@ -4,46 +4,46 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../mvc/model/enums.dart';
 import '../tools.dart';
 
-extension CategoryExtensions on Category {
+extension CategoryExtensions on AdCategory {
   String translateTitle(BuildContext context) => {
-        Category.agriculture: AppLocalizations.of(context)!.agriculture,
-        Category.livestock: AppLocalizations.of(context)!.livestock,
-        Category.fishing: AppLocalizations.of(context)!.fishing,
-        Category.phytosnitary: AppLocalizations.of(context)!.phytosnitary,
-        Category.localFoodProducts:
+        AdCategory.agriculture: AppLocalizations.of(context)!.agriculture,
+        AdCategory.livestock: AppLocalizations.of(context)!.livestock,
+        AdCategory.fishing: AppLocalizations.of(context)!.fishing,
+        AdCategory.phytosnitary: AppLocalizations.of(context)!.phytosnitary,
+        AdCategory.localFoodProducts:
             AppLocalizations.of(context)!.local_food_products,
-        Category.rentalStorageFacilities:
+        AdCategory.rentalStorageFacilities:
             AppLocalizations.of(context)!.rental_storage_facilities,
       }[this]!;
 
   String translateSubtitle(BuildContext context) => {
-        Category.agriculture:
+        AdCategory.agriculture:
             AppLocalizations.of(context)!.agriculture_subtitle,
-        Category.livestock: AppLocalizations.of(context)!.livestock_subtitle,
-        Category.fishing: AppLocalizations.of(context)!.fishing_subtitle,
-        Category.phytosnitary:
+        AdCategory.livestock: AppLocalizations.of(context)!.livestock_subtitle,
+        AdCategory.fishing: AppLocalizations.of(context)!.fishing_subtitle,
+        AdCategory.phytosnitary:
             AppLocalizations.of(context)!.phytosnitary_subtitle,
-        Category.localFoodProducts:
+        AdCategory.localFoodProducts:
             AppLocalizations.of(context)!.local_food_products_subtitle,
-        Category.rentalStorageFacilities:
+        AdCategory.rentalStorageFacilities:
             AppLocalizations.of(context)!.rental_storage_facilities_subtitle,
       }[this]!;
 
   String get key => {
-        Category.agriculture: 'agriculture',
-        Category.livestock: 'livestock',
-        Category.fishing: 'fishing',
-        Category.phytosnitary: 'phytosnitary',
-        Category.localFoodProducts: 'localFoodProducts',
-        Category.rentalStorageFacilities: 'rentalStorageFacilities',
+        AdCategory.agriculture: 'agriculture',
+        AdCategory.livestock: 'livestock',
+        AdCategory.fishing: 'fishing',
+        AdCategory.phytosnitary: 'phytosnitary',
+        AdCategory.localFoodProducts: 'localFoodProducts',
+        AdCategory.rentalStorageFacilities: 'rentalStorageFacilities',
       }[this]!;
 
   IconData get icon => {
-        Category.agriculture: AwesomeIcons.agriculture,
-        Category.livestock: AwesomeIcons.livestock,
-        Category.fishing: AwesomeIcons.fishing,
-        Category.phytosnitary: AwesomeIcons.phytosnitary,
-        Category.localFoodProducts: AwesomeIcons.food,
-        Category.rentalStorageFacilities: AwesomeIcons.rental,
+        AdCategory.agriculture: AwesomeIcons.agriculture,
+        AdCategory.livestock: AwesomeIcons.livestock,
+        AdCategory.fishing: AwesomeIcons.fishing,
+        AdCategory.phytosnitary: AwesomeIcons.phytosnitary,
+        AdCategory.localFoodProducts: AwesomeIcons.food,
+        AdCategory.rentalStorageFacilities: AwesomeIcons.rental,
       }[this]!;
 }

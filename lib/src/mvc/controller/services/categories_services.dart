@@ -5,18 +5,18 @@ import 'package:http/http.dart' as http;
 import '../../model/models.dart';
 import '../services.dart';
 
-class PreferencesServices {
+class CategoriesServices {
   static const String baseUrl = 'https://api.bayam.site';
 
   final UserSession userSession;
 
-  PreferencesServices(this.userSession);
+  CategoriesServices(this.userSession);
 
-  static PreferencesServices of(UserSession userSession) {
-    return PreferencesServices(userSession);
+  static CategoriesServices of(UserSession userSession) {
+    return CategoriesServices(userSession);
   }
 
-  Future<List<Preference>> get() async {
+  Future<List<Category>> get() async {
     var request = http.Request(
       'GET',
       Uri.parse(
@@ -27,7 +27,7 @@ class PreferencesServices {
     http.Response response = await HttpRequest.attemptHttpCall(request);
     if (response.statusCode == 200) {
       return List.from(jsonDecode(response.body)['hydra:member'])
-          .map((e) => Preference.fromJson(e))
+          .map((e) => Category.fromJson(e))
           .toList();
     } else {
       Map<int, String> statusCodesPhrases = {
@@ -40,7 +40,7 @@ class PreferencesServices {
     }
   }
 
-  Future<Preference> post({
+  Future<Category> post({
     required String name,
     required String description,
   }) async {
@@ -57,7 +57,7 @@ class PreferencesServices {
     });
     http.Response response = await HttpRequest.attemptHttpCall(request);
     if (response.statusCode == 201) {
-      return Preference.fromJson(jsonDecode(response.body));
+      return Category.fromJson(jsonDecode(response.body));
     } else {
       Map<int, String> statusCodesPhrases = {
         400: 'invalid-input',

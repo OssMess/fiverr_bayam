@@ -191,13 +191,13 @@ class _SearchScreenState extends State<SearchScreen>
                           animation: tabController,
                           // child: SliverToBoxAdapter(child: SizedBox.shrink()),
                           builder: (context, child) {
-                            List<Category> categories = [
-                              Category.agriculture,
-                              Category.livestock,
-                              Category.fishing,
-                              Category.phytosnitary,
-                              Category.localFoodProducts,
-                              Category.rentalStorageFacilities,
+                            List<AdCategory> categories = [
+                              AdCategory.agriculture,
+                              AdCategory.livestock,
+                              AdCategory.fishing,
+                              AdCategory.phytosnitary,
+                              AdCategory.localFoodProducts,
+                              AdCategory.rentalStorageFacilities,
                             ];
                             return Expanded(
                               child: ListView.separated(

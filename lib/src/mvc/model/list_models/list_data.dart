@@ -252,13 +252,13 @@ class ListData {
 
   static List<SearchHistory> searchHistory = [
     {
-      'category': Category.agriculture,
+      'category': AdCategory.agriculture,
       'companyName': 'Samak',
       'companyPhotoUrl':
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDLL2FyAeYaShg5h1YrW3gEyDHDCUb5o2_lw&usqp=CAU',
     },
     {
-      'category': Category.fishing,
+      'category': AdCategory.fishing,
       'companyName': 'Agriland',
       'companyPhotoUrl':
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsXVt1xzsYvk-qV28jaF26jiNfm8bpuv-T8Q&usqp=CAU',

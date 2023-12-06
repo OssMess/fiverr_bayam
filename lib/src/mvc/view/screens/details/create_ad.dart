@@ -33,7 +33,7 @@ class _CreateAdState extends State<CreateAd>
   final GlobalKey<FormState> _keyForm = GlobalKey();
   int adTypeIndex = 0;
   String? title, content, location;
-  Category? category;
+  AdCategory? category;
   Set<String> stringTags = {};
   Set<String> images = {};
   late TabController tabController;
@@ -111,7 +111,7 @@ class _CreateAdState extends State<CreateAd>
                         onTap: () =>
                             Dialogs.of(context).showSingleValuePickerDialog(
                           title: AppLocalizations.of(context)!.category_hint,
-                          values: Category.values
+                          values: AdCategory.values
                               .map(
                                 (e) => e.translateTitle(context),
                               )
@@ -120,13 +120,13 @@ class _CreateAdState extends State<CreateAd>
                           onPick: (value) {
                             categoryConttroller.text = value;
                             category = {
-                              0: Category.agriculture,
-                              1: Category.livestock,
-                              2: Category.fishing,
-                              3: Category.phytosnitary,
-                              4: Category.localFoodProducts,
-                              5: Category.rentalStorageFacilities,
-                            }[Category.values
+                              0: AdCategory.agriculture,
+                              1: AdCategory.livestock,
+                              2: AdCategory.fishing,
+                              3: AdCategory.phytosnitary,
+                              4: AdCategory.localFoodProducts,
+                              5: AdCategory.rentalStorageFacilities,
+                            }[AdCategory.values
                                 .map(
                                   (e) => e.translateTitle(context),
                                 )
