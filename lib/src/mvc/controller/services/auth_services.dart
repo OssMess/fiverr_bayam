@@ -61,7 +61,10 @@ class AuthServices {
     request.body = json.encode({
       'phoneNumber': phoneNumber,
     });
-    http.Response response = await HttpRequest.attemptHttpCall(request);
+    http.Response response = await HttpRequest.attemptHttpCall(
+      request,
+      ignoreAuthorization: true,
+    );
     if (response.statusCode == 201) {
       return;
     } else {
@@ -88,7 +91,10 @@ class AuthServices {
       ),
     );
     request.headers.addAll(Services.headerAcceptldJson);
-    http.Response response = await HttpRequest.attemptHttpCall(request);
+    http.Response response = await HttpRequest.attemptHttpCall(
+      request,
+      ignoreAuthorization: true,
+    );
     if (response.statusCode == 200) {
       await userSession.onSignInCompleted(
         jsonDecode(response.body)['receiver'],

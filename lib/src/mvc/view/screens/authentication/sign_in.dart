@@ -243,6 +243,7 @@ class _SignInState extends State<SignIn> {
                       ),
                       32.heightSp,
                       CustomTextFormFieldBounded(
+                        initialValue: '698305411',
                         labelText: AppLocalizations.of(context)!.phone_number,
                         hintText:
                             AppLocalizations.of(context)!.phone_number_hint,
@@ -369,7 +370,7 @@ class _SignInState extends State<SignIn> {
   Future<void> sendOTP() async {
     Dialogs.of(context).runAsyncAction(
       future: () async {
-        // await AuthServices.of(widget.userSession).sendOTP(phoneNumber!);
+        await AuthServices.of(widget.userSession).sendOTP(phoneNumber!);
       },
       onComplete: (_) {
         setState(() {

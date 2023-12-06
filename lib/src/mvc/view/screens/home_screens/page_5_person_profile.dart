@@ -36,7 +36,7 @@ class Page5PersonProfile extends StatelessWidget {
               child: ProfileHeader(
                 displayName: '${userSession.firstName} ${userSession.lastName}',
                 email: userSession.email,
-                photoUrl: userSession.photoUrl,
+                imageProfile: userSession.imageProfile,
                 isVerified: userSession.isVerified,
                 isOnline: false,
                 description: userSession.bio,

@@ -15,8 +15,8 @@ class UserSession with ChangeNotifier {
   /// user Id
   String? uid;
   String? phoneNumber;
-  //FIXME
-  String? photoUrl;
+  ImageProvider<Object>? imageProfile;
+  List<ImageProvider<Object>>? imageCompany;
   AccountType? accountType;
   String? bio;
   List<String>? preferences;
@@ -43,7 +43,8 @@ class UserSession with ChangeNotifier {
     required this.authState,
     required this.uid,
     required this.phoneNumber,
-    required this.photoUrl,
+    required this.imageProfile,
+    required this.imageCompany,
     required this.firstName,
     required this.lastName,
     required this.companyName,
@@ -91,11 +92,8 @@ class UserSession with ChangeNotifier {
       authState: authState,
       uid: null,
       phoneNumber: null,
-      // authState: AuthState.authenticated,
-      // uid:
-      //     'c0688dfe-f914-45fb-817a-ffa6ff71f7cf', //'e400f468-7876-40ea-baba-148e06fb1140',
-      // phoneNumber: '+237698305411', //'+237698305411',
-      photoUrl: null,
+      imageProfile: null,
+      imageCompany: null,
       firstName: null,
       lastName: null,
       companyName: null,
@@ -128,7 +126,13 @@ class UserSession with ChangeNotifier {
       authState: AuthState.authenticated,
       uid: json['uid'],
       phoneNumber: json['phoneNumber'],
-      photoUrl: json['photoUrl'],
+      imageProfile:
+          ((json['imageProfile'] as String?).toImageFromBase64String)?.image,
+      // imageCompany:
+      // ((json['imageCompany'] as String?).toImageFromBase64String)?.image,
+      imageCompany: List.from(json['imageCompany'] ?? [])
+          .map((e) => (e as String).toImageFromBase64String.image)
+          .toList(),
       firstName: json['firstName'],
       lastName: json['lastName'],
       companyName: json['companyName'],
@@ -178,7 +182,7 @@ class UserSession with ChangeNotifier {
   Author get toAuthor => Author(
         uid: uid!,
         phoneNumber: phoneNumber!,
-        photoUrl: photoUrl,
+        photoUrl: null,
         firstName: firstName,
         lastName: lastName,
         companyName: companyName,
@@ -201,30 +205,30 @@ class UserSession with ChangeNotifier {
       );
 
   /// return a `Map` of this instance
-  Map<String, dynamic> get toMap => {
-        'uid': uid,
-        'phoneNumber': phoneNumber,
-        'photoUrl': photoUrl,
-        'firstName': firstName,
-        'lastName': lastName,
-        'companyName': companyName,
-        'accountType': accountType?.key,
-        'preferences': preferences,
-        'bio': bio,
-        'birthDate': birthDate,
-        'city': city,
-        'country': country,
-        'email': email,
-        'facebookUrl': facebookUrl,
-        'linkedinUrl': linkedinUrl,
-        'postalCode': postalCode,
-        'region': region,
-        'uniqueRegisterNumber': uniqueRegisterNumber,
-        'streetAddress': streetAddress,
-        'twitterUrl': twitterUrl,
-        'isActive': _isActive,
-        'isVerified': _isVerified,
-      };
+  // Map<String, dynamic> get toMap => {
+  //       'uid': uid,
+  //       'phoneNumber': phoneNumber,
+  //       'photoUrl': photoUrl,
+  //       'firstName': firstName,
+  //       'lastName': lastName,
+  //       'companyName': companyName,
+  //       'accountType': accountType?.key,
+  //       'preferences': preferences,
+  //       'bio': bio,
+  //       'birthDate': birthDate,
+  //       'city': city,
+  //       'country': country,
+  //       'email': email,
+  //       'facebookUrl': facebookUrl,
+  //       'linkedinUrl': linkedinUrl,
+  //       'postalCode': postalCode,
+  //       'region': region,
+  //       'uniqueRegisterNumber': uniqueRegisterNumber,
+  //       'streetAddress': streetAddress,
+  //       'twitterUrl': twitterUrl,
+  //       'isActive': _isActive,
+  //       'isVerified': _isVerified,
+  //     };
 
   /// return true if awaiting for user sessions
   bool get isAwaitingAuth => authState == AuthState.awaiting;
@@ -276,12 +280,10 @@ class UserSession with ChangeNotifier {
   /// listeners to rebuild the widget tree and sync the changes
   void updateFromUserSession(UserSession user) {
     uid = user.uid;
-    // if (uid.isNotNullOrEmpty) {
-    //   UserServices.getUserSession(this);
-    // } else {
     authState = user.authState;
     phoneNumber = user.phoneNumber;
-    photoUrl = user.photoUrl;
+    imageProfile = user.imageProfile;
+    imageCompany = user.imageCompany;
     firstName = user.firstName;
     lastName = user.lastName;
     companyName = user.companyName;
@@ -301,7 +303,6 @@ class UserSession with ChangeNotifier {
     _isActive = user._isActive;
     _isVerified = user._isVerified;
     notifyListeners();
-    // }
   }
 
   Future<void> onSignInCompleted(Map<String, dynamic> json) async {
@@ -310,12 +311,18 @@ class UserSession with ChangeNotifier {
     accountType = null;
     if (json['firstName'] is String) {
       accountType = AccountType.person;
-      photoUrl = json['photoUrl'];
     }
+
     if (json['companyName'] is String) {
       accountType = AccountType.company;
-      photoUrl = json['photoUrl'];
     }
+    imageProfile =
+        ((json['imageProfile'] as String?).toImageFromBase64String)?.image;
+    // imageCompany =
+    // ((json['imageCompany'] as String?).toImageFromBase64String)?.image;
+    imageCompany = List.from(json['imageCompany'] ?? [])
+        .map((e) => (e as String).toImageFromBase64String.image)
+        .toList();
     firstName = json['firstName'];
     lastName = json['lastName'];
     companyName = json['companyName'];

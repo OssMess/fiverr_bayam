@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -42,8 +43,8 @@ class ProfileCompany extends StatelessWidget {
                     ProfileHeader(
                       displayName: 'BigMop',
                       email: 'Bigmop@gmail.com',
-                      photoUrl:
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDLL2FyAeYaShg5h1YrW3gEyDHDCUb5o2_lw&usqp=CAU',
+                      imageProfile: const CachedNetworkImageProvider(
+                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDLL2FyAeYaShg5h1YrW3gEyDHDCUb5o2_lw&usqp=CAU'),
                       isVerified: true,
                       isOnline: true,
                       actions: [

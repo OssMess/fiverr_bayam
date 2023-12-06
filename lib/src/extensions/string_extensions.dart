@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+
 import '../mvc/model/enums.dart';
 
 extension StringExtension on String {
@@ -62,6 +66,9 @@ extension StringExtension on String {
         'notification_saved_ad': AppNotificationType.savedAd,
         'notification_saved_ad_many': AppNotificationType.savedAdMany,
       }[this]!;
+
+  Image get toImageFromBase64String =>
+      Image.memory(const Base64Decoder().convert(this));
 }
 
 extension StringNullableExtension on String? {
@@ -76,4 +83,7 @@ extension StringNullableExtension on String? {
 
   /// return `true` if `String` is not null or empty, after trimming String
   bool get isNotNullOrEmpty => (this ?? '').trim().isNotEmpty;
+
+  Image? get toImageFromBase64String =>
+      this == null ? null : Image.memory(const Base64Decoder().convert(this!));
 }

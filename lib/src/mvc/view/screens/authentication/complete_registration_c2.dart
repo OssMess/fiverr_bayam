@@ -24,7 +24,7 @@ class CompleteRegistrationC2 extends StatefulWidget {
 }
 
 class _CompleteRegistrationC2State extends State<CompleteRegistrationC2> {
-  XFile? file;
+  XFile? imageFile;
 
   @override
   void dispose() {
@@ -86,8 +86,23 @@ class _CompleteRegistrationC2State extends State<CompleteRegistrationC2> {
                 16.heightSp,
                 InkResponse(
                   onTap: () async {
-                    if (await Permissions.of(context)
-                        .showPhotoLibraryPermission()) return;
+                    if (await Permissions.of(context).showCameraPermission()) {
+                      return;
+                    }
+                    return await ImagePicker()
+                        .pickImage(
+                      source: ImageSource.camera,
+                      maxHeight: 1080,
+                      maxWidth: 1080,
+                      imageQuality: 80,
+                    )
+                        .then(
+                      (xfile) {
+                        setState(() {
+                          imageFile = xfile;
+                        });
+                      },
+                    );
                   },
                   child: Container(
                     width: double.infinity,
@@ -97,20 +112,27 @@ class _CompleteRegistrationC2State extends State<CompleteRegistrationC2> {
                       color: context.textTheme.headlineSmall!.color!,
                       borderRadius: BorderRadius.circular(14.sp),
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    child: Stack(
                       children: [
-                        Icon(
-                          AwesomeIcons.cloud_arrow_up,
-                          color: Styles.green,
-                          size: 40.sp,
-                        ),
-                        Text(
-                          AppLocalizations.of(context)!.upload_documents,
-                          style: Styles.poppins(
-                            fontSize: 12.sp,
-                            fontWeight: Styles.semiBold,
-                            color: Styles.green,
+                        //FIXME show picked image
+                        Positioned(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                AwesomeIcons.cloud_arrow_up,
+                                color: Styles.green,
+                                size: 40.sp,
+                              ),
+                              Text(
+                                AppLocalizations.of(context)!.upload_documents,
+                                style: Styles.poppins(
+                                  fontSize: 12.sp,
+                                  fontWeight: Styles.semiBold,
+                                  color: Styles.green,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -133,7 +155,9 @@ class _CompleteRegistrationC2State extends State<CompleteRegistrationC2> {
   Future<void> next() async {
     Dialogs.of(context).runAsyncAction(
       future: () async {
-        await UserServices.of(widget.userSession).post();
+        await UserServices.of(widget.userSession).post(
+          imageCompanyTax: imageFile != null ? [imageFile!.toFile] : null,
+        );
       },
       onComplete: (_) {
         Dialogs.of(context).showCustomDialog(

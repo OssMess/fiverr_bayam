@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:badges/badges.dart' as badge;
 
@@ -14,7 +13,7 @@ class ProfileHeader extends StatelessWidget {
     super.key,
     required this.displayName,
     required this.email,
-    required this.photoUrl,
+    required this.imageProfile,
     required this.isVerified,
     required this.isOnline,
     this.description,
@@ -25,7 +24,7 @@ class ProfileHeader extends StatelessWidget {
 
   final String displayName;
   final String? email;
-  final String? photoUrl;
+  final ImageProvider<Object>? imageProfile;
   final bool isVerified;
   final bool isOnline;
   final String? description;
@@ -61,11 +60,7 @@ class ProfileHeader extends StatelessWidget {
             child: CircleAvatar(
               radius: 55.sp,
               backgroundColor: context.textTheme.headlineSmall!.color,
-              foregroundImage: photoUrl.isNotNullOrEmpty
-                  ? CachedNetworkImageProvider(
-                      photoUrl!,
-                    )
-                  : null,
+              foregroundImage: imageProfile,
             ),
           ),
           12.heightSp,

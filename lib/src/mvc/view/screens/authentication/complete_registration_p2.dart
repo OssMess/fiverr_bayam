@@ -17,22 +17,23 @@ class CompleteRegistrationP2 extends StatefulWidget {
   const CompleteRegistrationP2({
     super.key,
     required this.userSession,
-    required this.image,
+    required this.imageFile,
   });
 
   final UserSession userSession;
-  final XFile image;
+  final XFile imageFile;
 
   @override
   State<CompleteRegistrationP2> createState() => _CompleteRegistrationP2State();
 }
 
 class _CompleteRegistrationP2State extends State<CompleteRegistrationP2> {
-  XFile? file;
+  XFile? imageFile;
 
   @override
-  void dispose() {
-    super.dispose();
+  void initState() {
+    imageFile = widget.imageFile;
+    super.initState();
   }
 
   @override
@@ -89,7 +90,7 @@ class _CompleteRegistrationP2State extends State<CompleteRegistrationP2> {
                       child: CircleAvatar(
                         backgroundImage: Image.file(
                           File(
-                            widget.image.path,
+                            imageFile!.path,
                           ),
                         ).image,
                       ),
@@ -132,7 +133,9 @@ class _CompleteRegistrationP2State extends State<CompleteRegistrationP2> {
   Future<void> next() async {
     await Dialogs.of(context).runAsyncAction(
       future: () async {
-        await UserServices.of(widget.userSession).post();
+        await UserServices.of(widget.userSession).post(
+          imageProfile: imageFile?.toFile,
+        );
       },
       onComplete: (_) {
         Dialogs.of(context).showCustomDialog(

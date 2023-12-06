@@ -45,7 +45,12 @@ class UserServices {
     }
   }
 
-  Future<void> post() async {
+  Future<void> post({
+    File? imageProfile,
+    File? imageCompany,
+    List<File>? imageCompanyTax,
+    List<File>? imageUserIdentity,
+  }) async {
     var request = http.Request(
       'PATCH',
       Uri.parse(
@@ -56,7 +61,7 @@ class UserServices {
       HttpHeaders.contentTypeHeader: 'application/merge-patch+json',
       ...Services.headerAcceptldJson,
     });
-    request.body = json.encode({
+    var body = {
       'isCompanyOrClient': true,
       'isVerified': false,
       'phoneNumber': userSession.phoneNumber,
@@ -86,7 +91,42 @@ class UserServices {
       if (userSession.uniqueRegisterNumber.isNotNullOrEmpty)
         'uniqueRegisterNumber': userSession.uniqueRegisterNumber,
       'preferenceList': userSession.preferences ?? [],
-    });
+      if (imageUserIdentity != null)
+        'imageUserIdentity': imageUserIdentity.map((e) => e.toBase64String()),
+    };
+    if (imageProfile != null) {
+      await imageProfile.toBase64String().then((value) => body.addAll({
+            'imageProfile': value,
+          }));
+    }
+    if (imageCompany != null) {
+      await imageCompany.toBase64String().then((value) => body.addAll({
+            'imageCompany': [value],
+          }));
+    }
+    if (imageCompanyTax != null) {
+      List<String> imagesCompanyTaxt = [];
+      for (var image in imageCompanyTax) {
+        await image
+            .toBase64String()
+            .then((value) => imagesCompanyTaxt.add(value));
+      }
+      body.addAll({
+        'imageCompanyTax': imagesCompanyTaxt,
+      });
+    }
+    if (imageUserIdentity != null) {
+      List<String> imagesCompanyTaxt = [];
+      for (var image in imageUserIdentity) {
+        await image
+            .toBase64String()
+            .then((value) => imagesCompanyTaxt.add(value));
+      }
+      body.addAll({
+        'imageUserIdentity': imagesCompanyTaxt,
+      });
+    }
+    request.body = json.encode(body);
     http.Response response = await HttpRequest.attemptHttpCall(request);
     if (response.statusCode == 200) {
       await userSession.onSignInCompleted(

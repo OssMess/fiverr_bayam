@@ -1,4 +1,5 @@
 import 'package:bayam/src/mvc/view/screens.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -42,8 +43,8 @@ class ProfilePerson extends StatelessWidget {
                     ProfileHeader(
                       displayName: 'Pierre Owona',
                       email: 'pierre.owona@gmail.com',
-                      photoUrl:
-                          'https://i.pinimg.com/1200x/a1/1e/2a/a11e2a9d5803e4dc2c034819ce12a16e.jpg',
+                      imageProfile: const CachedNetworkImageProvider(
+                          'https://i.pinimg.com/1200x/a1/1e/2a/a11e2a9d5803e4dc2c034819ce12a16e.jpg'),
                       isVerified: true,
                       isOnline: true,
                       actions: [

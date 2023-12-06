@@ -36,7 +36,7 @@ class Page5CompanyProfile extends StatelessWidget {
               child: ProfileHeader(
                 displayName: userSession.companyName!,
                 email: userSession.email,
-                photoUrl: userSession.photoUrl,
+                imageProfile: userSession.imageProfile,
                 isVerified: userSession.isVerified,
                 isOnline: false,
                 description: userSession.bio,

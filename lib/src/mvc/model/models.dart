@@ -10,4 +10,5 @@ export './models/message.dart';
 export './models/tag.dart';
 export './models/user_session.dart';
 export './models/discussion.dart';
-export 'models/author.dart';
+export './models/author.dart';
+export './models/preference.dart';

@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../extensions.dart';
 import '../../../../tools.dart';
+import '../../../controller/services.dart';
 import '../../../model/enums.dart';
 import '../../../model/models.dart';
 import '../../model_widgets.dart';
@@ -24,23 +25,13 @@ class CompletePreferences extends StatefulWidget {
 }
 
 class _CompletePreferencesState extends State<CompletePreferences> {
-  Set<AccountPreference> pickedPreferences = {};
-  Set<AccountPreference> filteredPreferences = {};
-  Set<AccountPreference> allPreferences = {
-    AccountPreference.paddyrice,
-    AccountPreference.hulledrice,
-    AccountPreference.freshcassava,
-    AccountPreference.driedcassava,
-    AccountPreference.sweetpotatoes,
-    AccountPreference.potatoes,
-    AccountPreference.bananas,
-    AccountPreference.blantains,
-  };
+  Set<Preference> pickedPreferences = {};
+  Set<Preference>? filteredPreferences;
+  Set<Preference>? allPreferences;
 
   @override
   void initState() {
     super.initState();
-    filteredPreferences.addAll(allPreferences);
   }
 
   @override
@@ -50,92 +41,112 @@ class _CompletePreferencesState extends State<CompletePreferences> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(),
-      floatingActionButton: CustomElevatedButton(
-        onPressed: next,
-        label: AppLocalizations.of(context)!.continu,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: Column(
-        children: [
-          CustomAppBarBackground(
-            type: AppBarBackgroundType.shrink,
-            appBarTitleWidget: const CustomAppBarLogo(),
-            appBarLeading: AppBarActionButton(
-              icon: context.backButtonIcon,
-              onTap: () => context.pop(),
-            ),
+    return FutureBuilder<List<Preference>>(
+      future: allPreferences == null
+          ? PreferencesServices.of(widget.userSession).get()
+          : null,
+      builder: (context, snapshot) {
+        if (snapshot.hasData && allPreferences == null) {
+          allPreferences = snapshot.data!.toSet();
+          filteredPreferences = {};
+          filteredPreferences!.addAll(allPreferences!);
+        }
+        return Scaffold(
+          resizeToAvoidBottomInset: false,
+          extendBodyBehindAppBar: true,
+          appBar: AppBar(),
+          floatingActionButton: CustomElevatedButton(
+            onPressed: next,
+            label: AppLocalizations.of(context)!.continu,
           ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 32.sp),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)!
-                        .select_at_least_nb_preferences,
-                    style: Styles.poppins(
-                      fontSize: 18.sp,
-                      fontWeight: Styles.semiBold,
-                      color: context.textTheme.displayLarge!.color,
-                    ),
-                  ),
-                  16.heightSp,
-                  CustomTextFormField(
-                    prefixIcon: AwesomeIcons.magnifying_glass,
-                    suffixIcon: AwesomeIcons.sliders_outlined,
-                    onChanged: (value) {
-                      setState(() {
-                        filteredPreferences.clear();
-                        filteredPreferences.addAll(
-                          allPreferences.where(
-                            (element) => element
-                                .translate(context)
-                                .toLowerCase()
-                                .contains(value),
-                          ),
-                        );
-                      });
-                    },
-                  ),
-                  Expanded(
-                    child: ListView.separated(
-                      padding: EdgeInsets.only(
-                        top: 32.sp,
-                        bottom: context.viewPadding.bottom + 90.sp,
-                      ),
-                      itemBuilder: (context, index) => StatefulBuilder(
-                        builder: (context, setState) {
-                          AccountPreference preference =
-                              filteredPreferences.elementAt(index);
-                          return PreferenceCheckListTile(
-                            checked: pickedPreferences.contains(preference),
-                            preference: preference,
-                            onChange: (added) {
-                              if (added) {
-                                pickedPreferences.add(preference);
-                              } else {
-                                pickedPreferences.remove(preference);
-                              }
-                              setState(() {});
-                            },
-                          );
-                        },
-                      ),
-                      separatorBuilder: (_, __) => 24.heightSp,
-                      itemCount: filteredPreferences.length,
-                    ),
-                  ),
-                ],
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
+          body: Column(
+            children: [
+              CustomAppBarBackground(
+                type: AppBarBackgroundType.shrink,
+                appBarTitleWidget: const CustomAppBarLogo(),
+                appBarLeading: AppBarActionButton(
+                  icon: context.backButtonIcon,
+                  onTap: () => context.pop(),
+                ),
               ),
-            ),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 32.sp),
+                  child: allPreferences != null
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!
+                                  .select_at_least_nb_preferences,
+                              style: Styles.poppins(
+                                fontSize: 18.sp,
+                                fontWeight: Styles.semiBold,
+                                color: context.textTheme.displayLarge!.color,
+                              ),
+                            ),
+                            16.heightSp,
+                            CustomTextFormField(
+                              prefixIcon: AwesomeIcons.magnifying_glass,
+                              suffixIcon: AwesomeIcons.sliders_outlined,
+                              onChanged: (value) {
+                                setState(() {
+                                  filteredPreferences!.clear();
+                                  filteredPreferences!.addAll(
+                                    allPreferences!.where(
+                                      (element) => element.name
+                                          .toLowerCase()
+                                          .contains(value),
+                                    ),
+                                  );
+                                });
+                              },
+                            ),
+                            Expanded(
+                              child: ListView.separated(
+                                padding: EdgeInsets.only(
+                                  top: 32.sp,
+                                  bottom: context.viewPadding.bottom + 90.sp,
+                                ),
+                                itemBuilder: (context, index) =>
+                                    StatefulBuilder(
+                                  builder: (context, setState) {
+                                    Preference preference =
+                                        filteredPreferences!.elementAt(index);
+                                    return PreferenceCheckListTile(
+                                      checked: pickedPreferences
+                                          .contains(preference),
+                                      preference: preference,
+                                      onChange: (added) {
+                                        if (added) {
+                                          pickedPreferences.add(preference);
+                                        } else {
+                                          pickedPreferences.remove(preference);
+                                        }
+                                        setState(() {});
+                                      },
+                                    );
+                                  },
+                                ),
+                                separatorBuilder: (_, __) => 24.heightSp,
+                                itemCount: filteredPreferences!.length,
+                              ),
+                            ),
+                          ],
+                        )
+                      : const Center(
+                          child: CustomLoadingIndicator(
+                            isSliver: false,
+                          ),
+                        ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -147,7 +158,7 @@ class _CompletePreferencesState extends State<CompletePreferences> {
       return;
     }
     widget.userSession.preferences =
-        pickedPreferences.map((e) => e.key).toList();
+        pickedPreferences.map((e) => e.uuid).toList();
     switch (widget.accountType) {
       case AccountType.company:
         context.push(
@@ -177,7 +188,7 @@ class PreferenceCheckListTile extends StatelessWidget {
   });
 
   final bool checked;
-  final AccountPreference preference;
+  final Preference preference;
   final Function(bool) onChange;
 
   @override
@@ -188,7 +199,7 @@ class PreferenceCheckListTile extends StatelessWidget {
         Expanded(
           child: CustomCheckBox(
             value: checked,
-            label: preference.translate(context),
+            label: preference.name,
             onChanged: (value) {
               if (value == null) return;
               onChange(value);

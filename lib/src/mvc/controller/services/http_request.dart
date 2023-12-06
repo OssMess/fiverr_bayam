@@ -12,7 +12,7 @@ class HttpRequest {
   /// code `408` or `500`.
   static Future<http.Response> attemptHttpCall(
     http.Request request, {
-    bool ignoreAuthorization = true,
+    bool ignoreAuthorization = false,
     int retries = 5,
     Duration delay = const Duration(milliseconds: 100),
     Duration timeout = const Duration(seconds: 5),
