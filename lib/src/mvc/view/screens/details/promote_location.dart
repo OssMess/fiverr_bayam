@@ -57,9 +57,9 @@ class _PromoteLocationState extends State<PromoteLocation> {
             padding: EdgeInsets.symmetric(horizontal: 32.sp),
             child: AspectRatio(
               aspectRatio: 2.5,
-              child: widget.ad.coverPhotoUrl.isNotNullOrEmpty
+              child: widget.ad.images.isNotEmpty
                   ? CachedNetworkImage(
-                      imageUrl: widget.ad.coverPhotoUrl,
+                      imageUrl: widget.ad.imagesUrl.first,
                       fit: BoxFit.cover,
                       color: context.textTheme.headlineSmall!.color,
                       progressIndicatorBuilder: (context, url, progress) =>

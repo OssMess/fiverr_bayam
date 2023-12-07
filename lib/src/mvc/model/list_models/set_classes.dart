@@ -38,14 +38,12 @@ abstract class SetClasses<T> with ChangeNotifier {
     isLoading = true;
     await get(
       refresh: false,
-      update: update,
     );
   }
 
   /// call get to retrieve data from backend.
   Future<void> get({
     required bool refresh,
-    required void Function(Set<T>, bool, bool) update,
   });
 
   /// Refresh data.
@@ -55,7 +53,6 @@ abstract class SetClasses<T> with ChangeNotifier {
     isLoading = true;
     await get(
       refresh: true,
-      update: update,
     );
   }
 

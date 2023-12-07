@@ -123,11 +123,11 @@ class SingleValuePickerDialog extends StatelessWidget {
                               Theme.of(context)
                                   .scaffoldBackgroundColor
                                   .withOpacity(0),
-                              context.scaffoldBackgroundColor
+                              context.scaffoldBackgroundColor,
                             ],
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
-                            stops: const [0, 0.1, 0.85, 1],
+                            stops: const [0, 0.05, 0.95, 1],
                           ),
                         )
                       : null,

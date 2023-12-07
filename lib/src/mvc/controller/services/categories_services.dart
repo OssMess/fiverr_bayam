@@ -8,15 +8,7 @@ import '../services.dart';
 class CategoriesServices {
   static const String baseUrl = 'https://api.bayam.site';
 
-  final UserSession userSession;
-
-  CategoriesServices(this.userSession);
-
-  static CategoriesServices of(UserSession userSession) {
-    return CategoriesServices(userSession);
-  }
-
-  Future<List<Category>> get() async {
+  static Future<Set<Category>> get() async {
     var request = http.Request(
       'GET',
       Uri.parse(
@@ -28,7 +20,7 @@ class CategoriesServices {
     if (response.statusCode == 200) {
       return List.from(jsonDecode(response.body)['hydra:member'])
           .map((e) => Category.fromJson(e))
-          .toList();
+          .toSet();
     } else {
       Map<int, String> statusCodesPhrases = {
         500: 'internal-server-error',
@@ -40,7 +32,7 @@ class CategoriesServices {
     }
   }
 
-  Future<Category> post({
+  static Future<Category> post({
     required String name,
     required String description,
   }) async {

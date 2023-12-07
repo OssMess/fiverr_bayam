@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../extensions.dart';
 import '../../../../tools.dart';
-import '../../../controller/services.dart';
 import '../../../model/enums.dart';
+import '../../../model/list_models.dart';
 import '../../../model/models.dart';
 import '../../model_widgets.dart';
 import '../../screens.dart';
@@ -14,11 +15,18 @@ class CompletePreferences extends StatefulWidget {
   const CompletePreferences({
     super.key,
     required this.userSession,
-    required this.accountType,
-  });
+    this.accountType,
+    this.listPreferences,
+    this.onPick,
+  }) : assert((accountType == null &&
+                onPick != null &&
+                listPreferences != null) ||
+            (accountType != null && onPick == null && listPreferences == null));
 
   final UserSession userSession;
-  final AccountType accountType;
+  final AccountType? accountType;
+  final ListCategoriesSub? listPreferences;
+  final void Function(Set<CategorySub>)? onPick;
 
   @override
   State<CompletePreferences> createState() => _CompletePreferencesState();
@@ -26,12 +34,19 @@ class CompletePreferences extends StatefulWidget {
 
 class _CompletePreferencesState extends State<CompletePreferences> {
   Set<CategorySub> pickedPreferences = {};
-  Set<CategorySub>? filteredPreferences;
-  Set<CategorySub>? allPreferences;
+  late ListCategoriesSub listPreferences;
 
   @override
   void initState() {
     super.initState();
+    if (widget.listPreferences != null) {
+      listPreferences = widget.listPreferences!;
+      if (widget.listPreferences!.isNotNull) {
+        widget.listPreferences?.onChangeFilter('');
+      }
+    } else {
+      listPreferences = ListCategoriesSub();
+    }
   }
 
   @override
@@ -41,112 +56,96 @@ class _CompletePreferencesState extends State<CompletePreferences> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<CategorySub>>(
-      future: allPreferences == null
-          ? CategoriesSubServices.of(widget.userSession).get()
-          : null,
-      builder: (context, snapshot) {
-        if (snapshot.hasData && allPreferences == null) {
-          allPreferences = snapshot.data!.toSet();
-          filteredPreferences = {};
-          filteredPreferences!.addAll(allPreferences!);
-        }
-        return Scaffold(
-          resizeToAvoidBottomInset: false,
-          extendBodyBehindAppBar: true,
-          appBar: AppBar(),
-          floatingActionButton: CustomElevatedButton(
-            onPressed: next,
-            label: AppLocalizations.of(context)!.continu,
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(),
+      floatingActionButton: CustomElevatedButton(
+        onPressed: next,
+        label: AppLocalizations.of(context)!.continu,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      body: Column(
+        children: [
+          CustomAppBarBackground(
+            type: AppBarBackgroundType.shrink,
+            appBarTitleWidget: const CustomAppBarLogo(),
+            appBarLeading: AppBarActionButton(
+              icon: context.backButtonIcon,
+              onTap: () => context.pop(),
+            ),
           ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
-          body: Column(
-            children: [
-              CustomAppBarBackground(
-                type: AppBarBackgroundType.shrink,
-                appBarTitleWidget: const CustomAppBarLogo(),
-                appBarLeading: AppBarActionButton(
-                  icon: context.backButtonIcon,
-                  onTap: () => context.pop(),
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 32.sp),
-                  child: allPreferences != null
-                      ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              AppLocalizations.of(context)!
-                                  .select_at_least_nb_preferences,
-                              style: Styles.poppins(
-                                fontSize: 18.sp,
-                                fontWeight: Styles.semiBold,
-                                color: context.textTheme.displayLarge!.color,
-                              ),
-                            ),
-                            16.heightSp,
-                            CustomTextFormField(
-                              prefixIcon: AwesomeIcons.magnifying_glass,
-                              suffixIcon: AwesomeIcons.sliders_outlined,
-                              onChanged: (value) {
-                                setState(() {
-                                  filteredPreferences!.clear();
-                                  filteredPreferences!.addAll(
-                                    allPreferences!.where(
-                                      (element) => element.name
-                                          .toLowerCase()
-                                          .contains(value),
-                                    ),
-                                  );
-                                });
-                              },
-                            ),
-                            Expanded(
-                              child: ListView.separated(
-                                padding: EdgeInsets.only(
-                                  top: 32.sp,
-                                  bottom: context.viewPadding.bottom + 90.sp,
-                                ),
-                                itemBuilder: (context, index) =>
-                                    StatefulBuilder(
-                                  builder: (context, setState) {
-                                    CategorySub preference =
-                                        filteredPreferences!.elementAt(index);
-                                    return PreferenceCheckListTile(
-                                      checked: pickedPreferences
-                                          .contains(preference),
-                                      preference: preference,
-                                      onChange: (added) {
-                                        if (added) {
-                                          pickedPreferences.add(preference);
-                                        } else {
-                                          pickedPreferences.remove(preference);
-                                        }
-                                        setState(() {});
-                                      },
-                                    );
-                                  },
-                                ),
-                                separatorBuilder: (_, __) => 24.heightSp,
-                                itemCount: filteredPreferences!.length,
-                              ),
-                            ),
-                          ],
-                        )
-                      : const Center(
-                          child: CustomLoadingIndicator(
-                            isSliver: false,
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 32.sp),
+              child: ChangeNotifierProvider.value(
+                value: widget.listPreferences,
+                child: Consumer<ListCategoriesSub>(
+                  builder: (context, list, _) {
+                    list.initData(callGet: true);
+                    if (list.isNull) {
+                      return const Center(
+                        child: CustomLoadingIndicator(
+                          isSliver: false,
+                        ),
+                      );
+                    }
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          AppLocalizations.of(context)!
+                              .select_at_least_nb_preferences,
+                          style: Styles.poppins(
+                            fontSize: 18.sp,
+                            fontWeight: Styles.semiBold,
+                            color: context.textTheme.displayLarge!.color,
                           ),
                         ),
+                        16.heightSp,
+                        CustomTextFormField(
+                          prefixIcon: AwesomeIcons.magnifying_glass,
+                          suffixIcon: AwesomeIcons.sliders_outlined,
+                          onChanged: list.onChangeFilter,
+                        ),
+                        Expanded(
+                          child: ListView.separated(
+                            padding: EdgeInsets.only(
+                              top: 32.sp,
+                              bottom: context.viewPadding.bottom + 90.sp,
+                            ),
+                            itemBuilder: (context, index) => StatefulBuilder(
+                              builder: (context, setState) {
+                                CategorySub preference =
+                                    list.filterSet.elementAt(index);
+                                return PreferenceCheckListTile(
+                                  checked:
+                                      pickedPreferences.contains(preference),
+                                  preference: preference,
+                                  onChange: (added) {
+                                    if (added) {
+                                      pickedPreferences.add(preference);
+                                    } else {
+                                      pickedPreferences.remove(preference);
+                                    }
+                                    setState(() {});
+                                  },
+                                );
+                              },
+                            ),
+                            separatorBuilder: (_, __) => 24.heightSp,
+                            itemCount: list.filterSet.length,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ),
-            ],
+            ),
           ),
-        );
-      },
+        ],
+      ),
     );
   }
 
@@ -157,30 +156,40 @@ class _CompletePreferencesState extends State<CompletePreferences> {
     //   category: '68672060-6fa5-4e5b-8852-7fe8a1d735c2',
     // );
     // return;
-    if (pickedPreferences.length < 3) {
-      Dialogs.of(context).showSnackBar(
-        message: AppLocalizations.of(context)!.select_at_least_nb_preferences,
-      );
-      return;
-    }
-    widget.userSession.preferences =
-        pickedPreferences.map((e) => e.uuid).toList();
-    switch (widget.accountType) {
-      case AccountType.company:
-        context.push(
-          widget: CompleteRegistrationC2(
-            userSession: widget.userSession,
-          ),
+    if (widget.accountType != null) {
+      if (pickedPreferences.length < 3) {
+        Dialogs.of(context).showSnackBar(
+          message: AppLocalizations.of(context)!.select_at_least_nb_preferences,
         );
-        break;
-      case AccountType.person:
-        context.push(
-          widget: CompleteRegistrationP1(
-            userSession: widget.userSession,
-          ),
+        return;
+      }
+      widget.userSession.preferences =
+          pickedPreferences.map((e) => e.uuid).toList();
+      switch (widget.accountType) {
+        case AccountType.company:
+          context.push(
+            widget: CompleteRegistrationC2(
+              userSession: widget.userSession,
+            ),
+          );
+          break;
+        case AccountType.person:
+          context.push(
+            widget: CompleteRegistrationP1(
+              userSession: widget.userSession,
+            ),
+          );
+          break;
+        default:
+      }
+    } else {
+      if (pickedPreferences.length < 3) {
+        Dialogs.of(context).showSnackBar(
+          message: AppLocalizations.of(context)!.select_at_least_nb_preferences,
         );
-        break;
-      default:
+        return;
+      }
+      widget.onPick!(pickedPreferences);
     }
   }
 }

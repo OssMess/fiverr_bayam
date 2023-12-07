@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -9,6 +7,7 @@ import 'package:badges/badges.dart' as badge;
 import '../../../../extensions.dart';
 import '../../../controller/services.dart';
 import '../../../model/enums.dart';
+import '../../../model/list_models.dart';
 import '../../../model/models.dart';
 import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
@@ -33,12 +32,13 @@ class _CreateAdState extends State<CreateAd>
   final GlobalKey<FormState> _keyForm = GlobalKey();
   int adTypeIndex = 0;
   String? title, content, location;
-  AdCategory? category;
+  Category? category;
   Set<String> stringTags = {};
-  Set<String> images = {};
+  Set<XFile> images = {};
   late TabController tabController;
   TextEditingController categoryConttroller = TextEditingController();
   TextEditingController tagsConttroller = TextEditingController();
+  ListCategories listCategories = ListCategories();
 
   @override
   void initState() {
@@ -50,7 +50,7 @@ class _CreateAdState extends State<CreateAd>
       location = widget.ad!.location;
       stringTags.addAll(widget.ad!.tags.map((e) => e.name));
       WidgetsBinding.instance.addPostFrameCallback((_) async {
-        categoryConttroller.text = category?.translateTitle(context) ?? '';
+        categoryConttroller.text = category?.name ?? '';
       });
     }
     tabController = TabController(
@@ -90,6 +90,7 @@ class _CreateAdState extends State<CreateAd>
                   autovalidateMode: AutovalidateMode.disabled,
                   child: Column(
                     children: [
+                      //title
                       CustomTextFormFieldBounded(
                         labelText: AppLocalizations.of(context)!.ad_title,
                         hintText: AppLocalizations.of(context)!.ad_title_hint,
@@ -101,6 +102,7 @@ class _CreateAdState extends State<CreateAd>
                         keyboardType: TextInputType.name,
                       ),
                       16.heightSp,
+                      //category
                       CustomTextFormFieldBounded(
                         controller: categoryConttroller,
                         labelText: AppLocalizations.of(context)!.category,
@@ -108,34 +110,33 @@ class _CreateAdState extends State<CreateAd>
                         suffixIcon: Icons.arrow_drop_down,
                         validator: Validators.validateNotNull,
                         keyboardType: TextInputType.name,
-                        onTap: () =>
-                            Dialogs.of(context).showSingleValuePickerDialog(
-                          title: AppLocalizations.of(context)!.category_hint,
-                          values: AdCategory.values
-                              .map(
-                                (e) => e.translateTitle(context),
-                              )
-                              .toList(),
-                          initialvalue: category?.translateTitle(context),
-                          onPick: (value) {
-                            categoryConttroller.text = value;
-                            category = {
-                              0: AdCategory.agriculture,
-                              1: AdCategory.livestock,
-                              2: AdCategory.fishing,
-                              3: AdCategory.phytosnitary,
-                              4: AdCategory.localFoodProducts,
-                              5: AdCategory.rentalStorageFacilities,
-                            }[AdCategory.values
+                        onTap: () async {
+                          if (listCategories.isNull) {
+                            await Dialogs.of(context).runAsyncAction(
+                              future: () async =>
+                                  listCategories.get(refresh: false),
+                            );
+                          }
+                          if (!context.mounted) return;
+                          Dialogs.of(context).showSingleValuePickerDialog(
+                            mainAxisSize: MainAxisSize.max,
+                            title: AppLocalizations.of(context)!.category_hint,
+                            values: listCategories.list
                                 .map(
-                                  (e) => e.translateTitle(context),
+                                  (e) => e.name,
                                 )
-                                .toList()
-                                .indexOf(value)]!;
-                          },
-                        ),
+                                .toList(),
+                            initialvalue: category?.name,
+                            onPick: (value) {
+                              categoryConttroller.text = value;
+                              category = listCategories.list.firstWhere(
+                                  (element) => element.name == value);
+                            },
+                          );
+                        },
                       ),
                       16.heightSp,
+                      //type
                       CustomTabBar(
                         controller: tabController,
                         tabs: [
@@ -148,6 +149,7 @@ class _CreateAdState extends State<CreateAd>
                         },
                       ),
                       16.heightSp,
+                      //images
                       Container(
                         padding: EdgeInsets.symmetric(vertical: 16.sp),
                         decoration: BoxDecoration(
@@ -193,6 +195,7 @@ class _CreateAdState extends State<CreateAd>
                         ),
                       ),
                       16.heightSp,
+                      //description
                       CustomTextFormFieldBounded(
                         labelText: AppLocalizations.of(context)!.description,
                         hintText:
@@ -206,6 +209,7 @@ class _CreateAdState extends State<CreateAd>
                         keyboardType: TextInputType.multiline,
                       ),
                       16.heightSp,
+                      //location
                       CustomTextFormFieldBounded(
                         labelText: AppLocalizations.of(context)!.location,
                         hintText: AppLocalizations.of(context)!.location_hint,
@@ -217,6 +221,7 @@ class _CreateAdState extends State<CreateAd>
                         keyboardType: TextInputType.name,
                       ),
                       16.heightSp,
+                      //tags
                       CustomTextFormFieldBounded(
                         controller: tagsConttroller,
                         labelText: AppLocalizations.of(context)!.tags,
@@ -319,17 +324,18 @@ class _CreateAdState extends State<CreateAd>
             tags.add(tag);
           }
         }
-        await AdServices.post(
-          Ad.init(
-            user: widget.userSession,
-            title: title!,
-            content: content!,
-            location: location!,
-            adType: adTypeIndex.toAdType,
-            category: category!,
-            tags: tags,
-          ),
-        );
+        // await AdServices.post(
+        //   Ad.init(
+        //     user: widget.userSession,
+        //     title: title!,
+        //     content: content!,
+        //     location: location!,
+        //     adType: adTypeIndex.toAdType,
+        //     category: category!,
+        //     tags: tags,
+        //     images: images.map((e) => e.toFile).toList(),
+        //   ),
+        // );
       },
       onComplete: (_) {
         Dialogs.of(context).showCustomDialog(
@@ -370,9 +376,9 @@ class ImageCard extends StatelessWidget {
   });
 
   final int index;
-  final Set<String> images;
-  final void Function(Iterable<String>) onAddImages;
-  final void Function(String) onDeleteImage;
+  final Set<XFile> images;
+  final void Function(Iterable<XFile>) onAddImages;
+  final void Function(XFile) onDeleteImage;
 
   @override
   Widget build(BuildContext context) {
@@ -390,7 +396,7 @@ class ImageCard extends StatelessWidget {
           )
               .then(
             (files) {
-              onAddImages(files.map((e) => e.path));
+              onAddImages(files);
             },
           );
         },
@@ -442,7 +448,7 @@ class ImageCard extends StatelessWidget {
               color: context.textTheme.headlineLarge!.color,
               image: DecorationImage(
                 image: Image.file(
-                  File(images.elementAt(index)),
+                  images.elementAt(index).toFile,
                 ).image,
                 fit: BoxFit.cover,
               ),

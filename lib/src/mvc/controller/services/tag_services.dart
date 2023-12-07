@@ -16,6 +16,7 @@ class TagServices {
         '$baseUrl/api/tag/$id',
       ),
     );
+    request.headers.addAll(Services.headerAcceptldJson);
     http.Response response = await HttpRequest.attemptHttpCall(
       request,
       forceSkipRetries: true,
@@ -35,9 +36,6 @@ class TagServices {
   }
 
   static Future<Tag> post(String name) async {
-    var headers = {
-      'Content-Type': 'application/json',
-    };
     var request = http.Request(
       'POST',
       Uri.parse(
@@ -48,7 +46,7 @@ class TagServices {
       'name': name,
       'description': '',
     });
-    request.headers.addAll(headers);
+    request.headers.addAll(Services.headersldJson);
     http.Response response = await HttpRequest.attemptHttpCall(
       request,
       forceSkipRetries: true,

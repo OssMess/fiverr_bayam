@@ -142,6 +142,7 @@ class _SearchScreenState extends State<SearchScreen>
                               filter: FilterType.adtype,
                               onTap: () {
                                 Dialogs.of(context).showSingleValuePickerDialog(
+                                  mainAxisSize: MainAxisSize.min,
                                   title: AppLocalizations.of(context)!
                                       .filter_ads_by_type,
                                   values: [

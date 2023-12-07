@@ -374,6 +374,7 @@ class Dialogs {
     bool searchable = false,
     bool searchStartsWith = false,
     required void Function(String) onPick,
+    required MainAxisSize mainAxisSize,
   }) async {
     await context.showAdaptiveModalBottomSheet(
       builder: (context) => SingleValuePickerDialog(
@@ -383,7 +384,7 @@ class Dialogs {
         searchable: searchable,
         searchStartsWith: searchStartsWith,
         initialValue: initialvalue,
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: mainAxisSize,
         physics: const ClampingScrollPhysics(),
         onPick: onPick,
       ),

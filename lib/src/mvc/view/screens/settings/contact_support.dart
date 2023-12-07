@@ -109,6 +109,7 @@ class _ContactSupportState extends State<ContactSupport> {
                           suffixIcon: Icons.arrow_drop_down,
                           onTap: () =>
                               Dialogs.of(context).showSingleValuePickerDialog(
+                            mainAxisSize: MainAxisSize.min,
                             title: AppLocalizations.of(context)!
                                 .pick_a_department_hint,
                             values: [

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../extensions.dart';
@@ -15,14 +16,13 @@ class Ad with ChangeNotifier {
   final String content;
   final String location;
   final AdType type;
-  final AdCategory category;
+  final Category category;
   final List<Tag> tags;
   final DateTime createdAt;
   final bool isPromotion;
-  final List<dynamic> promotions;
-  //TODO
+  final List<ImageProvider<Object>> images;
+  final List<String> imagesUrl;
   final int likes;
-  final String coverPhotoUrl;
 
   Ad({
     required this.uuid,
@@ -35,35 +35,10 @@ class Ad with ChangeNotifier {
     required this.tags,
     required this.createdAt,
     required this.isPromotion,
-    required this.promotions,
+    required this.images,
+    required this.imagesUrl,
     required this.likes,
-    required this.coverPhotoUrl,
   });
-
-  factory Ad.init({
-    required UserSession user,
-    required String title,
-    required String content,
-    required String location,
-    required AdType adType,
-    required AdCategory category,
-    required List<Tag> tags,
-  }) =>
-      Ad(
-        uuid: '',
-        author: user.toAuthor,
-        title: title,
-        content: content,
-        location: location,
-        category: category,
-        type: adType,
-        tags: tags,
-        createdAt: DateTime.now(),
-        isPromotion: false,
-        promotions: [],
-        likes: 0,
-        coverPhotoUrl: '',
-      );
 
   factory Ad.fromMap(Map<dynamic, dynamic> json) => Ad(
         uuid: json['uuid'],
@@ -71,22 +46,23 @@ class Ad with ChangeNotifier {
         title: json['title'],
         content: json['content'],
         location: json['location'],
-        category: (json['category'] as String).toCategory,
+        category: Category.fromJson(json['category']),
         type: (json['type'] as String).toAdType,
         tags: List.from(json['tags']).map((e) => Tag.fromMap(e)).toList(),
         createdAt: DateTime.parse(json['created_at']),
         isPromotion: json['isPromotion'],
-        promotions: List.from(json['promotions']),
-        //TODO add likes, cover photo url, isLiked
-        likes: 0,
-        coverPhotoUrl: '',
+        images: List.from(json['images'] ?? [])
+            .map((e) => CachedNetworkImageProvider(e))
+            .toList(),
+        imagesUrl: List.from(json['images'] ?? []),
+        likes: json['likes'] ?? 0,
       );
 
   Map<dynamic, dynamic> get toMapInit => {
         // 'author': author.uid,
         'title': title,
         'content': content,
-        'category': category.key,
+        'category': category.uuid,
         'location': location,
         'type': type.key,
         'tags': tags.map((e) => e.name).toList(),

@@ -278,9 +278,9 @@ class AdBanner extends StatelessWidget {
         children: [
           AspectRatio(
             aspectRatio: 2.5,
-            child: ad.coverPhotoUrl.isNotNullOrEmpty
+            child: ad.images.isNotEmpty
                 ? CachedNetworkImage(
-                    imageUrl: ad.coverPhotoUrl,
+                    imageUrl: ad.imagesUrl.first,
                     fit: BoxFit.cover,
                     color: context.textTheme.headlineSmall!.color,
                     progressIndicatorBuilder: (context, url, progress) =>

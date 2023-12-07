@@ -41,9 +41,9 @@ class AdTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: ad.coverPhotoUrl.isNotNullOrEmpty
+            child: ad.imagesUrl.isNotEmpty
                 ? CachedNetworkImage(
-                    imageUrl: ad.coverPhotoUrl,
+                    imageUrl: ad.imagesUrl.first,
                     fit: BoxFit.cover,
                     color: context.textTheme.headlineSmall!.color,
                     progressIndicatorBuilder: (context, url, progress) =>
