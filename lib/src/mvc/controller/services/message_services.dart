@@ -23,9 +23,7 @@ class MessageServices {
     request.headers.addAll(Services.headerAcceptldJson);
     http.Response response = await HttpRequest.attemptHttpCall(request);
     if (response.statusCode == 200) {
-      return (jsonDecode(
-        response.body,
-      )['hydra:member'] as List<Map<dynamic, dynamic>>)
+      return List.from(jsonDecode(response.body)['hydra:member'])
           .map((json) => Message.fromJson(json))
           .toSet();
     } else {

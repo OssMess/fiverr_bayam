@@ -11,9 +11,7 @@ class ListMessages extends SetClasses<Message> {
   Future<void> get({
     required bool refresh,
   }) async {
-    Set<Message> result = await MessageServices.get(
-      discussionId: discussionId,
-    );
+    Set<Message> result = await MessageServices.get(discussionId: discussionId);
     super.update(
       result,
       false,

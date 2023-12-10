@@ -9,16 +9,25 @@ import '../../../model/models.dart';
 import '../../model_widgets.dart';
 import '../../tiles.dart';
 
-class Page2Messages extends StatelessWidget {
+class Page2Messages extends StatefulWidget {
   const Page2Messages({
     super.key,
     required this.userSession,
+    required this.page,
   });
 
   final UserSession userSession;
+  final int page;
 
   @override
+  State<Page2Messages> createState() => _Page2MessagesState();
+}
+
+class _Page2MessagesState extends State<Page2Messages> {
+  ListDiscussions listDiscussions = ListDiscussions();
+  @override
   Widget build(BuildContext context) {
+    listDiscussions.initData(callGet: widget.page == 1);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

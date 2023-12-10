@@ -72,10 +72,11 @@ class _HomeScreenState extends State<HomeScreen> {
               if (pageNotifier.currentPage == 2) {
                 return CustomElevatedButton(
                   onPressed: () => context.push(
-                      widget: CreateAd(
-                    userSession: widget.userSession,
-                    ad: null,
-                  )),
+                    widget: CreateAd(
+                      userSession: widget.userSession,
+                      ad: null,
+                    ),
+                  ),
                   label: AppLocalizations.of(context)!.create_ad,
                 );
               }
@@ -183,7 +184,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       index: pageNotifier.currentPage,
                       children: [
                         Page1Home(userSession: widget.userSession),
-                        Page2Messages(userSession: widget.userSession),
+                        Page2Messages(
+                          userSession: widget.userSession,
+                          page: pageNotifier.currentPage,
+                        ),
                         Page3CompanyAds(userSession: widget.userSession),
                         Page4AI(userSession: widget.userSession),
                         widget.userSession.isPerson
