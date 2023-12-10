@@ -181,7 +181,7 @@ class _ChatScreenState extends State<ChatScreen> {
     if (!msg.isNullOrEmpty) {
       ListData.aiChat.insert(
         0,
-        Message.fromJson(
+        Message2.fromJson(
           {
             'senderId': 'myid',
             'senderAvatarUrl':
@@ -208,7 +208,7 @@ class _ChatScreenState extends State<ChatScreen> {
     } else if (!audioPath.isNullOrEmpty) {
       ListData.aiChat.insert(
         0,
-        Message.fromJson(
+        Message2.fromJson(
           {
             'senderId': 'myid',
             'senderAvatarUrl':
@@ -245,7 +245,7 @@ class _ChatScreenState extends State<ChatScreen> {
       double? aspectRatio = await getImageAspectRatioFromPath(imagePath!);
       ListData.aiChat.insert(
         0,
-        Message.fromJson(
+        Message2.fromJson(
           {
             'senderId': 'myid',
             'senderAvatarUrl':

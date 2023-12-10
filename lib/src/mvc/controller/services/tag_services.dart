@@ -9,6 +9,7 @@ import '../services.dart';
 class TagServices {
   static const String baseUrl = 'https://api.bayam.site';
 
+  /// Get `Tag` by [id].
   static Future<Tag> get(String id) async {
     var request = http.Request(
       'GET',
@@ -35,6 +36,7 @@ class TagServices {
     }
   }
 
+  /// Create tag with [name] and return `Tag`.
   static Future<Tag> post(String name) async {
     var request = http.Request(
       'POST',
@@ -55,8 +57,8 @@ class TagServices {
       return Tag.fromMap(jsonDecode(response.body));
     } else {
       Map<int, String> statusCodesPhrases = {
-        400: 'Invalid input',
-        422: 'Unprocessable entity',
+        400: 'invalid-input',
+        422: 'unprocessable-entity',
         500: 'internal-server-error',
       };
       throw BackendException(

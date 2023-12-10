@@ -166,7 +166,7 @@ class ListData {
     },
   ].map(Chat.fromJson).toList();
 
-  static List<Message> aiChat = [
+  static List<Message2> aiChat = [
     {
       'senderId': 'myid',
       'senderAvatarUrl':
@@ -248,7 +248,7 @@ class ListData {
       'aspectRatio': null,
       'isSending': false,
     },
-  ].map(Message.fromJson).toList();
+  ].map(Message2.fromJson).toList();
 
   static List<SearchHistory> searchHistory = [
     {

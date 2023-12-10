@@ -18,6 +18,7 @@ class UserServices {
     return UserServices(userSession);
   }
 
+  /// Get user details and reffresh user session with `onSignInCompleted`.
   Future<void> get() async {
     var request = http.Request(
       'GET',
@@ -45,6 +46,8 @@ class UserServices {
     }
   }
 
+  /// Update user details with current values, as well as [imageProfile],
+  /// [imageCompany],[imageCompanyTax], and [imageUserIdentity].
   Future<void> post({
     File? imageProfile,
     File? imageCompany,

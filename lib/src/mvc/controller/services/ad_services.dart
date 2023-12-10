@@ -9,6 +9,7 @@ import '../services.dart';
 class AdServices {
   static const String baseUrl = 'https://api.bayam.site';
 
+  /// Create new [ad].
   static Future<Ad> post(Ad ad) async {
     var request = http.Request(
       'POST',
@@ -38,6 +39,7 @@ class AdServices {
     }
   }
 
+  /// Get ad by [id].
   static Future<void> get(String id) async {
     var request = http.Request(
       'GET',
@@ -62,8 +64,6 @@ class AdServices {
       );
     }
   }
-
-  static Future<void> list() async {}
 
   static Future<void> like({
     required String userId,

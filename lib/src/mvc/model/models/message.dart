@@ -1,66 +1,43 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../../../extensions.dart';
+import '../../../tools.dart';
 
-class Message with ChangeNotifier {
+Message jsonToMessage(Map<dynamic, dynamic> json) => Message.fromJson(json);
+
+class Message {
+  final String id;
+  final String discussionId;
+  final String receiverId;
   final String senderId;
-  final String senderAvatarUrl;
-  final ImageProvider<Object> senderAvatar;
-  final String? message;
-  final ImageProvider<Object>? photo;
-  String? photoUrl;
-  String? audioUrl;
-  final double? aspectRatio;
+  final String message;
+  final Iterable<ImageProvider<Object>> images;
+  final String isEncrypted;
   final DateTime createdAt;
-  final bool isMine;
-  bool isSending;
-  bool hasError;
+  final DateTime updatedAt;
 
   Message({
+    required this.id,
+    required this.discussionId,
+    required this.receiverId,
     required this.senderId,
-    required this.senderAvatarUrl,
-    required this.senderAvatar,
     required this.message,
-    required this.photo,
-    required this.photoUrl,
-    required this.audioUrl,
-    required this.aspectRatio,
+    required this.images,
+    required this.isEncrypted,
     required this.createdAt,
-    required this.isMine,
-    this.isSending = false,
-    this.hasError = false,
+    required this.updatedAt,
   });
 
-  factory Message.fromJson(Map<String, dynamic> json) {
-    return Message(
-      senderId: json['senderId'],
-      senderAvatarUrl: json['senderAvatarUrl'],
-      senderAvatar: CachedNetworkImageProvider(json['senderAvatarUrl']),
-      message: json['message'],
-      createdAt: json['createdAt'],
-      photo: json['photoUrl'] != null
-          ? (json['photoUrl'].startsWith('https://')
-              ? CachedNetworkImageProvider(
-                  json['photoUrl'],
-                )
-              : Image.file(File(json['photoUrl'])).image)
-          : null,
-      photoUrl: json['photoUrl'],
-      audioUrl: json['audioUrl'],
-      aspectRatio: json['aspectRatio'],
-      isMine: json['senderId'] == 'myid',
-      isSending: json['isSending'],
-    );
-  }
-
-  bool get isText => message.isNotNull;
-
-  bool get isNotText => message.isNull;
-
-  bool get isImage => message.isNull && photoUrl.isNotNull;
-
-  bool get isAudio => message.isNull && audioUrl.isNotNull;
+  factory Message.fromJson(Map<dynamic, dynamic> json) => Message(
+        id: json['uuid'],
+        discussionId: json['discussion'],
+        receiverId: json['receiver'],
+        senderId: json['sender'],
+        message: json['message'],
+        images: List.from(json['message'] ?? [])
+            .map((e) => CachedNetworkImageProvider(e)),
+        isEncrypted: json['isEncrypted'],
+        createdAt: DateTimeUtils.getDateTimefromTimestamp(json['createdAt'])!,
+        updatedAt: DateTimeUtils.getDateTimefromTimestamp(json['updatedAt'])!,
+      );
 }

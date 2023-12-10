@@ -206,7 +206,7 @@ class _PromoteAdState extends State<PromoteAd> {
     _keyForm.currentState!.save();
     Dialogs.of(context).runAsyncAction(
       future: () async {
-        await PromotionServices.post(
+        await AdPromotedServices.post(
           id: widget.ad.uuid,
           startDate: startDate!,
           endDate: endDate!,

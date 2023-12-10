@@ -17,6 +17,7 @@ class AuthServices {
     return AuthServices(userSession);
   }
 
+  /// Refresh current user token.
   Future<void> refresh() async {
     var request = http.Request(
       'POST',
@@ -50,6 +51,7 @@ class AuthServices {
     }
   }
 
+  /// Send OTP to [phoneNumber].
   Future<void> sendOTP(String phoneNumber) async {
     var request = http.Request(
       'POST',
@@ -80,6 +82,7 @@ class AuthServices {
     }
   }
 
+  /// Verify sent [otp] to [phoneNumber].
   Future<void> verifyOTP(
     String phoneNumber,
     String otp,

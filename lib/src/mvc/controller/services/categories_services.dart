@@ -8,6 +8,7 @@ import '../services.dart';
 class CategoriesServices {
   static const String baseUrl = 'https://api.bayam.site';
 
+  /// Get all categories.
   static Future<Set<Category>> get() async {
     var request = http.Request(
       'GET',
@@ -32,6 +33,7 @@ class CategoriesServices {
     }
   }
 
+  /// Create new category with [name] and [description].
   static Future<Category> post({
     required String name,
     required String description,

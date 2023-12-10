@@ -17,8 +17,8 @@ class MessageTile extends StatefulWidget {
     required this.lastMessage,
   });
 
-  final Message message;
-  final Message? lastMessage;
+  final Message2 message;
+  final Message2? lastMessage;
 
   @override
   State<MessageTile> createState() => _MessageTileState();
