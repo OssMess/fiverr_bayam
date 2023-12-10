@@ -321,6 +321,7 @@
   "first_name":"First name",
   "last_name":"Last name",
   "add_tag_error":"Please add at least one tag!",
+  "empty_discussions":"No discussions at this moment! Connect with other users and start a new conversation.",
 
   "@min_caracters":{
     "description":"a validator message for minimum length",

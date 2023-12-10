@@ -11,21 +11,38 @@ class MessageServices {
   static const String baseUrl = 'https://api.bayam.site';
 
   /// Get list message in a discussion with [discussionId]
-  static Future<Set<Message>> get({
+  static Future<void> get({
     required String discussionId,
+    required DateTime lastDate,
+    required int page,
+    required bool refresh,
+    required void Function(
+      Set<Message>, //result
+      int, //totalPages
+      int, // currentPage
+      bool, // error,
+      bool, // refresh,
+    ) update,
   }) async {
     var request = http.Request(
       'GET',
       Uri.parse(
-        '$baseUrl/api/message/me/receiver/$discussionId',
+        '$baseUrl/api/message/me/receiver/?id=$discussionId&page=${page + 1}',
       ),
     );
     request.headers.addAll(Services.headerAcceptldJson);
     http.Response response = await HttpRequest.attemptHttpCall(request);
     if (response.statusCode == 200) {
-      return List.from(jsonDecode(response.body)['hydra:member'])
-          .map((json) => Message.fromJson(json))
-          .toSet();
+      Map<dynamic, dynamic> result = jsonDecode(response.body);
+      update(
+        List.from(result['hydra:member'])
+            .map((json) => Message.fromJson(json))
+            .toSet(),
+        result['hydra:totalItems'],
+        page + 1,
+        false,
+        refresh,
+      );
     } else {
       Map<int, String> statusCodesPhrases = {
         404: 'Resource not found',

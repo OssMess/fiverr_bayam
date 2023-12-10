@@ -33,6 +33,9 @@ class Discussion {
         encryptionKey: json['encryption_key'],
         createdAt: DateTimeUtils.getDateTimefromTimestamp(json['createdAt'])!,
         updatedAt: DateTimeUtils.getDateTimefromTimestamp(json['updatedAt'])!,
-        listMessages: ListMessages(discussionId: json['uuid']),
+        listMessages: ListMessages(
+          discussionId: json['uuid'],
+          lastDate: DateTime.now(),
+        ),
       );
 }

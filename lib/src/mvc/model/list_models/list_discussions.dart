@@ -1,17 +1,22 @@
 import '../../controller/services.dart';
+import '../list_models.dart';
 import '../models.dart';
-import 'set_classes.dart';
 
-class ListDiscussions extends SetClasses<Discussion> {
+class ListDiscussions extends SetPaginationClasses<Discussion> {
+  final DateTime lastDate;
+
+  ListDiscussions({required this.lastDate});
+
   @override
   Future<void> get({
+    required int page,
     required bool refresh,
   }) async {
-    Set<Discussion> result = await DiscussionServices.get();
-    super.update(
-      result,
-      false,
-      refresh,
+    await DiscussionServices.get(
+      lastDate: lastDate,
+      page: page,
+      refresh: refresh,
+      update: super.update,
     );
   }
 }

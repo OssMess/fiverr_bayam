@@ -184,7 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       index: pageNotifier.currentPage,
                       children: [
                         Page1Home(userSession: widget.userSession),
-                        Page2Messages(
+                        Page2Discussions(
                           userSession: widget.userSession,
                           page: pageNotifier.currentPage,
                         ),

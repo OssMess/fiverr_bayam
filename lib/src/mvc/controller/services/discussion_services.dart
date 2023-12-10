@@ -2,25 +2,44 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import '../../../extensions.dart';
 import '../../model/models.dart';
 import '../services.dart';
 
 class DiscussionServices {
   static const String baseUrl = 'https://api.bayam.site';
 
-  static Future<Set<Discussion>> get() async {
+  static Future<void> get({
+    required DateTime lastDate,
+    required int page,
+    required bool refresh,
+    required void Function(
+      Set<Discussion>, //result
+      int, //totalPages
+      int, // currentPage
+      bool, // error,
+      bool, // refresh,
+    ) update,
+  }) async {
     var request = http.Request(
       'GET',
       Uri.parse(
-        '$baseUrl/api/discussions/me/',
+        '$baseUrl/api/discussions/me/?page=${page + 1}&lastDate=${lastDate.formatDate()}',
       ),
     );
     request.headers.addAll(Services.headerAcceptldJson);
     http.Response response = await HttpRequest.attemptHttpCall(request);
     if (response.statusCode == 200) {
-      return List.from(jsonDecode(response.body)['hydra:member'])
-          .map((json) => Discussion.fromJson(json))
-          .toSet();
+      Map<dynamic, dynamic> result = jsonDecode(response.body);
+      update(
+        List.from(result['hydra:member'])
+            .map((json) => Discussion.fromJson(json))
+            .toSet(),
+        result['hydra:totalItems'],
+        page + 1,
+        false,
+        refresh,
+      );
     } else {
       Map<int, String> statusCodesPhrases = {
         404: 'Resource not found',

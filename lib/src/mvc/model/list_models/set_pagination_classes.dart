@@ -48,7 +48,6 @@ abstract class SetPaginationClasses<T> with ChangeNotifier {
     await get(
       page: currentPage,
       refresh: false,
-      update: update,
     );
   }
 
@@ -56,7 +55,6 @@ abstract class SetPaginationClasses<T> with ChangeNotifier {
   Future<void> get({
     required int page,
     required bool refresh,
-    required void Function(Set<T>, int, int, bool, bool) update,
   });
 
   /// Get more data, uses pagination.
@@ -67,7 +65,6 @@ abstract class SetPaginationClasses<T> with ChangeNotifier {
     await get(
       page: currentPage,
       refresh: false,
-      update: update,
     );
   }
 
@@ -81,7 +78,6 @@ abstract class SetPaginationClasses<T> with ChangeNotifier {
     await get(
       page: currentPage,
       refresh: true,
-      update: update,
     );
   }
 

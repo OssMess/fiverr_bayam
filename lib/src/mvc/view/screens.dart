@@ -20,7 +20,7 @@ export 'screens/home_screens/all_companies.dart';
 export 'screens/home_screens/home_screen.dart';
 export 'screens/home_screens/notification_screen.dart';
 export 'screens/home_screens/page_1_home.dart';
-export 'screens/home_screens/page_2_messages.dart';
+export 'screens/home_screens/page_2_discussions.dart';
 export 'screens/home_screens/page_3_ads.dart';
 export 'screens/home_screens/page_4_ai.dart';
 export 'screens/home_screens/page_5_company_profile.dart';
