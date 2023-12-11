@@ -313,5 +313,6 @@
     "pay":"Payer",
     "filter_by_region":"Filtrer par région",
     "filter_ads_by_type":"Filtrer les annonces par type",
-    "empty_discussions":"Pas de discussions pour le moment ! Connectez-vous avec d'autres utilisateurs et démarrez une nouvelle conversation."
+    "empty_discussions":"Pas de discussions pour le moment ! Connectez-vous avec d'autres utilisateurs et démarrez une nouvelle conversation.",
+    "upload_document_id":"Veuillez télécharger une photo recto verso de votre pièce d'identité."
 }

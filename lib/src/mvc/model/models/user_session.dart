@@ -16,7 +16,13 @@ class UserSession with ChangeNotifier {
   String? uid;
   String? phoneNumber;
   ImageProvider<Object>? imageProfile;
+  String? imageProfileUrl;
+  List<ImageProvider<Object>>? imageUserIdentity;
+  List<String>? imageUserIdentityUrl;
   List<ImageProvider<Object>>? imageCompany;
+  List<String>? imageCompanyUrl;
+  List<ImageProvider<Object>>? imageCompanyTax;
+  List<String>? imageCompanyTaxUrl;
   AccountType? accountType;
   String? bio;
   List<String>? preferences;
@@ -44,7 +50,13 @@ class UserSession with ChangeNotifier {
     required this.uid,
     required this.phoneNumber,
     required this.imageProfile,
+    required this.imageProfileUrl,
+    required this.imageUserIdentity,
+    required this.imageUserIdentityUrl,
     required this.imageCompany,
+    required this.imageCompanyUrl,
+    required this.imageCompanyTax,
+    required this.imageCompanyTaxUrl,
     required this.firstName,
     required this.lastName,
     required this.companyName,
@@ -93,7 +105,13 @@ class UserSession with ChangeNotifier {
       uid: null,
       phoneNumber: null,
       imageProfile: null,
+      imageProfileUrl: null,
+      imageUserIdentity: null,
+      imageUserIdentityUrl: null,
       imageCompany: null,
+      imageCompanyUrl: null,
+      imageCompanyTax: null,
+      imageCompanyTaxUrl: null,
       firstName: null,
       lastName: null,
       companyName: null,
@@ -127,9 +145,21 @@ class UserSession with ChangeNotifier {
       uid: json['uid'],
       phoneNumber: json['phoneNumber'],
       imageProfile: (json['imageProfile'] as String?).toImageProvider,
+      imageProfileUrl: json['imageProfile'],
+      imageUserIdentity: List.from(json['imageUserIdentity'] ?? [])
+          .map((e) => (e as String).toImageProvider!)
+          .toList(),
+      imageUserIdentityUrl:
+          List<String>.from(json['imageUserIdentity'] ?? []).toList(),
       imageCompany: List.from(json['imageCompany'] ?? [])
           .map((e) => (e as String).toImageProvider!)
           .toList(),
+      imageCompanyUrl: List<String>.from(json['imageCompany'] ?? []).toList(),
+      imageCompanyTax: List.from(json['imageCompanyTax'] ?? [])
+          .map((e) => (e as String).toImageProvider!)
+          .toList(),
+      imageCompanyTaxUrl:
+          List<String>.from(json['imageCompanyTax'] ?? []).toList(),
       firstName: json['firstName'],
       lastName: json['lastName'],
       companyName: json['companyName'],
@@ -201,32 +231,6 @@ class UserSession with ChangeNotifier {
         isVerified: isVerified,
       );
 
-  /// return a `Map` of this instance
-  // Map<String, dynamic> get toMap => {
-  //       'uid': uid,
-  //       'phoneNumber': phoneNumber,
-  //       'photoUrl': photoUrl,
-  //       'firstName': firstName,
-  //       'lastName': lastName,
-  //       'companyName': companyName,
-  //       'accountType': accountType?.key,
-  //       'preferences': preferences,
-  //       'bio': bio,
-  //       'birthDate': birthDate,
-  //       'city': city,
-  //       'country': country,
-  //       'email': email,
-  //       'facebookUrl': facebookUrl,
-  //       'linkedinUrl': linkedinUrl,
-  //       'postalCode': postalCode,
-  //       'region': region,
-  //       'uniqueRegisterNumber': uniqueRegisterNumber,
-  //       'streetAddress': streetAddress,
-  //       'twitterUrl': twitterUrl,
-  //       'isActive': _isActive,
-  //       'isVerified': _isVerified,
-  //     };
-
   /// return true if awaiting for user sessions
   bool get isAwaitingAuth => authState == AuthState.awaiting;
 
@@ -280,7 +284,13 @@ class UserSession with ChangeNotifier {
     authState = user.authState;
     phoneNumber = user.phoneNumber;
     imageProfile = user.imageProfile;
+    imageProfileUrl = user.imageProfileUrl;
+    imageUserIdentity = user.imageUserIdentity;
+    imageUserIdentityUrl = user.imageUserIdentityUrl;
     imageCompany = user.imageCompany;
+    imageCompanyUrl = user.imageCompanyUrl;
+    imageCompanyTax = user.imageCompanyTax;
+    imageCompanyTaxUrl = user.imageCompanyTaxUrl;
     firstName = user.firstName;
     lastName = user.lastName;
     companyName = user.companyName;
@@ -314,9 +324,20 @@ class UserSession with ChangeNotifier {
       accountType = AccountType.company;
     }
     imageProfile = (json['imageProfile'] as String?).toImageProvider;
+    imageProfileUrl = json['imageProfile'];
+    imageUserIdentity = List.from(json['imageUserIdentity'] ?? [])
+        .map((e) => (e as String).toImageProvider!)
+        .toList();
+    imageUserIdentityUrl =
+        List<String>.from(json['imageUserIdentity'] ?? []).toList();
     imageCompany = List.from(json['imageCompany'] ?? [])
         .map((e) => (e as String).toImageProvider!)
         .toList();
+    imageCompanyUrl = List<String>.from(json['imageCompany'] ?? []).toList();
+    imageCompany = List.from(json['imageCompany'] ?? [])
+        .map((e) => (e as String).toImageProvider!)
+        .toList();
+    imageCompanyUrl = List<String>.from(json['imageCompany'] ?? []).toList();
     firstName = json['firstName'];
     lastName = json['lastName'];
     companyName = json['companyName'];
@@ -328,7 +349,12 @@ class UserSession with ChangeNotifier {
     facebookUrl = json['facebookUrl'];
     linkedinUrl = json['linkedinUrl'];
     postalCode = json['postalCode'];
-    preferences = json['preferences'];
+    preferences = json['preferences'] ??
+        [
+          '9e837e03-4cba-470f-8b5a-eda270a7fd39',
+          'ca175607-9064-4f1f-8cc1-9a05f1fd2277',
+          '64008c47-c19f-4afd-b1e0-d9b2a06dc3b4',
+        ];
     region = json['region'];
     uniqueRegisterNumber = json['uniqueRegisterNumber'];
     streetAddress = json['streetAddress'];
@@ -336,7 +362,6 @@ class UserSession with ChangeNotifier {
     _isActive = json['isActive'];
     _isVerified = json['isVerified'];
     authState = AuthState.authenticated;
-    // await HiveAuthState.save(this);
     notifyListeners();
   }
 

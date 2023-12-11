@@ -117,18 +117,22 @@ class UserServices {
       });
     }
     if (imageUserIdentity != null) {
-      List<String> imagesCompanyTaxt = [];
+      List<String> imagesUserIdentity = [];
       for (var image in imageUserIdentity) {
         await image
             .toBase64String()
-            .then((value) => imagesCompanyTaxt.add(value));
+            .then((value) => imagesUserIdentity.add(value));
       }
       body.addAll({
-        'imageUserIdentity': imagesCompanyTaxt,
+        'imageUserIdentity': imagesUserIdentity,
       });
     }
     request.body = json.encode(body);
-    http.Response response = await HttpRequest.attemptHttpCall(request);
+    http.Response response = await HttpRequest.attemptHttpCall(
+      request,
+      retries: 0,
+      timeout: const Duration(seconds: 100),
+    );
     if (response.statusCode == 200) {
       await userSession.onSignInCompleted(
         jsonDecode(
@@ -136,9 +140,15 @@ class UserServices {
         ),
       );
     } else {
+      if (response.body.contains('unique_register_number')) {
+        throw BackendException(
+          code: 'unique-register-number',
+          statusCode: response.statusCode,
+        );
+      }
       Map<int, String> statusCodesPhrases = {
-        400: 'Invalid input',
-        422: 'Unprocessable entity',
+        400: 'invalid-input',
+        422: 'unprocessable-entity',
         500: 'internal-server-error',
       };
       throw BackendException(

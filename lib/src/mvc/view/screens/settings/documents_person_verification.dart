@@ -8,14 +8,21 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../extensions.dart';
+import '../../../controller/services.dart';
 import '../../../model/enums.dart';
+import '../../../model/models.dart';
 import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
 import '../../model_widgets_screens.dart';
 
 class DocumentsPersonVerification extends StatefulWidget {
-  const DocumentsPersonVerification({super.key});
+  const DocumentsPersonVerification({
+    super.key,
+    required this.userSession,
+  });
+
+  final UserSession userSession;
 
   @override
   State<DocumentsPersonVerification> createState() =>
@@ -26,7 +33,9 @@ class _DocumentsPersonVerificationState
     extends State<DocumentsPersonVerification> {
   int? idType;
 
-  XFile? imageFile;
+  XFile? imageProfileFile;
+  XFile? imageIdentityFrontFile;
+  XFile? imageIdentityBackFile;
 
   @override
   Widget build(BuildContext context) {
@@ -64,10 +73,10 @@ class _DocumentsPersonVerificationState
                           .upload_profile_picture_subtitle,
                     ),
                     12.heightSp,
-                    if (imageFile != null)
+                    if (imageProfileFile != null)
                       InkResponse(
                         onTap: () => setState(() {
-                          imageFile = null;
+                          imageProfileFile = null;
                         }),
                         child: Align(
                           alignment: Alignment.center,
@@ -77,14 +86,14 @@ class _DocumentsPersonVerificationState
                               radius: 80.sp,
                               backgroundImage: Image.file(
                                 File(
-                                  imageFile!.path,
+                                  imageProfileFile!.path,
                                 ),
                               ).image,
                             ),
                           ),
                         ),
                       ),
-                    if (imageFile == null)
+                    if (imageProfileFile == null)
                       Container(
                         padding: EdgeInsets.symmetric(vertical: 45.sp),
                         decoration: BoxDecoration(
@@ -166,16 +175,34 @@ class _DocumentsPersonVerificationState
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          CircularIconButton(
-                            label: AppLocalizations.of(context)!.front,
-                            icon: Icons.camera_alt_outlined,
-                            onTap: takeImageCamera,
+                          StatefulBuilder(
+                            builder: (context, setState) {
+                              return CircularIconButton(
+                                label: AppLocalizations.of(context)!.front,
+                                file: imageIdentityFrontFile,
+                                icon: Icons.camera_alt_outlined,
+                                onTap: () => takeImageCamera(onPick: (xfile) {
+                                  setState(() {
+                                    imageIdentityFrontFile = xfile;
+                                  });
+                                }),
+                              );
+                            },
                           ),
                           64.widthSp,
-                          CircularIconButton(
-                            label: AppLocalizations.of(context)!.back,
-                            icon: Icons.camera_alt_outlined,
-                            onTap: takeImageCamera,
+                          StatefulBuilder(
+                            builder: (context, setState) {
+                              return CircularIconButton(
+                                label: AppLocalizations.of(context)!.back,
+                                file: imageIdentityBackFile,
+                                icon: Icons.camera_alt_outlined,
+                                onTap: () => takeImageCamera(onPick: (xfile) {
+                                  setState(() {
+                                    imageIdentityBackFile = xfile;
+                                  });
+                                }),
+                              );
+                            },
                           ),
                         ],
                       ),
@@ -200,51 +227,74 @@ class _DocumentsPersonVerificationState
   }
 
   Future<void> next() async {
+    if (imageIdentityBackFile == null || imageIdentityFrontFile == null) {
+      context.showSnackBar(
+        message: AppLocalizations.of(context)!.upload_document_id,
+      );
+      return;
+    }
     Dialogs.of(context).runAsyncAction(
       future: () async {
-        await Future.delayed(const Duration(seconds: 1));
+        await UserServices.of(widget.userSession).post(
+          imageProfile: imageProfileFile?.toFile,
+          imageUserIdentity: [
+            imageIdentityBackFile!.toFile,
+            imageIdentityFrontFile!.toFile,
+          ],
+        );
       },
       onComplete: (_) {
         Dialogs.of(context).showCustomDialog(
-          title: AppLocalizations.of(context)!.successful,
-          subtitle: AppLocalizations.of(context)!.documents_uploaded_sucess_1,
+          title: AppLocalizations.of(context)!.success,
+          subtitle:
+              AppLocalizations.of(context)!.your_information_has_been_saved,
           yesAct: ModelTextButton(
-            label: AppLocalizations.of(context)!.done,
-            color: Styles.green,
-            onPressed: context.pop,
+            label: AppLocalizations.of(context)!.continu,
           ),
-          children: [
-            RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(
-                style: Styles.poppins(
-                  fontSize: 14.sp,
-                  fontWeight: Styles.regular,
-                  color: context.textTheme.displayLarge!.color,
-                ),
-                children: [
-                  TextSpan(
-                    text:
-                        '${AppLocalizations.of(context)!.documents_uploaded_sucess_2} ',
-                  ),
-                  TextSpan(
-                    text: AppLocalizations.of(context)!
-                        .documents_uploaded_sucess_3,
+          onComplete: (_) {
+            Dialogs.of(context).showCustomDialog(
+              title: AppLocalizations.of(context)!.successful,
+              subtitle:
+                  AppLocalizations.of(context)!.documents_uploaded_sucess_1,
+              yesAct: ModelTextButton(
+                label: AppLocalizations.of(context)!.done,
+                color: Styles.green,
+                onPressed: context.pop,
+              ),
+              children: [
+                RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
                     style: Styles.poppins(
                       fontSize: 14.sp,
-                      fontWeight: Styles.bold,
-                      color: Styles.green,
+                      fontWeight: Styles.regular,
+                      color: context.textTheme.displayLarge!.color,
                     ),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        context.pop();
-                        context.pop();
-                      },
+                    children: [
+                      TextSpan(
+                        text:
+                            '${AppLocalizations.of(context)!.documents_uploaded_sucess_2} ',
+                      ),
+                      TextSpan(
+                        text: AppLocalizations.of(context)!
+                            .documents_uploaded_sucess_3,
+                        style: Styles.poppins(
+                          fontSize: 14.sp,
+                          fontWeight: Styles.bold,
+                          color: Styles.green,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            context.pop();
+                            context.pop();
+                          },
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-          ],
+                ),
+              ],
+            );
+          },
         );
       },
       onError: (_) {},
@@ -285,45 +335,29 @@ class _DocumentsPersonVerificationState
       (file) {
         if (file == null) return;
         setState(() {
-          imageFile = XFile(file.path);
+          imageProfileFile = XFile(file.path);
         });
       },
     );
   }
 
-  Future<void> takeImageCamera() async {
-    if (await Permissions.of(context).showCameraPermission()) {
-      return;
-    }
-    return await ImagePicker()
-        .pickImage(
+  Future<void> takeImageCamera({void Function(XFile)? onPick}) async {
+    await Functions.of(context).pickImage(
       source: ImageSource.camera,
-      maxHeight: 1080,
-      maxWidth: 1080,
-      imageQuality: 80,
-    )
-        .then(
-      (xfile) {
-        if (xfile == null) return;
-        cropImage(xfile);
+      onPick: (xfile) {
+        if (onPick != null) {
+          onPick(xfile);
+        } else {
+          cropImage(xfile);
+        }
       },
     );
   }
 
   Future<void> takeImageGallery() async {
-    if (await Permissions.of(context).showPhotoLibraryPermission()) {
-      return;
-    }
-    return await ImagePicker()
-        .pickImage(
+    await Functions.of(context).pickImage(
       source: ImageSource.gallery,
-      maxHeight: 1080,
-      maxWidth: 1080,
-      imageQuality: 80,
-    )
-        .then(
-      (xfile) {
-        if (xfile == null) return;
+      onPick: (xfile) {
         cropImage(xfile);
       },
     );

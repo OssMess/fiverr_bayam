@@ -32,7 +32,7 @@ class _CompleteRegistrationPageC1State
   final GlobalKey<FormState> _keyForm = GlobalKey();
   TextEditingController dateController = TextEditingController();
   String? companyName;
-  XFile? companyImage;
+  XFile? imageCompany;
   String? uniqueRegisterNumber;
   String? streetAddress;
   String? city;
@@ -110,21 +110,10 @@ class _CompleteRegistrationPageC1State
                       16.heightSp,
                       InkResponse(
                         onTap: () async {
-                          if (await Permissions.of(context)
-                              .showPhotoLibraryPermission()) {
-                            return;
-                          }
-                          ImagePicker()
-                              .pickImage(
+                          await Functions.of(context).pickImage(
                             source: ImageSource.gallery,
-                            imageQuality: 80,
-                            maxHeight: 1080,
-                            maxWidth: 1080,
-                          )
-                              .then(
-                            (xfile) {
-                              if (xfile == null) return;
-                              companyImage = xfile;
+                            onPick: (xfile) {
+                              imageCompany = xfile;
                             },
                           );
                         },
@@ -135,6 +124,12 @@ class _CompleteRegistrationPageC1State
                           decoration: BoxDecoration(
                             color: context.textTheme.headlineSmall!.color!,
                             borderRadius: BorderRadius.circular(14.sp),
+                            // image: companyImage != null
+                            //     ? DecorationImage(
+                            //         image:
+                            //             Image.file(companyImage!.toFile).image,
+                            //       )
+                            //     : null,
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -344,6 +339,7 @@ class _CompleteRegistrationPageC1State
       widget: CompletePreferences(
         userSession: widget.userSession,
         accountType: AccountType.company,
+        imageCompany: imageCompany,
       ),
     );
   }

@@ -8,7 +8,7 @@ export './services/http_request.dart';
 export './services/other_services.dart';
 export './services/categories_services.dart';
 export './services/categories_sub_services.dart';
-export 'services/ad_promoted_services.dart';
+export './services/ad_promoted_services.dart';
 export './services/tag_services.dart';
 export './services/user_services.dart';
 

@@ -37,8 +37,8 @@ class AdPromotedServices {
       return AdPromoted.fromMap(jsonDecode(response.body));
     } else {
       Map<int, String> statusCodesPhrases = {
-        400: 'Invalid input',
-        422: 'Unprocessable entity',
+        400: 'invalid-input',
+        422: 'unprocessable-entity',
         500: 'internal-server-error',
       };
       throw BackendException(

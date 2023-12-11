@@ -314,7 +314,9 @@ class _CompletePersonProfileState extends State<CompletePersonProfile> {
             onPressed: () {
               context.popUntilFirst();
               context.push(
-                widget: const DocumentsPersonVerification(),
+                widget: DocumentsPersonVerification(
+                  userSession: widget.userSession,
+                ),
               );
             },
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../extensions.dart';
@@ -15,6 +16,7 @@ class CompletePreferences extends StatefulWidget {
   const CompletePreferences({
     super.key,
     required this.userSession,
+    this.imageCompany,
     this.accountType,
     this.listPreferences,
     this.onPick,
@@ -24,6 +26,7 @@ class CompletePreferences extends StatefulWidget {
             (accountType != null && onPick == null && listPreferences == null));
 
   final UserSession userSession;
+  final XFile? imageCompany;
   final AccountType? accountType;
   final ListCategoriesSub? listPreferences;
   final void Function(Set<CategorySub>)? onPick;
@@ -79,12 +82,13 @@ class _CompletePreferencesState extends State<CompletePreferences> {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 32.sp),
               child: ChangeNotifierProvider.value(
-                value: widget.listPreferences,
+                value: listPreferences,
                 child: Consumer<ListCategoriesSub>(
                   builder: (context, list, _) {
                     list.initData(callGet: true);
                     if (list.isNull) {
-                      return const Center(
+                      return const Align(
+                        alignment: Alignment.topCenter,
                         child: CustomLoadingIndicator(
                           isSliver: false,
                         ),
@@ -170,6 +174,7 @@ class _CompletePreferencesState extends State<CompletePreferences> {
           context.push(
             widget: CompleteRegistrationC2(
               userSession: widget.userSession,
+              imageCompany: widget.imageCompany,
             ),
           );
           break;

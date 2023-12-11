@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:badges/badges.dart' as badge;
 
 import '../../../../extensions.dart';
 import '../../../../tools.dart';
@@ -15,16 +16,18 @@ class CompleteRegistrationC2 extends StatefulWidget {
   const CompleteRegistrationC2({
     super.key,
     required this.userSession,
+    required this.imageCompany,
   });
 
   final UserSession userSession;
+  final XFile? imageCompany;
 
   @override
   State<CompleteRegistrationC2> createState() => _CompleteRegistrationC2State();
 }
 
 class _CompleteRegistrationC2State extends State<CompleteRegistrationC2> {
-  XFile? imageFile;
+  Set<XFile> imageCompanyTaxt = {};
 
   @override
   void dispose() {
@@ -86,20 +89,12 @@ class _CompleteRegistrationC2State extends State<CompleteRegistrationC2> {
                 16.heightSp,
                 InkResponse(
                   onTap: () async {
-                    if (await Permissions.of(context).showCameraPermission()) {
-                      return;
-                    }
-                    return await ImagePicker()
-                        .pickImage(
-                      source: ImageSource.camera,
-                      maxHeight: 1080,
-                      maxWidth: 1080,
-                      imageQuality: 80,
-                    )
-                        .then(
-                      (xfile) {
+                    await Functions.of(context).pickImage(
+                      //FIXME change to camera
+                      source: ImageSource.gallery,
+                      onPick: (xfile) {
                         setState(() {
-                          imageFile = xfile;
+                          imageCompanyTaxt.add(xfile);
                         });
                       },
                     );
@@ -114,7 +109,6 @@ class _CompleteRegistrationC2State extends State<CompleteRegistrationC2> {
                     ),
                     child: Stack(
                       children: [
-                        //FIXME show picked image
                         Positioned(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -139,6 +133,56 @@ class _CompleteRegistrationC2State extends State<CompleteRegistrationC2> {
                     ),
                   ),
                 ),
+                16.heightSp,
+                Wrap(
+                  spacing: 10.sp,
+                  runSpacing: 10.sp,
+                  alignment: WrapAlignment.center,
+                  runAlignment: WrapAlignment.center,
+                  children: imageCompanyTaxt
+                      .map(
+                        (image) => badge.Badge(
+                          badgeContent: Icon(
+                            Icons.close,
+                            color: Colors.white,
+                            size: 16.sp,
+                          ),
+                          badgeStyle: badge.BadgeStyle(
+                            badgeColor: Styles.red,
+                            elevation: 0,
+                            borderSide: BorderSide(
+                              color: context.scaffoldBackgroundColor,
+                              width: 2.sp,
+                            ),
+                            // padding: EdgeInsets.all(9.sp),
+                          ),
+                          badgeAnimation: const badge.BadgeAnimation.scale(
+                            toAnimate: false,
+                          ),
+                          position: badge.BadgePosition.topEnd(
+                            top: -2.sp,
+                            end: -2.sp,
+                          ),
+                          showBadge: true,
+                          onTap: () {
+                            setState(() {
+                              imageCompanyTaxt.remove(image);
+                            });
+                          },
+                          child: CircleAvatar(
+                            radius: 38.sp,
+                            backgroundColor: context.primaryColor,
+                            child: CircleAvatar(
+                              radius: 34.sp,
+                              backgroundColor:
+                                  context.textTheme.headlineSmall!.color,
+                              backgroundImage: Image.file(image.toFile).image,
+                            ),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                ),
                 54.heightSp,
                 CustomElevatedButton(
                   onPressed: next,
@@ -156,7 +200,8 @@ class _CompleteRegistrationC2State extends State<CompleteRegistrationC2> {
     Dialogs.of(context).runAsyncAction(
       future: () async {
         await UserServices.of(widget.userSession).post(
-          imageCompanyTax: imageFile != null ? [imageFile!.toFile] : null,
+          imageCompany: widget.imageCompany?.toFile,
+          imageCompanyTax: imageCompanyTaxt.map((e) => e.toFile).toList(),
         );
       },
       onComplete: (_) {

@@ -289,39 +289,23 @@ class _DocumentsCompanyVerificationState
   }
 
   Future<void> takeImageCamera() async {
-    if (await Permissions.of(context).showCameraPermission()) {
-      return;
-    }
-    return await ImagePicker()
-        .pickImage(
+    await Functions.of(context).pickImage(
       source: ImageSource.camera,
-      maxHeight: 1080,
-      maxWidth: 1080,
-      imageQuality: 80,
-    )
-        .then(
-      (xfile) {
-        if (xfile == null) return;
-        cropImage(xfile);
+      onPick: (xfile) {
+        setState(() {
+          cropImage(xfile);
+        });
       },
     );
   }
 
   Future<void> takeImageGallery() async {
-    if (await Permissions.of(context).showPhotoLibraryPermission()) {
-      return;
-    }
-    return await ImagePicker()
-        .pickImage(
+    await Functions.of(context).pickImage(
       source: ImageSource.gallery,
-      maxHeight: 1080,
-      maxWidth: 1080,
-      imageQuality: 80,
-    )
-        .then(
-      (xfile) {
-        if (xfile == null) return;
-        cropImage(xfile);
+      onPick: (xfile) {
+        setState(() {
+          cropImage(xfile);
+        });
       },
     );
   }

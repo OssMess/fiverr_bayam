@@ -42,7 +42,7 @@ class DiscussionServices {
       );
     } else {
       Map<int, String> statusCodesPhrases = {
-        404: 'Resource not found',
+        404: 'resource-not-found',
         500: 'internal-server-error',
       };
       throw BackendException(

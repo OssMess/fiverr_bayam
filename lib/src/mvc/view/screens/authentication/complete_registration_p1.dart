@@ -214,43 +214,23 @@ class _CompleteRegistrationP1State extends State<CompleteRegistrationP1> {
   }
 
   Future<void> takeImageGallery() async {
-    await Permissions.of(context).showPhotoLibraryPermission().then(
-      (value) async {
-        if (value) return;
-        await ImagePicker()
-            .pickImage(
-          source: ImageSource.gallery,
-          imageQuality: 80,
-          maxHeight: 1080,
-          maxWidth: 1080,
-        )
-            .then(
-          (xfile) {
-            if (xfile == null) return;
-            cropImage(xfile);
-          },
-        );
+    await Functions.of(context).pickImage(
+      source: ImageSource.gallery,
+      onPick: (xfile) {
+        setState(() {
+          cropImage(xfile);
+        });
       },
     );
   }
 
   Future<void> takeImageCamera() async {
-    await Permissions.of(context).showCameraPermission().then(
-      (value) async {
-        if (value) return;
-        await ImagePicker()
-            .pickImage(
-          source: ImageSource.camera,
-          imageQuality: 80,
-          maxHeight: 1080,
-          maxWidth: 1080,
-        )
-            .then(
-          (xfile) {
-            if (xfile == null) return;
-            cropImage(xfile);
-          },
-        );
+    await Functions.of(context).pickImage(
+      source: ImageSource.camera,
+      onPick: (xfile) {
+        setState(() {
+          cropImage(xfile);
+        });
       },
     );
   }

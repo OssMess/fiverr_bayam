@@ -28,8 +28,8 @@ class AdServices {
     } else {
       log(response.body);
       Map<int, String> statusCodesPhrases = {
-        400: 'Invalid input',
-        422: 'Unprocessable entity',
+        400: 'invalid-input',
+        422: 'unprocessable-entity',
         500: 'internal-server-error',
       };
       throw BackendException(
@@ -55,7 +55,7 @@ class AdServices {
       return;
     } else {
       Map<int, String> statusCodesPhrases = {
-        404: 'Resource not found',
+        404: 'resource-not-found',
         500: 'internal-server-error',
       };
       throw BackendException(
@@ -92,8 +92,8 @@ class AdServices {
     if (response.statusCode != 201) {
       log(response.body);
       Map<int, String> statusCodesPhrases = {
-        400: 'Invalid input',
-        422: 'Unprocessable entity',
+        400: 'invalid-input',
+        422: 'unprocessable-entity',
         500: 'internal-server-error',
       };
       throw BackendException(
@@ -130,8 +130,8 @@ class AdServices {
     if (response.statusCode != 201) {
       log(response.body);
       Map<int, String> statusCodesPhrases = {
-        400: 'Invalid input',
-        422: 'Unprocessable entity',
+        400: 'invalid-input',
+        422: 'unprocessable-entity',
         500: 'internal-server-error',
       };
       throw BackendException(

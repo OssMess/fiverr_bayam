@@ -322,6 +322,13 @@
   "last_name":"Last name",
   "add_tag_error":"Please add at least one tag!",
   "empty_discussions":"No discussions at this moment! Connect with other users and start a new conversation.",
+  "upload_document_id":"Please upload both front side and back side of your id",
+  "invalid_input":"invalid_input",
+  "unprocessable_entity":"unprocessable_entity",
+  "internal_server_error":"internal_server_error",
+  "resource_not_found":"resource_not_found",
+  "unauthorized":"unauthorized",
+  "user_not_found":"user_not_found",
 
   "@min_caracters":{
     "description":"a validator message for minimum length",

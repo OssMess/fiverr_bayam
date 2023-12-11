@@ -26,7 +26,7 @@ class TagServices {
       return (jsonDecode(response.body) as Map<dynamic, dynamic>).toTag;
     } else {
       Map<int, String> statusCodesPhrases = {
-        404: 'Resource not found',
+        404: 'resource-not-found',
         500: 'internal-server-error',
       };
       throw BackendException(
