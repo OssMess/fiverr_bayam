@@ -19,9 +19,11 @@ final Map<PlanDuration, int> months = {
 class SubscribeScreen extends StatefulWidget {
   const SubscribeScreen({
     super.key,
+    required this.userSession,
     required this.ad,
   });
 
+  final UserSession userSession;
   final Ad ad;
 
   @override
@@ -171,6 +173,7 @@ class _SubscribeScreenState extends State<SubscribeScreen>
                     ),
                     16.heightSp,
                     PlanCard(
+                      userSession: widget.userSession,
                       ad: widget.ad,
                       planName: PlanName.basic,
                       planDuration: planDuration,
@@ -179,6 +182,7 @@ class _SubscribeScreenState extends State<SubscribeScreen>
                     ),
                     16.heightSp,
                     PlanCard(
+                      userSession: widget.userSession,
                       ad: widget.ad,
                       planName: PlanName.advanced,
                       planDuration: planDuration,
@@ -187,6 +191,7 @@ class _SubscribeScreenState extends State<SubscribeScreen>
                     ),
                     16.heightSp,
                     PlanCard(
+                      userSession: widget.userSession,
                       ad: widget.ad,
                       planName: PlanName.unlimited,
                       planDuration: planDuration,
@@ -230,6 +235,7 @@ class _SubscribeScreenState extends State<SubscribeScreen>
 class PlanCard extends StatelessWidget {
   const PlanCard({
     super.key,
+    required this.userSession,
     required this.ad,
     required this.planName,
     required this.planDuration,
@@ -237,6 +243,7 @@ class PlanCard extends StatelessWidget {
     required this.prices,
   });
 
+  final UserSession userSession;
   final Ad ad;
   final PlanName planName;
   final PlanDuration planDuration;
@@ -252,6 +259,7 @@ class PlanCard extends StatelessWidget {
             if (value) return;
             context.pushReplacement(
               widget: PromoteLocation(
+                userSession: userSession,
                 ad: ad,
                 price: '${prices[planDuration]![planType]![planName]!}\$',
                 months: months[planDuration]!,

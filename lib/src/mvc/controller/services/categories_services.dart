@@ -2,14 +2,23 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import '../../../tools.dart';
 import '../../model/models.dart';
 import '../services.dart';
 
 class CategoriesServices {
   static const String baseUrl = 'https://api.bayam.site';
 
+  final UserSession userSession;
+
+  CategoriesServices(this.userSession);
+
+  static CategoriesServices of(UserSession userSession) {
+    return CategoriesServices(userSession);
+  }
+
   /// Get all categories.
-  static Future<Set<Category>> get() async {
+  Future<Set<Category>> get() async {
     var request = http.Request(
       'GET',
       Uri.parse(
@@ -23,18 +32,12 @@ class CategoriesServices {
           .map((e) => Category.fromJson(e))
           .toSet();
     } else {
-      Map<int, String> statusCodesPhrases = {
-        500: 'internal-server-error',
-      };
-      throw BackendException(
-        code: statusCodesPhrases[response.statusCode],
-        statusCode: response.statusCode,
-      );
+      throw Functions.throwExceptionFromResponse(userSession, response);
     }
   }
 
   /// Create new category with [name] and [description].
-  static Future<Category> post({
+  Future<Category> post({
     required String name,
     required String description,
   }) async {
@@ -53,14 +56,7 @@ class CategoriesServices {
     if (response.statusCode == 201) {
       return Category.fromJson(jsonDecode(response.body));
     } else {
-      Map<int, String> statusCodesPhrases = {
-        400: 'invalid-input',
-        500: 'internal-server-error',
-      };
-      throw BackendException(
-        code: statusCodesPhrases[response.statusCode],
-        statusCode: response.statusCode,
-      );
+      throw Functions.throwExceptionFromResponse(userSession, response);
     }
   }
 }

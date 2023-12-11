@@ -6,3 +6,5 @@ export 'list_models/list_categories.dart';
 export 'list_models/list_categories_sub.dart';
 export 'list_models/list_discussions.dart';
 export 'list_models/list_messages.dart';
+export 'list_models/list_ads.dart';
+export 'list_models/list_ads_promoted.dart';

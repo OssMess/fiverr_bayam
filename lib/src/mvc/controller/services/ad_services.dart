@@ -1,16 +1,24 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 
+import '../../../tools.dart';
 import '../../model/models.dart';
 import '../services.dart';
 
 class AdServices {
   static const String baseUrl = 'https://api.bayam.site';
 
+  final UserSession userSession;
+
+  AdServices(this.userSession);
+
+  static AdServices of(UserSession userSession) {
+    return AdServices(userSession);
+  }
+
   /// Create new [ad].
-  static Future<Ad> post(Ad ad) async {
+  Future<Ad> post(Ad ad) async {
     var request = http.Request(
       'POST',
       Uri.parse(
@@ -26,21 +34,12 @@ class AdServices {
     if (response.statusCode == 201) {
       return Ad.fromResponse(response.body);
     } else {
-      log(response.body);
-      Map<int, String> statusCodesPhrases = {
-        400: 'invalid-input',
-        422: 'unprocessable-entity',
-        500: 'internal-server-error',
-      };
-      throw BackendException(
-        code: statusCodesPhrases[response.statusCode],
-        statusCode: response.statusCode,
-      );
+      throw Functions.throwExceptionFromResponse(userSession, response);
     }
   }
 
   /// Get ad by [id].
-  static Future<void> get(String id) async {
+  Future<void> get(String id) async {
     var request = http.Request(
       'GET',
       Uri.parse(
@@ -54,18 +53,11 @@ class AdServices {
     if (response.statusCode == 200) {
       return;
     } else {
-      Map<int, String> statusCodesPhrases = {
-        404: 'resource-not-found',
-        500: 'internal-server-error',
-      };
-      throw BackendException(
-        code: statusCodesPhrases[response.statusCode],
-        statusCode: response.statusCode,
-      );
+      throw Functions.throwExceptionFromResponse(userSession, response);
     }
   }
 
-  static Future<void> like({
+  Future<void> like({
     required String userId,
     required String adId,
     required String actionType,
@@ -90,20 +82,11 @@ class AdServices {
       forceSkipRetries: true,
     );
     if (response.statusCode != 201) {
-      log(response.body);
-      Map<int, String> statusCodesPhrases = {
-        400: 'invalid-input',
-        422: 'unprocessable-entity',
-        500: 'internal-server-error',
-      };
-      throw BackendException(
-        code: statusCodesPhrases[response.statusCode],
-        statusCode: response.statusCode,
-      );
+      throw Functions.throwExceptionFromResponse(userSession, response);
     }
   }
 
-  static Future<void> comment({
+  Future<void> comment({
     required String userId,
     required String adId,
     required String content,
@@ -128,16 +111,7 @@ class AdServices {
       forceSkipRetries: true,
     );
     if (response.statusCode != 201) {
-      log(response.body);
-      Map<int, String> statusCodesPhrases = {
-        400: 'invalid-input',
-        422: 'unprocessable-entity',
-        500: 'internal-server-error',
-      };
-      throw BackendException(
-        code: statusCodesPhrases[response.statusCode],
-        statusCode: response.statusCode,
-      );
+      throw Functions.throwExceptionFromResponse(userSession, response);
     }
   }
 }

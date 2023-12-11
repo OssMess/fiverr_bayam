@@ -25,15 +25,11 @@ class Page2Discussions extends StatefulWidget {
 }
 
 class _Page2DiscussionsState extends State<Page2Discussions> {
-  ListDiscussions listDiscussions = ListDiscussions(
-    lastDate: DateTime.now(),
-  );
-
   @override
   Widget build(BuildContext context) {
-    listDiscussions.initData(callGet: widget.page == 1);
+    widget.userSession.listDiscussions!.initData(callGet: widget.page == 1);
     return ChangeNotifierProvider.value(
-      value: listDiscussions,
+      value: widget.userSession.listDiscussions!,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -63,7 +59,7 @@ class _Page2DiscussionsState extends State<Page2Discussions> {
           ),
           Expanded(
             child: CustomRefreshIndicator(
-              onRefresh: listDiscussions.refresh,
+              onRefresh: widget.userSession.listDiscussions!.refresh,
               child: Consumer<ListDiscussions>(
                 builder: (context, listDiscussions, _) {
                   if (listDiscussions.isNull) {

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 import '../../../extensions.dart';
+import '../../../tools.dart';
 import '../../model/models.dart';
 import '../services.dart';
 
@@ -35,14 +36,7 @@ class UserServices {
         ),
       );
     } else {
-      Map<int, String> statusCodesPhrases = {
-        404: 'user-not-found',
-        500: 'internal-server-error',
-      };
-      throw BackendException(
-        code: statusCodesPhrases[response.statusCode],
-        statusCode: response.statusCode,
-      );
+      throw Functions.throwExceptionFromResponse(userSession, response);
     }
   }
 
@@ -140,20 +134,14 @@ class UserServices {
         ),
       );
     } else {
-      if (response.body.contains('unique_register_number')) {
-        throw BackendException(
-          code: 'unique-register-number',
-          statusCode: response.statusCode,
-        );
-      }
-      Map<int, String> statusCodesPhrases = {
-        400: 'invalid-input',
-        422: 'unprocessable-entity',
-        500: 'internal-server-error',
-      };
-      throw BackendException(
-        code: statusCodesPhrases[response.statusCode],
-        statusCode: response.statusCode,
+      throw Functions.throwExceptionFromResponse(
+        userSession,
+        response,
+        response.body.contains('unique_register_number')
+            ? {
+                response.statusCode: 'unique-register-number',
+              }
+            : null,
       );
     }
   }

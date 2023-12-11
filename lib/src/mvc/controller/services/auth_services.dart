@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import '../../../tools.dart';
 import '../../model/models.dart';
 import '../hives.dart';
 import '../services.dart';
@@ -38,16 +39,7 @@ class AuthServices {
         jsonDecode(response.body),
       );
     } else {
-      Map<int, String> statusCodesPhrases = {
-        400: 'invalid-input',
-        403: 'unauthorized',
-        422: 'unprocessable-entity',
-        500: 'internal-server-error',
-      };
-      throw BackendException(
-        code: statusCodesPhrases[response.statusCode],
-        statusCode: response.statusCode,
-      );
+      throw Functions.throwExceptionFromResponse(userSession, response);
     }
   }
 
@@ -70,15 +62,7 @@ class AuthServices {
     if (response.statusCode == 201) {
       return;
     } else {
-      Map<int, String> statusCodesPhrases = {
-        400: 'unauthorized',
-        422: 'unprocessable-entity',
-        500: 'internal-server-error',
-      };
-      throw BackendException(
-        code: statusCodesPhrases[response.statusCode],
-        statusCode: response.statusCode,
-      );
+      Functions.throwExceptionFromResponse(userSession, response);
     }
   }
 
@@ -103,14 +87,7 @@ class AuthServices {
         jsonDecode(response.body)['receiver'],
       );
     } else {
-      Map<int, String> statusCodesPhrases = {
-        404: 'resource-not-found',
-        500: 'internal-server-error',
-      };
-      throw BackendException(
-        code: statusCodesPhrases[response.statusCode],
-        statusCode: response.statusCode,
-      );
+      throw Functions.throwExceptionFromResponse(userSession, response);
     }
   }
 }

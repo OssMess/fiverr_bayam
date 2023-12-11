@@ -7,6 +7,7 @@ class ListMessages extends SetPaginationClasses<Message> {
   final DateTime lastDate;
 
   ListMessages({
+    required super.userSession,
     required this.discussionId,
     required this.lastDate,
   });
@@ -16,7 +17,7 @@ class ListMessages extends SetPaginationClasses<Message> {
     required int page,
     required bool refresh,
   }) async {
-    await MessageServices.get(
+    await MessageServices.of(userSession).get(
       discussionId: discussionId,
       lastDate: lastDate,
       page: page,

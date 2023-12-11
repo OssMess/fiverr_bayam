@@ -27,7 +27,7 @@ class Functions {
     return translation[key] ?? key;
   }
 
-  static void throwExceptionFromResponse(
+  static Exception throwExceptionFromResponse(
     UserSession userSession,
     Response response, [
     Map<int, String>? errorMap,
@@ -45,7 +45,7 @@ class Functions {
         userSession.onSignout,
       );
     }
-    throw BackendException(
+    return BackendException(
       code: statusCodesPhrases[response.statusCode],
       statusCode: response.statusCode,
     );
@@ -62,6 +62,8 @@ class Functions {
       'resource-not-found': AppLocalizations.of(context)!.resource_not_found,
       'unauthorized': AppLocalizations.of(context)!.unauthorized,
       'user-not-found': AppLocalizations.of(context)!.user_not_found,
+      'unique-register-number':
+          AppLocalizations.of(context)!.unique_register_number,
     };
     return translation[exception] ??
         AppLocalizations.of(context)!.unknown_error;

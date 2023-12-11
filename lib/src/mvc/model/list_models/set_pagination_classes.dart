@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../models.dart';
+
 /// List user upcoming appointments (Set<`Appointment`>):
 abstract class SetPaginationClasses<T> with ChangeNotifier {
+  /// User session
+  final UserSession userSession;
+
   /// Set of unique `T`.
   Set<T> list = {};
 
@@ -19,6 +24,8 @@ abstract class SetPaginationClasses<T> with ChangeNotifier {
 
   /// current page.
   int currentPage = 0;
+
+  SetPaginationClasses({required this.userSession});
 
   /// `true` if there are still more pages (pagination).
   bool get hasMore => currentPage < totalPages;

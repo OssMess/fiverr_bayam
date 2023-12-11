@@ -7,7 +7,6 @@ import 'package:badges/badges.dart' as badge;
 import '../../../../extensions.dart';
 import '../../../controller/services.dart';
 import '../../../model/enums.dart';
-import '../../../model/list_models.dart';
 import '../../../model/models.dart';
 import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
@@ -38,7 +37,6 @@ class _CreateAdState extends State<CreateAd>
   late TabController tabController;
   TextEditingController categoryConttroller = TextEditingController();
   TextEditingController tagsConttroller = TextEditingController();
-  ListCategories listCategories = ListCategories();
 
   @override
   void initState() {
@@ -111,17 +109,18 @@ class _CreateAdState extends State<CreateAd>
                         validator: Validators.validateNotNull,
                         keyboardType: TextInputType.name,
                         onTap: () async {
-                          if (listCategories.isNull) {
+                          if (widget.userSession.listCategories!.isNull) {
                             await Dialogs.of(context).runAsyncAction(
-                              future: () async =>
-                                  listCategories.get(refresh: false),
+                              future: () async => widget
+                                  .userSession.listCategories!
+                                  .initData(callGet: true),
                             );
                           }
                           if (!context.mounted) return;
                           Dialogs.of(context).showSingleValuePickerDialog(
                             mainAxisSize: MainAxisSize.max,
                             title: AppLocalizations.of(context)!.category_hint,
-                            values: listCategories.list
+                            values: widget.userSession.listCategories!.list
                                 .map(
                                   (e) => e.name,
                                 )
@@ -129,8 +128,9 @@ class _CreateAdState extends State<CreateAd>
                             initialvalue: category?.name,
                             onPick: (value) {
                               categoryConttroller.text = value;
-                              category = listCategories.list.firstWhere(
-                                  (element) => element.name == value);
+                              category = widget.userSession.listCategories!.list
+                                  .firstWhere(
+                                      (element) => element.name == value);
                             },
                           );
                         },
@@ -317,9 +317,9 @@ class _CreateAdState extends State<CreateAd>
         for (var stringTag in stringTags) {
           late Tag tag;
           try {
-            tag = await TagServices.get(stringTag);
+            tag = await TagServices.of(widget.userSession).get(stringTag);
           } catch (e) {
-            tag = await TagServices.post(stringTag);
+            tag = await TagServices.of(widget.userSession).post(stringTag);
           } finally {
             tags.add(tag);
           }

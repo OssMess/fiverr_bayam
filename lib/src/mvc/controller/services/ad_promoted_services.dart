@@ -2,13 +2,22 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import '../../../tools.dart';
 import '../../model/models.dart';
 import '../services.dart';
 
 class AdPromotedServices {
   static const String baseUrl = 'https://api.bayam.site';
 
-  static Future<AdPromoted> post({
+  final UserSession userSession;
+
+  AdPromotedServices(this.userSession);
+
+  static AdPromotedServices of(UserSession userSession) {
+    return AdPromotedServices(userSession);
+  }
+
+  Future<AdPromoted> post({
     required String id,
     required DateTime startDate,
     required DateTime endDate,
@@ -36,19 +45,11 @@ class AdPromotedServices {
     if (response.statusCode == 201) {
       return AdPromoted.fromMap(jsonDecode(response.body));
     } else {
-      Map<int, String> statusCodesPhrases = {
-        400: 'invalid-input',
-        422: 'unprocessable-entity',
-        500: 'internal-server-error',
-      };
-      throw BackendException(
-        code: statusCodesPhrases[response.statusCode],
-        statusCode: response.statusCode,
-      );
+      throw Functions.throwExceptionFromResponse(userSession, response);
     }
   }
 
-  static Future<AdPromoted> get(String id) async {
+  Future<AdPromoted> get(String id) async {
     var request = http.Request(
       'GET',
       Uri.parse(
@@ -63,14 +64,7 @@ class AdPromotedServices {
     if (response.statusCode == 200) {
       return AdPromoted.fromMap(jsonDecode(response.body));
     } else {
-      Map<int, String> statusCodesPhrases = {
-        404: 'resource-not-found',
-        500: 'internal-server-error',
-      };
-      throw BackendException(
-        code: statusCodesPhrases[response.statusCode],
-        statusCode: response.statusCode,
-      );
+      throw Functions.throwExceptionFromResponse(userSession, response);
     }
   }
 }

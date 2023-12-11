@@ -3,13 +3,22 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../../../extensions.dart';
+import '../../../tools.dart';
 import '../../model/models.dart';
 import '../services.dart';
 
 class DiscussionServices {
   static const String baseUrl = 'https://api.bayam.site';
 
-  static Future<void> get({
+  final UserSession userSession;
+
+  DiscussionServices(this.userSession);
+
+  static DiscussionServices of(UserSession userSession) {
+    return DiscussionServices(userSession);
+  }
+
+  Future<void> get({
     required DateTime lastDate,
     required int page,
     required bool refresh,
@@ -33,7 +42,7 @@ class DiscussionServices {
       Map<dynamic, dynamic> result = jsonDecode(response.body);
       update(
         List.from(result['hydra:member'])
-            .map((json) => Discussion.fromJson(json))
+            .map((json) => Discussion.fromJson(json, userSession))
             .toSet(),
         result['hydra:totalItems'],
         page + 1,
@@ -41,18 +50,11 @@ class DiscussionServices {
         refresh,
       );
     } else {
-      Map<int, String> statusCodesPhrases = {
-        404: 'resource-not-found',
-        500: 'internal-server-error',
-      };
-      throw BackendException(
-        code: statusCodesPhrases[response.statusCode],
-        statusCode: response.statusCode,
-      );
+      throw Functions.throwExceptionFromResponse(userSession, response);
     }
   }
 
-  static Future<Discussion> post({
+  Future<Discussion> post({
     required String receiverId,
   }) async {
     var request = http.Request(
@@ -71,17 +73,10 @@ class DiscussionServices {
     if (response.statusCode == 201) {
       return jsonToDiscussion(
         jsonDecode(response.body),
+        userSession,
       );
     } else {
-      Map<int, String> statusCodesPhrases = {
-        400: 'invalid-input',
-        422: 'unprocessable-entity',
-        500: 'internal-server-error',
-      };
-      throw BackendException(
-        code: statusCodesPhrases[response.statusCode],
-        statusCode: response.statusCode,
-      );
+      throw Functions.throwExceptionFromResponse(userSession, response);
     }
   }
 }

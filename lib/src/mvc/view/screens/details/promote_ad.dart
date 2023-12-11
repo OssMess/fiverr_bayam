@@ -15,11 +15,13 @@ import '../../../../tools.dart';
 class PromoteAd extends StatefulWidget {
   const PromoteAd({
     super.key,
+    required this.userSession,
     required this.ad,
     required this.price,
     required this.months,
   });
 
+  final UserSession userSession;
   final Ad ad;
   final String price;
   final int months;
@@ -206,7 +208,7 @@ class _PromoteAdState extends State<PromoteAd> {
     _keyForm.currentState!.save();
     Dialogs.of(context).runAsyncAction(
       future: () async {
-        await AdPromotedServices.post(
+        await AdPromotedServices.of(widget.userSession).post(
           id: widget.ad.uuid,
           startDate: startDate!,
           endDate: endDate!,

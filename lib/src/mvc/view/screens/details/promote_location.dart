@@ -15,11 +15,13 @@ import '../../screens.dart';
 class PromoteLocation extends StatefulWidget {
   const PromoteLocation({
     super.key,
+    required this.userSession,
     required this.ad,
     required this.price,
     required this.months,
   });
 
+  final UserSession userSession;
   final Ad ad;
   final String price;
   final int months;
@@ -217,6 +219,7 @@ class _PromoteLocationState extends State<PromoteLocation> {
                           label: AppLocalizations.of(context)!.continu,
                           onPressed: () => context.pushReplacement(
                             widget: PromoteAd(
+                              userSession: widget.userSession,
                               ad: widget.ad,
                               price: widget.price,
                               months: widget.months,

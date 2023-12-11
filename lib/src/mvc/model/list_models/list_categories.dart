@@ -6,6 +6,8 @@ class ListCategories extends SetClasses<Category> {
   Set<Category> filterSet = {};
   String search = '';
 
+  ListCategories({required super.userSession});
+
   void onChangeFilter(String search) {
     this.search = search;
     filterSet.clear();
@@ -24,7 +26,7 @@ class ListCategories extends SetClasses<Category> {
   Future<void> get({
     required bool refresh,
   }) async {
-    Set<Category> result = await CategoriesServices.get();
+    Set<Category> result = await CategoriesServices.of(userSession).get();
     super.update(
       result,
       false,

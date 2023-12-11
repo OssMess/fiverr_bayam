@@ -461,6 +461,7 @@ class Dialogs {
                 context.pop();
                 context.push(
                   widget: SubscribeScreen(
+                    userSession: userSession,
                     ad: ad,
                   ),
                 );

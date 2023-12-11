@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../models.dart';
+
 /// List user upcoming appointments (Set<`Appointment`>):
 abstract class SetClasses<T> with ChangeNotifier {
+  /// User session.
+  final UserSession userSession;
+
   /// Set of unique `T`.
   Set<T> list = {};
 
@@ -13,6 +18,8 @@ abstract class SetClasses<T> with ChangeNotifier {
 
   /// has error after the last HTTP request
   bool hasError = false;
+
+  SetClasses({required this.userSession});
 
   /// The number of nearby salons in list.
   int get length => list.length;

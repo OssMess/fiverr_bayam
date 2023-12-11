@@ -13,6 +13,7 @@
     "internal_server_error",
     "resource_not_found",
     "unauthorized",
-    "user_not_found"
+    "user_not_found",
+    "unique_register_number"
   ]
 }

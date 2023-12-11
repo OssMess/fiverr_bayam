@@ -5,6 +5,7 @@ import '../../../tools.dart';
 import '../../controller/hives.dart';
 import '../../controller/services.dart';
 import '../enums.dart';
+import '../list_models.dart';
 import 'author.dart';
 
 /// this model represents user session
@@ -45,6 +46,13 @@ class UserSession with ChangeNotifier {
   //company
   String? companyName;
 
+  //lists
+  ListAdsPromoted? listAdsPromoted;
+  ListAds? listAds;
+  ListCategoriesSub? listCategoriesSub;
+  ListCategories? listCategories;
+  ListDiscussions? listDiscussions;
+
   UserSession({
     required this.authState,
     required this.uid,
@@ -76,6 +84,11 @@ class UserSession with ChangeNotifier {
     required this.twitterUrl,
     required bool? isActive,
     required bool? isVerified,
+    this.listAds,
+    this.listAdsPromoted,
+    this.listCategories,
+    this.listCategoriesSub,
+    this.listDiscussions,
   })  : _isVerified = isVerified,
         _isActive = isActive;
 
@@ -131,6 +144,11 @@ class UserSession with ChangeNotifier {
       twitterUrl: null,
       isActive: null,
       isVerified: null,
+      listAds: null,
+      listAdsPromoted: null,
+      listCategories: null,
+      listCategoriesSub: null,
+      listDiscussions: null,
     );
     // AuthStateChange.save(user);
     if (authState == AuthState.awaiting) {
@@ -309,6 +327,23 @@ class UserSession with ChangeNotifier {
     streetAddress = user.streetAddress;
     _isActive = user._isActive;
     _isVerified = user._isVerified;
+    if (user.isAuthenticated) {
+      listAds = ListAds(userSession: this);
+      listAdsPromoted = ListAdsPromoted(userSession: this);
+      listCategories = ListCategories(userSession: this);
+      listCategoriesSub = ListCategoriesSub(userSession: this);
+      listDiscussions = ListDiscussions(
+        userSession: this,
+        lastDate: DateTime.now(),
+      );
+    } else {
+      listAds = null;
+      listAdsPromoted = null;
+      listCategories = null;
+      listCategoriesSub = null;
+      listDiscussions = null;
+    }
+
     notifyListeners();
   }
 

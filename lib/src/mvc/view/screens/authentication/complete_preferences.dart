@@ -18,17 +18,13 @@ class CompletePreferences extends StatefulWidget {
     required this.userSession,
     this.imageCompany,
     this.accountType,
-    this.listPreferences,
     this.onPick,
-  }) : assert((accountType == null &&
-                onPick != null &&
-                listPreferences != null) ||
-            (accountType != null && onPick == null && listPreferences == null));
+  }) : assert((accountType == null && onPick != null) ||
+            (accountType != null && onPick == null));
 
   final UserSession userSession;
   final XFile? imageCompany;
   final AccountType? accountType;
-  final ListCategoriesSub? listPreferences;
   final void Function(Set<CategorySub>)? onPick;
 
   @override
@@ -37,23 +33,17 @@ class CompletePreferences extends StatefulWidget {
 
 class _CompletePreferencesState extends State<CompletePreferences> {
   Set<CategorySub> pickedPreferences = {};
-  late ListCategoriesSub listPreferences;
 
   @override
   void initState() {
+    widget.userSession.listCategoriesSub!.initData(callGet: true);
     super.initState();
-    if (widget.listPreferences != null) {
-      listPreferences = widget.listPreferences!;
-      if (widget.listPreferences!.isNotNull) {
-        widget.listPreferences?.onChangeFilter('');
-      }
-    } else {
-      listPreferences = ListCategoriesSub();
-    }
   }
 
   @override
   void dispose() {
+    widget.userSession.listCategories?.onChangeFilter('');
+    widget.userSession.listCategoriesSub?.onChangeFilter('');
     super.dispose();
   }
 
@@ -82,10 +72,9 @@ class _CompletePreferencesState extends State<CompletePreferences> {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 32.sp),
               child: ChangeNotifierProvider.value(
-                value: listPreferences,
+                value: widget.userSession.listCategoriesSub!,
                 child: Consumer<ListCategoriesSub>(
                   builder: (context, list, _) {
-                    list.initData(callGet: true);
                     if (list.isNull) {
                       return const Align(
                         alignment: Alignment.topCenter,

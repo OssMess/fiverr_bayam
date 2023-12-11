@@ -1,8 +1,10 @@
 import '../../../tools.dart';
 import '../list_models.dart';
+import '../models.dart';
 
-Discussion jsonToDiscussion(Map<dynamic, dynamic> json) =>
-    Discussion.fromJson(json);
+Discussion jsonToDiscussion(
+        Map<dynamic, dynamic> json, UserSession userSession) =>
+    Discussion.fromJson(json, userSession);
 
 class Discussion {
   final String id;
@@ -25,7 +27,11 @@ class Discussion {
     required this.listMessages,
   });
 
-  factory Discussion.fromJson(Map<dynamic, dynamic> json) => Discussion(
+  factory Discussion.fromJson(
+    Map<dynamic, dynamic> json,
+    UserSession userSession,
+  ) =>
+      Discussion(
         id: json['uuid'],
         receiverId: json['receiver'],
         senderId: json['sender'],
@@ -34,6 +40,7 @@ class Discussion {
         createdAt: DateTimeUtils.getDateTimefromTimestamp(json['createdAt'])!,
         updatedAt: DateTimeUtils.getDateTimefromTimestamp(json['updatedAt'])!,
         listMessages: ListMessages(
+          userSession: userSession,
           discussionId: json['uuid'],
           lastDate: DateTime.now(),
         ),
