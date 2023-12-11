@@ -150,7 +150,6 @@ class _EditCompanyProfileState extends State<EditCompanyProfile> {
               },
             );
           },
-          onError: (_) {},
         );
       },
     );

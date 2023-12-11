@@ -135,7 +135,6 @@ class _ChangePasswordState extends State<ChangePassword> {
         await Future.delayed(const Duration(seconds: 1));
       },
       onComplete: (_) {},
-      onError: (_) {},
     );
   }
 }

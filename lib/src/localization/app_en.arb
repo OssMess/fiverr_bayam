@@ -330,6 +330,7 @@
   "unauthorized":"unauthorized",
   "user_not_found":"user_not_found",
   "unique_register_number":"unique-register-number",
+  "error_contact_support":"If this error persists, please contact our support team and report it.",
 
   "@min_caracters":{
     "description":"a validator message for minimum length",

@@ -88,7 +88,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         await Future.delayed(const Duration(seconds: 1));
       },
       onComplete: (_) {},
-      onError: (_) {},
     );
   }
 }

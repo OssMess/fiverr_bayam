@@ -198,7 +198,6 @@ class _EditPersonProfileState extends State<EditPersonProfile> {
               },
             );
           },
-          onError: (_) {},
         );
       },
     );

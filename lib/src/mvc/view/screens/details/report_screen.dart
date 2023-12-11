@@ -114,7 +114,6 @@ class _ReportScreenState extends State<ReportScreen> {
           ),
         );
       },
-      onError: (_) {},
     );
   }
 }

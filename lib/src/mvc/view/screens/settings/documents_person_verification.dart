@@ -297,7 +297,6 @@ class _DocumentsPersonVerificationState
           },
         );
       },
-      onError: (_) {},
     );
   }
 

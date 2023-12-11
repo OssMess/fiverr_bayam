@@ -244,7 +244,6 @@ class _DocumentsCompanyVerificationState
           ],
         );
       },
-      onError: (_) {},
     );
   }
 

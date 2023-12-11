@@ -217,7 +217,6 @@ class _CompleteRegistrationC2State extends State<CompleteRegistrationC2> {
           ),
         );
       },
-      onError: (_) {},
     );
   }
 }

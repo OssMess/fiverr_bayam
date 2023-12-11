@@ -352,7 +352,7 @@ class _CreateAdState extends State<CreateAd>
       onError: (_) {
         Dialogs.of(context).showCustomDialog(
           header: AppLocalizations.of(context)!.ad_thankyou_header,
-          headerColor: Styles.red[600],
+          headerColor: Styles.red,
           title: AppLocalizations.of(context)!.failed,
           subtitle: AppLocalizations.of(context)!.ad_create_failed_subtitle,
           yesAct: ModelTextButton(

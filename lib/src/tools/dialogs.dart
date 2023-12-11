@@ -291,16 +291,26 @@ class Dialogs {
   Future<void> handleBackendException({
     required BackendException exception,
   }) async {
-    await context.showAdaptiveModalBottomSheet(
-      builder: (_) => ConfirmationDialog(
-        dialogState: DialogState.error,
-        subtitle: Functions.of(context).translateException(exception),
-        continueButton: ModelTextButton(
-          label: AppLocalizations.of(context)!.close,
-          fontColor: Styles.red,
-        ),
+    Dialogs.of(context).showCustomDialog(
+      header: AppLocalizations.of(context)!.error_contact_support,
+      headerColor: Styles.red,
+      title: AppLocalizations.of(context)!.failed,
+      subtitle: Functions.of(context).translateException(exception),
+      yesAct: ModelTextButton(
+        label: AppLocalizations.of(context)!.close,
+        color: Styles.green,
       ),
     );
+    // await context.showAdaptiveModalBottomSheet(
+    //   builder: (_) => ConfirmationDialog(
+    //     dialogState: DialogState.error,
+    //     subtitle: Functions.of(context).translateException(exception),
+    //     continueButton: ModelTextButton(
+    //       label: AppLocalizations.of(context)!.close,
+    //       fontColor: Styles.red,
+    //     ),
+    //   ),
+    // );
   }
 
   /// Shows a custom alert dialog with [title], [subtitle], [yesAct] button as
