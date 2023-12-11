@@ -57,6 +57,7 @@ class DiscussionServices {
   Future<Discussion> post({
     required String receiverId,
   }) async {
+    receiverId = '3d3f3e2f-75ce-45b6-8351-d46fe49f5991';
     var request = http.Request(
       'POST',
       Uri.parse(

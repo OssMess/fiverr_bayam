@@ -27,9 +27,9 @@ class Page2Discussions extends StatefulWidget {
 class _Page2DiscussionsState extends State<Page2Discussions> {
   @override
   Widget build(BuildContext context) {
-    widget.userSession.listDiscussions!.initData(callGet: widget.page == 1);
+    widget.userSession.listDiscussions?.initData(callGet: widget.page == 1);
     return ChangeNotifierProvider.value(
-      value: widget.userSession.listDiscussions!,
+      value: widget.userSession.listDiscussions,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -60,9 +60,9 @@ class _Page2DiscussionsState extends State<Page2Discussions> {
           Expanded(
             child: CustomRefreshIndicator(
               onRefresh: widget.userSession.listDiscussions!.refresh,
-              child: Consumer<ListDiscussions>(
+              child: Consumer<ListDiscussions?>(
                 builder: (context, listDiscussions, _) {
-                  if (listDiscussions.isNull) {
+                  if (listDiscussions == null || listDiscussions.isNull) {
                     return const CustomLoadingIndicator(
                       isSliver: false,
                     );
