@@ -76,12 +76,10 @@ class MessageServices {
       imagesBase64.add(await image.toBase64String());
     }
     request.body = json.encode({
-      {
-        'receiver': receiverId,
-        'discussion': discussionId,
-        'message': message,
-        'images': imagesBase64,
-      },
+      'receiver': receiverId,
+      'discussion': discussionId,
+      'message': message,
+      'images': imagesBase64,
     });
     http.Response response = await HttpRequest.attemptHttpCall(request);
     if (response.statusCode == 201) {

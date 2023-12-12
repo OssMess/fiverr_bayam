@@ -7,34 +7,35 @@ import '../../../extensions.dart';
 import '../../model/models.dart';
 import '../screens.dart';
 
-class ChatTile extends StatelessWidget {
-  const ChatTile({
+class DiscussionTile extends StatelessWidget {
+  const DiscussionTile({
     super.key,
-    required this.chat,
+    required this.discussion,
   });
 
-  final Chat chat;
+  final Discussion discussion;
 
   @override
   Widget build(BuildContext context) {
     return InkResponse(
       onTap: () => context.push(
-        widget: ChatScreen(
-          displayName: chat.displayName,
-          photoUrl: chat.photoUrl,
-          isOnline: chat.isOnline,
+        widget: DiscussionScreen(
+          displayName: discussion.displayName,
+          photoUrl: discussion.imageUrl,
+          isOnline: discussion.isOnline,
           lastSeen: null,
         ),
       ),
       child: Container(
-        color: chat.seen ? null : context.textTheme.headlineSmall!.color,
+        color:
+            discussion.isSeen ? null : context.textTheme.headlineSmall!.color,
         padding: EdgeInsetsDirectional.only(end: 16.sp),
         child: Row(
           children: [
             Container(
               width: 5.sp,
               height: 80.sp,
-              color: chat.seen ? null : Styles.green,
+              color: discussion.isSeen ? null : Styles.green,
             ),
             16.widthSp,
             badge.Badge(
@@ -54,11 +55,11 @@ class ChatTile extends StatelessWidget {
                 top: -1.sp,
                 end: -1.sp,
               ),
-              showBadge: chat.isOnline,
+              showBadge: discussion.isOnline,
               child: CircleAvatar(
                 radius: 30.sp,
                 backgroundColor: context.textTheme.headlineMedium!.color,
-                backgroundImage: chat.photo,
+                backgroundImage: discussion.image,
               ),
             ),
             16.widthSp,
@@ -71,7 +72,7 @@ class ChatTile extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          chat.displayName,
+                          discussion.displayName,
                           overflow: TextOverflow.ellipsis,
                           style: Styles.poppins(
                             fontSize: 14.sp,
@@ -80,7 +81,7 @@ class ChatTile extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          chat.lastMessage,
+                          discussion.lastMessage,
                           overflow: TextOverflow.ellipsis,
                           style: Styles.poppins(
                             fontSize: 12.sp,
@@ -94,7 +95,7 @@ class ChatTile extends StatelessWidget {
                   16.widthSp,
                   Text(
                     DateTimeUtils.of(context).formatElapsedAgo(
-                      chat.updatedAt,
+                      discussion.updatedAt,
                     )!,
                     style: Styles.poppins(
                       fontSize: 12.sp,

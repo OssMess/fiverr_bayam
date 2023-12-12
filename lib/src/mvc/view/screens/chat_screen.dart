@@ -15,8 +15,8 @@ import '../model_widgets.dart';
 import '../model_widgets_screens.dart';
 import '../tiles.dart';
 
-class ChatScreen extends StatefulWidget {
-  const ChatScreen({
+class DiscussionScreen extends StatefulWidget {
+  const DiscussionScreen({
     super.key,
     required this.displayName,
     required this.photoUrl,
@@ -30,10 +30,10 @@ class ChatScreen extends StatefulWidget {
   final DateTime? lastSeen;
 
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
+  State<DiscussionScreen> createState() => _DiscussionScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _DiscussionScreenState extends State<DiscussionScreen> {
   @override
   Widget build(BuildContext context) {
     bool online = widget.isOnline ?? Random().nextBool();

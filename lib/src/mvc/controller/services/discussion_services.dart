@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../../../extensions.dart';
+import '../../../settings.dart';
 import '../../../tools.dart';
 import '../../model/models.dart';
 import '../services.dart';
@@ -19,7 +20,6 @@ class DiscussionServices {
   }
 
   Future<void> get({
-    required DateTime lastDate,
     required int page,
     required bool refresh,
     required void Function(
@@ -30,10 +30,11 @@ class DiscussionServices {
       bool, // refresh,
     ) update,
   }) async {
+    DateTime lastGet = await Preferences.getDiscussionLastGet();
     var request = http.Request(
       'GET',
       Uri.parse(
-        '$baseUrl/api/discussions/me/?page=${page + 1}&lastDate=${lastDate.formatDate()}',
+        '$baseUrl/api/discussions/me/?page=${page + 1}&lastDate=${lastGet.formatDate()}',
       ),
     );
     request.headers.addAll(Services.headerAcceptldJson);
@@ -49,6 +50,7 @@ class DiscussionServices {
         false,
         refresh,
       );
+      await Preferences.setDiscussionLastGet();
     } else {
       throw Functions.throwExceptionFromResponse(userSession, response);
     }
@@ -66,9 +68,7 @@ class DiscussionServices {
     );
     request.headers.addAll(Services.headersldJson);
     request.body = json.encode({
-      {
-        'receiver': receiverId,
-      },
+      'receiver': receiverId,
     });
     http.Response response = await HttpRequest.attemptHttpCall(request);
     if (response.statusCode == 201) {

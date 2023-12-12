@@ -6,7 +6,7 @@ import '../../controller/hives.dart';
 import '../../controller/services.dart';
 import '../enums.dart';
 import '../list_models.dart';
-import 'author.dart';
+import '../models.dart';
 
 /// this model represents user session
 class UserSession with ChangeNotifier {
@@ -20,8 +20,8 @@ class UserSession with ChangeNotifier {
   String? imageProfileUrl;
   List<ImageProvider<Object>>? imageUserIdentity;
   List<String>? imageUserIdentityUrl;
-  List<ImageProvider<Object>>? imageCompany;
-  List<String>? imageCompanyUrl;
+  ImageProvider<Object>? imageCompany;
+  String? imageCompanyUrl;
   List<ImageProvider<Object>>? imageCompanyTax;
   List<String>? imageCompanyTaxUrl;
   AccountType? accountType;
@@ -157,48 +157,48 @@ class UserSession with ChangeNotifier {
     return user;
   }
 
-  factory UserSession.fromMap(Map<String, dynamic> json) {
-    return UserSession(
-      authState: AuthState.authenticated,
-      uid: json['uid'],
-      phoneNumber: json['phoneNumber'],
-      imageProfile: (json['imageProfile'] as String?).toImageProvider,
-      imageProfileUrl: json['imageProfile'],
-      imageUserIdentity: List.from(json['imageUserIdentity'] ?? [])
-          .map((e) => (e as String).toImageProvider!)
-          .toList(),
-      imageUserIdentityUrl:
-          List<String>.from(json['imageUserIdentity'] ?? []).toList(),
-      imageCompany: List.from(json['imageCompany'] ?? [])
-          .map((e) => (e as String).toImageProvider!)
-          .toList(),
-      imageCompanyUrl: List<String>.from(json['imageCompany'] ?? []).toList(),
-      imageCompanyTax: List.from(json['imageCompanyTax'] ?? [])
-          .map((e) => (e as String).toImageProvider!)
-          .toList(),
-      imageCompanyTaxUrl:
-          List<String>.from(json['imageCompanyTax'] ?? []).toList(),
-      firstName: json['firstName'],
-      lastName: json['lastName'],
-      companyName: json['companyName'],
-      accountType: (json['accountType'] as String?)?.toAccountType,
-      bio: json['bio'],
-      birthDate: json['birthDate'],
-      city: json['city'],
-      country: json['country'],
-      email: json['email'],
-      facebookUrl: json['facebookUrl'],
-      linkedinUrl: json['linkedinUrl'],
-      postalCode: json['postalCode'],
-      preferences: json['preferences'],
-      region: json['region'],
-      uniqueRegisterNumber: json['uniqueRegisterNumber'],
-      streetAddress: json['streetAddress'],
-      twitterUrl: json['twitterUrl'],
-      isActive: json['isActive'],
-      isVerified: json['isVerified'],
-    );
-  }
+  // factory UserSession.fromMap(Map<String, dynamic> json) {
+  //   return UserSession(
+  //     authState: AuthState.authenticated,
+  //     uid: json['uuid'],
+  //     phoneNumber: json['phoneNumber'],
+  //     imageProfile: (json['imageProfile'] as String?).toImageProvider,
+  //     imageProfileUrl: json['imageProfile'],
+  //     imageUserIdentity: List.from(json['imageUserIdentity'] ?? [])
+  //         .map((e) => (e as String).toImageProvider!)
+  //         .toList(),
+  //     imageUserIdentityUrl:
+  //         List<String>.from(json['imageUserIdentity'] ?? []).toList(),
+  //     imageCompany: List.from(json['imageCompany'] ?? [])
+  //         .map((e) => (e as String).toImageProvider!)
+  //         .toList(),
+  //     imageCompanyUrl: List<String>.from(json['imageCompany'] ?? []).toList(),
+  //     imageCompanyTax: List.from(json['imageCompanyTax'] ?? [])
+  //         .map((e) => (e as String).toImageProvider!)
+  //         .toList(),
+  //     imageCompanyTaxUrl:
+  //         List<String>.from(json['imageCompanyTax'] ?? []).toList(),
+  //     firstName: json['firstName'],
+  //     lastName: json['lastName'],
+  //     companyName: json['companyName'],
+  //     accountType: (json['accountType'] as String?)?.toAccountType,
+  //     bio: json['bio'],
+  //     birthDate: json['birthDate'],
+  //     city: json['city'],
+  //     country: json['country'],
+  //     email: json['email'],
+  //     facebookUrl: json['facebookUrl'],
+  //     linkedinUrl: json['linkedinUrl'],
+  //     postalCode: json['postalCode'],
+  //     preferences: json['preferences'],
+  //     region: json['region'],
+  //     uniqueRegisterNumber: json['uniqueRegisterNumber'],
+  //     streetAddress: json['streetAddress'],
+  //     twitterUrl: json['twitterUrl'],
+  //     isActive: json['isActive'],
+  //     isVerified: json['isVerified'],
+  //   );
+  // }
 
   Map<dynamic, dynamic> get toAuthorMap => {
         'isCompanyOrClient': true,
@@ -334,7 +334,6 @@ class UserSession with ChangeNotifier {
       listCategoriesSub = ListCategoriesSub(userSession: this);
       listDiscussions = ListDiscussions(
         userSession: this,
-        lastDate: DateTime.now(),
       );
     } else {
       listAds = null;
@@ -358,21 +357,18 @@ class UserSession with ChangeNotifier {
     if (json['companyName'] is String) {
       accountType = AccountType.company;
     }
-    imageProfile = (json['imageProfile'] as String?).toImageProvider;
     imageProfileUrl = json['imageProfile'];
-    imageUserIdentity = List.from(json['imageUserIdentity'] ?? [])
-        .map((e) => (e as String).toImageProvider!)
-        .toList();
+    imageProfile = imageProfileUrl.toImageProvider;
     imageUserIdentityUrl =
         List<String>.from(json['imageUserIdentity'] ?? []).toList();
-    imageCompany = List.from(json['imageCompany'] ?? [])
-        .map((e) => (e as String).toImageProvider!)
-        .toList();
-    imageCompanyUrl = List<String>.from(json['imageCompany'] ?? []).toList();
-    imageCompany = List.from(json['imageCompany'] ?? [])
-        .map((e) => (e as String).toImageProvider!)
-        .toList();
-    imageCompanyUrl = List<String>.from(json['imageCompany'] ?? []).toList();
+    imageUserIdentity =
+        (imageUserIdentityUrl ?? []).map((e) => e.toImageProvider!).toList();
+    imageCompanyUrl = List<String>.from(json['imageCompany'] ?? []).firstOrNull;
+    imageCompany = imageCompanyUrl.toImageProvider;
+    imageCompanyTaxUrl =
+        List<String>.from(json['imageCompanyTax'] ?? []).toList();
+    imageCompanyTax =
+        (imageCompanyTaxUrl ?? []).map((e) => e.toImageProvider!).toList();
     firstName = json['firstName'];
     lastName = json['lastName'];
     companyName = json['companyName'];

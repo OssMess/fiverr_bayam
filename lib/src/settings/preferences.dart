@@ -1,3 +1,4 @@
+import 'package:bayam/src/tools.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -6,6 +7,7 @@ class Preferences {
   static const locale = 'locale';
   static const theme = 'theme';
   static const listRecentContacts = 'recent';
+  static const discussionsLastGet = 'discussion last get';
 
   static final Future<SharedPreferences> _prefs =
       SharedPreferences.getInstance();
@@ -19,6 +21,18 @@ class Preferences {
   static Future<void> setShowOnboarding(bool show) async {
     final SharedPreferences prefs = await _prefs;
     prefs.setBool(onboarding, show);
+  }
+
+  static Future<DateTime> getDiscussionLastGet() async {
+    final SharedPreferences prefs = await _prefs;
+    return prefs.getString(discussionsLastGet) != null
+        ? DateTimeUtils.parseDateTime(prefs.getString(discussionsLastGet))!
+        : DateTime.now();
+  }
+
+  static Future<void> setDiscussionLastGet() async {
+    final SharedPreferences prefs = await _prefs;
+    prefs.setString(discussionsLastGet, DateTime.now().toString());
   }
 
   static Future<void> setLocale(Locale loc) async {

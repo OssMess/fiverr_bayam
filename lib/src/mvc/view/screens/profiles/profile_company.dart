@@ -52,7 +52,7 @@ class ProfileCompany extends StatelessWidget {
                           icon: AwesomeIcons.chat,
                           color: context.scaffoldBackgroundColor,
                           onPressed: () => context.push(
-                            widget: const ChatScreen(
+                            widget: const DiscussionScreen(
                               displayName: 'BigMop',
                               photoUrl:
                                   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDLL2FyAeYaShg5h1YrW3gEyDHDCUb5o2_lw&usqp=CAU',

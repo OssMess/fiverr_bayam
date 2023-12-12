@@ -318,7 +318,7 @@ class DateTimeUtils {
   ///If [value] is null:
   ///- if [initIfNull] is true: return `DateTime.now()`
   ///- else: return null
-  static DateTime? getDateTimefromTimestamp(
+  static DateTime? parseDateTime(
     dynamic value, [
     bool initIfNull = true,
   ]) {

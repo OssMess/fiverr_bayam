@@ -77,8 +77,9 @@ class _Page2DiscussionsState extends State<Page2Discussions> {
                     padding: EdgeInsets.symmetric(vertical: 32.sp),
                     physics: const AlwaysScrollableScrollPhysics(),
                     itemCount: listDiscussions.length,
-                    itemBuilder: (context, index) =>
-                        ChatTile(chat: ListData.chats[index]),
+                    itemBuilder: (context, index) => DiscussionTile(
+                      discussion: listDiscussions.elementAt(index),
+                    ),
                   );
                 },
               ),

@@ -51,7 +51,7 @@ class ProfilePerson extends StatelessWidget {
                         ModelIconButton(
                           icon: AwesomeIcons.chat,
                           onPressed: () => context.push(
-                            widget: const ChatScreen(
+                            widget: const DiscussionScreen(
                               displayName: 'Pierre Owona',
                               photoUrl:
                                   'https://i.pinimg.com/1200x/a1/1e/2a/a11e2a9d5803e4dc2c034819ce12a16e.jpg',

@@ -37,7 +37,7 @@ class Message {
         images: List.from(json['message'] ?? [])
             .map((e) => CachedNetworkImageProvider(e)),
         isEncrypted: json['isEncrypted'],
-        createdAt: DateTimeUtils.getDateTimefromTimestamp(json['createdAt'])!,
-        updatedAt: DateTimeUtils.getDateTimefromTimestamp(json['updatedAt'])!,
+        createdAt: DateTimeUtils.parseDateTime(json['createdAt'])!,
+        updatedAt: DateTimeUtils.parseDateTime(json['updatedAt'])!,
       );
 }

@@ -3,9 +3,7 @@ import '../list_models.dart';
 import '../models.dart';
 
 class ListDiscussions extends SetPaginationClasses<Discussion> {
-  final DateTime lastDate;
-
-  ListDiscussions({required super.userSession, required this.lastDate});
+  ListDiscussions({required super.userSession});
 
   @override
   Future<void> get({
@@ -13,7 +11,6 @@ class ListDiscussions extends SetPaginationClasses<Discussion> {
     required bool refresh,
   }) async {
     await DiscussionServices.of(userSession).get(
-      lastDate: lastDate,
       page: page,
       refresh: refresh,
       update: super.update,

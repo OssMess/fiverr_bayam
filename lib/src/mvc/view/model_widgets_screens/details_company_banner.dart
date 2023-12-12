@@ -76,7 +76,7 @@ class DetailsCompanyBanner extends StatelessWidget {
           16.widthSp,
           IconButton(
             onPressed: () => context.push(
-              widget: ChatScreen(
+              widget: DiscussionScreen(
                 displayName: name,
                 photoUrl: logoUrl,
                 isOnline: null,
