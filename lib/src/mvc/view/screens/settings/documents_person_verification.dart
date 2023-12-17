@@ -181,11 +181,13 @@ class _DocumentsPersonVerificationState
                                 label: AppLocalizations.of(context)!.front,
                                 file: imageIdentityFrontFile,
                                 icon: Icons.camera_alt_outlined,
-                                onTap: () => takeImageCamera(onPick: (xfile) {
-                                  setState(() {
-                                    imageIdentityFrontFile = xfile;
-                                  });
-                                }),
+                                onTap: () => takeImageCamera(
+                                  onPick: (xfile) {
+                                    setState(() {
+                                      imageIdentityFrontFile = xfile;
+                                    });
+                                  },
+                                ),
                               );
                             },
                           ),
@@ -196,11 +198,13 @@ class _DocumentsPersonVerificationState
                                 label: AppLocalizations.of(context)!.back,
                                 file: imageIdentityBackFile,
                                 icon: Icons.camera_alt_outlined,
-                                onTap: () => takeImageCamera(onPick: (xfile) {
-                                  setState(() {
-                                    imageIdentityBackFile = xfile;
-                                  });
-                                }),
+                                onTap: () => takeImageCamera(
+                                  onPick: (xfile) {
+                                    setState(() {
+                                      imageIdentityBackFile = xfile;
+                                    });
+                                  },
+                                ),
                               );
                             },
                           ),

@@ -1,4 +1,3 @@
-import 'package:bayam/src/mvc/view/screens.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -50,15 +49,15 @@ class ProfilePerson extends StatelessWidget {
                       actions: [
                         ModelIconButton(
                           icon: AwesomeIcons.chat,
-                          onPressed: () => context.push(
-                            widget: const DiscussionScreen(
-                              displayName: 'Pierre Owona',
-                              photoUrl:
-                                  'https://i.pinimg.com/1200x/a1/1e/2a/a11e2a9d5803e4dc2c034819ce12a16e.jpg',
-                              isOnline: null,
-                              lastSeen: null,
-                            ),
-                          ),
+                          // onPressed: () => context.push(
+                          //   widget: const DiscussionScreen(
+                          //     displayName: 'Pierre Owona',
+                          //     photoUrl:
+                          //         'https://i.pinimg.com/1200x/a1/1e/2a/a11e2a9d5803e4dc2c034819ce12a16e.jpg',
+                          //     isOnline: null,
+                          //     lastSeen: null,
+                          //   ),
+                          // ),
                         ),
                         ModelIconButton(
                           icon: AwesomeIcons.phone,

@@ -346,14 +346,13 @@ class UserSession with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> onSignInCompleted(Map<String, dynamic> json) async {
+  void onSignInCompleted(Map<String, dynamic> json) {
     uid = json['uuid'];
     phoneNumber = json['phoneNumber'];
     accountType = null;
     if (json['firstName'] is String) {
       accountType = AccountType.person;
     }
-
     if (json['companyName'] is String) {
       accountType = AccountType.company;
     }
@@ -393,6 +392,8 @@ class UserSession with ChangeNotifier {
     _isActive = json['isActive'];
     _isVerified = json['isVerified'];
     authState = AuthState.authenticated;
+    listDiscussions = ListDiscussions(userSession: this);
+    HiveMessages.init(this);
     notifyListeners();
   }
 
@@ -400,6 +401,10 @@ class UserSession with ChangeNotifier {
     updateFromUserSession(UserSession.initUnauthenticated());
     await HiveCookies.clear();
     await HiveTokens.clear();
+    await HiveMessages.clear();
     notifyListeners();
   }
+
+  String get displayName => companyName ?? '$firstName $lastName';
+  ImageProvider<Object>? get image => imageProfile ?? imageCompany;
 }

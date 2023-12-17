@@ -96,4 +96,12 @@ abstract class SetClasses<T> with ChangeNotifier {
     hasError = update.hasError;
     notifyListeners();
   }
+
+  void insert(T element) {
+    if (isNull) return;
+    Set<T> newList = {element, ...list};
+    list.clear();
+    list = newList;
+    notifyListeners();
+  }
 }

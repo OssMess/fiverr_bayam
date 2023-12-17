@@ -323,19 +323,20 @@ class DateTimeUtils {
     bool initIfNull = true,
   ]) {
     try {
-      // if (value is Timestamp) {
-      //   return DateTime.fromMillisecondsSinceEpoch(value.seconds * 1000)
-      //       .toLocal();
-      // } else
+      if (value == null) {
+        if (initIfNull) return DateTime.now();
+        return null;
+      }
       if (value is DateTime) {
         return value;
-      } else if (value is int) {
-        return DateTime.fromMillisecondsSinceEpoch(value);
-      } else if (value is String) {
-        return DateTime.parse(value);
-      } else {
-        throw Exception();
       }
+      if (value is int) {
+        return DateTime.fromMillisecondsSinceEpoch(value);
+      }
+      if (value is String) {
+        return DateTime.parse(value);
+      }
+      throw Exception();
     } on Exception {
       if (initIfNull) {
         return DateTime.now();

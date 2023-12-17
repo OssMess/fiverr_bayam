@@ -18,7 +18,9 @@ class ListMessages extends SetPaginationClasses<Message> {
     required bool refresh,
   }) async {
     await MessageServices.of(userSession).get(
+      uid: userSession.uid!,
       discussionId: discussionId,
+      isNull: super.isNull,
       lastDate: lastDate,
       page: page,
       refresh: refresh,

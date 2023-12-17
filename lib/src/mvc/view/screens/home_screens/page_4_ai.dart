@@ -8,7 +8,6 @@ import '../../../../tools.dart';
 import '../../../model/list_models.dart';
 import '../../../model/models.dart';
 import '../../model_widgets.dart';
-import '../../tiles.dart';
 
 class Page4AI extends StatefulWidget {
   const Page4AI({
@@ -105,10 +104,12 @@ class _Page4AIState extends State<Page4AI> {
                     ),
                   );
                 } else {
-                  return MessageTile(
-                    message: ListData.aiChat.elementAt(index - 1),
-                    lastMessage: index > 1 ? ListData.aiChat[index - 2] : null,
-                  );
+                  return const SizedBox.shrink();
+                  // return MessageTile(
+                  //   avatar: null,
+                  //   message: ListData.aiChat.elementAt(index - 1),
+                  //   lastMessage: index > 1 ? ListData.aiChat[index - 2] : null,
+                  // );
                 }
               },
             ),

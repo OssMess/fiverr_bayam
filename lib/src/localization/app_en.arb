@@ -331,6 +331,19 @@
   "user_not_found":"user_not_found",
   "unique_register_number":"unique-register-number",
   "error_contact_support":"If this error persists, please contact our support team and report it.",
+  "online":"Online",
+  "sent_nb_messages":"{name} {nb, plural, =1{sent you a image} other{sent you {nb} images}}",
+
+  "@sent_nb_messages":{
+    "placeholders":{
+      "name":{
+        "type":"String"
+      },
+      "nb":{
+        "type":"int"
+      }
+    }
+  },
 
   "@min_caracters":{
     "description":"a validator message for minimum length",

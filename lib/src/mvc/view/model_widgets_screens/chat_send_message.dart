@@ -26,7 +26,7 @@ class ChatSendMessage extends StatefulWidget {
     required this.onSendMessage,
   });
 
-  final Future<void> Function(String?, String?, String?) onSendMessage;
+  final Future<void> Function(String?, String?, List<XFile>?) onSendMessage;
 
   @override
   State<ChatSendMessage> createState() => _ChatSendMessageState();
@@ -304,13 +304,12 @@ class _ChatSendMessageState extends State<ChatSendMessage> {
 
   Future<void> sendImage() async {
     hideEmojiKeyboard();
-    await Functions.of(context).pickImage(
-      source: ImageSource.gallery,
-      onPick: (xfile) {
+    await Functions.of(context).pickMultiImage(
+      onPick: (xfiles) {
         widget.onSendMessage(
           null,
           null,
-          xfile.path,
+          xfiles,
         );
       },
     );

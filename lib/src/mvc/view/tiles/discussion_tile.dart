@@ -10,9 +10,11 @@ import '../screens.dart';
 class DiscussionTile extends StatelessWidget {
   const DiscussionTile({
     super.key,
+    required this.userSession,
     required this.discussion,
   });
 
+  final UserSession userSession;
   final Discussion discussion;
 
   @override
@@ -20,10 +22,8 @@ class DiscussionTile extends StatelessWidget {
     return InkResponse(
       onTap: () => context.push(
         widget: DiscussionScreen(
-          displayName: discussion.displayName,
-          photoUrl: discussion.imageUrl,
-          isOnline: discussion.isOnline,
-          lastSeen: null,
+          userSession: userSession,
+          discussion: discussion,
         ),
       ),
       child: Container(

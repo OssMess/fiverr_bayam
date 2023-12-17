@@ -1,11 +1,12 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 
 import '../../../extensions.dart';
 import '../../../tools.dart';
 import '../../model/models.dart';
+import '../hives.dart';
 import '../services.dart';
 
 class MessageServices {
@@ -21,7 +22,9 @@ class MessageServices {
 
   /// Get list message in a discussion with [discussionId]
   Future<void> get({
+    required String uid,
     required String discussionId,
+    required bool isNull,
     required DateTime lastDate,
     required int page,
     required bool refresh,
@@ -36,7 +39,7 @@ class MessageServices {
     var request = http.Request(
       'GET',
       Uri.parse(
-        '$baseUrl/api/message/me/receiver/?id=$discussionId&page=${page + 1}',
+        '$baseUrl/api/message/me/receiver/$discussionId', //&page=${page + 1}',
       ),
     );
     request.headers.addAll(Services.headerAcceptldJson);
@@ -44,9 +47,12 @@ class MessageServices {
     if (response.statusCode == 200) {
       Map<dynamic, dynamic> result = jsonDecode(response.body);
       update(
-        List.from(result['hydra:member'])
-            .map((json) => Message.fromJson(json))
-            .toSet(),
+        {
+          if (isNull) ...HiveMessages.getListMessagesById(discussionId),
+          ...List.from(result['hydra:member'])
+              .map((json) => Message.fromJson(json, discussionId, uid))
+              .toSet()
+        },
         result['hydra:totalItems'],
         page + 1,
         false,
@@ -62,7 +68,7 @@ class MessageServices {
     required String receiverId,
     required String discussionId,
     required String message,
-    required List<File> images,
+    required List<XFile> images,
   }) async {
     var request = http.Request(
       'POST',
@@ -73,7 +79,7 @@ class MessageServices {
     request.headers.addAll(Services.headersldJson);
     List<String> imagesBase64 = [];
     for (var image in images) {
-      imagesBase64.add(await image.toBase64String());
+      imagesBase64.add(await image.toFile.toBase64String());
     }
     request.body = json.encode({
       'receiver': receiverId,
@@ -85,6 +91,8 @@ class MessageServices {
     if (response.statusCode == 201) {
       return jsonToMessage(
         jsonDecode(response.body),
+        discussionId,
+        userSession.uid!,
       );
     } else {
       throw Functions.throwExceptionFromResponse(userSession, response);

@@ -78,6 +78,7 @@ class _Page2DiscussionsState extends State<Page2Discussions> {
                     physics: const AlwaysScrollableScrollPhysics(),
                     itemCount: listDiscussions.length,
                     itemBuilder: (context, index) => DiscussionTile(
+                      userSession: widget.userSession,
                       discussion: listDiscussions.elementAt(index),
                     ),
                   );

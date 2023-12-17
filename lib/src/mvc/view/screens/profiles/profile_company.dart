@@ -10,7 +10,6 @@ import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
 import '../../model_widgets_screens.dart';
-import '../../screens.dart';
 
 class ProfileCompany extends StatelessWidget {
   const ProfileCompany({
@@ -51,15 +50,10 @@ class ProfileCompany extends StatelessWidget {
                         ModelIconButton(
                           icon: AwesomeIcons.chat,
                           color: context.scaffoldBackgroundColor,
-                          onPressed: () => context.push(
-                            widget: const DiscussionScreen(
-                              displayName: 'BigMop',
-                              photoUrl:
-                                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDLL2FyAeYaShg5h1YrW3gEyDHDCUb5o2_lw&usqp=CAU',
-                              isOnline: null,
-                              lastSeen: null,
-                            ),
-                          ),
+                          // onPressed: () => context.push(
+                          //   widget: const DiscussionScreen(
+                          //   ),
+                          // ),
                         ),
                         ModelIconButton(
                           icon: AwesomeIcons.phone,

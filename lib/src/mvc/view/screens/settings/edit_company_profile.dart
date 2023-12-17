@@ -132,9 +132,9 @@ class _EditCompanyProfileState extends State<EditCompanyProfile> {
         }
         Dialogs.of(context).runAsyncAction(
           future: () async {
-            companyName = widget.userSession.companyName;
-            email = widget.userSession.email;
-            phoneNumber = widget.userSession.phoneNumber;
+            widget.userSession.companyName = companyName;
+            widget.userSession.email = email;
+            widget.userSession.phoneNumber = phoneNumber;
             await UserServices.of(widget.userSession).post();
           },
           onComplete: (_) {

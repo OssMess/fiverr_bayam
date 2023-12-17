@@ -30,7 +30,7 @@ class UserServices {
     request.headers.addAll(Services.headersldJson);
     http.Response response = await HttpRequest.attemptHttpCall(request);
     if (response.statusCode == 200) {
-      await userSession.onSignInCompleted(
+      userSession.onSignInCompleted(
         jsonDecode(
           response.body,
         ),
@@ -128,7 +128,7 @@ class UserServices {
       timeout: const Duration(seconds: 100),
     );
     if (response.statusCode == 200) {
-      await userSession.onSignInCompleted(
+      userSession.onSignInCompleted(
         jsonDecode(
           response.body,
         ),

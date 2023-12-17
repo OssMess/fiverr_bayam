@@ -35,7 +35,7 @@ class AuthServices {
       ignoreAuthorization: true,
     );
     if (response.statusCode == 201) {
-      await userSession.onSignInCompleted(
+      userSession.onSignInCompleted(
         jsonDecode(response.body),
       );
     } else {
@@ -83,7 +83,7 @@ class AuthServices {
       ignoreAuthorization: true,
     );
     if (response.statusCode == 200) {
-      await userSession.onSignInCompleted(
+      userSession.onSignInCompleted(
         jsonDecode(response.body)['receiver'],
       );
     } else {

@@ -8,14 +8,21 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../extensions.dart';
+import '../../../controller/services.dart';
 import '../../../model/enums.dart';
+import '../../../model/models/user_session.dart';
 import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
 import '../../model_widgets_screens.dart';
 
 class DocumentsCompanyVerification extends StatefulWidget {
-  const DocumentsCompanyVerification({super.key});
+  const DocumentsCompanyVerification({
+    super.key,
+    required this.userSession,
+  });
+
+  final UserSession userSession;
 
   @override
   State<DocumentsCompanyVerification> createState() =>
@@ -25,7 +32,9 @@ class DocumentsCompanyVerification extends StatefulWidget {
 class _DocumentsCompanyVerificationState
     extends State<DocumentsCompanyVerification> {
   int? idType;
-  XFile? imageFile;
+  XFile? imageProfileFile;
+  XFile? imageIdentityFrontFile;
+  XFile? imageIdentityBackFile;
 
   @override
   Widget build(BuildContext context) {
@@ -58,10 +67,10 @@ class _DocumentsCompanyVerificationState
                           .upload_profile_picture_subtitle,
                     ),
                     12.heightSp,
-                    if (imageFile != null)
+                    if (imageProfileFile != null)
                       InkResponse(
                         onTap: () => setState(() {
-                          imageFile = null;
+                          imageProfileFile = null;
                         }),
                         child: Align(
                           alignment: Alignment.center,
@@ -71,14 +80,14 @@ class _DocumentsCompanyVerificationState
                               radius: 80.sp,
                               backgroundImage: Image.file(
                                 File(
-                                  imageFile!.path,
+                                  imageProfileFile!.path,
                                 ),
                               ).image,
                             ),
                           ),
                         ),
                       ),
-                    if (imageFile == null)
+                    if (imageProfileFile == null)
                       Container(
                         padding: EdgeInsets.symmetric(vertical: 45.sp),
                         decoration: BoxDecoration(
@@ -161,14 +170,28 @@ class _DocumentsCompanyVerificationState
                         children: [
                           CircularIconButton(
                             label: AppLocalizations.of(context)!.front,
+                            file: imageIdentityFrontFile,
                             icon: Icons.camera_alt_outlined,
-                            onTap: takeImageCamera,
+                            onTap: () => takeImageCamera(
+                              onPick: (xfile) {
+                                setState(() {
+                                  imageIdentityFrontFile = xfile;
+                                });
+                              },
+                            ),
                           ),
                           64.widthSp,
                           CircularIconButton(
                             label: AppLocalizations.of(context)!.back,
+                            file: imageIdentityBackFile,
                             icon: Icons.camera_alt_outlined,
-                            onTap: takeImageCamera,
+                            onTap: () => takeImageCamera(
+                              onPick: (xfile) {
+                                setState(() {
+                                  imageIdentityBackFile = xfile;
+                                });
+                              },
+                            ),
                           ),
                         ],
                       ),
@@ -197,9 +220,21 @@ class _DocumentsCompanyVerificationState
   }
 
   Future<void> next() async {
+    if (imageIdentityBackFile == null || imageIdentityFrontFile == null) {
+      context.showSnackBar(
+        message: AppLocalizations.of(context)!.upload_document_id,
+      );
+      return;
+    }
     Dialogs.of(context).runAsyncAction(
       future: () async {
-        await Future.delayed(const Duration(seconds: 1));
+        await UserServices.of(widget.userSession).post(
+          imageCompany: imageProfileFile?.toFile,
+          imageCompanyTax: [
+            imageIdentityBackFile!.toFile,
+            imageIdentityFrontFile!.toFile,
+          ],
+        );
       },
       onComplete: (_) {
         Dialogs.of(context).showCustomDialog(
@@ -281,19 +316,21 @@ class _DocumentsCompanyVerificationState
       (file) {
         if (file == null) return;
         setState(() {
-          imageFile = XFile(file.path);
+          imageProfileFile = XFile(file.path);
         });
       },
     );
   }
 
-  Future<void> takeImageCamera() async {
+  Future<void> takeImageCamera({void Function(XFile)? onPick}) async {
     await Functions.of(context).pickImage(
-      source: ImageSource.camera,
+      source: ImageSource.gallery,
       onPick: (xfile) {
-        setState(() {
+        if (onPick != null) {
+          onPick(xfile);
+        } else {
           cropImage(xfile);
-        });
+        }
       },
     );
   }
@@ -302,10 +339,30 @@ class _DocumentsCompanyVerificationState
     await Functions.of(context).pickImage(
       source: ImageSource.gallery,
       onPick: (xfile) {
-        setState(() {
-          cropImage(xfile);
-        });
+        cropImage(xfile);
       },
     );
   }
+
+  // Future<void> takeImageCamera() async {
+  //   await Functions.of(context).pickImage(
+  //     source: ImageSource.gallery,
+  //     onPick: (xfile) {
+  //       setState(() {
+  //         cropImage(xfile);
+  //       });
+  //     },
+  //   );
+  // }
+
+  // Future<void> takeImageGallery() async {
+  //   await Functions.of(context).pickImage(
+  //     source: ImageSource.gallery,
+  //     onPick: (xfile) {
+  //       setState(() {
+  //         cropImage(xfile);
+  //       });
+  //     },
+  //   );
+  // }
 }

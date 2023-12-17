@@ -94,6 +94,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         ? AppBarActionButton(
                             icon: AwesomeIcons.magnifying_glass,
                             onTap: () {
+                              // DiscussionServices.of(widget.userSession)
+                              //     .post(receiverId: '');
                               context.push(
                                 widget: const SearchScreen(),
                               );

@@ -75,14 +75,15 @@ class DetailsCompanyBanner extends StatelessWidget {
           ),
           16.widthSp,
           IconButton(
-            onPressed: () => context.push(
-              widget: DiscussionScreen(
-                displayName: name,
-                photoUrl: logoUrl,
-                isOnline: null,
-                lastSeen: null,
-              ),
-            ),
+            onPressed: () {},
+            // onPressed: () => context.push(
+            //   widget: DiscussionScreen(
+            //     displayName: name,
+            //     photoUrl: logoUrl,
+            //     isOnline: null,
+            //     lastSeen: null,
+            //   ),
+            // ),
             icon: Icon(
               AwesomeIcons.chat_bold,
               color: Styles.green,

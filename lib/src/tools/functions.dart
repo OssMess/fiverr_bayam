@@ -81,6 +81,27 @@ class Functions {
     }
   }
 
+  Future<void> pickMultiImage({
+    required void Function(List<XFile>) onPick,
+  }) async {
+    if (context.mounted &&
+        await Permissions.of(context).showPhotoLibraryPermission()) {
+      return;
+    }
+    return await ImagePicker()
+        .pickMultiImage(
+      maxHeight: 1080,
+      maxWidth: 1080,
+      imageQuality: 80,
+    )
+        .then(
+      (xfiles) {
+        if (xfiles.isEmpty) return;
+        onPick(xfiles);
+      },
+    );
+  }
+
   Future<void> pickImage({
     required ImageSource source,
     required void Function(XFile) onPick,

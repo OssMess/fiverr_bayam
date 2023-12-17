@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../tools.dart';
+import '../../controller/services.dart';
 import '../list_models.dart';
 import '../models.dart';
 
 Discussion jsonToDiscussion(
-        Map<dynamic, dynamic> json, UserSession userSession) =>
+  Map<dynamic, dynamic> json,
+  UserSession userSession,
+) =>
     Discussion.fromJson(json, userSession);
 
-class Discussion {
+class Discussion with ChangeNotifier {
   final String id;
   final UserMin receiver;
-  final UserMin sender;
   final List<Message> messages;
   final String? encryptionKey;
   final DateTime createdAt;
@@ -21,7 +24,6 @@ class Discussion {
   Discussion({
     required this.id,
     required this.receiver,
-    required this.sender,
     required this.messages,
     required this.encryptionKey,
     required this.createdAt,
@@ -35,10 +37,17 @@ class Discussion {
   ) =>
       Discussion(
         id: json['uuid'],
-        receiver: UserMin.fromMap(json['receiver']),
-        sender: UserMin.fromMap(json['sender']),
+        receiver: json['receiver']['uuid'] != userSession.uid
+            ? UserMin.fromMap(json['receiver'])
+            : UserMin.fromMap(json['sender']),
         messages: List.from(json['messages'])
-            .map((e) => Message.fromJson(e))
+            .map(
+              (e) => Message.fromJson(
+                e,
+                json['uuid'],
+                userSession.uid!,
+              ),
+            )
             .toList(),
         encryptionKey: json['encryption_key'],
         createdAt: DateTimeUtils.parseDateTime(json['createdAt'])!,
@@ -61,4 +70,28 @@ class Discussion {
   String? get imageUrl => receiver.imageUrl;
 
   String get lastMessage => messages.isEmpty ? '' : messages.first.message;
+
+  Future<void> sendMessage({
+    required UserSession userSession,
+    required String? text,
+    required List<XFile>? images,
+  }) async {
+    Message message = Message.init(
+      discussionId: id,
+      message: text,
+      images: images,
+    );
+    listMessages.insert(message);
+    try {
+      Message messageSent = await MessageServices.of(userSession).post(
+        receiverId: receiver.uid,
+        discussionId: id,
+        message: message.message,
+        images: message.imageFiles,
+      );
+      message.updateWithMessage(messageSent);
+    } catch (e) {
+      message.updateError();
+    }
+  }
 }

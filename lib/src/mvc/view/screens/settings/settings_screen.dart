@@ -135,7 +135,9 @@ class SettingsScreen extends StatelessWidget {
                           );
                         } else {
                           context.push(
-                            widget: const DocumentsCompanyVerification(),
+                            widget: DocumentsCompanyVerification(
+                              userSession: userSession,
+                            ),
                           );
                         }
                       },

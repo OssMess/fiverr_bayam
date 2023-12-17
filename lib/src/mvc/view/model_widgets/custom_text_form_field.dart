@@ -92,7 +92,7 @@ class CustomTextFormField extends StatelessWidget {
         );
     TextStyle style = Styles.poppins(
       fontSize: fontSize ?? 15.sp,
-      fontWeight: Styles.medium,
+      fontWeight: Styles.regular,
       color: context.textTheme.displayLarge!.color,
       // height: 1.2,
     );
