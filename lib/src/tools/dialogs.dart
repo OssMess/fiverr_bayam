@@ -366,6 +366,23 @@ class Dialogs {
     );
   }
 
+  Future<void> showMultiImageSlideShow({
+    required List<ImageProvider<Object>> images,
+    required int initialPage,
+  }) async {
+    await showModalBottomSheet(
+      context: context,
+      builder: (_) => MultiImageSlideshow(
+        images: images,
+        initialPage: initialPage,
+      ),
+      backgroundColor: Colors.black,
+      enableDrag: true,
+      isScrollControlled: true,
+      isDismissible: true,
+    );
+  }
+
   /// Shows a value picker dialog with
   /// dialog [title],
   /// [values] to pick one from,

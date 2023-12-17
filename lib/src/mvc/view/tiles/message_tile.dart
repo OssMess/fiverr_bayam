@@ -90,17 +90,51 @@ class _MessageTileState extends State<MessageTile> {
                     //   );
                     // }
                     if (widget.message.isImage) {
-                      return InkResponse(
-                        onTap: () => Dialogs.of(context)
-                            .showSingleImageSlideShow(
-                                widget.message.images.first),
-                        child: AspectRatio(
-                          aspectRatio: 1, //widget.message.aspectRatio!,
-                          child: Image(
-                            image: widget.message.images.first,
-                          ),
-                        ),
-                      );
+                      return Builder(builder: (context) {
+                        if (widget.message.images.length == 1) {
+                          return InkResponse(
+                            onTap: () =>
+                                Dialogs.of(context).showSingleImageSlideShow(
+                              widget.message.images.first,
+                            ),
+                            child: AspectRatio(
+                              aspectRatio: 1,
+                              child: Image(
+                                image: widget.message.images.first,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          );
+                        }
+                        if (widget.message.images.length == 2) {
+                          return AspectRatio(
+                            aspectRatio: 2,
+                            child: Row(
+                              children: widget.message.images
+                                  .map(
+                                    (image) => InkResponse(
+                                      onTap: () => Dialogs.of(context)
+                                          .showMultiImageSlideShow(
+                                        images: widget.message.images,
+                                        initialPage: widget.message.images
+                                            .indexOf(image),
+                                      ),
+                                      child: AspectRatio(
+                                        aspectRatio: 1,
+                                        child: Image(
+                                          image: image,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                          );
+                        }
+                        //TODO how to display more than 2 images
+                        return const SizedBox.shrink();
+                      });
                     }
                     return Text(
                       widget.message.message,

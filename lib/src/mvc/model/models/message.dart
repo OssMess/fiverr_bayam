@@ -15,8 +15,8 @@ class Message with ChangeNotifier {
   final String discussionId;
   final bool isMine;
   final String message;
-  Iterable<ImageProvider<Object>> images;
-  Iterable<String> imagesUrl;
+  List<ImageProvider<Object>> images;
+  List<String> imagesUrl;
   final List<XFile> imageFiles;
   final String? isEncrypted;
   final DateTime createdAt;
@@ -70,7 +70,8 @@ class Message with ChangeNotifier {
         isMine: json['isMine'] ?? json['sender']['uuid'] == uid,
         message: json['message'],
         images: List.from(json['images'] ?? [])
-            .map((e) => CachedNetworkImageProvider(e)),
+            .map((e) => CachedNetworkImageProvider(e))
+            .toList(),
         imagesUrl: List.from(json['images'] ?? []),
         imageFiles: [],
         isEncrypted: json['isEncrypted'],
