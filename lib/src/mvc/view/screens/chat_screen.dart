@@ -183,7 +183,7 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
                             avatar: message.isMine
                                 ? widget.userSession.image
                                 : widget.discussion.receiver.image,
-                            message: listMessages.elementAt(index),
+                            message: message,
                             lastMessage: index > 0
                                 ? listMessages.elementAt(index - 1)
                                 : null,

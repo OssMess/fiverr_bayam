@@ -31,6 +31,7 @@ class HiveMessages {
   /// Save [json] to `_box`.
   static Future<void> save(Message message) async {
     _set.add(message);
+    await _box.delete(message.id);
     await _box.put(
       message.id,
       message.toMap,

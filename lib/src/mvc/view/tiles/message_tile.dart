@@ -1,8 +1,7 @@
-import 'dart:ui';
-
 import 'package:badges/badges.dart' as badge;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 import '../../../extensions.dart';
@@ -47,11 +46,21 @@ class _MessageTileState extends State<MessageTile> {
       value: widget.message,
       child: Consumer<Message>(
         builder: (context, message, _) {
+          if (message.isSending && !message.isMine) {
+            return Row(
+              children: [
+                SpinKitThreeBounce(
+                  color: context.primaryColor,
+                  size: 14.sp,
+                ),
+              ],
+            );
+          }
           var rowChildren = [
             if (!widget.message.isMine)
               CircleAvatar(
                 radius: 18.sp,
-                backgroundColor: context.scaffoldBackgroundColor,
+                backgroundColor: context.textTheme.headlineSmall!.color,
                 foregroundImage: showAvatar ? widget.avatar : null,
               ),
             12.widthSp,

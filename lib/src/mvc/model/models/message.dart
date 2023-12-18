@@ -14,7 +14,7 @@ class Message with ChangeNotifier {
   String id;
   final String discussionId;
   final bool isMine;
-  final String message;
+  String message;
   List<ImageProvider<Object>> images;
   List<String> imagesUrl;
   final List<XFile> imageFiles;
@@ -38,6 +38,36 @@ class Message with ChangeNotifier {
     required this.isSending,
     required this.isError,
   });
+
+  factory Message.initChatBotMessage(bool isMine, String message) => Message(
+        id: 'chatbot_${DateTime.now().millisecondsSinceEpoch}',
+        discussionId: 'chatbot',
+        isMine: isMine,
+        message: message,
+        images: [],
+        imagesUrl: [],
+        imageFiles: [],
+        isEncrypted: '',
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        isSending: false,
+        isError: false,
+      );
+
+  factory Message.initChatBotAwaitingMessage() => Message(
+        id: 'chatbot_${DateTime.now().millisecondsSinceEpoch}',
+        discussionId: 'chatbot',
+        isMine: false,
+        message: '',
+        images: [],
+        imagesUrl: [],
+        imageFiles: [],
+        isEncrypted: '',
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        isSending: true,
+        isError: false,
+      );
 
   factory Message.init({
     required String discussionId,
@@ -78,7 +108,7 @@ class Message with ChangeNotifier {
         createdAt: DateTimeUtils.parseDateTime(json['createdAt'])!,
         updatedAt: DateTimeUtils.parseDateTime(json['updatedAt'])!,
         isSending: false,
-        isError: false,
+        isError: json['isError'] ?? false,
       );
 
   Map<String, dynamic> get toMap => {
@@ -87,6 +117,7 @@ class Message with ChangeNotifier {
         'isMine': isMine,
         'message': message,
         'images': imagesUrl,
+        'isError': isError,
         'createdAt': createdAt,
         'updatedAt': updatedAt,
       };
@@ -113,6 +144,13 @@ class Message with ChangeNotifier {
     imageFiles.clear();
     isSending = false;
     isError = false;
+    notifyListeners();
+    HiveMessages.save(message);
+  }
+
+  void updateWithChatBotMessage(Message message) {
+    this.message = message.message;
+    isSending = false;
     notifyListeners();
     HiveMessages.save(message);
   }

@@ -52,6 +52,7 @@ class UserSession with ChangeNotifier {
   ListCategoriesSub? listCategoriesSub;
   ListCategories? listCategories;
   ListDiscussions? listDiscussions;
+  ListChatBotMessages? listChatBotMessages;
 
   UserSession({
     required this.authState,
@@ -89,6 +90,7 @@ class UserSession with ChangeNotifier {
     this.listCategories,
     this.listCategoriesSub,
     this.listDiscussions,
+    this.listChatBotMessages,
   })  : _isVerified = isVerified,
         _isActive = isActive;
 
@@ -149,6 +151,7 @@ class UserSession with ChangeNotifier {
       listCategories: null,
       listCategoriesSub: null,
       listDiscussions: null,
+      listChatBotMessages: null,
     );
     // AuthStateChange.save(user);
     if (authState == AuthState.awaiting) {
@@ -156,49 +159,6 @@ class UserSession with ChangeNotifier {
     }
     return user;
   }
-
-  // factory UserSession.fromMap(Map<String, dynamic> json) {
-  //   return UserSession(
-  //     authState: AuthState.authenticated,
-  //     uid: json['uuid'],
-  //     phoneNumber: json['phoneNumber'],
-  //     imageProfile: (json['imageProfile'] as String?).toImageProvider,
-  //     imageProfileUrl: json['imageProfile'],
-  //     imageUserIdentity: List.from(json['imageUserIdentity'] ?? [])
-  //         .map((e) => (e as String).toImageProvider!)
-  //         .toList(),
-  //     imageUserIdentityUrl:
-  //         List<String>.from(json['imageUserIdentity'] ?? []).toList(),
-  //     imageCompany: List.from(json['imageCompany'] ?? [])
-  //         .map((e) => (e as String).toImageProvider!)
-  //         .toList(),
-  //     imageCompanyUrl: List<String>.from(json['imageCompany'] ?? []).toList(),
-  //     imageCompanyTax: List.from(json['imageCompanyTax'] ?? [])
-  //         .map((e) => (e as String).toImageProvider!)
-  //         .toList(),
-  //     imageCompanyTaxUrl:
-  //         List<String>.from(json['imageCompanyTax'] ?? []).toList(),
-  //     firstName: json['firstName'],
-  //     lastName: json['lastName'],
-  //     companyName: json['companyName'],
-  //     accountType: (json['accountType'] as String?)?.toAccountType,
-  //     bio: json['bio'],
-  //     birthDate: json['birthDate'],
-  //     city: json['city'],
-  //     country: json['country'],
-  //     email: json['email'],
-  //     facebookUrl: json['facebookUrl'],
-  //     linkedinUrl: json['linkedinUrl'],
-  //     postalCode: json['postalCode'],
-  //     preferences: json['preferences'],
-  //     region: json['region'],
-  //     uniqueRegisterNumber: json['uniqueRegisterNumber'],
-  //     streetAddress: json['streetAddress'],
-  //     twitterUrl: json['twitterUrl'],
-  //     isActive: json['isActive'],
-  //     isVerified: json['isVerified'],
-  //   );
-  // }
 
   Map<dynamic, dynamic> get toAuthorMap => {
         'isCompanyOrClient': true,
@@ -332,15 +292,15 @@ class UserSession with ChangeNotifier {
       listAdsPromoted = ListAdsPromoted(userSession: this);
       listCategories = ListCategories(userSession: this);
       listCategoriesSub = ListCategoriesSub(userSession: this);
-      listDiscussions = ListDiscussions(
-        userSession: this,
-      );
+      listDiscussions = ListDiscussions(userSession: this);
+      listChatBotMessages = ListChatBotMessages(userSession: this);
     } else {
       listAds = null;
       listAdsPromoted = null;
       listCategories = null;
       listCategoriesSub = null;
       listDiscussions = null;
+      listChatBotMessages = null;
     }
 
     notifyListeners();
@@ -393,6 +353,7 @@ class UserSession with ChangeNotifier {
     _isVerified = json['isVerified'];
     authState = AuthState.authenticated;
     listDiscussions = ListDiscussions(userSession: this);
+    listChatBotMessages = ListChatBotMessages(userSession: this);
     HiveMessages.init(this);
     notifyListeners();
   }

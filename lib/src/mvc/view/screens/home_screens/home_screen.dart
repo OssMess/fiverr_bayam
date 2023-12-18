@@ -191,7 +191,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           page: pageNotifier.currentPage,
                         ),
                         Page3CompanyAds(userSession: widget.userSession),
-                        Page4AI(userSession: widget.userSession),
+                        Page4AI(
+                          userSession: widget.userSession,
+                          page: pageNotifier.currentPage,
+                        ),
                         widget.userSession.isPerson
                             ? Page5PersonProfile(
                                 userSession: widget.userSession,
