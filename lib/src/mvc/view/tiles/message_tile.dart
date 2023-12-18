@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:badges/badges.dart' as badge;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../../../extensions.dart';
 import '../../../tools.dart';
 import '../../model/models.dart';
+import '../tiles.dart';
 
 class MessageTile extends StatefulWidget {
   const MessageTile({
@@ -90,51 +93,70 @@ class _MessageTileState extends State<MessageTile> {
                     //   );
                     // }
                     if (widget.message.isImage) {
-                      return Builder(builder: (context) {
-                        if (widget.message.images.length == 1) {
-                          return InkResponse(
-                            onTap: () =>
-                                Dialogs.of(context).showSingleImageSlideShow(
-                              widget.message.images.first,
-                            ),
-                            child: AspectRatio(
-                              aspectRatio: 1,
-                              child: Image(
-                                image: widget.message.images.first,
-                                fit: BoxFit.cover,
+                      return Builder(
+                        builder: (context) {
+                          if (widget.message.images.length == 1) {
+                            return InkResponse(
+                              onTap: () =>
+                                  Dialogs.of(context).showSingleImageSlideShow(
+                                widget.message.images.first,
                               ),
-                            ),
-                          );
-                        }
-                        if (widget.message.images.length == 2) {
-                          return AspectRatio(
-                            aspectRatio: 2,
-                            child: Row(
-                              children: widget.message.images
-                                  .map(
-                                    (image) => InkResponse(
-                                      onTap: () => Dialogs.of(context)
-                                          .showMultiImageSlideShow(
-                                        images: widget.message.images,
-                                        initialPage: widget.message.images
-                                            .indexOf(image),
-                                      ),
-                                      child: AspectRatio(
-                                        aspectRatio: 1,
-                                        child: Image(
-                                          image: image,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
+                              child: AspectRatio(
+                                aspectRatio: 1,
+                                child: Image(
+                                  image: widget.message.images.first,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            );
+                          }
+                          return Column(
+                            children: [
+                              AspectRatio(
+                                aspectRatio: 2,
+                                child: Row(
+                                  children: [
+                                    ChatImageCard(
+                                      aspectRatio: 1,
+                                      index: 0,
+                                      images: widget.message.images,
                                     ),
-                                  )
-                                  .toList(),
-                            ),
+                                    ChatImageCard(
+                                      aspectRatio: 1,
+                                      index: 1,
+                                      images: widget.message.images,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              if (widget.message.images.length == 3)
+                                ChatImageCard(
+                                  aspectRatio: 2,
+                                  index: 2,
+                                  images: widget.message.images,
+                                ),
+                              if (widget.message.images.length > 3)
+                                AspectRatio(
+                                  aspectRatio: 2,
+                                  child: Row(
+                                    children: [
+                                      ChatImageCard(
+                                        aspectRatio: 1,
+                                        index: 2,
+                                        images: widget.message.images,
+                                      ),
+                                      ChatImageCard(
+                                        aspectRatio: 1,
+                                        index: 3,
+                                        images: widget.message.images,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                            ],
                           );
-                        }
-                        //TODO how to display more than 2 images
-                        return const SizedBox.shrink();
-                      });
+                        },
+                      );
                     }
                     return Text(
                       widget.message.message,
