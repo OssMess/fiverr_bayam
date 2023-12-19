@@ -19,7 +19,7 @@ class Place {
     required this.vicinity,
   });
 
-  factory Place.fromJson(Map<dynamic, dynamic> json) => Place(
+  factory Place.fromMap(Map<dynamic, dynamic> json) => Place(
         formattedAddress: json['formatted_address'],
         geometry: Geometry.fromJson(json['geometry']),
         placeId: json['place_id'],

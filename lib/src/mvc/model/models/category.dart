@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Category {
   final String name;
   final String description;
@@ -15,12 +17,12 @@ class Category {
     // required this.subCategories,
   });
 
-  factory Category.fromJson(Map<String, dynamic> json) => Category(
+  factory Category.fromMap(Map<dynamic, dynamic> json) => Category(
         name: json['name'],
         description: json['description'],
         uuid: json['uuid'],
-        // createdAt: json['created_at'],
-        // updatedAt: json['updated_at'],
-        // category: json['subCategories'],
       );
+
+  static Category fromResponse(String body) =>
+      Category.fromMap(jsonDecode(body));
 }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +22,7 @@ class Chat {
     required this.updatedAt,
   });
 
-  factory Chat.fromJson(Map<String, dynamic> json) => Chat(
+  factory Chat.fromMap(Map<dynamic, dynamic> json) => Chat(
         displayName: json['displayName'],
         photoUrl: json['photoUrl'],
         photo: CachedNetworkImageProvider(json['photoUrl']),
@@ -29,4 +31,6 @@ class Chat {
         lastMessage: json['lastMessage'],
         updatedAt: json['updatedAt'],
       );
+
+  static Chat fromResponse(String body) => Chat.fromMap(jsonDecode(body));
 }

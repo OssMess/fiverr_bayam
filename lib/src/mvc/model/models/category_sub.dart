@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import '../models.dart';
 
 class CategorySub {
@@ -17,12 +19,13 @@ class CategorySub {
     required this.category,
   });
 
-  factory CategorySub.fromJson(Map<String, dynamic> json) => CategorySub(
+  factory CategorySub.fromMap(Map<dynamic, dynamic> json) => CategorySub(
         name: json['name'],
         description: json['description'],
         uuid: json['uuid'],
-        // createdAt: json['created_at'],
-        // updatedAt: json['updated_at'],
-        category: Category.fromJson(json['category']),
+        category: Category.fromMap(json['category']),
       );
+
+  static CategorySub fromResponse(String body) =>
+      CategorySub.fromMap(jsonDecode(body));
 }

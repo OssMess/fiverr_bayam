@@ -184,6 +184,32 @@ class UserSession with ChangeNotifier {
         'preferenceList': preferences ?? [],
       };
 
+  UserMin get toUserMin => UserMin(
+        uid: uid!,
+        phoneNumber: phoneNumber!,
+        imageProfile: imageProfile,
+        imageProfileUrl: imageProfileUrl,
+        imageCompany: imageCompany,
+        imageCompanyUrl: imageCompanyUrl,
+        firstName: firstName,
+        lastName: lastName,
+        companyName: companyName,
+        accountType: accountType!,
+        bio: bio,
+        birthDate: birthDate,
+        city: city,
+        country: country,
+        email: email,
+        facebookUrl: facebookUrl,
+        linkedinUrl: linkedinUrl,
+        postalCode: postalCode,
+        region: region,
+        streetAddress: streetAddress,
+        twitterUrl: twitterUrl,
+        isActive: isActive,
+        isVerified: isVerified,
+      );
+
   Author get toAuthor => Author(
         uid: uid!,
         phoneNumber: phoneNumber!,

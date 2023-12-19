@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bayam/src/extensions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -8,15 +10,15 @@ import '../../controller/hives.dart';
 
 Message jsonToMessage(
         Map<dynamic, dynamic> json, String discussionId, String uid) =>
-    Message.fromJson(json, discussionId, uid);
+    Message.fromMap(json, discussionId, uid);
 
 class Message with ChangeNotifier {
   String id;
   final String discussionId;
   final bool isMine;
   String message;
-  List<ImageProvider<Object>> images;
-  List<String> imagesUrl;
+  final List<ImageProvider<Object>> images;
+  final List<String> imagesUrl;
   final List<XFile> imageFiles;
   final String? isEncrypted;
   final DateTime createdAt;
@@ -89,7 +91,7 @@ class Message with ChangeNotifier {
         isError: false,
       );
 
-  factory Message.fromJson(
+  factory Message.fromMap(
     Map<dynamic, dynamic> json,
     String? discussionId,
     String uid,
@@ -139,8 +141,10 @@ class Message with ChangeNotifier {
 
   void updateWithMessage(Message message) {
     id = message.id;
-    images = message.images;
-    imagesUrl = message.imagesUrl;
+    images.clear();
+    images.addAll(message.images);
+    imagesUrl.clear();
+    imagesUrl.addAll(message.imagesUrl);
     imageFiles.clear();
     isSending = false;
     isError = false;
@@ -154,4 +158,11 @@ class Message with ChangeNotifier {
     notifyListeners();
     HiveMessages.save(message);
   }
+
+  static Message fromResponse(
+    String response,
+    String? discussionId,
+    String uid,
+  ) =>
+      Message.fromMap(jsonDecode(response), discussionId, uid);
 }

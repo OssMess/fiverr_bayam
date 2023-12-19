@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -10,7 +12,7 @@ Discussion jsonToDiscussion(
   Map<dynamic, dynamic> json,
   UserSession userSession,
 ) =>
-    Discussion.fromJson(json, userSession);
+    Discussion.fromMap(json, userSession);
 
 class Discussion with ChangeNotifier {
   final String id;
@@ -31,7 +33,7 @@ class Discussion with ChangeNotifier {
     required this.listMessages,
   });
 
-  factory Discussion.fromJson(
+  factory Discussion.fromMap(
     Map<dynamic, dynamic> json,
     UserSession userSession,
   ) =>
@@ -42,7 +44,7 @@ class Discussion with ChangeNotifier {
             : UserMin.fromMap(json['sender']),
         messages: List.from(json['messages'])
             .map(
-              (e) => Message.fromJson(
+              (e) => Message.fromMap(
                 e,
                 json['uuid'],
                 userSession.uid!,
@@ -94,4 +96,10 @@ class Discussion with ChangeNotifier {
       message.updateError();
     }
   }
+
+  static Discussion fromResponse(String body, UserSession userSession) =>
+      Discussion.fromMap(
+        jsonDecode(body),
+        userSession,
+      );
 }

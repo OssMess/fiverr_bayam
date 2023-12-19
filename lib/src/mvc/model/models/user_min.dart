@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import '../../../extensions.dart';
@@ -56,7 +58,7 @@ class UserMin with ChangeNotifier {
     required this.isVerified,
   });
 
-  factory UserMin.fromMap(Map<String, dynamic> json) {
+  factory UserMin.fromMap(Map<dynamic, dynamic> json) {
     return UserMin(
       uid: json['uuid'],
       phoneNumber: json['phoneNumber'],
@@ -97,5 +99,8 @@ class UserMin with ChangeNotifier {
   String get displayName => companyName ?? '$firstName $lastName';
 
   ImageProvider<Object>? get image => imageProfile ?? imageCompany;
+
   String? get imageUrl => imageProfileUrl ?? imageCompanyUrl;
+
+  static UserMin fromResponse(String body) => UserMin.fromMap(jsonDecode(body));
 }

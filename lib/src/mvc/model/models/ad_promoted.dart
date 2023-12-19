@@ -37,6 +37,6 @@ class AdPromoted with ChangeNotifier {
         updatedAt: DateTime.parse(json['updated_at']),
       );
 
-  static AdPromoted fromResponse(String response) =>
-      AdPromoted.fromMap(jsonDecode(response));
+  static AdPromoted fromResponse(String body) =>
+      AdPromoted.fromMap(jsonDecode(body));
 }

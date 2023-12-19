@@ -29,7 +29,7 @@ class CategoriesSubServices {
     http.Response response = await HttpRequest.attemptHttpCall(request);
     if (response.statusCode == 200) {
       return List.from(jsonDecode(response.body)['hydra:member'])
-          .map((e) => CategorySub.fromJson(e))
+          .map((e) => CategorySub.fromMap(e))
           .toSet();
     } else {
       throw Functions.throwExceptionFromResponse(userSession, response);
@@ -56,7 +56,7 @@ class CategoriesSubServices {
     });
     http.Response response = await HttpRequest.attemptHttpCall(request);
     if (response.statusCode == 201) {
-      return CategorySub.fromJson(jsonDecode(response.body));
+      return CategorySub.fromMap(jsonDecode(response.body));
     } else {
       throw Functions.throwExceptionFromResponse(userSession, response);
     }

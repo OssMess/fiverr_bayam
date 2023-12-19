@@ -15,7 +15,7 @@ class PlaceNearby {
   final List<String> types;
   final String vicinity;
 
-  factory PlaceNearby.fromJson(Map<dynamic, dynamic> json) => PlaceNearby(
+  factory PlaceNearby.fromMap(Map<dynamic, dynamic> json) => PlaceNearby(
         location: LatLng(
           json['geometry']['location']['lat'],
           json['geometry']['location']['lng'],

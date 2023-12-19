@@ -11,7 +11,7 @@ class SearchHistory {
     required this.companyPhotoUrl,
   });
 
-  factory SearchHistory.fromJson(Map<String, dynamic> json) => SearchHistory(
+  factory SearchHistory.fromMap(Map<String, dynamic> json) => SearchHistory(
         category: json['category'],
         companyName: json['companyName'],
         companyPhotoUrl: json['companyPhotoUrl'],

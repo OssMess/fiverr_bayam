@@ -164,7 +164,7 @@ class ListData {
       'lastMessage': 'Thank you so much for that.',
       'updatedAt': DateTime.now().subtract(const Duration(minutes: 12)),
     },
-  ].map(Chat.fromJson).toList();
+  ].map(Chat.fromMap).toList();
 
   static List<Message2> aiChat = [
     {
@@ -263,7 +263,7 @@ class ListData {
       'companyPhotoUrl':
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsXVt1xzsYvk-qV28jaF26jiNfm8bpuv-T8Q&usqp=CAU',
     },
-  ].map(SearchHistory.fromJson).toList();
+  ].map(SearchHistory.fromMap).toList();
 
   static List<AppNotification> listNotifications = [
     {

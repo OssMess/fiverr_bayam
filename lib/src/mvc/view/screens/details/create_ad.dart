@@ -31,7 +31,7 @@ class _CreateAdState extends State<CreateAd>
   final GlobalKey<FormState> _keyForm = GlobalKey();
   int adTypeIndex = 0;
   String? title, content, location;
-  Category? category;
+  CategorySub? categorySub;
   Set<String> stringTags = {};
   Set<XFile> images = {};
   late TabController tabController;
@@ -44,11 +44,11 @@ class _CreateAdState extends State<CreateAd>
       adTypeIndex = widget.ad?.type.index ?? -1;
       title = widget.ad!.title;
       content = widget.ad!.content;
-      category = widget.ad!.category;
+      categorySub = widget.ad!.subCategories.first;
       location = widget.ad!.location;
       stringTags.addAll(widget.ad!.tags.map((e) => e.name));
       WidgetsBinding.instance.addPostFrameCallback((_) async {
-        categoryConttroller.text = category?.name ?? '';
+        categoryConttroller.text = categorySub?.name ?? '';
       });
     }
     tabController = TabController(
@@ -112,7 +112,7 @@ class _CreateAdState extends State<CreateAd>
                           if (widget.userSession.listCategories!.isNull) {
                             await Dialogs.of(context).runAsyncAction(
                               future: () async => widget
-                                  .userSession.listCategories!
+                                  .userSession.listCategoriesSub!
                                   .initData(callGet: true),
                             );
                           }
@@ -125,10 +125,11 @@ class _CreateAdState extends State<CreateAd>
                                   (e) => e.name,
                                 )
                                 .toList(),
-                            initialvalue: category?.name,
+                            initialvalue: categorySub?.name,
                             onPick: (value) {
                               categoryConttroller.text = value;
-                              category = widget.userSession.listCategories!.list
+                              categorySub = widget
+                                  .userSession.listCategoriesSub!.list
                                   .firstWhere(
                                       (element) => element.name == value);
                             },
@@ -311,7 +312,7 @@ class _CreateAdState extends State<CreateAd>
       );
       return;
     }
-    Dialogs.of(context).runAsyncAction(
+    Dialogs.of(context).runAsyncAction<Ad>(
       future: () async {
         List<Tag> tags = [];
         for (var stringTag in stringTags) {
@@ -324,20 +325,20 @@ class _CreateAdState extends State<CreateAd>
             tags.add(tag);
           }
         }
-        // await AdServices.post(
-        //   Ad.init(
-        //     user: widget.userSession,
-        //     title: title!,
-        //     content: content!,
-        //     location: location!,
-        //     adType: adTypeIndex.toAdType,
-        //     category: category!,
-        //     tags: tags,
-        //     images: images.map((e) => e.toFile).toList(),
-        //   ),
-        // );
+        return await AdServices.of(widget.userSession).post(
+          Ad.init(
+            userSession: widget.userSession,
+            title: title!,
+            content: content!,
+            location: location!,
+            subCategories: [categorySub!],
+            adType: adTypeIndex.toAdType,
+            tags: tags,
+            imagesFile: images.toList(),
+          ),
+        );
       },
-      onComplete: (_) {
+      onComplete: (ad) {
         Dialogs.of(context).showCustomDialog(
           header: AppLocalizations.of(context)!.ad_thankyou_header,
           title: AppLocalizations.of(context)!.success,

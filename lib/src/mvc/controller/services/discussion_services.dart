@@ -43,7 +43,7 @@ class DiscussionServices {
       Map<dynamic, dynamic> result = jsonDecode(response.body);
       update(
         List.from(result['hydra:member'])
-            .map((json) => Discussion.fromJson(json, userSession))
+            .map((json) => Discussion.fromMap(json, userSession))
             .toSet(),
         result['hydra:totalItems'],
         page + 1,

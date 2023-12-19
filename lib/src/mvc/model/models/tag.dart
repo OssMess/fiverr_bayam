@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import '../../../extensions.dart';
 
 Tag jsonToTag(Map<String, dynamic> json) => Tag.fromMap(json);
@@ -30,4 +32,6 @@ class Tag {
         'name': name,
         'description': description,
       };
+
+  static Tag fromResponse(String body) => Tag.fromMap(jsonDecode(body));
 }

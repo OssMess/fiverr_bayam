@@ -17,7 +17,7 @@ class PlaceAutoComplete {
     required this.types,
   });
 
-  factory PlaceAutoComplete.fromJson(Map<dynamic, dynamic> json) =>
+  factory PlaceAutoComplete.fromMap(Map<dynamic, dynamic> json) =>
       PlaceAutoComplete(
         description: json['description'],
         matchedSubstrings: List<MatchedSubstring>.from(

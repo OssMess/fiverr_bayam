@@ -57,7 +57,7 @@ class GoogleMapsApi {
           jsonDecode(await response.stream.bytesToString());
       handleMapApiResult(result);
       List<PlaceNearby> list = List<PlaceNearby>.from(
-          result['results'].map((json) => PlaceNearby.fromJson(json)));
+          result['results'].map((json) => PlaceNearby.fromMap(json)));
       if (result['next_page_token'] != null) {
         var pagination = await queryNearbyPlaces(
             location, radius, result['next_page_token']);
@@ -88,7 +88,7 @@ class GoogleMapsApi {
       Map<String, dynamic> result =
           jsonDecode(await response.stream.bytesToString());
       handleMapApiResult(result);
-      ReverseGeocode geocode = ReverseGeocode.fromJson(result);
+      ReverseGeocode geocode = ReverseGeocode.fromMap(result);
       return geocode.formattedAddress;
     } else {
       log(response.reasonPhrase.toString());
@@ -134,7 +134,7 @@ class GoogleMapsApi {
       handleMapApiResult(result);
       var list = List<PlaceAutoComplete>.from(
         result['predictions'].map(
-          (json) => PlaceAutoComplete.fromJson(json),
+          (json) => PlaceAutoComplete.fromMap(json),
         ),
       );
       return list;
@@ -173,7 +173,7 @@ class GoogleMapsApi {
       handleMapApiResult(result);
       var list = List<PlaceCandidate>.from(
         result['candidates'].map(
-          (json) => PlaceCandidate.fromJson(json),
+          (json) => PlaceCandidate.fromMap(json),
         ),
       );
       if (result['next_page_token'] != null) {
@@ -201,7 +201,7 @@ class GoogleMapsApi {
       Map<String, dynamic> result =
           jsonDecode(await response.stream.bytesToString());
       handleMapApiResult(result);
-      return Place.fromJson(result['result']);
+      return Place.fromMap(result['result']);
     } else {
       log(response.reasonPhrase.toString());
       throw Exception(response.reasonPhrase);

@@ -50,7 +50,7 @@ class MessageServices {
         {
           if (isNull) ...HiveMessages.getListMessagesById(discussionId),
           ...List.from(result['hydra:member'])
-              .map((json) => Message.fromJson(json, discussionId, uid))
+              .map((json) => Message.fromMap(json, discussionId, uid))
               .toSet()
         },
         result['hydra:totalItems'],

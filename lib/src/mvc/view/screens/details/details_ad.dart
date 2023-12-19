@@ -79,8 +79,8 @@ class _DetailsAdState extends State<DetailsAd> {
                     if (widget.ad.author.isPerson) ...[
                       16.heightSp,
                       DetailsCreatorBanner(
-                        name: widget.ad.author.fullName,
-                        photoUrl: widget.ad.author.photoUrl,
+                        name: widget.ad.author.displayName,
+                        photoUrl: widget.ad.author.imageUrl,
                         service: AppLocalizations.of(context)!.agriculture,
                       ),
                     ],
@@ -95,8 +95,8 @@ class _DetailsAdState extends State<DetailsAd> {
                     if (widget.ad.author.isCompany) ...[
                       16.heightSp,
                       DetailsCompanyBanner(
-                        name: widget.ad.author.fullName,
-                        logoUrl: widget.ad.author.photoUrl,
+                        name: widget.ad.author.displayName,
+                        logoUrl: widget.ad.author.imageUrl,
                       ),
                     ],
                     (context.viewPadding.bottom + 20.sp).height,

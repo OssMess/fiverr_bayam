@@ -15,7 +15,7 @@ class PlaceCandidate {
   final String placeId;
   final List<String> types;
 
-  factory PlaceCandidate.fromJson(Map<dynamic, dynamic> json) => PlaceCandidate(
+  factory PlaceCandidate.fromMap(Map<dynamic, dynamic> json) => PlaceCandidate(
         formattedAddress: json['formatted_address'],
         location: LatLng(
           json['geometry']['location']['lat'],

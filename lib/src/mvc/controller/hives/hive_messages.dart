@@ -18,7 +18,7 @@ class HiveMessages {
     if (_box.isNotEmpty) {
       _set = List.from(_box.values)
           .map(
-            (e) => Message.fromJson(
+            (e) => Message.fromMap(
               e,
               null,
               userSession.uid!,

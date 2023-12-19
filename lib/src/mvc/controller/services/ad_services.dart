@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import '../../../extensions.dart';
 import '../../../tools.dart';
 import '../../model/models.dart';
 import '../services.dart';
@@ -22,18 +23,45 @@ class AdServices {
     var request = http.Request(
       'POST',
       Uri.parse(
-        '$baseUrl/api/post/promotion',
+        '$baseUrl/api/post',
       ),
     );
-    request.body = json.encode(ad.toMapInit);
+    List<String> imagesBase64 = [];
+    if (ad.imagesFile.isNotEmpty) {
+      for (var image in ad.imagesFile) {
+        imagesBase64.add(await image.toFile.toBase64String());
+      }
+    }
+    request.body = json.encode({
+      ...ad.toMapInit,
+      'images': imagesBase64,
+    });
     request.headers.addAll(Services.headersldJson);
     http.Response response = await HttpRequest.attemptHttpCall(
       request,
       forceSkipRetries: true,
     );
     if (response.statusCode == 201) {
-      return Ad.fromResponse(response.body);
+      return response.toAd;
     } else {
+      throw Functions.throwExceptionFromResponse(userSession, response);
+    }
+  }
+
+  Future<void> markAsVisited(Ad ad) async {
+    var request = http.Request(
+      'POST',
+      Uri.parse(
+        '$baseUrl/api/user/post/timeline/${ad.uuid}/read',
+      ),
+    );
+
+    request.headers.addAll(Services.headerAcceptldJson);
+    http.Response response = await HttpRequest.attemptHttpCall(
+      request,
+      forceSkipRetries: true,
+    );
+    if (response.statusCode != 201) {
       throw Functions.throwExceptionFromResponse(userSession, response);
     }
   }

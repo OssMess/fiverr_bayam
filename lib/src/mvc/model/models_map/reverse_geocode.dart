@@ -9,7 +9,7 @@ class ReverseGeocode {
   final List<ResultAddresses> results;
   final String status;
 
-  factory ReverseGeocode.fromJson(Map<dynamic, dynamic> json) => ReverseGeocode(
+  factory ReverseGeocode.fromMap(Map<dynamic, dynamic> json) => ReverseGeocode(
         results: List<ResultAddresses>.from(
           json['results'].map(
             (x) => ResultAddresses.fromMap(x),
