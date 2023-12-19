@@ -207,4 +207,305 @@ extension BuildContextNavigator<T> on BuildContext {
   /// Calls `pop` repeatedly until the first screen.
   void popUntilFirst() =>
       Navigator.of(this).popUntil((predicate) => predicate.isFirst);
+
+  TextStyle get h1b1 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.displayLarge!.color,
+        fontSize: 24.sp,
+        fontWeight: Styles.bold,
+      );
+  TextStyle get h1b2 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.displayMedium!.color,
+        fontSize: 24.sp,
+        fontWeight: Styles.bold,
+      );
+  TextStyle get h1b3 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.displaySmall!.color,
+        fontSize: 24.sp,
+        fontWeight: Styles.bold,
+      );
+  TextStyle get h1b4 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.headlineLarge!.color,
+        fontSize: 24.sp,
+        fontWeight: Styles.bold,
+      );
+  TextStyle get h1b5 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.headlineMedium!.color,
+        fontSize: 24.sp,
+        fontWeight: Styles.semiBold,
+      );
+  TextStyle get h1b6 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.headlineSmall!.color,
+        fontSize: 24.sp,
+        fontWeight: Styles.semiBold,
+      );
+
+  TextStyle get h2b1 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.displayLarge!.color,
+        fontSize: 22.sp,
+        fontWeight: Styles.semiBold,
+      );
+  TextStyle get h2b2 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.displayMedium!.color,
+        fontSize: 22.sp,
+        fontWeight: Styles.semiBold,
+      );
+  TextStyle get h2b3 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.displaySmall!.color,
+        fontSize: 22.sp,
+        fontWeight: Styles.semiBold,
+      );
+  TextStyle get h2b4 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.headlineLarge!.color,
+        fontSize: 22.sp,
+        fontWeight: Styles.semiBold,
+      );
+  TextStyle get h2b5 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.headlineMedium!.color,
+        fontSize: 22.sp,
+        fontWeight: Styles.medium,
+      );
+  TextStyle get h2b6 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.headlineSmall!.color,
+        fontSize: 22.sp,
+        fontWeight: Styles.medium,
+      );
+
+  TextStyle get h3b1 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.displayLarge!.color,
+        fontSize: 20.sp,
+        fontWeight: Styles.semiBold,
+      );
+  TextStyle get h3b2 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.displayMedium!.color,
+        fontSize: 20.sp,
+        fontWeight: Styles.semiBold,
+      );
+  TextStyle get h3b3 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.displaySmall!.color,
+        fontSize: 20.sp,
+        fontWeight: Styles.semiBold,
+      );
+  TextStyle get h3b4 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.headlineLarge!.color,
+        fontSize: 20.sp,
+        fontWeight: Styles.semiBold,
+      );
+  TextStyle get h3b5 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.headlineMedium!.color,
+        fontSize: 20.sp,
+        fontWeight: Styles.medium,
+      );
+
+  TextStyle get h3b6 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.headlineSmall!.color,
+        fontSize: 20.sp,
+        fontWeight: Styles.medium,
+      );
+
+  TextStyle get h4b1 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.displayLarge!.color,
+        fontSize: 16.sp,
+        fontWeight: Styles.medium,
+      );
+
+  TextStyle get h4b2 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.displayMedium!.color,
+        fontSize: 16.sp,
+        fontWeight: Styles.medium,
+      );
+
+  TextStyle get h4b3 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.displaySmall!.color,
+        fontSize: 16.sp,
+        fontWeight: Styles.medium,
+      );
+
+  TextStyle get h4b4 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.headlineLarge!.color,
+        fontSize: 16.sp,
+        fontWeight: Styles.medium,
+      );
+
+  TextStyle get h4b5 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.headlineMedium!.color,
+        fontSize: 16.sp,
+        fontWeight: Styles.regular,
+      );
+
+  TextStyle get h4b6 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.headlineSmall!.color,
+        fontSize: 16.sp,
+        fontWeight: Styles.regular,
+      );
+
+  TextStyle get h5b1 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.displayLarge!.color,
+        fontSize: 14.sp,
+        fontWeight: Styles.medium,
+      );
+  TextStyle get h5b2 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.displayMedium!.color,
+        fontSize: 14.sp,
+        fontWeight: Styles.medium,
+      );
+
+  TextStyle get h5b3 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.displaySmall!.color,
+        fontSize: 14.sp,
+        fontWeight: Styles.medium,
+      );
+
+  TextStyle get h5b4 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.headlineLarge!.color,
+        fontSize: 14.sp,
+        fontWeight: Styles.medium,
+      );
+
+  TextStyle get h5b5 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.headlineMedium!.color,
+        fontSize: 14.sp,
+        fontWeight: Styles.regular,
+      );
+  TextStyle get h5b6 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.headlineSmall!.color,
+        fontSize: 14.sp,
+        fontWeight: Styles.regular,
+      );
+
+  TextStyle get h6b1 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.displayLarge!.color,
+        fontSize: 12.sp,
+        fontWeight: Styles.medium,
+      );
+
+  TextStyle get h6b2 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.displayMedium!.color,
+        fontSize: 12.sp,
+        fontWeight: Styles.medium,
+      );
+
+  TextStyle get h6b3 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.displaySmall!.color,
+        fontSize: 12.sp,
+        fontWeight: Styles.medium,
+      );
+  TextStyle get h6b4 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.headlineLarge!.color,
+        fontSize: 12.sp,
+        fontWeight: Styles.medium,
+      );
+  TextStyle get h6b5 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.headlineMedium!.color,
+        fontSize: 12.sp,
+        fontWeight: Styles.regular,
+      );
+  TextStyle get h6b6 => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.headlineSmall!.color,
+        fontSize: 12.sp,
+        fontWeight: Styles.regular,
+      );
+
+  TextStyle get button1style => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.displayLarge!.color,
+        fontSize: 18.sp,
+        fontWeight: Styles.bold,
+      );
+
+  TextStyle get button2style => TextStyle(
+        fontFamily: 'Poppins',
+        height: 1.2,
+        color: Theme.of(this).textTheme.displayLarge!.color,
+        fontSize: 16.sp,
+        fontWeight: Styles.medium,
+      );
+
+  bool get isKeyboardVisible => viewInsets.bottom > 0;
+
+  bool get isKeyboardNotVisible => viewInsets.bottom == 0;
+
+  Color get b1 => Theme.of(this).textTheme.displayLarge!.color!;
+
+  Color get b2 => Theme.of(this).textTheme.displayMedium!.color!;
+
+  Color get b3 => Theme.of(this).textTheme.displaySmall!.color!;
+
+  Color get b4 => Theme.of(this).textTheme.headlineLarge!.color!;
+
+  Color get b5 => Theme.of(this).textTheme.headlineMedium!.color!;
+
+  Color get b6 => Theme.of(this).textTheme.headlineSmall!.color!;
 }

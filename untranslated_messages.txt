@@ -17,6 +17,9 @@
     "unique_register_number",
     "error_contact_support",
     "online",
-    "sent_nb_messages"
+    "sent_nb_messages",
+    "search",
+    "locations_empty",
+    "pin_location"
   ]
 }

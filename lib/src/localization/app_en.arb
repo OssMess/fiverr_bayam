@@ -333,6 +333,9 @@
   "error_contact_support":"If this error persists, please contact our support team and report it.",
   "online":"Online",
   "sent_nb_messages":"{name} {nb, plural, =1{sent you a image} other{sent you {nb} images}}",
+  "search":"Search",
+  "locations_empty":"No results found!\nTry another search",
+  "pin_location":"Pin your ad location",
 
   "@sent_nb_messages":{
     "placeholders":{

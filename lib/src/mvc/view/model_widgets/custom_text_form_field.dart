@@ -41,6 +41,7 @@ class CustomTextFormField extends StatelessWidget {
     this.border,
     this.unfocusOnTapOutside = true,
     this.fontSize,
+    this.autofocus = false,
   }) : assert(
           ((prefixOnTap == null || prefixIcon != null) &&
               (suffixOnTap == null || suffixIcon != null)),
@@ -80,6 +81,7 @@ class CustomTextFormField extends StatelessWidget {
   final InputBorder? border;
   final bool unfocusOnTapOutside;
   final double? fontSize;
+  final bool autofocus;
 
   @override
   Widget build(BuildContext context) {
@@ -116,6 +118,7 @@ class CustomTextFormField extends StatelessWidget {
       obscureText: obscureText,
       onTapOutside:
           unfocusOnTapOutside ? (_) => FocusScope.of(context).unfocus() : null,
+      autofocus: autofocus,
       decoration: InputDecoration(
         labelText: labelText,
         hintText: hintText,

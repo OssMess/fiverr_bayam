@@ -97,8 +97,14 @@ class _HomeScreenState extends State<HomeScreen> {
                               // DiscussionServices.of(widget.userSession)
                               //     .post(receiverId: '');
                               context.push(
-                                widget: const SearchScreen(),
+                                widget: LocationPicker(
+                                  initialLocation: null,
+                                  onPick: (location) {},
+                                ),
                               );
+                              // context.push(
+                              //   widget: const SearchScreen(),
+                              // );
                             },
                           )
                         : null,
