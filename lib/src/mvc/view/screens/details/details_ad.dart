@@ -38,73 +38,75 @@ class _DetailsAdState extends State<DetailsAd> {
       resizeToAvoidBottomInset: true,
       extendBodyBehindAppBar: true,
       appBar: AppBar(),
-      body: Column(children: [
-        CustomAppBarBackground(
-          type: AppBarBackgroundType.shrink,
-          appBarTitleWidget: const CustomAppBarLogo(),
-          appBarLeading: AppBarActionButton(
-            icon: context.backButtonIcon,
-            onTap: context.pop,
+      body: Column(
+        children: [
+          CustomAppBarBackground(
+            type: AppBarBackgroundType.shrink,
+            appBarTitleWidget: const CustomAppBarLogo(),
+            appBarLeading: AppBarActionButton(
+              icon: context.backButtonIcon,
+              onTap: context.pop,
+            ),
           ),
-        ),
-        Expanded(
-          child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.sp),
-              child: Column(
-                children: [
-                  DetailsAlbumGallery(
-                    photosUrl: const [
-                      // widget.ad.coverUrl ??
-                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGdwTxs6lW7B5VgaAceI0p2XfmabWvee-MHlZ_ODsRB3VvM07vzNA3RVmu0OVYrdAHCYU&usqp=CAU'
+          Expanded(
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.sp),
+                child: Column(
+                  children: [
+                    DetailsAlbumGallery(
+                      photosUrl: const [
+                        // widget.ad.coverUrl ??
+                        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGdwTxs6lW7B5VgaAceI0p2XfmabWvee-MHlZ_ODsRB3VvM07vzNA3RVmu0OVYrdAHCYU&usqp=CAU'
+                      ],
+                      description: widget.ad.content,
+                      adType: widget.ad.type,
+                      pageController: pageController,
+                    ),
+                    16.heightSp,
+                    SmoothPageIndicator(
+                      controller: pageController,
+                      count: 5,
+                      effect: WormEffect(
+                        activeDotColor: Styles.green[500]!,
+                        dotColor: context.textTheme.headlineMedium!.color!,
+                        dotHeight: 10.sp,
+                        dotWidth: 10.sp,
+                        spacing: 8.sp,
+                      ),
+                    ),
+                    if (widget.ad.author.isPerson) ...[
+                      16.heightSp,
+                      DetailsCreatorBanner(
+                        name: widget.ad.author.fullName,
+                        photoUrl: widget.ad.author.photoUrl,
+                        service: AppLocalizations.of(context)!.agriculture,
+                      ),
                     ],
-                    description: widget.ad.content,
-                    adType: widget.ad.type,
-                    pageController: pageController,
-                  ),
-                  16.heightSp,
-                  SmoothPageIndicator(
-                    controller: pageController,
-                    count: 5,
-                    effect: WormEffect(
-                      activeDotColor: Styles.green[500]!,
-                      dotColor: context.textTheme.headlineMedium!.color!,
-                      dotHeight: 10.sp,
-                      dotWidth: 10.sp,
-                      spacing: 8.sp,
-                    ),
-                  ),
-                  if (widget.ad.author.isPerson) ...[
                     16.heightSp,
-                    DetailsCreatorBanner(
-                      name: widget.ad.author.fullName,
-                      photoUrl: widget.ad.author.photoUrl,
-                      service: AppLocalizations.of(context)!.agriculture,
+                    DetailsDescriptionBanner(
+                      description: widget.ad.content,
+                      address: widget.ad.location,
+                      tags: widget.ad.tags.map((e) => e.name).toList(),
+                      likes: widget.ad.likes,
+                      date: DateFormat('dd-MM-yy').format(widget.ad.createdAt),
                     ),
+                    if (widget.ad.author.isCompany) ...[
+                      16.heightSp,
+                      DetailsCompanyBanner(
+                        name: widget.ad.author.fullName,
+                        logoUrl: widget.ad.author.photoUrl,
+                      ),
+                    ],
+                    (context.viewPadding.bottom + 20.sp).height,
                   ],
-                  16.heightSp,
-                  DetailsDescriptionBanner(
-                    description: widget.ad.content,
-                    address: widget.ad.location,
-                    tags: widget.ad.tags.map((e) => e.name).toList(),
-                    likes: widget.ad.likes,
-                    date: DateFormat('dd-MM-yy').format(widget.ad.createdAt),
-                  ),
-                  if (widget.ad.author.isCompany) ...[
-                    16.heightSp,
-                    DetailsCompanyBanner(
-                      name: widget.ad.author.fullName,
-                      logoUrl: widget.ad.author.photoUrl,
-                    ),
-                  ],
-                  (context.viewPadding.bottom + 20.sp).height,
-                ],
+                ),
               ),
             ),
           ),
-        ),
-      ]),
+        ],
+      ),
     );
   }
 }

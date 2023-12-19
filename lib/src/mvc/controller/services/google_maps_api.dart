@@ -124,7 +124,7 @@ class GoogleMapsApi {
     Request request = Request(
       'GET',
       Uri.parse(
-        '$autoComplete/json?input=$text&types=route|locality|street_address&components=country:DK&fields=address_components&key=$key',
+        '$autoComplete/json?input=$text&types=route|locality|street_address&fields=address_components&key=$key',
       ),
     );
     StreamedResponse response = await request.send();

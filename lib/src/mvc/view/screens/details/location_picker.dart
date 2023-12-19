@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import '../../../../extensions.dart';
 import '../../../../tools.dart';
 import '../../../model/change_notifiers.dart';
+import '../../../model/enums.dart';
 import '../../model_widgets.dart';
 import '../../screens.dart';
 
@@ -74,9 +75,18 @@ class LocationPickerState extends State<LocationPicker> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(),
       body: Column(
         children: [
+          CustomAppBarBackground(
+            type: AppBarBackgroundType.shrink,
+            appBarTitleWidget: const CustomAppBarLogo(),
+            appBarLeading: AppBarActionButton(
+              icon: context.backButtonIcon,
+              onTap: context.pop,
+            ),
+          ),
           Container(
             color: context.scaffoldBackgroundColor,
             padding: EdgeInsets.symmetric(
@@ -174,7 +184,7 @@ class LocationPickerState extends State<LocationPicker> {
                   builder: (context, location, _) {
                     return Text(
                       location,
-                      style: context.h4b3,
+                      style: context.h4b1,
                     );
                   },
                 ),

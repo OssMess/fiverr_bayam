@@ -7,6 +7,7 @@ import '../../../../extensions.dart';
 import '../../../../tools.dart';
 import '../../../controller/services.dart';
 import '../../../model/change_notifiers.dart';
+import '../../../model/enums.dart';
 import '../../../model/models_map.dart';
 import '../../model_widgets.dart';
 
@@ -39,16 +40,21 @@ class _LocationPickerSearchState extends State<LocationPickerSearch> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        elevation: 0,
-        toolbarHeight: 0,
-        automaticallyImplyLeading: false,
-      ),
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(),
       body: ValueListenableBuilder(
           valueListenable: notifierSearching.notifier,
           builder: (context, isSearching, _) {
             return Column(
               children: [
+                CustomAppBarBackground(
+                  type: AppBarBackgroundType.shrink,
+                  appBarTitleWidget: const CustomAppBarLogo(),
+                  appBarLeading: AppBarActionButton(
+                    icon: context.backButtonIcon,
+                    onTap: context.pop,
+                  ),
+                ),
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: 16.sp,
@@ -58,8 +64,7 @@ class _LocationPickerSearchState extends State<LocationPickerSearch> {
                     hintText: AppLocalizations.of(context)!.search,
                     keyboardType: TextInputType.text,
                     autofocus: true,
-                    prefixIcon: context.backButtonIcon,
-                    prefixOnTap: context.pop,
+                    prefixIcon: AwesomeIcons.magnifying_glass,
                     suffix: isSearching
                         ? Padding(
                             padding: EdgeInsets.all(12.sp),
@@ -67,7 +72,7 @@ class _LocationPickerSearchState extends State<LocationPickerSearch> {
                               width: 16.sp,
                               height: 16.sp,
                               child: SpinKitRing(
-                                color: context.textTheme.displayLarge!.color!,
+                                color: context.b1,
                                 lineWidth: 2.sp,
                                 size: 16.sp,
                               ),
@@ -109,17 +114,17 @@ class _LocationPickerSearchState extends State<LocationPickerSearch> {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            100.heightH,
+                            200.heightH,
                             Icon(
                               AwesomeIcons.circle_info,
-                              color: context.textTheme.headlineMedium!.color,
+                              color: context.b2,
                               size: 36.sp,
                             ),
-                            16.heightSp,
+                            32.heightSp,
                             Text(
                               AppLocalizations.of(context)!.locations_empty,
                               textAlign: TextAlign.center,
-                              style: context.h2b1.regular,
+                              style: context.h3b1.regular,
                             ),
                           ],
                         );
@@ -180,11 +185,11 @@ class PlaceTile extends StatelessWidget {
       leading: Icon(
         AwesomeIcons.map_pin,
         size: 24.sp,
-        color: Theme.of(context).textTheme.displayLarge!.color,
+        color: context.b1,
       ),
       title: Text(
         place.structuredFormatting.mainText,
-        style: context.h3b1,
+        style: context.h4b1,
       ),
       dense: true,
       minLeadingWidth: 24.sp,
@@ -192,12 +197,12 @@ class PlaceTile extends StatelessWidget {
         place.description,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
-        style: context.h4b1.regular,
+        style: context.h5b1.regular,
       ),
       trailing: Icon(
         AwesomeIcons.arrow_up_right_from_square,
         size: 20.sp,
-        color: Theme.of(context).textTheme.displayLarge!.color,
+        color: context.b1,
       ),
       contentPadding: EdgeInsets.symmetric(horizontal: 8.sp),
     );
