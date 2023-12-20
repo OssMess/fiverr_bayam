@@ -30,6 +30,8 @@ abstract class SetPaginationClasses<T> with ChangeNotifier {
   /// `true` if there are still more pages (pagination).
   bool get hasMore => currentPage < totalPages;
 
+  bool get canGetMore => (isNotNull && hasMore && !isLoading);
+
   /// The number of nearby salons in list.
   int get length => list.length;
 
@@ -136,5 +138,32 @@ abstract class SetPaginationClasses<T> with ChangeNotifier {
     list.clear();
     list = newList;
     notifyListeners();
+  }
+
+  ///For lazzy loading, Use [scrollNotification] to detect if the scroll has reached the end of the
+  ///page, and if the list has more data, call `getMore`.
+  bool onMaxScrollExtent(ScrollNotification scrollNotification) {
+    if (!canGetMore) return true;
+    if (scrollNotification.metrics.pixels !=
+        scrollNotification.metrics.maxScrollExtent) {
+      return true;
+    }
+    getMore();
+    return true;
+  }
+
+  ///For lazzy loading, Use [scrollNotification] to detect if the scroll is
+  ///[extentAfter] away from the end of the page, and if the list has more data,
+  /// call `getMore`.
+  bool onExtentAfter(
+    ScrollNotification scrollNotification,
+    double extentAfter,
+  ) {
+    if (!canGetMore) return true;
+    if (scrollNotification.metrics.extentAfter < extentAfter) {
+      return true;
+    }
+    getMore();
+    return true;
   }
 }

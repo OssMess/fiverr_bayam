@@ -27,63 +27,68 @@ class Page3CompanyAds extends StatelessWidget {
       builder: (context, viewPage, _) {
         bool promotedAds = viewPage.value == AdsViewPage.promotedAds;
         bool myAds = viewPage.value == AdsViewPage.myAds;
-        return CustomRefreshIndicator(
-          onRefresh: () async {
-            await Future.delayed(const Duration(seconds: 1));
-          },
-          child: CustomScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            slivers: [
-              16.sliverSp,
-              SliverHeaderTile(
-                title: viewPage.value == AdsViewPage.myAds
-                    ? AppLocalizations.of(context)!.my_ads
-                    : AppLocalizations.of(context)!.promoted_ads,
-                trailing: AppLocalizations.of(context)!.m_ago(3),
-              ),
-              16.sliverSp,
-              if (myAds)
-                ChangeNotifierProvider.value(
-                  value: userSession.listAdsMy,
-                  child: Consumer<ListAdsMy>(
-                    builder: (context, listAds, _) {
-                      listAds.initData(callGet: page == 2);
-                      if (listAds.isNull) {
-                        return const CustomLoadingIndicator(
-                          isSliver: true,
-                        );
-                      }
-                      if (listAds.isEmpty) {
-                        return SliverToBoxAdapter(
-                          child: EmptyListView(
-                            title: AppLocalizations.of(context)!.my_ads_empty,
-                            svgPath: 'assets/images/Empty-pana.svg',
-                          ),
-                        );
-                      }
-                      return SliverPadding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.sp),
-                        sliver: SliverList.separated(
-                          itemCount: ListData.ads.length,
-                          separatorBuilder: (context, index) => 12.heightSp,
-                          itemBuilder: (_, index) => AdTile(
-                            userSession: userSession,
-                            ad: ListData.ads[index],
-                            expanded: true,
-                            showDates: promotedAds,
-                            onTapOptions: () => onTapAdOptions(
-                              context,
-                              ListData.ads[index],
+        return NotificationListener<ScrollNotification>(
+          onNotification: myAds
+              ? userSession.listAdsMy?.onMaxScrollExtent
+              : userSession.listAdsPromoted?.onMaxScrollExtent,
+          child: CustomRefreshIndicator(
+            onRefresh: () async {
+              await Future.delayed(const Duration(seconds: 1));
+            },
+            child: CustomScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              slivers: [
+                16.sliverSp,
+                SliverHeaderTile(
+                  title: viewPage.value == AdsViewPage.myAds
+                      ? AppLocalizations.of(context)!.my_ads
+                      : AppLocalizations.of(context)!.promoted_ads,
+                  trailing: AppLocalizations.of(context)!.m_ago(3),
+                ),
+                16.sliverSp,
+                if (myAds)
+                  ChangeNotifierProvider.value(
+                    value: userSession.listAdsMy,
+                    child: Consumer<ListAdsMy>(
+                      builder: (context, listAds, _) {
+                        listAds.initData(callGet: page == 2);
+                        if (listAds.isNull) {
+                          return const CustomLoadingIndicator(
+                            isSliver: true,
+                          );
+                        }
+                        if (listAds.isEmpty) {
+                          return SliverToBoxAdapter(
+                            child: EmptyListView(
+                              title: AppLocalizations.of(context)!.my_ads_empty,
+                              svgPath: 'assets/images/Empty-pana.svg',
+                            ),
+                          );
+                        }
+                        return SliverPadding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.sp),
+                          sliver: SliverList.separated(
+                            itemCount: ListData.ads.length,
+                            separatorBuilder: (context, index) => 12.heightSp,
+                            itemBuilder: (_, index) => AdTile(
+                              userSession: userSession,
+                              ad: ListData.ads[index],
+                              expanded: true,
+                              showDates: promotedAds,
+                              onTapOptions: () => onTapAdOptions(
+                                context,
+                                ListData.ads[index],
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
-                ),
-              if (!promotedAds) 70.sliverSp,
-              (context.viewPadding.bottom + 20.sp).sliver,
-            ],
+                if (!promotedAds) 70.sliverSp,
+                (context.viewPadding.bottom + 20.sp).sliver,
+              ],
+            ),
           ),
         );
       },

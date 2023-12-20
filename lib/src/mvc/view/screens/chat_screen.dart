@@ -154,52 +154,55 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
             ),
           ],
         ),
-        body: Column(
-          children: [
-            const CustomAppBarBackground(
-              type: AppBarBackgroundType.shrink,
-            ),
-            Consumer<ListMessages>(
-              builder: (context, listMessages, _) {
-                if (listMessages.isNull) {
-                  return const Expanded(
-                    child: CustomLoadingIndicator(
-                      isSliver: false,
-                    ),
-                  );
-                }
-                if (listMessages.isNotEmpty) {
-                  return Expanded(
-                    child: ListView.separated(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      reverse: true,
-                      padding: EdgeInsets.all(16.sp),
-                      itemCount: listMessages.length,
-                      separatorBuilder: (context, index) => 8.heightSp,
-                      itemBuilder: (context, index) => Builder(
-                        builder: (context) {
-                          Message message = listMessages.elementAt(index);
-                          return MessageTile(
-                            avatar: message.isMine
-                                ? widget.userSession.image
-                                : widget.discussion.receiver.image,
-                            message: message,
-                            lastMessage: index > 0
-                                ? listMessages.elementAt(index - 1)
-                                : null,
-                          );
-                        },
+        body: NotificationListener<ScrollNotification>(
+          onNotification: widget.discussion.listMessages.onMaxScrollExtent,
+          child: Column(
+            children: [
+              const CustomAppBarBackground(
+                type: AppBarBackgroundType.shrink,
+              ),
+              Consumer<ListMessages>(
+                builder: (context, listMessages, _) {
+                  if (listMessages.isNull) {
+                    return const Expanded(
+                      child: CustomLoadingIndicator(
+                        isSliver: false,
                       ),
-                    ),
-                  );
-                }
-                return const Spacer();
-              },
-            ),
-            ChatSendMessage(
-              onSendMessage: onSendMessage,
-            ),
-          ],
+                    );
+                  }
+                  if (listMessages.isNotEmpty) {
+                    return Expanded(
+                      child: ListView.separated(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        reverse: true,
+                        padding: EdgeInsets.all(16.sp),
+                        itemCount: listMessages.length,
+                        separatorBuilder: (context, index) => 8.heightSp,
+                        itemBuilder: (context, index) => Builder(
+                          builder: (context) {
+                            Message message = listMessages.elementAt(index);
+                            return MessageTile(
+                              avatar: message.isMine
+                                  ? widget.userSession.image
+                                  : widget.discussion.receiver.image,
+                              message: message,
+                              lastMessage: index > 0
+                                  ? listMessages.elementAt(index - 1)
+                                  : null,
+                            );
+                          },
+                        ),
+                      ),
+                    );
+                  }
+                  return const Spacer();
+                },
+              ),
+              ChatSendMessage(
+                onSendMessage: onSendMessage,
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,11 +1,12 @@
+import '../list_models.dart';
 import '../models.dart';
-import 'set_classes.dart';
 
-class ListAdsPromoted extends SetClasses<AdPromoted> {
+class ListAdsPromoted extends SetPaginationClasses<Ad> {
   ListAdsPromoted({required super.userSession});
 
   @override
   Future<void> get({
+    required int page,
     required bool refresh,
   }) async {
     // Set<Ad> result = await AdPromotedServices.get();
