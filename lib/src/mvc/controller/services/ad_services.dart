@@ -48,6 +48,53 @@ class AdServices {
     }
   }
 
+  /// like post.
+  Future<void> like(Ad ad) async {
+    var request = http.Request(
+      'POST',
+      Uri.parse(
+        '$baseUrl/api/post/like',
+      ),
+    );
+    request.body = json.encode({
+      'post': ad.uuid,
+      'actionType': 'like',
+    });
+    request.headers.addAll(Services.headersldJson);
+    http.Response response = await HttpRequest.attemptHttpCall(
+      request,
+      forceSkipRetries: true,
+    );
+    if (response.statusCode == 201) {
+      // return response.toAd(userSession);
+    } else {
+      throw Functions.throwExceptionFromResponse(userSession, response);
+    }
+  }
+
+  Future<AdComment> comment(Ad ad, String comment) async {
+    var request = http.Request(
+      'POST',
+      Uri.parse(
+        '$baseUrl/api/post/comment',
+      ),
+    );
+    request.body = json.encode({
+      'post': ad.uuid,
+      'content': 'comment',
+    });
+    request.headers.addAll(Services.headersldJson);
+    http.Response response = await HttpRequest.attemptHttpCall(
+      request,
+      forceSkipRetries: true,
+    );
+    if (response.statusCode == 201) {
+      return response.toAdComment;
+    } else {
+      throw Functions.throwExceptionFromResponse(userSession, response);
+    }
+  }
+
   Future<void> markAsVisited(Ad ad) async {
     var request = http.Request(
       'POST',
@@ -168,62 +215,4 @@ class AdServices {
       throw Functions.throwExceptionFromResponse(userSession, response);
     }
   }
-
-  // Future<void> like({
-  //   required String userId,
-  //   required String adId,
-  //   required String actionType,
-  // }) async {
-  //   var headers = {
-  //     'Content-Type': 'application/Id+json',
-  //   };
-  //   var request = http.Request(
-  //     'POST',
-  //     Uri.parse(
-  //       '$baseUrl/api/post/like',
-  //     ),
-  //   );
-  //   request.body = json.encode({
-  //     'user': userId,
-  //     'post': adId,
-  //     'actionType': actionType,
-  //   });
-  //   request.headers.addAll(headers);
-  //   http.Response response = await HttpRequest.attemptHttpCall(
-  //     request,
-  //     forceSkipRetries: true,
-  //   );
-  //   if (response.statusCode != 201) {
-  //     throw Functions.throwExceptionFromResponse(userSession, response);
-  //   }
-  // }
-
-  // Future<void> comment({
-  //   required String userId,
-  //   required String adId,
-  //   required String content,
-  // }) async {
-  //   var headers = {
-  //     'Content-Type': 'application/Id+json',
-  //   };
-  //   var request = http.Request(
-  //     'POST',
-  //     Uri.parse(
-  //       '$baseUrl/api/post/comment',
-  //     ),
-  //   );
-  //   request.body = json.encode({
-  //     'user': userId,
-  //     'post': adId,
-  //     'content': content,
-  //   });
-  //   request.headers.addAll(headers);
-  //   http.Response response = await HttpRequest.attemptHttpCall(
-  //     request,
-  //     forceSkipRetries: true,
-  //   );
-  //   if (response.statusCode != 201) {
-  //     throw Functions.throwExceptionFromResponse(userSession, response);
-  //   }
-  // }
 }

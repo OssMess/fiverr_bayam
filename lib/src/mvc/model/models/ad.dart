@@ -30,7 +30,7 @@ class Ad with ChangeNotifier {
   final List<ImageProvider<Object>> images;
   final List<String> imagesUrl;
   final List<XFile> imagesFile;
-  final int likes;
+  int likes;
   ListAdComments listAdComments;
 
   Ad({
@@ -147,4 +147,18 @@ class Ad with ChangeNotifier {
 
   Future<void> markVisited(UserSession userSession) async =>
       AdServices.of(userSession).markAsVisited(this);
+
+  Future<void> like(UserSession userSession) async {
+    await AdServices.of(userSession).like(this);
+    likes++;
+    notifyListeners();
+  }
+
+  Future<void> comment(UserSession userSession, String comment) async {
+    AdComment adComment = await AdServices.of(userSession).comment(
+      this,
+      comment,
+    );
+    listAdComments.insert(adComment);
+  }
 }
