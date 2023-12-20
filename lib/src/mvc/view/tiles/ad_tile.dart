@@ -14,12 +14,14 @@ import '../tiles_models.dart';
 class AdTile extends StatelessWidget {
   const AdTile({
     super.key,
+    required this.userSession,
     required this.ad,
     this.expanded = false,
     this.showDates = false,
     this.onTapOptions,
   });
 
+  final UserSession userSession;
   final Ad ad;
   final bool expanded;
   final bool showDates;
@@ -30,6 +32,7 @@ class AdTile extends StatelessWidget {
     return CustomElevatedContainer(
       onTap: () => context.push(
         widget: DetailsAd(
+          userSession: userSession,
           ad: ad,
         ),
       ),

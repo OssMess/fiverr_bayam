@@ -85,6 +85,7 @@ class _Page1HomeState extends State<Page1Home> {
                   trailing: '${AppLocalizations.of(context)!.show_all} >',
                   onTapTrailing: () => context.push(
                     widget: AllAds(
+                      userSession: widget.userSession,
                       title: AppLocalizations.of(context)!.premium_ads,
                       listAds: ListData.premiumAds,
                     ),
@@ -102,6 +103,7 @@ class _Page1HomeState extends State<Page1Home> {
                       ),
                       itemCount: ListData.premiumAds.length,
                       itemBuilder: (context, index) => AdTile(
+                        userSession: widget.userSession,
                         ad: ListData.premiumAds[index],
                         expanded: false,
                       ),
@@ -115,6 +117,7 @@ class _Page1HomeState extends State<Page1Home> {
                   trailing: '${AppLocalizations.of(context)!.show_all} >',
                   onTapTrailing: () => context.push(
                     widget: AllAds(
+                      userSession: widget.userSession,
                       title: AppLocalizations.of(context)!.ads,
                       listAds: ListData.ads,
                     ),
@@ -132,6 +135,7 @@ class _Page1HomeState extends State<Page1Home> {
                       ),
                       itemCount: ListData.ads.length,
                       itemBuilder: (context, index) => AdTile(
+                        userSession: widget.userSession,
                         ad: ListData.ads[index],
                         expanded: false,
                       ),

@@ -13,10 +13,12 @@ import '../../tiles.dart';
 class AllAds extends StatelessWidget {
   const AllAds({
     super.key,
+    required this.userSession,
     required this.title,
     required this.listAds,
   });
 
+  final UserSession userSession;
   final String title;
   final List<Ad> listAds;
 
@@ -65,6 +67,7 @@ class AllAds extends StatelessWidget {
               itemCount: listAds.length,
               separatorBuilder: (context, index) => 16.heightSp,
               itemBuilder: (_, index) => AdTile(
+                userSession: userSession,
                 ad: listAds[index],
                 expanded: true,
                 showDates: false,

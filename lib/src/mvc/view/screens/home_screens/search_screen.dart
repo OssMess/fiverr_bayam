@@ -7,6 +7,7 @@ import '../../../../extensions.dart';
 import '../../../model/change_notifiers.dart';
 import '../../../model/enums.dart';
 import '../../../model/list_models.dart';
+import '../../../model/models.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
 import '../../model_widgets_screens.dart';
@@ -15,7 +16,10 @@ import '../../tiles.dart';
 class SearchScreen extends StatefulWidget {
   const SearchScreen({
     super.key,
+    required this.userSession,
   });
+
+  final UserSession userSession;
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -281,6 +285,7 @@ class _SearchScreenState extends State<SearchScreen>
                                   separatorBuilder: (context, index) =>
                                       12.heightSp,
                                   itemBuilder: (context, index) => AdTile(
+                                    userSession: widget.userSession,
                                     ad: ListData.ads[index],
                                     expanded: true,
                                   ),

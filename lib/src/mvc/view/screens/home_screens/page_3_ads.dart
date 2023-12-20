@@ -67,6 +67,7 @@ class Page3CompanyAds extends StatelessWidget {
                           itemCount: ListData.ads.length,
                           separatorBuilder: (context, index) => 12.heightSp,
                           itemBuilder: (_, index) => AdTile(
+                            userSession: userSession,
                             ad: ListData.ads[index],
                             expanded: true,
                             showDates: promotedAds,

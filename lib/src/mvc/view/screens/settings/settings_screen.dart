@@ -102,8 +102,11 @@ class SettingsScreen extends StatelessWidget {
                       showContainerDecoration: false,
                       showTrailing: false,
                       padding: EdgeInsets.all(12.sp),
-                      onTap: () =>
-                          context.push(widget: const FavoritesScreen()),
+                      onTap: () => context.push(
+                        widget: FavoritesScreen(
+                          userSession: userSession,
+                        ),
+                      ),
                     ),
                     16.heightSp,
                     CustomElevatedListTile(

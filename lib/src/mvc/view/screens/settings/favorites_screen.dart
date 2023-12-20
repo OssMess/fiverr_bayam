@@ -4,11 +4,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../extensions.dart';
 import '../../../model/enums.dart';
 import '../../../model/list_models.dart';
+import '../../../model/models.dart';
 import '../../model_widgets.dart';
 import '../../tiles.dart';
 
 class FavoritesScreen extends StatelessWidget {
-  const FavoritesScreen({super.key});
+  const FavoritesScreen({
+    super.key,
+    required this.userSession,
+  });
+  final UserSession userSession;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +45,7 @@ class FavoritesScreen extends StatelessWidget {
                       itemCount: ListData.ads.length,
                       separatorBuilder: (context, index) => 12.heightSp,
                       itemBuilder: (context, index) => AdTile(
+                        userSession: userSession,
                         ad: ListData.ads[index],
                         expanded: true,
                       ),
