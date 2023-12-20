@@ -47,8 +47,8 @@ class UserSession with ChangeNotifier {
   String? companyName;
 
   //lists
+  ListAdsMy? listAdsMy;
   ListAdsPromoted? listAdsPromoted;
-  ListAds? listAds;
   ListCategoriesSub? listCategoriesSub;
   ListCategories? listCategories;
   ListDiscussions? listDiscussions;
@@ -85,11 +85,11 @@ class UserSession with ChangeNotifier {
     required this.twitterUrl,
     required bool? isActive,
     required bool? isVerified,
-    this.listAds,
     this.listAdsPromoted,
     this.listCategories,
     this.listCategoriesSub,
     this.listDiscussions,
+    this.listAdsMy,
     this.listChatBotMessages,
   })  : _isVerified = isVerified,
         _isActive = isActive;
@@ -146,11 +146,11 @@ class UserSession with ChangeNotifier {
       twitterUrl: null,
       isActive: null,
       isVerified: null,
-      listAds: null,
       listAdsPromoted: null,
       listCategories: null,
       listCategoriesSub: null,
       listDiscussions: null,
+      listAdsMy: null,
       listChatBotMessages: null,
     );
     // AuthStateChange.save(user);
@@ -314,21 +314,20 @@ class UserSession with ChangeNotifier {
     _isActive = user._isActive;
     _isVerified = user._isVerified;
     if (user.isAuthenticated) {
-      listAds = ListAds(userSession: this);
       listAdsPromoted = ListAdsPromoted(userSession: this);
       listCategories = ListCategories(userSession: this);
       listCategoriesSub = ListCategoriesSub(userSession: this);
       listDiscussions = ListDiscussions(userSession: this);
+      listAdsMy = ListAdsMy(userSession: this);
       listChatBotMessages = ListChatBotMessages(userSession: this);
     } else {
-      listAds = null;
       listAdsPromoted = null;
       listCategories = null;
       listCategoriesSub = null;
       listDiscussions = null;
+      listAdsMy = null;
       listChatBotMessages = null;
     }
-
     notifyListeners();
   }
 
@@ -379,6 +378,7 @@ class UserSession with ChangeNotifier {
     _isVerified = json['isVerified'];
     authState = AuthState.authenticated;
     listDiscussions = ListDiscussions(userSession: this);
+    listAdsMy = ListAdsMy(userSession: this);
     listChatBotMessages = ListChatBotMessages(userSession: this);
     HiveMessages.init(this);
     notifyListeners();

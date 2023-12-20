@@ -20,6 +20,7 @@
     "sent_nb_messages",
     "search",
     "locations_empty",
-    "pin_location"
+    "pin_location",
+    "my_ads_empty"
   ]
 }

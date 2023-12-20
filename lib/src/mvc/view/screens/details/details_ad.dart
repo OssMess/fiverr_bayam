@@ -14,9 +14,11 @@ import '../../model_widgets_screens.dart';
 class DetailsAd extends StatefulWidget {
   const DetailsAd({
     super.key,
+    required this.userSession,
     required this.ad,
   });
 
+  final UserSession userSession;
   final Ad ad;
 
   @override
@@ -25,6 +27,14 @@ class DetailsAd extends StatefulWidget {
 
 class _DetailsAdState extends State<DetailsAd> {
   late PageController pageController = PageController(initialPage: 0);
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.ad.author.uid != widget.userSession.uid) {
+      widget.ad.markVisited(widget.userSession);
+    }
+  }
 
   @override
   void dispose() {

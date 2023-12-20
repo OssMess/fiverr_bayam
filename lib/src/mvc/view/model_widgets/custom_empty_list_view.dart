@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../extensions.dart';
-import '../../../tools.dart';
 
 class EmptyListView extends StatelessWidget {
   const EmptyListView({
@@ -37,10 +36,7 @@ class EmptyListView extends StatelessWidget {
           child: Text(
             title,
             textAlign: TextAlign.center,
-            style: Styles.poppins(
-              fontSize: 16.sp,
-              fontWeight: Styles.medium,
-            ),
+            style: context.h4b1,
           ),
         ),
       ],

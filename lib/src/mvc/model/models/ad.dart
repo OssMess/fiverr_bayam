@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../extensions.dart';
+import '../../controller/services.dart';
 import '../enums.dart';
 import '../models.dart';
 
@@ -104,7 +105,7 @@ class Ad with ChangeNotifier {
   Map<dynamic, dynamic> get toMapInit => {
         'title': title,
         'content': content,
-        'subCategory': subCategories.map((e) => e.uuid).toList(),
+        'subCategory': subCategories.map((e) => e.name).toList(),
         'location': location,
         'type': type.key,
         'tags': tags.map((e) => e.id).toList(),
@@ -113,4 +114,7 @@ class Ad with ChangeNotifier {
       };
 
   static Ad fromResponse(String body) => Ad.fromMap(jsonDecode(body));
+
+  Future<void> markVisited(UserSession userSession) async =>
+      AdServices.of(userSession).markAsVisited(this);
 }

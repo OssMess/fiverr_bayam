@@ -93,15 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     appBarLeading: pageNotifier.currentPage == 0
                         ? AppBarActionButton(
                             icon: AwesomeIcons.magnifying_glass,
-                            onTap: () {
-                              // DiscussionServices.of(widget.userSession)
-                              //     .post(receiverId: '');
-                              context.push(
-                                widget: LocationPicker(
-                                  initialLocation: null,
-                                  onPick: (location) {},
-                                ),
-                              );
+                            onTap: () async {
                               // context.push(
                               //   widget: const SearchScreen(),
                               // );
@@ -196,7 +188,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           userSession: widget.userSession,
                           page: pageNotifier.currentPage,
                         ),
-                        Page3CompanyAds(userSession: widget.userSession),
+                        Page3CompanyAds(
+                          userSession: widget.userSession,
+                          page: pageNotifier.currentPage,
+                        ),
                         Page4AI(
                           userSession: widget.userSession,
                           page: pageNotifier.currentPage,

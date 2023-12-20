@@ -336,6 +336,7 @@
   "search":"Search",
   "locations_empty":"No results found!\nTry another search",
   "pin_location":"Pin your ad location",
+  "my_ads_empty":"You have no ads for now, create your first.",
 
   "@sent_nb_messages":{
     "placeholders":{

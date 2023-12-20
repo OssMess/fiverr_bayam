@@ -120,7 +120,7 @@ class _CreateAdState extends State<CreateAd>
                           Dialogs.of(context).showSingleValuePickerDialog(
                             mainAxisSize: MainAxisSize.max,
                             title: AppLocalizations.of(context)!.category_hint,
-                            values: widget.userSession.listCategories!.list
+                            values: widget.userSession.listCategoriesSub!.list
                                 .map(
                                   (e) => e.name,
                                 )
@@ -339,6 +339,7 @@ class _CreateAdState extends State<CreateAd>
         );
       },
       onComplete: (ad) {
+        widget.userSession.listAdsMy?.insert(ad!);
         Dialogs.of(context).showCustomDialog(
           header: AppLocalizations.of(context)!.ad_thankyou_header,
           title: AppLocalizations.of(context)!.success,
