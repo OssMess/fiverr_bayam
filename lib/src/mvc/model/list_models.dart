@@ -1,4 +1,5 @@
 export 'list_models/list_ads_my.dart';
+export 'list_models/list_ad_comments.dart';
 export 'list_models/list_ads_promoted.dart';
 export 'list_models/list_categories_sub.dart';
 export 'list_models/list_categories.dart';

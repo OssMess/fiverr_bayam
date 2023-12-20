@@ -3,7 +3,7 @@ import 'package:http/http.dart';
 import '../mvc/model/models.dart';
 
 extension ResponseExtensions on Response {
-  Ad get toAd => Ad.fromResponse(body);
+  Ad toAd(UserSession userSession) => Ad.fromResponse(body, userSession);
 
   AdPromoted get toAdPromoted => AdPromoted.fromResponse(body);
 
@@ -16,6 +16,8 @@ extension ResponseExtensions on Response {
   UserMin get toUserMin => UserMin.fromResponse(body);
 
   Tag get toTag => Tag.fromResponse(body);
+
+  AdComment get toAdComment => AdComment.fromResponse(body);
 
   Discussion toDiscussion(UserSession userSession) =>
       Discussion.fromResponse(body, userSession);

@@ -42,7 +42,7 @@ class AdServices {
       forceSkipRetries: true,
     );
     if (response.statusCode == 201) {
-      return response.toAd;
+      return response.toAd(userSession);
     } else {
       throw Functions.throwExceptionFromResponse(userSession, response);
     }
@@ -82,7 +82,7 @@ class AdServices {
       forceSkipRetries: true,
     );
     if (response.statusCode == 200) {
-      return response.toAd;
+      return response.toAd(userSession);
     } else {
       throw Functions.throwExceptionFromResponse(userSession, response);
     }
@@ -102,7 +102,7 @@ class AdServices {
     var request = http.Request(
       'GET',
       Uri.parse(
-        '$baseUrl/api/user/post/timeline',
+        '$baseUrl/api/user/post/timeline/?page=${page + 1}',
       ),
     );
     request.headers.addAll(
@@ -116,7 +116,48 @@ class AdServices {
       Map<dynamic, dynamic> result = jsonDecode(response.body);
       update(
         List.from(result['hydra:member'])
-            .map((json) => Ad.fromMap(json))
+            .map((json) => Ad.fromMap(json, userSession))
+            .toSet(),
+        result['hydra:totalItems'],
+        page + 1,
+        false,
+        refresh,
+      );
+    } else {
+      throw Functions.throwExceptionFromResponse(userSession, response);
+    }
+  }
+
+  Future<void> getAdComments({
+    required String adId,
+    required int page,
+    required bool refresh,
+    required void Function(
+      Set<AdComment>, //result
+      int, //totalPages
+      int, // currentPage
+      bool, // error,
+      bool, // refresh,
+    ) update,
+  }) async {
+    var request = http.Request(
+      'GET',
+      Uri.parse(
+        '$baseUrl/api/post/$adId/comment/?page=${page + 1}',
+      ),
+    );
+    request.headers.addAll(
+      Services.headerAcceptldJson,
+    );
+    http.Response response = await HttpRequest.attemptHttpCall(
+      request,
+      forceSkipRetries: true,
+    );
+    if (response.statusCode == 200) {
+      Map<dynamic, dynamic> result = jsonDecode(response.body);
+      update(
+        List.from(result['hydra:member'])
+            .map((json) => AdComment.fromMap(json))
             .toSet(),
         result['hydra:totalItems'],
         page + 1,

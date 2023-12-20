@@ -7,9 +7,14 @@ import 'package:image_picker/image_picker.dart';
 import '../../../extensions.dart';
 import '../../controller/services.dart';
 import '../enums.dart';
+import '../list_models.dart';
 import '../models.dart';
 
-Ad jsonToAd(Map<dynamic, dynamic> json) => Ad.fromMap(json);
+Ad jsonToAd(
+  Map<dynamic, dynamic> json,
+  UserSession userSession,
+) =>
+    Ad.fromMap(json, userSession);
 
 class Ad with ChangeNotifier {
   String uuid;
@@ -26,6 +31,7 @@ class Ad with ChangeNotifier {
   final List<String> imagesUrl;
   final List<XFile> imagesFile;
   final int likes;
+  ListAdComments listAdComments;
 
   Ad({
     required this.uuid,
@@ -42,6 +48,7 @@ class Ad with ChangeNotifier {
     required this.imagesUrl,
     required this.imagesFile,
     required this.likes,
+    required this.listAdComments,
   });
 
   factory Ad.init({
@@ -69,9 +76,14 @@ class Ad with ChangeNotifier {
         imagesUrl: [],
         imagesFile: imagesFile,
         likes: 0,
+        listAdComments: ListAdComments(userSession: userSession, adId: ''),
       );
 
-  factory Ad.fromMap(Map<dynamic, dynamic> json) => Ad(
+  factory Ad.fromMap(
+    Map<dynamic, dynamic> json,
+    UserSession userSession,
+  ) =>
+      Ad(
         uuid: json['uuid'],
         author: (json['author'] as Map<dynamic, dynamic>).toUserMin,
         title: json['title'],
@@ -90,15 +102,26 @@ class Ad with ChangeNotifier {
         imagesUrl: List.from(json['images'] ?? []),
         imagesFile: [],
         likes: json['likes'] ?? 0,
+        listAdComments: ListAdComments(
+          userSession: userSession,
+          adId: json['uuid'],
+        ),
       );
 
-  void updateWithAd(Ad ad) {
+  void updateWithAd(
+    Ad ad,
+    UserSession userSession,
+  ) {
     uuid = ad.uuid;
     images.clear();
     images.addAll(ad.images);
     imagesUrl.clear();
     imagesUrl.addAll(ad.imagesUrl);
     imagesFile.clear();
+    listAdComments = ListAdComments(
+      userSession: userSession,
+      adId: ad.uuid,
+    );
     notifyListeners();
   }
 
@@ -113,7 +136,14 @@ class Ad with ChangeNotifier {
         'video': 'h',
       };
 
-  static Ad fromResponse(String body) => Ad.fromMap(jsonDecode(body));
+  static Ad fromResponse(
+    String body,
+    UserSession userSession,
+  ) =>
+      Ad.fromMap(
+        jsonDecode(body),
+        userSession,
+      );
 
   Future<void> markVisited(UserSession userSession) async =>
       AdServices.of(userSession).markAsVisited(this);
