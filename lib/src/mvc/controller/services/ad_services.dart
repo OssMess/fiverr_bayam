@@ -174,6 +174,46 @@ class AdServices {
     }
   }
 
+  Future<void> getAdsMy({
+    required int page,
+    required bool refresh,
+    required void Function(
+      Set<Ad>, //result
+      int, //totalPages
+      int, // currentPage
+      bool, // error,
+      bool, // refresh,
+    ) update,
+  }) async {
+    var request = http.Request(
+      'GET',
+      Uri.parse(
+        '$baseUrl/api/user/post/timeline/?page=${page + 1}',
+      ),
+    );
+    request.headers.addAll(
+      Services.headerAcceptldJson,
+    );
+    http.Response response = await HttpRequest.attemptHttpCall(
+      request,
+      forceSkipRetries: true,
+    );
+    if (response.statusCode == 200) {
+      Map<dynamic, dynamic> result = jsonDecode(response.body);
+      update(
+        List.from(result['hydra:member'])
+            .map((json) => Ad.fromMap(json, userSession))
+            .toSet(),
+        result['hydra:totalItems'],
+        page + 1,
+        false,
+        refresh,
+      );
+    } else {
+      throw Functions.throwExceptionFromResponse(userSession, response);
+    }
+  }
+
   Future<void> getAdComments({
     required String adId,
     required int page,

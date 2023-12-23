@@ -229,6 +229,7 @@ class _CompleteRegistrationPageC1State
                           region = value;
                         },
                         textInputAction: TextInputAction.next,
+                        //FIXME add city picker
                         // onTap: () {},
                       ),
                       16.heightSp,
@@ -243,6 +244,7 @@ class _CompleteRegistrationPageC1State
                           country = value;
                         },
                         textInputAction: TextInputAction.next,
+                        //FIXME add country picker
                         // onTap: () {},
                       ),
                       32.heightSp,

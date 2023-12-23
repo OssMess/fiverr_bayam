@@ -39,14 +39,17 @@ class UserSession with ChangeNotifier {
   String? twitterUrl;
   bool? _isActive;
   bool? _isVerified;
+
   //user
   String? firstName;
   String? lastName;
   String? birthDate;
+
   //company
   String? companyName;
 
   //lists
+  ListAds? listAds;
   ListAdsMy? listAdsMy;
   ListAdsPromoted? listAdsPromoted;
   ListDiscussions? listDiscussions;
@@ -91,6 +94,7 @@ class UserSession with ChangeNotifier {
     required bool? isVerified,
     this.listAdsPromoted,
     this.listDiscussions,
+    this.listAds,
     this.listAdsMy,
     this.listChatBotMessages,
     this.listCategories,
@@ -154,6 +158,7 @@ class UserSession with ChangeNotifier {
       isVerified: null,
       listAdsPromoted: null,
       listDiscussions: null,
+      listAds: null,
       listAdsMy: null,
       listChatBotMessages: null,
       listCategories: null,
@@ -324,6 +329,7 @@ class UserSession with ChangeNotifier {
     if (user.isAuthenticated) {
       listAdsPromoted = ListAdsPromoted(userSession: this);
       listDiscussions = ListDiscussions(userSession: this);
+      listAds = ListAds(userSession: this);
       listAdsMy = ListAdsMy(userSession: this);
       listChatBotMessages = ListChatBotMessages(userSession: this);
       listCategories = ListCategories(userSession: this);
@@ -333,6 +339,7 @@ class UserSession with ChangeNotifier {
     } else {
       listAdsPromoted = null;
       listDiscussions = null;
+      listAds = null;
       listAdsMy = null;
       listChatBotMessages = null;
       listCategories = null;
@@ -390,6 +397,7 @@ class UserSession with ChangeNotifier {
     _isVerified = json['isVerified'];
     authState = AuthState.authenticated;
     listDiscussions = ListDiscussions(userSession: this);
+    listAds = ListAds(userSession: this);
     listAdsMy = ListAdsMy(userSession: this);
     listChatBotMessages = ListChatBotMessages(userSession: this);
     HiveMessages.init(this);

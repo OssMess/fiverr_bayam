@@ -193,6 +193,7 @@ class _CompletePersonProfileState extends State<CompletePersonProfile> {
                           region = value;
                         },
                         textInputAction: TextInputAction.next,
+                        //FIXME add city picker
                         // onTap: () {},
                       ),
                       16.heightSp,
@@ -207,6 +208,7 @@ class _CompletePersonProfileState extends State<CompletePersonProfile> {
                           country = value;
                         },
                         textInputAction: TextInputAction.next,
+                        //FIXME add country picker
                         // onTap: () {},
                       ),
                       32.heightSp,
