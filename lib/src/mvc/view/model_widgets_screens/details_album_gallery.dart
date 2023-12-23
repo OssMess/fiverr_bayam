@@ -86,12 +86,12 @@ class DetailsAlbumGallery extends StatelessWidget {
                             ),
                           )
                         : const SizedBox.shrink(),
-                    CircleAvatar(
-                      backgroundColor: context.textTheme.headlineSmall!.color,
-                      backgroundImage: const CachedNetworkImageProvider(
-                        'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Flag_of_Cameroon.png/640px-Flag_of_Cameroon.png',
-                      ),
-                    ),
+                    // CircleAvatar(
+                    //   backgroundColor: context.textTheme.headlineSmall!.color,
+                    //   backgroundImage: const CachedNetworkImageProvider(
+                    //     'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Flag_of_Cameroon.png/640px-Flag_of_Cameroon.png',
+                    //   ),
+                    // ),
                   ],
                 ),
                 Text(

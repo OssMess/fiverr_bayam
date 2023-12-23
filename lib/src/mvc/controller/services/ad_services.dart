@@ -188,7 +188,7 @@ class AdServices {
     var request = http.Request(
       'GET',
       Uri.parse(
-        '$baseUrl/api/user/post/timeline/?page=${page + 1}',
+        '$baseUrl/api/post/?page=${page + 1}',
       ),
     );
     request.headers.addAll(
@@ -202,7 +202,7 @@ class AdServices {
       Map<dynamic, dynamic> result = jsonDecode(response.body);
       update(
         List.from(result['hydra:member'])
-            .map((json) => Ad.fromAd(json, userSession))
+            .map((json) => Ad.fromMapPost(json, userSession))
             .toSet(),
         result['hydra:totalItems'],
         page + 1,

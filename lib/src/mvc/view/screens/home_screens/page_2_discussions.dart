@@ -84,6 +84,7 @@ class _Page2DiscussionsState extends State<Page2Discussions> {
                         discussion: listDiscussions.elementAt(index),
                       ),
                     );
+                    //FIXME add trailing tile
                   },
                 ),
               ),

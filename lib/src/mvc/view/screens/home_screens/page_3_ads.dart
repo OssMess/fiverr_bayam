@@ -50,7 +50,7 @@ class Page3CompanyAds extends StatelessWidget {
                   trailing: AppLocalizations.of(context)!.m_ago(3),
                 ),
                 16.sliverSp,
-                if (myAds)
+                if (myAds) ...[
                   ChangeNotifierProvider.value(
                     value: userSession.listAdsMy,
                     child: Consumer<ListAdsMy>(
@@ -81,7 +81,7 @@ class Page3CompanyAds extends StatelessWidget {
                               showDates: promotedAds,
                               onTapOptions: () => onTapAdOptions(
                                 context,
-                                ListData.ads[index],
+                                listAds.elementAt(index),
                               ),
                             ),
                           ),
@@ -89,7 +89,9 @@ class Page3CompanyAds extends StatelessWidget {
                       },
                     ),
                   ),
-                if (!promotedAds) 70.sliverSp,
+                  //FIXME add trailing tile
+                  70.sliverSp,
+                ],
                 (context.viewPadding.bottom + 20.sp).sliver,
               ],
             ),

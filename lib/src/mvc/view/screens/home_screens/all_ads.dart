@@ -94,6 +94,7 @@ class AllAds extends StatelessWidget {
                               showDates: false,
                             ),
                           );
+                          //FIXME add trailing tile
                         },
                       ),
                     ),

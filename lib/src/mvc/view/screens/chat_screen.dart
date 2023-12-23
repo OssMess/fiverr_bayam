@@ -194,6 +194,7 @@ class _DiscussionScreenState extends State<DiscussionScreen> {
                         ),
                       ),
                     );
+                    //FIXME add trailing tile
                   }
                   return const Spacer();
                 },

@@ -22,7 +22,9 @@ class CategorySub with ChangeNotifier {
         uuid: json['uuid'] ?? json['id'],
         name: json['name'],
         description: json['description'],
-        categoryId: json['preferenceCategory']?['@id'] ?? json['@id'],
+        categoryId: json['preferenceCategory'] is String
+            ? json['preferenceCategory']
+            : json['preferenceCategory']?['@id'] ?? json['@id'],
       );
 
   static CategorySub fromResponse(String body) =>
