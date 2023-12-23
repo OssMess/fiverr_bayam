@@ -1,28 +1,38 @@
 import 'dart:convert';
 
-class Category {
-  final String name;
-  final String description;
+import 'package:flutter/material.dart';
+
+import '../../controller/services.dart';
+import '../models.dart';
+
+class Category with ChangeNotifier {
   final String uuid;
-  // final String createdAt;
-  // final String updatedAt;
-  // final String subCategories;
+  String name;
+  String description;
 
   Category({
+    required this.uuid,
     required this.name,
     required this.description,
-    required this.uuid,
-    // required this.createdAt,
-    // required this.updatedAt,
-    // required this.subCategories,
   });
 
   factory Category.fromMap(Map<dynamic, dynamic> json) => Category(
+        uuid: json['uuid'],
         name: json['name'],
         description: json['description'],
-        uuid: json['uuid'],
       );
 
   static Category fromResponse(String body) =>
       Category.fromMap(jsonDecode(body));
+
+  Future<void> update({
+    required UserSession userSession,
+    required String name,
+    required String description,
+  }) async {
+    this.name = name;
+    this.description = description;
+    await CategoriesServices.of(userSession).update(this);
+    notifyListeners();
+  }
 }

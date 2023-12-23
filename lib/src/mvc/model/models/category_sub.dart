@@ -1,31 +1,41 @@
 import 'dart:convert';
 
-import '../models.dart';
+import 'package:flutter/material.dart';
 
-class CategorySub {
-  final String name;
-  final String description;
+import '../../controller/services.dart';
+import 'user_session.dart';
+
+class CategorySub with ChangeNotifier {
   final String uuid;
-  // final String createdAt;
-  // final String updatedAt;
-  final Category category;
+  String name;
+  String description;
+  String categoryId;
 
   CategorySub({
+    required this.uuid,
     required this.name,
     required this.description,
-    required this.uuid,
-    // required this.createdAt,
-    // required this.updatedAt,
-    required this.category,
+    required this.categoryId,
   });
 
   factory CategorySub.fromMap(Map<dynamic, dynamic> json) => CategorySub(
+        uuid: json['uuid'] ?? json['id'],
         name: json['name'],
         description: json['description'],
-        uuid: json['uuid'],
-        category: Category.fromMap(json['category']),
+        categoryId: json['preferenceCategory']?['@id'] ?? json['@id'],
       );
 
   static CategorySub fromResponse(String body) =>
       CategorySub.fromMap(jsonDecode(body));
+
+  Future<void> update({
+    required UserSession userSession,
+    required String name,
+    required String description,
+  }) async {
+    this.name = name;
+    this.description = description;
+    await CategoriesSubServices.of(userSession).update(this);
+    notifyListeners();
+  }
 }

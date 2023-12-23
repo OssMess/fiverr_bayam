@@ -10,7 +10,7 @@ class ListAdsMy extends SetPaginationClasses<Ad> {
     required int page,
     required bool refresh,
   }) async {
-    await AdServices.of(userSession).getMyAds(
+    await AdServices.of(userSession).getAds(
       page: page,
       refresh: refresh,
       update: super.update,

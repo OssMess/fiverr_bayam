@@ -35,6 +35,13 @@ class _HomeScreenState extends State<HomeScreen> {
       ValueNotifier<AdsViewPage>(AdsViewPage.myAds);
 
   @override
+  void initState() {
+    super.initState();
+    // widget.userSession.listCities?.initData(callGet: true);
+    // widget.userSession.listCountries?.initData(callGet: true);
+  }
+
+  @override
   void dispose() {
     controller = PersistentTabController(initialIndex: 0);
     super.dispose();

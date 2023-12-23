@@ -49,10 +49,14 @@ class UserSession with ChangeNotifier {
   //lists
   ListAdsMy? listAdsMy;
   ListAdsPromoted? listAdsPromoted;
-  ListCategoriesSub? listCategoriesSub;
-  ListCategories? listCategories;
   ListDiscussions? listDiscussions;
   ListChatBotMessages? listChatBotMessages;
+
+  //Shared
+  ListCategories? listCategories;
+  ListCategoriesSub? listCategoriesSub;
+  ListCountries? listCountries;
+  ListCities? listCities;
 
   UserSession({
     required this.authState,
@@ -86,11 +90,13 @@ class UserSession with ChangeNotifier {
     required bool? isActive,
     required bool? isVerified,
     this.listAdsPromoted,
-    this.listCategories,
-    this.listCategoriesSub,
     this.listDiscussions,
     this.listAdsMy,
     this.listChatBotMessages,
+    this.listCategories,
+    this.listCategoriesSub,
+    this.listCountries,
+    this.listCities,
   })  : _isVerified = isVerified,
         _isActive = isActive;
 
@@ -147,11 +153,13 @@ class UserSession with ChangeNotifier {
       isActive: null,
       isVerified: null,
       listAdsPromoted: null,
-      listCategories: null,
-      listCategoriesSub: null,
       listDiscussions: null,
       listAdsMy: null,
       listChatBotMessages: null,
+      listCategories: null,
+      listCategoriesSub: null,
+      listCountries: null,
+      listCities: null,
     );
     // AuthStateChange.save(user);
     if (authState == AuthState.awaiting) {
@@ -315,18 +323,22 @@ class UserSession with ChangeNotifier {
     _isVerified = user._isVerified;
     if (user.isAuthenticated) {
       listAdsPromoted = ListAdsPromoted(userSession: this);
-      listCategories = ListCategories(userSession: this);
-      listCategoriesSub = ListCategoriesSub(userSession: this);
       listDiscussions = ListDiscussions(userSession: this);
       listAdsMy = ListAdsMy(userSession: this);
       listChatBotMessages = ListChatBotMessages(userSession: this);
+      listCategories = ListCategories(userSession: this);
+      listCategoriesSub = ListCategoriesSub(userSession: this);
+      listCountries = ListCountries(userSession: this);
+      listCities = ListCities(userSession: this);
     } else {
       listAdsPromoted = null;
-      listCategories = null;
-      listCategoriesSub = null;
       listDiscussions = null;
       listAdsMy = null;
       listChatBotMessages = null;
+      listCategories = null;
+      listCategoriesSub = null;
+      listCountries = null;
+      listCities = null;
     }
     notifyListeners();
   }

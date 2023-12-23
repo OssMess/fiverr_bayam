@@ -2,10 +2,10 @@ import '../../controller/services.dart';
 import '../list_models.dart';
 import '../models.dart';
 
-class ListCategoriesSub extends SetPaginationClasses<CategorySub> {
+class ListCountries extends SetPaginationClasses<Country> {
   String search;
 
-  ListCategoriesSub({
+  ListCountries({
     required super.userSession,
     this.search = '',
   });
@@ -15,7 +15,7 @@ class ListCategoriesSub extends SetPaginationClasses<CategorySub> {
     required int page,
     required bool refresh,
   }) async {
-    await CategoriesSubServices.of(userSession).get(
+    await CountriesServices.of(userSession).get(
       search: search,
       page: page,
       refresh: refresh,

@@ -11,6 +11,8 @@ export './services/categories_sub_services.dart';
 export './services/ad_promoted_services.dart';
 export './services/tag_services.dart';
 export './services/user_services.dart';
+export './services/countries_services.dart';
+export './services/cities_services.dart';
 export './services/chat_gpt_services.dart';
 export './services/google_maps_api.dart';
 

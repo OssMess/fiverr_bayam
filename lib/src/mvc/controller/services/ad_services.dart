@@ -42,7 +42,7 @@ class AdServices {
       forceSkipRetries: true,
     );
     if (response.statusCode == 201) {
-      return response.toAd(userSession);
+      return response.toAdPost(userSession);
     } else {
       throw Functions.throwExceptionFromResponse(userSession, response);
     }
@@ -66,7 +66,6 @@ class AdServices {
       forceSkipRetries: true,
     );
     if (response.statusCode == 201) {
-      // return response.toAd(userSession);
     } else {
       throw Functions.throwExceptionFromResponse(userSession, response);
     }
@@ -135,7 +134,7 @@ class AdServices {
     }
   }
 
-  Future<void> getMyAds({
+  Future<void> getAds({
     required int page,
     required bool refresh,
     required void Function(

@@ -51,6 +51,7 @@ class HiveTokens {
   /// Update saved tokens to `_box` and `_set` using http [response], to save or
   /// refresh user session.
   static Future<void> update(http.Response response) async {
+    if (response.statusCode >= 300) return;
     try {
       Map<String, dynamic> mapTokens = {};
       for (var entry in jsonDecode(response.body).entries.where(

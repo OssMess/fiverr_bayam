@@ -1,36 +1,37 @@
 import '../../controller/services.dart';
+import '../list_models.dart';
 import '../models.dart';
-import 'set_classes.dart';
 
-class ListCategories extends SetClasses<Category> {
-  Set<Category> filterSet = {};
-  String search = '';
+class ListCategories extends SetPaginationClasses<Category> {
+  String search;
 
-  ListCategories({required super.userSession});
-
-  void onChangeFilter(String search) {
-    this.search = search;
-    filterSet.clear();
-    if (search.isEmpty) {
-      filterSet.addAll(super.list);
-    } else {
-      filterSet.addAll(
-        super.list.where((element) =>
-            element.name.toLowerCase().contains(search.toLowerCase())),
-      );
-    }
-    notifyListeners();
-  }
+  ListCategories({
+    required super.userSession,
+    this.search = '',
+  });
 
   @override
   Future<void> get({
+    required int page,
     required bool refresh,
   }) async {
-    Set<Category> result = await CategoriesServices.of(userSession).get();
-    super.update(
-      result,
-      false,
-      refresh,
+    await CategoriesServices.of(userSession).get(
+      search: search,
+      page: page,
+      refresh: refresh,
+      update: super.update,
     );
+  }
+
+  Future<void> onUpdateSearch(String search) async {
+    this.search = search;
+    super.refresh();
+  }
+
+  Future<void> onResetSearch() async {
+    if (search.isNotEmpty) {
+      search = '';
+      super.refresh();
+    }
   }
 }

@@ -11,6 +11,7 @@ import '../../../model/models.dart';
 import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
+import '../../screens.dart';
 
 class CreateAd extends StatefulWidget {
   const CreateAd({
@@ -109,31 +110,41 @@ class _CreateAdState extends State<CreateAd>
                         validator: Validators.validateNotNull,
                         keyboardType: TextInputType.name,
                         onTap: () async {
-                          if (widget.userSession.listCategories!.isNull) {
-                            await Dialogs.of(context).runAsyncAction(
-                              future: () async => widget
-                                  .userSession.listCategoriesSub!
-                                  .initData(callGet: true),
-                            );
-                          }
-                          if (!context.mounted) return;
-                          Dialogs.of(context).showSingleValuePickerDialog(
-                            mainAxisSize: MainAxisSize.max,
-                            title: AppLocalizations.of(context)!.category_hint,
-                            values: widget.userSession.listCategoriesSub!.list
-                                .map(
-                                  (e) => e.name,
-                                )
-                                .toList(),
-                            initialvalue: categorySub?.name,
-                            onPick: (value) {
-                              categoryConttroller.text = value;
-                              categorySub = widget
-                                  .userSession.listCategoriesSub!.list
-                                  .firstWhere(
-                                      (element) => element.name == value);
-                            },
+                          context.push(
+                            widget: PickCategorySub(
+                              userSession: widget.userSession,
+                              initialCategorySub: categorySub,
+                              onPick: (value) {
+                                categoryConttroller.text = value.name;
+                                categorySub = value;
+                              },
+                            ),
                           );
+                          // if (widget.userSession.listCategories!.isNull) {
+                          //   await Dialogs.of(context).runAsyncAction(
+                          //     future: () async => widget
+                          //         .userSession.listCategoriesSub!
+                          //         .initData(callGet: true),
+                          //   );
+                          // }
+                          // if (!context.mounted) return;
+                          // Dialogs.of(context).showSingleValuePickerDialog(
+                          //   mainAxisSize: MainAxisSize.max,
+                          //   title: AppLocalizations.of(context)!.category_hint,
+                          //   values: widget.userSession.listCategoriesSub!.list
+                          //       .map(
+                          //         (e) => e.name,
+                          //       )
+                          //       .toList(),
+                          //   initialvalue: categorySub?.name,
+                          //   onPick: (value) {
+                          //     categoryConttroller.text = value;
+                          //     categorySub = widget
+                          //         .userSession.listCategoriesSub!.list
+                          //         .firstWhere(
+                          //             (element) => element.name == value);
+                          //   },
+                          // );
                         },
                       ),
                       16.heightSp,

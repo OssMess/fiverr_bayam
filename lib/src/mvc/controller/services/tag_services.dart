@@ -32,7 +32,7 @@ class TagServices {
       forceSkipRetries: true,
     );
     if (response.statusCode == 200) {
-      return (jsonDecode(response.body) as Map<dynamic, dynamic>).toTag;
+      return response.toTag;
     } else {
       throw Functions.throwExceptionFromResponse(userSession, response);
     }
@@ -56,7 +56,7 @@ class TagServices {
       forceSkipRetries: true,
     );
     if (response.statusCode == 201) {
-      return Tag.fromMap(jsonDecode(response.body));
+      return response.toTag;
     } else {
       throw Functions.throwExceptionFromResponse(userSession, response);
     }

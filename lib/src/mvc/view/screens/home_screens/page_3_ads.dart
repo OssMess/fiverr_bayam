@@ -33,7 +33,11 @@ class Page3CompanyAds extends StatelessWidget {
               : userSession.listAdsPromoted?.onMaxScrollExtent,
           child: CustomRefreshIndicator(
             onRefresh: () async {
-              await Future.delayed(const Duration(seconds: 1));
+              if (myAds) {
+                await userSession.listAdsMy?.refresh();
+              } else {
+                await userSession.listAdsPromoted?.refresh();
+              }
             },
             child: CustomScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
@@ -68,11 +72,11 @@ class Page3CompanyAds extends StatelessWidget {
                         return SliverPadding(
                           padding: EdgeInsets.symmetric(horizontal: 16.sp),
                           sliver: SliverList.separated(
-                            itemCount: ListData.ads.length,
+                            itemCount: listAds.length,
                             separatorBuilder: (context, index) => 12.heightSp,
                             itemBuilder: (_, index) => AdTile(
                               userSession: userSession,
-                              ad: ListData.ads[index],
+                              ad: listAds.elementAt(index),
                               expanded: true,
                               showDates: promotedAds,
                               onTapOptions: () => onTapAdOptions(

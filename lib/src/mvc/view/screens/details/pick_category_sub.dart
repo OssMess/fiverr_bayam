@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../extensions.dart';
@@ -13,33 +12,31 @@ import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 import '../../screens.dart';
 
-class CompletePreferences extends StatefulWidget {
-  const CompletePreferences({
+class PickCategorySub extends StatefulWidget {
+  const PickCategorySub({
     super.key,
     required this.userSession,
-    this.imageCompany,
-    this.accountType,
-    this.onPick,
-  }) : assert((accountType == null && onPick != null) ||
-            (accountType != null && onPick == null));
+    required this.initialCategorySub,
+    required this.onPick,
+  });
 
   final UserSession userSession;
-  final XFile? imageCompany;
-  final AccountType? accountType;
-  final void Function(Set<CategorySub>)? onPick;
+  final CategorySub? initialCategorySub;
+  final void Function(CategorySub) onPick;
 
   @override
-  State<CompletePreferences> createState() => _CompletePreferencesState();
+  State<PickCategorySub> createState() => _PickCategorySubState();
 }
 
-class _CompletePreferencesState extends State<CompletePreferences> {
-  Set<CategorySub> pickedPreferences = {};
+class _PickCategorySubState extends State<PickCategorySub> {
+  CategorySub? pickedCategorySub;
 
   Debouncer debouncer = Debouncer(milliseconds: 500);
 
   @override
   void initState() {
     widget.userSession.listCategoriesSub!.initData(callGet: true);
+    pickedCategorySub = widget.initialCategorySub;
     super.initState();
   }
 
@@ -68,7 +65,7 @@ class _CompletePreferencesState extends State<CompletePreferences> {
             appBarTitleWidget: const CustomAppBarLogo(),
             appBarLeading: AppBarActionButton(
               icon: context.backButtonIcon,
-              onTap: () => context.pop(),
+              onTap: context.pop,
             ),
           ),
           Expanded(
@@ -122,14 +119,13 @@ class _CompletePreferencesState extends State<CompletePreferences> {
                                 CategorySub preference =
                                     list.list.elementAt(index);
                                 return PreferenceCheckListTile(
-                                  checked:
-                                      pickedPreferences.contains(preference),
+                                  checked: pickedCategorySub == preference,
                                   preference: preference,
                                   onChange: (added) {
                                     if (added) {
-                                      pickedPreferences.add(preference);
+                                      pickedCategorySub = preference;
                                     } else {
-                                      pickedPreferences.remove(preference);
+                                      pickedCategorySub = null;
                                     }
                                     setState(() {});
                                   },
@@ -153,79 +149,13 @@ class _CompletePreferencesState extends State<CompletePreferences> {
   }
 
   Future<void> next() async {
-    // CategoriesSubServices.of(widget.userSession).post(
-    //   name: 'sub-category 4',
-    //   description: '',
-    //   category: '68672060-6fa5-4e5b-8852-7fe8a1d735c2',
-    // );
-    // return;
-    if (widget.accountType != null) {
-      if (pickedPreferences.length < 3) {
-        Dialogs.of(context).showSnackBar(
-          message: AppLocalizations.of(context)!.select_at_least_nb_preferences,
-        );
-        return;
-      }
-      widget.userSession.preferences =
-          pickedPreferences.map((e) => e.uuid).toList();
-      switch (widget.accountType) {
-        case AccountType.company:
-          context.push(
-            widget: CompleteRegistrationC2(
-              userSession: widget.userSession,
-              imageCompany: widget.imageCompany,
-            ),
-          );
-          break;
-        case AccountType.person:
-          context.push(
-            widget: CompleteRegistrationP1(
-              userSession: widget.userSession,
-            ),
-          );
-          break;
-        default:
-      }
-    } else {
-      if (pickedPreferences.length < 3) {
-        Dialogs.of(context).showSnackBar(
-          message: AppLocalizations.of(context)!.select_at_least_nb_preferences,
-        );
-        return;
-      }
-      widget.onPick!(pickedPreferences);
+    if (pickedCategorySub == null) {
+      Dialogs.of(context).showSnackBar(
+        message: AppLocalizations.of(context)!.select_ad_category,
+      );
+      return;
     }
-  }
-}
-
-class PreferenceCheckListTile extends StatelessWidget {
-  const PreferenceCheckListTile({
-    super.key,
-    required this.checked,
-    required this.preference,
-    required this.onChange,
-  });
-
-  final bool checked;
-  final CategorySub preference;
-  final Function(bool) onChange;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Expanded(
-          child: CustomCheckBox(
-            value: checked,
-            label: preference.name,
-            onChanged: (value) {
-              if (value == null) return;
-              onChange(value);
-            },
-          ),
-        ),
-      ],
-    );
+    widget.onPick(pickedCategorySub!);
+    context.pop();
   }
 }

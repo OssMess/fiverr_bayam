@@ -79,7 +79,7 @@ class Ad with ChangeNotifier {
         listAdComments: ListAdComments(userSession: userSession, adId: ''),
       );
 
-  factory Ad.fromMap(
+  factory Ad.fromMapPost(
     Map<dynamic, dynamic> json,
     UserSession userSession,
   ) =>
@@ -95,13 +95,43 @@ class Ad with ChangeNotifier {
         type: (json['type'] as String).toAdType,
         tags: List.from(json['tags']).map((e) => Tag.fromMap(e)).toList(),
         createdAt: DateTime.parse(json['created_at']),
-        isPromotion: json['isPromotion'],
+        isPromotion: json['isAds'],
         images: List.from(json['images'] ?? [])
             .map((e) => CachedNetworkImageProvider(e))
             .toList(),
         imagesUrl: List.from(json['images'] ?? []),
         imagesFile: [],
         likes: json['likes'] ?? 0,
+        listAdComments: ListAdComments(
+          userSession: userSession,
+          adId: json['uuid'],
+        ),
+      );
+
+  factory Ad.fromMap(
+    Map<dynamic, dynamic> json,
+    UserSession userSession,
+  ) =>
+      Ad(
+        uuid: json['uuid'],
+        author: userSession.toUserMin,
+        title: json['post']['title'],
+        content: json['post']['content'],
+        location: json['post']['location'],
+        subCategories: List.from(json['post']['subCategory'])
+            .map((json) => CategorySub.fromMap(json))
+            .toList(),
+        type: (json['post']['type'] as String).toAdType,
+        tags:
+            List.from(json['post']['tags']).map((e) => Tag.fromMap(e)).toList(),
+        createdAt: DateTime.parse(json['created_at']),
+        isPromotion: json['post']['isAds'],
+        images: List.from(json['post']['images'] ?? [])
+            .map((e) => CachedNetworkImageProvider(e))
+            .toList(),
+        imagesUrl: List.from(json['post']['images'] ?? []),
+        imagesFile: [],
+        likes: json['post']['likeNumber'] ?? 0,
         listAdComments: ListAdComments(
           userSession: userSession,
           adId: json['uuid'],
@@ -128,11 +158,11 @@ class Ad with ChangeNotifier {
   Map<dynamic, dynamic> get toMapInit => {
         'title': title,
         'content': content,
-        'subCategory': subCategories.map((e) => e.name).toList(),
+        'subCategory': subCategories.map((e) => e.uuid).toList(),
         'location': location,
         'type': type.key,
-        'tags': tags.map((e) => e.id).toList(),
-        'isPromotion': false,
+        'tags': tags.map((e) => e.name).toList(),
+        'isAds': false,
         'video': 'h',
       };
 
@@ -141,6 +171,15 @@ class Ad with ChangeNotifier {
     UserSession userSession,
   ) =>
       Ad.fromMap(
+        jsonDecode(body),
+        userSession,
+      );
+
+  static Ad fromResponsePost(
+    String body,
+    UserSession userSession,
+  ) =>
+      Ad.fromMapPost(
         jsonDecode(body),
         userSession,
       );

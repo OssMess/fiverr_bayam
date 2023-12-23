@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart';
@@ -32,6 +34,7 @@ class Functions {
     Response response, [
     Map<int, String>? errorMap,
   ]) {
+    log(response.body);
     Map<int, String> statusCodesPhrases = {
       400: 'invalid-input',
       403: 'unauthorized',

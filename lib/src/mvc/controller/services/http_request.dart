@@ -14,8 +14,8 @@ class HttpRequest {
     http.Request request, {
     bool ignoreAuthorization = false,
     int retries = 5,
-    Duration delay = const Duration(milliseconds: 100),
-    Duration timeout = const Duration(seconds: 5),
+    Duration delay = const Duration(milliseconds: 200),
+    Duration timeout = const Duration(seconds: 10),
     bool forceSkipRetries = false,
   }) async {
     request.headers.addAll({

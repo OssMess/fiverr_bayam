@@ -21,6 +21,7 @@
     "search",
     "locations_empty",
     "pin_location",
-    "my_ads_empty"
+    "my_ads_empty",
+    "select_ad_category"
   ]
 }
