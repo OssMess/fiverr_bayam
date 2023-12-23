@@ -18,6 +18,7 @@ class DetailsDescriptionBanner extends StatelessWidget {
     required this.tags,
     this.employees,
     required this.likes,
+    required this.onLike,
   });
 
   final String description;
@@ -27,6 +28,7 @@ class DetailsDescriptionBanner extends StatelessWidget {
   final List<String> tags;
   final int? employees;
   final int likes;
+  final void Function()? onLike;
 
   @override
   Widget build(BuildContext context) {
@@ -141,6 +143,7 @@ class DetailsDescriptionBanner extends StatelessWidget {
                 16.widthSp,
               ],
               CustomFlatButton(
+                onTap: onLike,
                 child: Row(
                   children: [
                     Icon(

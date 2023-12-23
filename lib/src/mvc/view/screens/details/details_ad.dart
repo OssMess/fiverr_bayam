@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -31,7 +32,7 @@ class _DetailsAdState extends State<DetailsAd> {
   @override
   void initState() {
     super.initState();
-    if (widget.ad.author.uid != widget.userSession.uid) {
+    if (!widget.ad.isMine) {
       widget.ad.markVisited(widget.userSession);
     }
   }
@@ -48,74 +49,82 @@ class _DetailsAdState extends State<DetailsAd> {
       resizeToAvoidBottomInset: true,
       extendBodyBehindAppBar: true,
       appBar: AppBar(),
-      body: Column(
-        children: [
-          CustomAppBarBackground(
-            type: AppBarBackgroundType.shrink,
-            appBarTitleWidget: const CustomAppBarLogo(),
-            appBarLeading: AppBarActionButton(
-              icon: context.backButtonIcon,
-              onTap: context.pop,
-            ),
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.sp),
-                child: Column(
-                  children: [
-                    DetailsAlbumGallery(
-                      photosUrl: const [
-                        // widget.ad.coverUrl ??
-                        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGdwTxs6lW7B5VgaAceI0p2XfmabWvee-MHlZ_ODsRB3VvM07vzNA3RVmu0OVYrdAHCYU&usqp=CAU'
-                      ],
-                      description: widget.ad.content,
-                      adType: widget.ad.type,
-                      pageController: pageController,
-                    ),
-                    16.heightSp,
-                    SmoothPageIndicator(
-                      controller: pageController,
-                      count: 5,
-                      effect: WormEffect(
-                        activeDotColor: Styles.green[500]!,
-                        dotColor: context.textTheme.headlineMedium!.color!,
-                        dotHeight: 10.sp,
-                        dotWidth: 10.sp,
-                        spacing: 8.sp,
-                      ),
-                    ),
-                    if (widget.ad.author.isPerson) ...[
-                      16.heightSp,
-                      DetailsCreatorBanner(
-                        name: widget.ad.author.displayName,
-                        photoUrl: widget.ad.author.imageUrl,
-                        service: AppLocalizations.of(context)!.agriculture,
-                      ),
-                    ],
-                    16.heightSp,
-                    DetailsDescriptionBanner(
-                      description: widget.ad.content,
-                      address: widget.ad.location,
-                      tags: widget.ad.tags.map((e) => e.name).toList(),
-                      likes: widget.ad.likes,
-                      date: DateFormat('dd-MM-yy').format(widget.ad.createdAt),
-                    ),
-                    if (widget.ad.author.isCompany) ...[
-                      16.heightSp,
-                      DetailsCompanyBanner(
-                        name: widget.ad.author.displayName,
-                        logoUrl: widget.ad.author.imageUrl,
-                      ),
-                    ],
-                    (context.viewPadding.bottom + 20.sp).height,
-                  ],
+      body: ChangeNotifierProvider.value(
+        value: widget.ad,
+        child: Consumer<Ad>(
+          builder: (context, ad, _) {
+            return Column(
+              children: [
+                CustomAppBarBackground(
+                  type: AppBarBackgroundType.shrink,
+                  appBarTitleWidget: const CustomAppBarLogo(),
+                  appBarLeading: AppBarActionButton(
+                    icon: context.backButtonIcon,
+                    onTap: context.pop,
+                  ),
                 ),
-              ),
-            ),
-          ),
-        ],
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.sp),
+                      child: Column(
+                        children: [
+                          DetailsAlbumGallery(
+                            photosUrl: ad.imagesUrl,
+                            description: ad.content,
+                            adType: ad.type,
+                            pageController: pageController,
+                          ),
+                          16.heightSp,
+                          SmoothPageIndicator(
+                            controller: pageController,
+                            count: ad.imagesCount,
+                            effect: WormEffect(
+                              activeDotColor: Styles.green[500]!,
+                              dotColor:
+                                  context.textTheme.headlineMedium!.color!,
+                              dotHeight: 10.sp,
+                              dotWidth: 10.sp,
+                              spacing: 8.sp,
+                            ),
+                          ),
+                          if (ad.author.isPerson) ...[
+                            16.heightSp,
+                            DetailsCreatorBanner(
+                              name: ad.author.displayName,
+                              photoUrl: ad.author.imageUrl,
+                              service:
+                                  AppLocalizations.of(context)!.agriculture,
+                            ),
+                          ],
+                          16.heightSp,
+                          DetailsDescriptionBanner(
+                            description: ad.content,
+                            address: ad.location,
+                            tags: ad.tags.map((e) => e.name).toList(),
+                            likes: ad.likes,
+                            date: DateFormat('dd-MM-yy').format(ad.createdAt),
+                            onLike: () => ad.like(widget.userSession),
+                          ),
+                          if (ad.author.isCompany) ...[
+                            16.heightSp,
+                            DetailsCompanyBanner(
+                              name: ad.author.displayName,
+                              logoUrl: ad.author.imageUrl,
+                              isMine: ad.isMine,
+                            ),
+                          ],
+                          (context.viewPadding.bottom + 20.sp).height,
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

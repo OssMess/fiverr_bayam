@@ -162,7 +162,7 @@ class AdServices {
       Map<dynamic, dynamic> result = jsonDecode(response.body);
       update(
         List.from(result['hydra:member'])
-            .map((json) => Ad.fromMap(json, userSession))
+            .map((json) => Ad.fromAd(json, userSession))
             .toSet(),
         result['hydra:totalItems'],
         page + 1,
@@ -202,7 +202,7 @@ class AdServices {
       Map<dynamic, dynamic> result = jsonDecode(response.body);
       update(
         List.from(result['hydra:member'])
-            .map((json) => Ad.fromMap(json, userSession))
+            .map((json) => Ad.fromAd(json, userSession))
             .toSet(),
         result['hydra:totalItems'],
         page + 1,

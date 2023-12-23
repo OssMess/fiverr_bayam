@@ -14,10 +14,11 @@ Ad jsonToAd(
   Map<dynamic, dynamic> json,
   UserSession userSession,
 ) =>
-    Ad.fromMap(json, userSession);
+    Ad.fromAd(json, userSession);
 
 class Ad with ChangeNotifier {
   String uuid;
+  final bool isMine;
   final UserMin author;
   final String title;
   final String content;
@@ -35,6 +36,7 @@ class Ad with ChangeNotifier {
 
   Ad({
     required this.uuid,
+    required this.isMine,
     required this.author,
     required this.title,
     required this.content,
@@ -51,6 +53,8 @@ class Ad with ChangeNotifier {
     required this.listAdComments,
   });
 
+  int get imagesCount => imagesUrl.length;
+
   factory Ad.init({
     required UserSession userSession,
     required String title,
@@ -63,6 +67,7 @@ class Ad with ChangeNotifier {
   }) =>
       Ad(
         uuid: '',
+        isMine: true,
         author: userSession.toUserMin,
         title: title,
         content: content,
@@ -85,6 +90,8 @@ class Ad with ChangeNotifier {
   ) =>
       Ad(
         uuid: json['uuid'],
+        //FIXME check author.uuid with userSession.uid
+        isMine: true,
         author: (json['author'] as Map<dynamic, dynamic>).toUserMin,
         title: json['title'],
         content: json['content'],
@@ -108,12 +115,15 @@ class Ad with ChangeNotifier {
         ),
       );
 
-  factory Ad.fromMap(
+  factory Ad.fromAd(
     Map<dynamic, dynamic> json,
     UserSession userSession,
   ) =>
       Ad(
         uuid: json['uuid'],
+        //FIXME check author.uuid with userSession.uid
+        isMine: true,
+        //FIXME create from map
         author: userSession.toUserMin,
         title: json['post']['title'],
         content: json['post']['content'],
@@ -170,7 +180,7 @@ class Ad with ChangeNotifier {
     String body,
     UserSession userSession,
   ) =>
-      Ad.fromMap(
+      Ad.fromAd(
         jsonDecode(body),
         userSession,
       );
@@ -188,7 +198,7 @@ class Ad with ChangeNotifier {
       AdServices.of(userSession).markAsVisited(this);
 
   Future<void> like(UserSession userSession) async {
-    await AdServices.of(userSession).like(this);
+    AdServices.of(userSession).like(this);
     likes++;
     notifyListeners();
   }

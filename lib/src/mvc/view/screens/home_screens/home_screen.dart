@@ -57,6 +57,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ChangeNotifierProvider.value(
           value: notifierAdsViewPage,
         ),
+        ChangeNotifierProvider.value(
+          value: widget.userSession.listAds,
+        ),
       ],
       child: WillPopScope(
         onWillPop: () {
@@ -101,9 +104,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         ? AppBarActionButton(
                             icon: AwesomeIcons.magnifying_glass,
                             onTap: () async {
-                              // context.push(
-                              //   widget: const SearchScreen(),
-                              // );
+                              context.push(
+                                widget: SearchScreen(
+                                  userSession: widget.userSession,
+                                ),
+                              );
                             },
                           )
                         : null,
@@ -190,7 +195,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     return IndexedStack(
                       index: pageNotifier.currentPage,
                       children: [
-                        Page1Home(userSession: widget.userSession),
+                        Page1Home(
+                          userSession: widget.userSession,
+                        ),
                         Page2Discussions(
                           userSession: widget.userSession,
                           page: pageNotifier.currentPage,

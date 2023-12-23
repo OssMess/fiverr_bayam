@@ -140,30 +140,53 @@ abstract class SetPaginationClasses<T> with ChangeNotifier {
     notifyListeners();
   }
 
-  ///For lazzy loading, Use [scrollNotification] to detect if the scroll has reached the end of the
-  ///page, and if the list has more data, call `getMore`.
-  bool onMaxScrollExtent(ScrollNotification scrollNotification) {
-    if (!canGetMore) return true;
+  ///For lazzy loading, Use [scrollNotification] to detect if the scroll has
+  ///reached the end of the page, and if the list has more data, call `getMore`.
+  ///if [muteScrollNotification] is set to true, mute scroll notification in the
+  ///widget tree, else notify top-level widgets.
+  bool onMaxScrollExtent(
+    ScrollNotification scrollNotification, [
+    bool muteScrollNotification = false,
+  ]) {
+    if (isNull) return !muteScrollNotification;
+    if (isLoading) return !muteScrollNotification;
+    if (!canGetMore) return !muteScrollNotification;
     if (scrollNotification.metrics.pixels !=
         scrollNotification.metrics.maxScrollExtent) {
-      return true;
+      return !muteScrollNotification;
     }
     getMore();
-    return true;
+    return !muteScrollNotification;
   }
 
   ///For lazzy loading, Use [scrollNotification] to detect if the scroll is
   ///[extentAfter] away from the end of the page, and if the list has more data,
-  /// call `getMore`.
+  /// call `getMore`. if [muteScrollNotification] is set to true, mute scroll
+  /// notification in the widget tree, else notify top-level widgets.
   bool onExtentAfter(
     ScrollNotification scrollNotification,
-    double extentAfter,
-  ) {
-    if (!canGetMore) return true;
+    double extentAfter, [
+    bool muteScrollNotification = false,
+  ]) {
+    if (isNull) return !muteScrollNotification;
+    if (isLoading) return !muteScrollNotification;
+    if (!canGetMore) return !muteScrollNotification;
     if (scrollNotification.metrics.extentAfter < extentAfter) {
-      return true;
+      return !muteScrollNotification;
     }
     getMore();
-    return true;
+    return !muteScrollNotification;
+  }
+
+  /// Add listener to [controller] to listen for pagination and load more results
+  /// if there are any.
+  void addControllerListener(ScrollController controller) {
+    controller.addListener(() {
+      if (isNull) return;
+      if (isLoading) return;
+      if (!canGetMore) return;
+      if (controller.position.maxScrollExtent != controller.offset) return;
+      getMore();
+    });
   }
 }

@@ -96,6 +96,8 @@ class DetailsAlbumGallery extends StatelessWidget {
                 ),
                 Text(
                   description,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                   style: Styles.poppins(
                     fontSize: 16.sp,
                     fontWeight: Styles.bold,

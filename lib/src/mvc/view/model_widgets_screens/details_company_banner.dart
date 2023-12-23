@@ -13,15 +13,18 @@ class DetailsCompanyBanner extends StatelessWidget {
     super.key,
     required this.name,
     required this.logoUrl,
+    required this.isMine,
   });
 
   final String name;
   final String? logoUrl;
+  final bool isMine;
 
   @override
   Widget build(BuildContext context) {
     return CustomElevatedContainer(
-      onTap: () => context.push(widget: const ProfileCompany()),
+      onTap:
+          !isMine ? () => context.push(widget: const ProfileCompany()) : null,
       padding: EdgeInsets.all(16.sp),
       child: Row(
         children: [
@@ -73,23 +76,27 @@ class DetailsCompanyBanner extends StatelessWidget {
               ],
             ),
           ),
-          16.widthSp,
-          IconButton(
-            onPressed: () {},
-            // onPressed: () => context.push(
-            //   widget: DiscussionScreen(
-            //     displayName: name,
-            //     photoUrl: logoUrl,
-            //     isOnline: null,
-            //     lastSeen: null,
-            //   ),
-            // ),
-            icon: Icon(
-              AwesomeIcons.chat_bold,
-              color: Styles.green,
-              size: 24.sp,
-            ),
-          )
+          if (!isMine) ...[
+            16.widthSp,
+            IconButton(
+              onPressed: () {
+                //FIXME open discussion with user
+              },
+              // onPressed: () => context.push(
+              //   widget: DiscussionScreen(
+              //     displayName: name,
+              //     photoUrl: logoUrl,
+              //     isOnline: null,
+              //     lastSeen: null,
+              //   ),
+              // ),
+              icon: Icon(
+                AwesomeIcons.chat_bold,
+                color: Styles.green,
+                size: 24.sp,
+              ),
+            )
+          ],
         ],
       ),
     );

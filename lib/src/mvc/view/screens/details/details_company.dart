@@ -89,12 +89,14 @@ class _DetailsCompanyState extends State<DetailsCompany> {
                     likes: 43,
                     website: 'www.samak.com',
                     employees: 120,
+                    onLike: null,
                   ),
                   16.heightSp,
                   const DetailsCompanyBanner(
                     name: 'Samak Enterprises',
                     logoUrl:
                         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjCuB_T9XRgCcwrQi4u8_zhnVFoQcsIOGa6Q&usqp=CAU',
+                    isMine: false,
                   ),
                   (context.viewPadding.bottom + 20.sp).height,
                 ],
