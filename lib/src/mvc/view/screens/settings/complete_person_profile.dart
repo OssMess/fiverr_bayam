@@ -17,9 +17,11 @@ class CompletePersonProfile extends StatefulWidget {
   const CompletePersonProfile({
     super.key,
     required this.userSession,
+    required this.geocodingLocation,
   });
 
   final UserSession userSession;
+  final GeoCodingLocation? geocodingLocation;
 
   @override
   State<CompletePersonProfile> createState() => _CompletePersonProfileState();
@@ -187,7 +189,7 @@ class _CompletePersonProfileState extends State<CompletePersonProfile> {
                       ),
                       16.heightSp,
                       CustomTextFormFieldBounded(
-                        controller: cityController,
+                        initialValue: city,
                         labelText: AppLocalizations.of(context)!.state_label,
                         hintText: AppLocalizations.of(context)!.state_hint,
                         keyboardType: TextInputType.name,
@@ -197,32 +199,10 @@ class _CompletePersonProfileState extends State<CompletePersonProfile> {
                           region = value;
                         },
                         textInputAction: TextInputAction.next,
-                        onTap: () {
-                          Dialogs.of(context).runAsyncAction(
-                            future: () async {
-                              await widget.userSession.listCities!
-                                  .initData(callGet: true);
-                            },
-                            onComplete: (_) {
-                              Dialogs.of(context).showSingleValuePickerDialog(
-                                title: AppLocalizations.of(context)!.state_hint,
-                                values: widget.userSession.listCities!.list
-                                    .map((e) => e.name)
-                                    .toList(),
-                                initialvalue: country,
-                                onPick: (region) {
-                                  this.region = region;
-                                  cityController.text = region;
-                                },
-                                mainAxisSize: MainAxisSize.max,
-                              );
-                            },
-                          );
-                        },
                       ),
                       16.heightSp,
                       CustomTextFormFieldBounded(
-                        controller: countryController,
+                        initialValue: country,
                         labelText: AppLocalizations.of(context)!.country_label,
                         hintText: AppLocalizations.of(context)!.country_hint,
                         keyboardType: TextInputType.name,
@@ -232,29 +212,6 @@ class _CompletePersonProfileState extends State<CompletePersonProfile> {
                           country = value;
                         },
                         textInputAction: TextInputAction.next,
-                        onTap: () {
-                          Dialogs.of(context).runAsyncAction(
-                            future: () async {
-                              await widget.userSession.listCountries!
-                                  .initData(callGet: true);
-                            },
-                            onComplete: (_) {
-                              Dialogs.of(context).showSingleValuePickerDialog(
-                                title:
-                                    AppLocalizations.of(context)!.country_hint,
-                                values: widget.userSession.listCountries!.list
-                                    .map((e) => e.name)
-                                    .toList(),
-                                initialvalue: country,
-                                onPick: (country) {
-                                  this.country = country;
-                                  countryController.text = country;
-                                },
-                                mainAxisSize: MainAxisSize.max,
-                              );
-                            },
-                          );
-                        },
                       ),
                       32.heightSp,
                       CustomElevatedButton(

@@ -20,12 +20,12 @@ class GeoCodingLocation {
     required this.streetAddress,
   });
 
-  static Future<GeoCodingLocation?> getIPGeoCodingLocation(
+  static Future<GeoCodingLocation?> getGeoCodingFromIP(
     String local,
   ) async {
     IPLocation? ipLocation = await OtherServices.getIPLocation();
     if (ipLocation == null) return null;
-    return await getGeoCodingLocation(
+    return await getGeoCodingFromLatLng(
       latlng: LatLng(ipLocation.lat, ipLocation.lon),
       local: local,
       countryCode: ipLocation.countryCode,
@@ -37,23 +37,23 @@ class GeoCodingLocation {
     LatLng latlng,
     String local,
   ) async {
-    return await getGeoCodingLocation(
+    return await getGeoCodingFromLatLng(
       latlng: latlng,
       local: local,
     );
   }
 
-  static Future<GeoCodingLocation?> getCurrentGeoCodingLocation(
+  static Future<GeoCodingLocation?> getGeoCodingFromCurrentLocation(
     String local,
   ) async {
     Position location = await Geolocator.getCurrentPosition();
-    return await getGeoCodingLocation(
+    return await getGeoCodingFromLatLng(
       latlng: LatLng(location.latitude, location.longitude),
       local: local,
     );
   }
 
-  static Future<GeoCodingLocation?> getGeoCodingLocation({
+  static Future<GeoCodingLocation?> getGeoCodingFromLatLng({
     required LatLng latlng,
     required String local,
     String? countryCode,
@@ -75,5 +75,51 @@ class GeoCodingLocation {
       );
     }
     return null;
+  }
+
+  static Future<(Country?, City?)> getCountryCityFromIP(
+    UserSession userSession,
+    String local,
+  ) async {
+    IPLocation? ipLocation = await OtherServices.getIPLocation();
+    if (ipLocation == null) {
+      return (null, null);
+    }
+    return await getCountryCity(
+      userSession,
+      LatLng(ipLocation.lat, ipLocation.lon),
+      local,
+    );
+  }
+
+  /// geocode location from IP address to a `Country` and `City` in [local] language.
+  static Future<(Country?, City?)> getCountryCityFromCurrentLocation(
+    UserSession userSession,
+    String local,
+  ) async {
+    Position location = await Geolocator.getCurrentPosition();
+    return await getCountryCity(
+      userSession,
+      LatLng(location.latitude, location.longitude),
+      local,
+    );
+  }
+
+  /// geocode [latlng] to a `Country` and `City` in [local] language.
+  static Future<(Country?, City?)> getCountryCity(
+    UserSession userSession,
+    LatLng latlng,
+    String local,
+  ) async {
+    GeoCodingLocation? geoCodingLocation =
+        await GeoCodingLocation.getLatLngGeoCodingLocation(latlng, local);
+    if (geoCodingLocation == null) {
+      return (null, null);
+    }
+    Country? country = await CountriesServices.of(userSession)
+        .find(search: geoCodingLocation.country!);
+    City? city = await CitiesServices.of(userSession)
+        .find(search: geoCodingLocation.city!);
+    return (country, city);
   }
 }

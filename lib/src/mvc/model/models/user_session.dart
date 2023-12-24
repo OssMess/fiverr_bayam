@@ -432,35 +432,30 @@ class UserSession with ChangeNotifier {
   Future<void> updateCountriesCities() async {
     bool update = false;
     if (listCities == null || listCountries == null) return;
-    GeoCodingLocation? geoCodingLocation;
+    (Country?, City?)? data;
     if (await Permissions.getLocationEnabled() &&
         await Permissions.getLocationPermission()) {
-      geoCodingLocation =
-          await GeoCodingLocation.getCurrentGeoCodingLocation('en');
+      data = await GeoCodingLocation.getCountryCityFromCurrentLocation(
+        this,
+        'en',
+      );
     } else {
-      geoCodingLocation = await GeoCodingLocation.getIPGeoCodingLocation('en');
+      data = await GeoCodingLocation.getCountryCityFromIP(this, 'en');
     }
-    if (geoCodingLocation == null) return;
-    try {
-      Country? country = await CountriesServices.of(this)
-          .find(search: geoCodingLocation.country!);
-      if (country != null &&
-          countries!.where((element) => element.id == country.id).isEmpty) {
-        countries!.add(country);
+    if (data.$1 != null) {
+      if (data.$1 != null &&
+          countries!.where((element) => element.id == data!.$1!.id).isEmpty) {
+        countries!.add(data.$1!);
         update = true;
       }
-      // ignore: empty_catches
-    } catch (e) {}
-    try {
-      City? city =
-          await CitiesServices.of(this).find(search: geoCodingLocation.city!);
-      if (city != null &&
-          cities!.where((element) => element.id == city.id).isEmpty) {
-        cities!.add(city);
+    }
+    if (data.$2 != null) {
+      if (data.$2 != null &&
+          cities!.where((element) => element.id == data!.$2!.id).isEmpty) {
+        cities!.add(data.$2!);
         update = true;
       }
-      // ignore: empty_catches
-    } catch (e) {}
+    }
     try {
       if (update) {
         await UserServices.of(this).post();
@@ -470,5 +465,6 @@ class UserSession with ChangeNotifier {
   }
 
   String get displayName => companyName ?? '$firstName $lastName';
+
   ImageProvider<Object>? get image => imageProfile ?? imageCompany;
 }

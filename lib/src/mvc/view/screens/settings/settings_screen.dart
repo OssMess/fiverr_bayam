@@ -131,10 +131,21 @@ class SettingsScreen extends StatelessWidget {
                       padding: EdgeInsets.all(12.sp),
                       onTap: () {
                         if (userSession.isPerson) {
-                          context.push(
-                            widget: CompletePersonProfile(
-                              userSession: userSession,
-                            ),
+                          Dialogs.of(context)
+                              .runAsyncAction<GeoCodingLocation?>(
+                            future: () async {
+                              return GeoCodingLocation.getGeoCodingFromIP(
+                                DateTimeUtils.of(context).languageCode,
+                              );
+                            },
+                            onComplete: (geocodingLocation) {
+                              context.push(
+                                widget: CompletePersonProfile(
+                                  userSession: userSession,
+                                  geocodingLocation: geocodingLocation,
+                                ),
+                              );
+                            },
                           );
                         } else {
                           context.push(
