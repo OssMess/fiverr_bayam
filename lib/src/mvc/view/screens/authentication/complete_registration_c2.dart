@@ -90,8 +90,7 @@ class _CompleteRegistrationC2State extends State<CompleteRegistrationC2> {
                 InkResponse(
                   onTap: () async {
                     await Functions.of(context).pickImage(
-                      //FIXME change to camera
-                      source: ImageSource.gallery,
+                      source: ImageSource.camera,
                       onPick: (xfile) {
                         setState(() {
                           imageCompanyTaxt.add(xfile);

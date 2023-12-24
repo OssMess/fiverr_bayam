@@ -1,9 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../extensions.dart';
+import '../../controller/services.dart';
+import '../../model/models.dart';
 import '../model_widgets.dart';
 import '../../../tools.dart';
 import '../screens.dart';
@@ -11,13 +12,13 @@ import '../screens.dart';
 class DetailsCompanyBanner extends StatelessWidget {
   const DetailsCompanyBanner({
     super.key,
-    required this.name,
-    required this.logoUrl,
+    required this.userSession,
+    required this.author,
     required this.isMine,
   });
 
-  final String name;
-  final String? logoUrl;
+  final UserSession userSession;
+  final UserMin author;
   final bool isMine;
 
   @override
@@ -42,11 +43,7 @@ class DetailsCompanyBanner extends StatelessWidget {
             ),
             child: CircleAvatar(
               backgroundColor: context.textTheme.headlineSmall!.color,
-              backgroundImage: logoUrl.isNotNullOrEmpty
-                  ? CachedNetworkImageProvider(
-                      logoUrl!,
-                    )
-                  : null,
+              backgroundImage: author.image,
             ),
           ),
           16.widthSp,
@@ -64,7 +61,7 @@ class DetailsCompanyBanner extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  name,
+                  author.displayName,
                   overflow: TextOverflow.ellipsis,
                   style: Styles.poppins(
                     fontSize: 16.sp,
@@ -80,16 +77,27 @@ class DetailsCompanyBanner extends StatelessWidget {
             16.widthSp,
             IconButton(
               onPressed: () {
-                //FIXME open discussion with user
+                Dialogs.of(context).runAsyncAction<Discussion>(
+                  future: () async {
+                    try {
+                      return userSession.listDiscussions!.list.firstWhere(
+                        (element) => element.receiver.uid == author.uid,
+                      );
+                    } catch (e) {
+                      return await DiscussionServices.of(userSession)
+                          .post(receiverId: author.uid);
+                    }
+                  },
+                  onComplete: (discussion) {
+                    context.push(
+                      widget: ChatScreen(
+                        userSession: userSession,
+                        discussion: discussion!,
+                      ),
+                    );
+                  },
+                );
               },
-              // onPressed: () => context.push(
-              //   widget: DiscussionScreen(
-              //     displayName: name,
-              //     photoUrl: logoUrl,
-              //     isOnline: null,
-              //     lastSeen: null,
-              //   ),
-              // ),
               icon: Icon(
                 AwesomeIcons.chat_bold,
                 color: Styles.green,

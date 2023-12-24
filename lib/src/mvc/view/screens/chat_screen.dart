@@ -17,8 +17,8 @@ import '../model_widgets.dart';
 import '../model_widgets_screens.dart';
 import '../tiles.dart';
 
-class DiscussionScreen extends StatefulWidget {
-  const DiscussionScreen({
+class ChatScreen extends StatefulWidget {
+  const ChatScreen({
     super.key,
     required this.userSession,
     required this.discussion,
@@ -28,10 +28,10 @@ class DiscussionScreen extends StatefulWidget {
   final Discussion discussion;
 
   @override
-  State<DiscussionScreen> createState() => _DiscussionScreenState();
+  State<ChatScreen> createState() => _ChatScreenState();
 }
 
-class _DiscussionScreenState extends State<DiscussionScreen> {
+class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();

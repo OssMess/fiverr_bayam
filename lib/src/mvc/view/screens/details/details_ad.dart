@@ -110,8 +110,8 @@ class _DetailsAdState extends State<DetailsAd> {
                           if (ad.author.isCompany) ...[
                             16.heightSp,
                             DetailsCompanyBanner(
-                              name: ad.author.displayName,
-                              logoUrl: ad.author.imageUrl,
+                              userSession: widget.userSession,
+                              author: ad.author,
                               isMine: ad.isMine,
                             ),
                           ],

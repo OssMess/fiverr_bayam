@@ -21,7 +21,7 @@ class DiscussionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkResponse(
       onTap: () => context.push(
-        widget: DiscussionScreen(
+        widget: ChatScreen(
           userSession: userSession,
           discussion: discussion,
         ),

@@ -20,7 +20,7 @@ class Country {
   final String subregion;
   final String countrySubregionId;
   final String nationality;
-  final List<String> timezones;
+  // final List<String> timezones;
   final String latitude;
   final String longitude;
   final String emoji;
@@ -50,7 +50,7 @@ class Country {
     required this.subregion,
     required this.countrySubregionId,
     required this.nationality,
-    required this.timezones,
+    // required this.timezones,
     required this.latitude,
     required this.longitude,
     required this.emoji,
@@ -81,7 +81,7 @@ class Country {
         subregion: json['subregion'],
         countrySubregionId: json['subregion_id'],
         nationality: json['nationality'],
-        timezones: List<String>.from(json['timezones'].map((x) => x)),
+        // timezones: List<String>.from(json['timezones'].map((x) => x)),
         latitude: json['latitude'],
         longitude: json['longitude'],
         emoji: json['emoji'],

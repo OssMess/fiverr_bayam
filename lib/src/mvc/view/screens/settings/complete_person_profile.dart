@@ -27,6 +27,8 @@ class CompletePersonProfile extends StatefulWidget {
 
 class _CompletePersonProfileState extends State<CompletePersonProfile> {
   final GlobalKey<FormState> _keyForm = GlobalKey();
+  TextEditingController countryController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   String? firstName;
   String? lastName;
@@ -55,6 +57,8 @@ class _CompletePersonProfileState extends State<CompletePersonProfile> {
 
   @override
   void dispose() {
+    countryController.dispose();
+    cityController.dispose();
     dateController.dispose();
     super.dispose();
   }
@@ -183,7 +187,7 @@ class _CompletePersonProfileState extends State<CompletePersonProfile> {
                       ),
                       16.heightSp,
                       CustomTextFormFieldBounded(
-                        initialValue: region,
+                        controller: cityController,
                         labelText: AppLocalizations.of(context)!.state_label,
                         hintText: AppLocalizations.of(context)!.state_hint,
                         keyboardType: TextInputType.name,
@@ -193,12 +197,32 @@ class _CompletePersonProfileState extends State<CompletePersonProfile> {
                           region = value;
                         },
                         textInputAction: TextInputAction.next,
-                        //FIXME add city picker
-                        // onTap: () {},
+                        onTap: () {
+                          Dialogs.of(context).runAsyncAction(
+                            future: () async {
+                              await widget.userSession.listCities!
+                                  .initData(callGet: true);
+                            },
+                            onComplete: (_) {
+                              Dialogs.of(context).showSingleValuePickerDialog(
+                                title: AppLocalizations.of(context)!.state_hint,
+                                values: widget.userSession.listCities!.list
+                                    .map((e) => e.name)
+                                    .toList(),
+                                initialvalue: country,
+                                onPick: (region) {
+                                  this.region = region;
+                                  cityController.text = region;
+                                },
+                                mainAxisSize: MainAxisSize.max,
+                              );
+                            },
+                          );
+                        },
                       ),
                       16.heightSp,
                       CustomTextFormFieldBounded(
-                        initialValue: country,
+                        controller: countryController,
                         labelText: AppLocalizations.of(context)!.country_label,
                         hintText: AppLocalizations.of(context)!.country_hint,
                         keyboardType: TextInputType.name,
@@ -208,8 +232,29 @@ class _CompletePersonProfileState extends State<CompletePersonProfile> {
                           country = value;
                         },
                         textInputAction: TextInputAction.next,
-                        //FIXME add country picker
-                        // onTap: () {},
+                        onTap: () {
+                          Dialogs.of(context).runAsyncAction(
+                            future: () async {
+                              await widget.userSession.listCountries!
+                                  .initData(callGet: true);
+                            },
+                            onComplete: (_) {
+                              Dialogs.of(context).showSingleValuePickerDialog(
+                                title:
+                                    AppLocalizations.of(context)!.country_hint,
+                                values: widget.userSession.listCountries!.list
+                                    .map((e) => e.name)
+                                    .toList(),
+                                initialvalue: country,
+                                onPick: (country) {
+                                  this.country = country;
+                                  countryController.text = country;
+                                },
+                                mainAxisSize: MainAxisSize.max,
+                              );
+                            },
+                          );
+                        },
                       ),
                       32.heightSp,
                       CustomElevatedButton(
