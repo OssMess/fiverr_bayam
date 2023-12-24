@@ -85,7 +85,7 @@ class UserMin with ChangeNotifier {
       region: json['region'],
       streetAddress: json['streetAddress'],
       twitterUrl: json['twitterUrl'],
-      isActive: json['isActive'],
+      isActive: json['isActive'] ?? false,
       isVerified: json['isVerified'],
     );
   }

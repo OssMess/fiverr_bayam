@@ -172,29 +172,41 @@ class _ChatScreenState extends State<ChatScreen> {
                   }
                   if (listMessages.isNotEmpty) {
                     return Expanded(
-                      child: ListView.separated(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        reverse: true,
-                        padding: EdgeInsets.all(16.sp),
-                        itemCount: listMessages.length,
-                        separatorBuilder: (context, index) => 8.heightSp,
-                        itemBuilder: (context, index) => Builder(
-                          builder: (context) {
-                            Message message = listMessages.elementAt(index);
-                            return MessageTile(
-                              avatar: message.isMine
-                                  ? widget.userSession.image
-                                  : widget.discussion.receiver.image,
-                              message: message,
-                              lastMessage: index > 0
-                                  ? listMessages.elementAt(index - 1)
-                                  : null,
-                            );
-                          },
+                      child: NotificationListener(
+                        onNotification: listMessages.onMaxScrollExtent,
+                        child: ListView.separated(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          reverse: true,
+                          padding: EdgeInsets.all(16.sp),
+                          itemCount: listMessages.childCount,
+                          separatorBuilder: (context, index) => 8.heightSp,
+                          itemBuilder: (context, index) => Builder(
+                            builder: (context) {
+                              if (index < listMessages.length) {
+                                Message message = listMessages.elementAt(index);
+                                return MessageTile(
+                                  avatar: message.isMine
+                                      ? widget.userSession.image
+                                      : widget.discussion.receiver.image,
+                                  message: message,
+                                  lastMessage: index > 0
+                                      ? listMessages.elementAt(index - 1)
+                                      : null,
+                                );
+                              } else {
+                                return CustomTrailingTile(
+                                  isNotNull: listMessages.isNotNull,
+                                  isLoading: listMessages.isLoading,
+                                  hasMore: listMessages.hasMore,
+                                  isSliver: false,
+                                  quarterTurns: 2,
+                                );
+                              }
+                            },
+                          ),
                         ),
                       ),
                     );
-                    //FIXME add trailing tile
                   }
                   return const Spacer();
                 },

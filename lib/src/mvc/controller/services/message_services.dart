@@ -39,7 +39,9 @@ class MessageServices {
     var request = http.Request(
       'GET',
       Uri.parse(
-        '$baseUrl/api/message/me/receiver/$discussionId', //&page=${page + 1}',
+        '$baseUrl/api/message/me/receiver/$discussionId',
+
+        ///?page=${page + 1}',
       ),
     );
     request.headers.addAll(Services.headerAcceptldJson);

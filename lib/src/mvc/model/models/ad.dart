@@ -120,10 +120,8 @@ class Ad with ChangeNotifier {
   ) =>
       Ad(
         uuid: json['uuid'],
-        //FIXME check author.uuid with userSession.uid
-        isMine: true,
-        //FIXME create from map
-        author: userSession.toUserMin,
+        isMine: json['post']['author']['uuid'] == userSession.uid,
+        author: (json['post']['author'] as Map<dynamic, dynamic>).toUserMin,
         title: json['post']['title'],
         content: json['post']['content'],
         location: json['post']['location'],

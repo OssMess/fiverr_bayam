@@ -72,24 +72,34 @@ class Page3CompanyAds extends StatelessWidget {
                         return SliverPadding(
                           padding: EdgeInsets.symmetric(horizontal: 16.sp),
                           sliver: SliverList.separated(
-                            itemCount: listAds.length,
+                            itemCount: listAds.childCount,
                             separatorBuilder: (context, index) => 12.heightSp,
-                            itemBuilder: (_, index) => AdTile(
-                              userSession: userSession,
-                              ad: listAds.elementAt(index),
-                              expanded: true,
-                              showDates: promotedAds,
-                              onTapOptions: () => onTapAdOptions(
-                                context,
-                                listAds.elementAt(index),
-                              ),
-                            ),
+                            itemBuilder: (_, index) {
+                              if (index < listAds.length) {
+                                return AdTile(
+                                  userSession: userSession,
+                                  ad: listAds.elementAt(index),
+                                  expanded: true,
+                                  showDates: promotedAds,
+                                  onTapOptions: () => onTapAdOptions(
+                                    context,
+                                    listAds.elementAt(index),
+                                  ),
+                                );
+                              } else {
+                                return CustomTrailingTile(
+                                  isNotNull: listAds.isNotNull,
+                                  isLoading: listAds.isLoading,
+                                  hasMore: listAds.hasMore,
+                                  isSliver: false,
+                                );
+                              }
+                            },
                           ),
                         );
                       },
                     ),
                   ),
-                  //FIXME add trailing tile
                   70.sliverSp,
                 ],
                 (context.viewPadding.bottom + 20.sp).sliver,

@@ -20,7 +20,7 @@ abstract class SetPaginationClasses<T> with ChangeNotifier {
   bool hasError = false;
 
   /// total number of pages for appointments list.
-  int totalPages = -1;
+  int totalElements = -1;
 
   /// current page.
   int currentPage = 0;
@@ -28,12 +28,15 @@ abstract class SetPaginationClasses<T> with ChangeNotifier {
   SetPaginationClasses({required this.userSession});
 
   /// `true` if there are still more pages (pagination).
-  bool get hasMore => currentPage < totalPages;
+  bool get hasMore => length < totalElements;
 
   bool get canGetMore => (isNotNull && hasMore && !isLoading);
 
-  /// The number of nearby salons in list.
+  /// The number of elements in list.
   int get length => list.length;
+
+  /// The number of elements in the list, +1 if the list has more elements.
+  int get childCount => list.length + (hasMore ? 1 : 1);
 
   bool get isNotNull => !isNull;
 
@@ -71,6 +74,7 @@ abstract class SetPaginationClasses<T> with ChangeNotifier {
     if (isNull) return;
     if (isLoading) return;
     isLoading = true;
+    notifyListeners();
     await get(
       page: currentPage,
       refresh: false,
@@ -80,7 +84,7 @@ abstract class SetPaginationClasses<T> with ChangeNotifier {
   /// Refresh data.
   Future<void> refresh() async {
     if (isLoading) return;
-    totalPages = -1;
+    totalElements = -1;
     currentPage = 0;
     hasError = false;
     isLoading = true;
@@ -102,7 +106,7 @@ abstract class SetPaginationClasses<T> with ChangeNotifier {
       list.clear();
     }
     list.addAll(result);
-    this.totalPages = totalPages;
+    this.totalElements = totalPages;
     this.currentPage = currentPage;
     isLoading = false;
     isNull = false;
@@ -116,7 +120,7 @@ abstract class SetPaginationClasses<T> with ChangeNotifier {
     isLoading = false;
     hasError = false;
     list.clear();
-    totalPages = -1;
+    totalElements = -1;
     currentPage = 0;
   }
 
@@ -126,7 +130,7 @@ abstract class SetPaginationClasses<T> with ChangeNotifier {
     list = update.list;
     isNull = update.isNull;
     isLoading = update.isLoading;
-    totalPages = update.totalPages;
+    totalElements = update.totalElements;
     currentPage = update.currentPage;
     hasError = update.hasError;
     notifyListeners();

@@ -85,14 +85,25 @@ class AllAds extends StatelessWidget {
                                 .copyWith(
                               bottom: context.viewPadding.bottom,
                             ),
-                            itemCount: listAds.length,
+                            itemCount: listAds.childCount,
                             separatorBuilder: (context, index) => 16.heightSp,
-                            itemBuilder: (_, index) => AdTile(
-                              userSession: userSession,
-                              ad: listAds.elementAt(index),
-                              expanded: true,
-                              showDates: false,
-                            ),
+                            itemBuilder: (_, index) {
+                              if (index < listAds.length) {
+                                return AdTile(
+                                  userSession: userSession,
+                                  ad: listAds.elementAt(index),
+                                  expanded: true,
+                                  showDates: false,
+                                );
+                              } else {
+                                return CustomTrailingTile(
+                                  isNotNull: listAds.isNotNull,
+                                  isLoading: listAds.isLoading,
+                                  hasMore: listAds.hasMore,
+                                  isSliver: false,
+                                );
+                              }
+                            },
                           );
                           //FIXME add trailing tile
                         },

@@ -78,13 +78,23 @@ class _Page2DiscussionsState extends State<Page2Discussions> {
                     return ListView.builder(
                       padding: EdgeInsets.symmetric(vertical: 32.sp),
                       physics: const AlwaysScrollableScrollPhysics(),
-                      itemCount: listDiscussions.length,
-                      itemBuilder: (context, index) => DiscussionTile(
-                        userSession: widget.userSession,
-                        discussion: listDiscussions.elementAt(index),
-                      ),
+                      itemCount: listDiscussions.childCount,
+                      itemBuilder: (context, index) {
+                        if (index < listDiscussions.length) {
+                          return DiscussionTile(
+                            userSession: widget.userSession,
+                            discussion: listDiscussions.elementAt(index),
+                          );
+                        } else {
+                          return CustomTrailingTile(
+                            isNotNull: listDiscussions.isNotNull,
+                            isLoading: listDiscussions.isLoading,
+                            hasMore: listDiscussions.hasMore,
+                            isSliver: false,
+                          );
+                        }
+                      },
                     );
-                    //FIXME add trailing tile
                   },
                 ),
               ),
