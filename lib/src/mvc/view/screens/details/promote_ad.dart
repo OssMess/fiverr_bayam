@@ -41,8 +41,8 @@ class _PromoteAdState extends State<PromoteAd> {
   @override
   void initState() {
     super.initState();
-    startDateController.text = DateFormat('dd/MM/yyyy').format(DateTime.now());
-    endDateController.text = DateFormat('dd/MM/yyyy').format(
+    startDateController.text = DateFormat('yyyy/MM/dd').format(DateTime.now());
+    endDateController.text = DateFormat('yyyy/MM/dd').format(
       DateTime.now().add(
         Duration(
           days: widget.plan.months * 30,
@@ -207,17 +207,19 @@ class _PromoteAdState extends State<PromoteAd> {
   Future<void> next() async {
     if (!_keyForm.currentState!.validate()) return;
     _keyForm.currentState!.save();
-    Dialogs.of(context).runAsyncAction(
+    Dialogs.of(context).runAsyncAction<AdPromoted>(
       future: () async {
-        await AdPromotedServices.of(widget.userSession).post(
-          id: widget.ad.uuid,
+        return await AdPromotedServices.of(widget.userSession).post(
+          ad: widget.ad,
+          plan: widget.plan,
+          location: widget.location,
           startDate: startDate!,
           endDate: endDate!,
-          budget: int.parse(budget!),
-          content: '',
         );
       },
-      onComplete: (_) {
+      onComplete: (adPromoted) {
+        widget.userSession.listAdsPromoted!.insert(adPromoted!);
+        context.popUntilFirst();
         Dialogs.of(context).showCustomDialog(
           header: AppLocalizations.of(context)!.ad_thankyou_header,
           title: AppLocalizations.of(context)!.success,

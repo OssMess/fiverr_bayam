@@ -1,7 +1,7 @@
 import '../list_models.dart';
 import '../models.dart';
 
-class ListAdsPromoted extends SetPaginationClasses<Ad> {
+class ListAdsPromoted extends SetPaginationClasses<AdPromoted> {
   ListAdsPromoted({required super.userSession});
 
   @override
