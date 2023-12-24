@@ -56,14 +56,14 @@ class CitiesServices {
       request = http.Request(
         'GET',
         Uri.parse(
-          '$baseUrl/api/cities/?itemsPerPage=20&page=${page + 1}',
+          '$baseUrl/api/cities/?itemsPerPage=50&page=${page + 1}',
         ),
       );
     } else {
       request = http.Request(
         'GET',
         Uri.parse(
-          '$baseUrl/api/cities/?itemsPerPage=20&page=${page + 1}&name=$search',
+          '$baseUrl/api/cities/?itemsPerPage=50&page=${page + 1}&name=$search',
         ),
       );
     }
@@ -78,6 +78,33 @@ class CitiesServices {
         false,
         refresh,
       );
+    } else {
+      throw Functions.throwExceptionFromResponse(userSession, response);
+    }
+  }
+
+  /// Get city by name.
+  Future<City?> find({
+    required String search,
+  }) async {
+    late http.Request request;
+    request = http.Request(
+      'GET',
+      Uri.parse(
+        '$baseUrl/api/cities/?itemsPerPage=50&page=1&name=$search',
+      ),
+    );
+    request.headers.addAll(Services.headerAcceptldJson);
+    http.Response response = await HttpRequest.attemptHttpCall(request);
+    if (response.statusCode == 200) {
+      Map<dynamic, dynamic> result = jsonDecode(response.body);
+      try {
+        return List.from(result['hydra:member'])
+            .map((e) => City.fromMap(e))
+            .first;
+      } catch (e) {
+        return null;
+      }
     } else {
       throw Functions.throwExceptionFromResponse(userSession, response);
     }

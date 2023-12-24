@@ -88,6 +88,8 @@ class UserServices {
       if (userSession.uniqueRegisterNumber.isNotNullOrEmpty)
         'uniqueRegisterNumber': userSession.uniqueRegisterNumber,
       'preferenceList': userSession.preferences ?? [],
+      'countries': userSession.countries!.map((e) => e.id).toList(),
+      'cities': userSession.cities!.map((e) => e.id).toList(),
     };
     if (imageProfile != null) {
       await imageProfile.toBase64String().then((value) => body.addAll({

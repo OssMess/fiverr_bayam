@@ -33,6 +33,8 @@ class UserSession with ChangeNotifier {
   String? postalCode;
   String? region;
   String? country;
+  Set<Country>? countries;
+  Set<City>? cities;
   String? uniqueRegisterNumber;
   String? facebookUrl;
   String? linkedinUrl;
@@ -82,6 +84,8 @@ class UserSession with ChangeNotifier {
     required this.birthDate,
     required this.city,
     required this.country,
+    required this.countries,
+    required this.cities,
     required this.email,
     required this.facebookUrl,
     required this.linkedinUrl,
@@ -147,6 +151,8 @@ class UserSession with ChangeNotifier {
       birthDate: null,
       city: null,
       country: null,
+      countries: null,
+      cities: null,
       email: null,
       facebookUrl: null,
       linkedinUrl: null,
@@ -319,6 +325,8 @@ class UserSession with ChangeNotifier {
     birthDate = user.birthDate;
     city = user.city;
     country = user.country;
+    countries = user.countries;
+    cities = user.cities;
     email = user.email;
     facebookUrl = user.facebookUrl;
     linkedinUrl = user.linkedinUrl;
@@ -384,6 +392,10 @@ class UserSession with ChangeNotifier {
     birthDate = json['birthdate'];
     city = json['city'];
     country = json['country'];
+    countries = Set.from(json['countries'] ?? [])
+        .map((e) => Country.fromMap(e))
+        .toSet();
+    cities = Set.from(json['cities'] ?? []).map((e) => City.fromMap(e)).toSet();
     email = json['email'];
     facebookUrl = json['facebookUrl'];
     linkedinUrl = json['linkedinUrl'];
@@ -415,6 +427,46 @@ class UserSession with ChangeNotifier {
     await HiveTokens.clear();
     await HiveMessages.clear();
     notifyListeners();
+  }
+
+  Future<void> updateCountriesCities() async {
+    bool update = false;
+    if (listCities == null || listCountries == null) return;
+    GeoCodingLocation? geoCodingLocation;
+    if (await Permissions.getLocationEnabled() &&
+        await Permissions.getLocationPermission()) {
+      geoCodingLocation =
+          await GeoCodingLocation.getCurrentGeoCodingLocation('en');
+    } else {
+      geoCodingLocation = await GeoCodingLocation.getIPGeoCodingLocation('en');
+    }
+    if (geoCodingLocation == null) return;
+    try {
+      Country? country = await CountriesServices.of(this)
+          .find(search: geoCodingLocation.country!);
+      if (country != null &&
+          countries!.where((element) => element.id == country.id).isEmpty) {
+        countries!.add(country);
+        update = true;
+      }
+      // ignore: empty_catches
+    } catch (e) {}
+    try {
+      City? city =
+          await CitiesServices.of(this).find(search: geoCodingLocation.city!);
+      if (city != null &&
+          cities!.where((element) => element.id == city.id).isEmpty) {
+        cities!.add(city);
+        update = true;
+      }
+      // ignore: empty_catches
+    } catch (e) {}
+    try {
+      if (update) {
+        await UserServices.of(this).post();
+      }
+      // ignore: empty_catches
+    } catch (e) {}
   }
 
   String get displayName => companyName ?? '$firstName $lastName';

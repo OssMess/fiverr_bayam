@@ -13,13 +13,13 @@ class City {
   final String cityCountryName;
   final String latitude;
   final String longitude;
-  final String wikiDataId;
-  final String stateId;
-  final String stateCode;
-  final String stateName;
-  final String countryId;
-  final String countryCode;
-  final String countryName;
+  // final String wikiDataId;
+  // final String stateId;
+  // final String stateCode;
+  // final String stateName;
+  // final String countryId;
+  // final String countryCode;
+  // final String countryName;
 
   City({
     required this.id,
@@ -32,13 +32,13 @@ class City {
     required this.cityCountryName,
     required this.latitude,
     required this.longitude,
-    required this.wikiDataId,
-    required this.stateId,
-    required this.stateCode,
-    required this.stateName,
-    required this.countryId,
-    required this.countryCode,
-    required this.countryName,
+    // required this.wikiDataId,
+    // required this.stateId,
+    // required this.stateCode,
+    // required this.stateName,
+    // required this.countryId,
+    // required this.countryCode,
+    // required this.countryName,
   });
 
   factory City.fromMap(Map<dynamic, dynamic> json) => City(
@@ -52,13 +52,13 @@ class City {
         cityCountryName: json['country_name'],
         latitude: json['latitude'],
         longitude: json['longitude'],
-        wikiDataId: json['wikiDataId'],
-        stateId: json['stateId'],
-        stateCode: json['stateCode'],
-        stateName: json['stateName'],
-        countryId: json['countryId'],
-        countryCode: json['countryCode'],
-        countryName: json['countryName'],
+        // wikiDataId: json['wikiDataId'],
+        // stateId: json['stateId'],
+        // stateCode: json['stateCode'],
+        // stateName: json['stateName'],
+        // countryId: json['countryId'],
+        // countryCode: json['countryCode'],
+        // countryName: json['countryName'],
       );
 
   static City fromResponse(String body) => City.fromMap(jsonDecode(body));

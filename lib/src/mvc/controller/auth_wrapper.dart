@@ -50,7 +50,9 @@ class _AuthWrapperState extends State<AuthWrapper> {
     showSplashScreen = widget.showSplashScreen;
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (!context.mounted) return;
-      getGeoCodingLocation(context).then(
+      GeoCodingLocation.getIPGeoCodingLocation(
+        DateTimeUtils.of(context).languageCode,
+      ).then(
         (value) => geocodingLocation = value,
       );
       precacheImages(context);

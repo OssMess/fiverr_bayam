@@ -84,4 +84,31 @@ class CountriesServices {
       throw Functions.throwExceptionFromResponse(userSession, response);
     }
   }
+
+  /// Get country by name.
+  Future<Country?> find({
+    required String search,
+  }) async {
+    late http.Request request;
+    request = http.Request(
+      'GET',
+      Uri.parse(
+        '$baseUrl/api/countries/?itemsPerPage=50&page=1&name=$search',
+      ),
+    );
+    request.headers.addAll(Services.headerAcceptldJson);
+    http.Response response = await HttpRequest.attemptHttpCall(request);
+    if (response.statusCode == 200) {
+      Map<dynamic, dynamic> result = jsonDecode(response.body);
+      try {
+        return List.from(result['hydra:member'])
+            .map((e) => Country.fromMap(e))
+            .first;
+      } catch (e) {
+        return null;
+      }
+    } else {
+      throw Functions.throwExceptionFromResponse(userSession, response);
+    }
+  }
 }

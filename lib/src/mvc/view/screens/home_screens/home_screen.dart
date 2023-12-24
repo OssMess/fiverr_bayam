@@ -37,8 +37,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    // widget.userSession.listCities?.initData(callGet: true);
-    // widget.userSession.listCountries?.initData(callGet: true);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      widget.userSession.updateCountriesCities();
+    });
   }
 
   @override
