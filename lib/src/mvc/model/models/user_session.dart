@@ -60,6 +60,7 @@ class UserSession with ChangeNotifier {
   ListCategoriesSub? listCategoriesSub;
   ListCountries? listCountries;
   ListCities? listCities;
+  ListPlans? listPlans;
 
   UserSession({
     required this.authState,
@@ -101,6 +102,7 @@ class UserSession with ChangeNotifier {
     this.listCategoriesSub,
     this.listCountries,
     this.listCities,
+    this.listPlans,
   })  : _isVerified = isVerified,
         _isActive = isActive;
 
@@ -165,6 +167,7 @@ class UserSession with ChangeNotifier {
       listCategoriesSub: null,
       listCountries: null,
       listCities: null,
+      listPlans: null,
     );
     // AuthStateChange.save(user);
     if (authState == AuthState.awaiting) {
@@ -336,6 +339,7 @@ class UserSession with ChangeNotifier {
       listCategoriesSub = ListCategoriesSub(userSession: this);
       listCountries = ListCountries(userSession: this);
       listCities = ListCities(userSession: this);
+      listPlans = ListPlans(userSession: this);
     } else {
       listAdsPromoted = null;
       listDiscussions = null;
@@ -346,6 +350,7 @@ class UserSession with ChangeNotifier {
       listCategoriesSub = null;
       listCountries = null;
       listCities = null;
+      listPlans = null;
     }
     notifyListeners();
   }

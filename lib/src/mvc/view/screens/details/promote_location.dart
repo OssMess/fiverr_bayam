@@ -1,49 +1,82 @@
-//TODO delete
-import 'dart:math';
-
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../extensions.dart';
+import '../../../../tools.dart';
+import '../../../model/change_notifiers.dart';
 import '../../../model/enums.dart';
 import '../../../model/models.dart';
 import '../../model_widgets.dart';
-import '../../../../tools.dart';
 import '../../screens.dart';
 
+/// Business location setup.
 class PromoteLocation extends StatefulWidget {
   const PromoteLocation({
     super.key,
     required this.userSession,
     required this.ad,
-    required this.price,
-    required this.months,
+    required this.plan,
   });
 
   final UserSession userSession;
   final Ad ad;
-  final String price;
-  final int months;
+  final Plan plan;
 
   @override
-  State<PromoteLocation> createState() => _PromoteLocationState();
+  State<PromoteLocation> createState() => PromoteLocationState();
 }
 
-class _PromoteLocationState extends State<PromoteLocation> {
-  int typeLocationIndex = 1;
-  int popularLocationIndex = -1;
-  List<String> locations = [
-    'Yaoundé',
-    'douala',
-    'bafoussam',
-  ];
+class PromoteLocationState extends State<PromoteLocation> {
+  NotifierString locationNotifier = NotifierString.init('--');
+  LatLng? location;
+  NotifierBool isSearchingNotifier = NotifierBool.init(false);
+
+  /// A notifier to indicate whether the location is can be used or not.
+  /// It is used to show or hide the location floating action button.
+  NotifierBool locationEnabledNotifier = NotifierBool.init(false);
+
+  /// Map controller
+  GoogleMapController? googleMapController;
+
+  /// user current location
+  LatLng? currentLocation;
+
+  /// initial camera position on the map. Set to Danemark's capital.
+  CameraPosition initialCameraPosition = const CameraPosition(
+    target: LatLng(3.856911, 11.520441),
+    zoom: 10,
+  );
+
+  /// Current camera position on the map, updates as user moves the map.
+  CameraPosition? cameraPosition;
+
+  /// nearby zoom value.
+  final double zoomNearby = 13;
+
+  TextEditingController controller = TextEditingController();
+
+  @override
+  void initState() {
+    // location = widget.initialLocation;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    googleMapController?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
       appBar: AppBar(),
       body: Column(
@@ -56,181 +89,123 @@ class _PromoteLocationState extends State<PromoteLocation> {
               onTap: context.pop,
             ),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 32.sp),
-            child: AspectRatio(
-              aspectRatio: 2.5,
-              child: widget.ad.images.isNotEmpty
-                  ? CachedNetworkImage(
-                      imageUrl: widget.ad.imagesUrl.first,
-                      fit: BoxFit.cover,
-                      color: context.textTheme.headlineSmall!.color,
-                      progressIndicatorBuilder: (context, url, progress) =>
-                          Container(
-                        alignment: Alignment.center,
-                        child: CircularProgressIndicator(
-                          value: progress.progress,
-                          color: Styles.green,
-                        ),
-                      ),
-                      imageBuilder: (context, imageProvider) => Container(
-                        padding: EdgeInsets.all(8.sp),
-                        alignment: Alignment.topLeft,
-                        decoration: BoxDecoration(
-                          color: context.textTheme.headlineSmall!.color,
-                          borderRadius: BorderRadius.circular(14.sp),
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 10.sp,
-                            vertical: 6.sp,
-                          ),
-                          decoration: BoxDecoration(
-                            color: widget.ad.type.toBackgroundColor,
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          child: Text(
-                            widget.ad.type.translate(context),
-                            style: Styles.poppins(
-                              fontSize: 12.sp,
-                              fontWeight: Styles.semiBold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  : null,
+          Container(
+            color: context.scaffoldBackgroundColor,
+            padding: EdgeInsets.symmetric(
+              horizontal: 16.sp,
+            ).copyWith(bottom: 16.sp),
+            child: AnimatedBuilder(
+              animation: controller,
+              builder: (context, _) {
+                return CustomTextFormField(
+                  controller: controller,
+                  hintText: AppLocalizations.of(context)!.search,
+                  prefixIcon: AwesomeIcons.magnifying_glass,
+                  readOnly: true,
+                  suffixIcon: controller.text.isNotEmpty ? Icons.close : null,
+                  suffixOnTap: controller.text.isNotEmpty
+                      ? () => controller.text = ''
+                      : null,
+                  onTap: () => context.push(
+                    widget: PromoteLocationSearch(onPick: (place) {
+                      animateCamera(place.latlng);
+                      controller.text = place.formattedAddress;
+                    }),
+                  ),
+                );
+              },
             ),
           ),
           Expanded(
             child: Stack(
               children: [
+                GoogleMap(
+                  trafficEnabled: false,
+                  buildingsEnabled: false,
+                  indoorViewEnabled: false,
+                  liteModeEnabled: false,
+                  myLocationEnabled: false,
+                  myLocationButtonEnabled: true,
+                  zoomControlsEnabled: false,
+                  compassEnabled: false,
+                  mapToolbarEnabled: true,
+                  tiltGesturesEnabled: true,
+                  scrollGesturesEnabled: true,
+                  zoomGesturesEnabled: true,
+                  rotateGesturesEnabled: true,
+                  initialCameraPosition: initialCameraPosition,
+                  onMapCreated: (controller) async {
+                    googleMapController = controller;
+                    // googleMapController!.setMapStyle(mapStyle);
+                    if (location != null) {
+                      await animteCameraToLocation();
+                    } else {
+                      await initCurrentLocation();
+                    }
+                  },
+                  onCameraMove: (position) {
+                    locationNotifier.setValue(latlngToCoords(position.target));
+                    location = position.target;
+                  },
+                ),
                 Positioned.fill(
-                  child: Container(
-                    color: context.textTheme.headlineMedium!.color,
-                  ),
-                ),
-                Positioned(
-                  top: 0,
-                  width: 1.sw,
-                  height: 60.sp,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          context.scaffoldBackgroundColor,
-                          context.scaffoldBackgroundColor.withOpacity(0),
-                        ],
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 40.sp),
+                      child: SvgPicture.asset(
+                        'assets/icons/location_selected.svg',
+                        width: 40.sp,
+                        height: 40.sp,
+                        color: context.primaryColor,
                       ),
                     ),
                   ),
                 ),
-                Positioned(
-                  width: 1.sw,
-                  bottom: 0,
-                  child: Container(
-                    padding: EdgeInsets.only(
-                      top: 5.h,
-                      bottom: min(30.h, 15.h + Paddings.viewPadding.bottom),
-                    ),
-                    decoration: BoxDecoration(
-                      color: context.scaffoldBackgroundColor,
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(14.sp),
+              ],
+            ),
+          ),
+          Container(
+            color: context.scaffoldBackgroundColor,
+            padding: EdgeInsets.symmetric(
+              horizontal: 16.sp,
+              vertical: 16.sp,
+            ).add(
+              EdgeInsets.only(
+                bottom: context.viewPadding.bottom,
+              ),
+            ),
+            child: Column(
+              children: [
+                Text(
+                  AppLocalizations.of(context)!.pin_location,
+                  style: context.h2b1,
+                ),
+                16.heightSp,
+                ValueListenableBuilder(
+                  valueListenable: locationNotifier.notifier,
+                  builder: (context, location, _) {
+                    return Text(
+                      location,
+                      style: context.h4b1,
+                    );
+                  },
+                ),
+                16.heightSp,
+                CustomElevatedButton(
+                  label: AppLocalizations.of(context)!.continu,
+                  onPressed: () {
+                    if (location == null) return;
+                    context.push(
+                      widget: PromoteAd(
+                        userSession: widget.userSession,
+                        ad: widget.ad,
+                        plan: widget.plan,
+                        location: location!,
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: context.textTheme.headlineMedium!.color!
-                              .withOpacity(0.5),
-                          offset: const Offset(-2.0, -2.0),
-                          blurRadius: 12.0,
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          height: 5.sp,
-                          width: 150.sp,
-                          decoration: BoxDecoration(
-                            color: context.textTheme.displayMedium!.color,
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                        ),
-                        10.heightSp,
-                        AdRadioListTile(
-                          value: 0,
-                          groupValue: typeLocationIndex,
-                          title:
-                              AppLocalizations.of(context)!.my_current_location,
-                          subtitle: AppLocalizations.of(context)!
-                              .my_current_location_subtitle,
-                          onChanged: (value) {
-                            setState(() {
-                              typeLocationIndex = value!;
-                            });
-                          },
-                        ),
-                        AdRadioListTile(
-                          value: 1,
-                          groupValue: typeLocationIndex,
-                          title: AppLocalizations.of(context)!.manual_selection,
-                          subtitle: AppLocalizations.of(context)!
-                              .manual_selection_subtitle,
-                          onChanged: (value) {
-                            setState(() {
-                              typeLocationIndex = value!;
-                            });
-                          },
-                        ),
-                        10.heightSp,
-                        SizedBox(
-                          height: 34.sp,
-                          width: double.infinity,
-                          child: ListView.separated(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 35.w,
-                            ),
-                            itemBuilder: (context, index) => CustomChip<int>(
-                              value: index,
-                              groupValue: popularLocationIndex,
-                              title: locations[index],
-                              onChange: (index) => setState(
-                                () {
-                                  popularLocationIndex = index;
-                                },
-                              ),
-                            ),
-                            separatorBuilder: (context, index) => 12.widthSp,
-                            itemCount: locations.length,
-                          ),
-                        ),
-                        32.heightSp,
-                        CustomElevatedButton(
-                          label: AppLocalizations.of(context)!.continu,
-                          onPressed: () => context.pushReplacement(
-                            widget: PromoteAd(
-                              userSession: widget.userSession,
-                              ad: widget.ad,
-                              price: widget.price,
-                              months: widget.months,
-                            ),
-                          ),
-                        ),
-                        10.heightSp,
-                      ],
-                    ),
-                  ),
+                    );
+                    // widget.onPick(location!);
+                    // context.pop();
+                  },
                 ),
               ],
             ),
@@ -239,57 +214,50 @@ class _PromoteLocationState extends State<PromoteLocation> {
       ),
     );
   }
-}
 
-class AdRadioListTile extends StatelessWidget {
-  const AdRadioListTile({
-    super.key,
-    required this.value,
-    required this.groupValue,
-    required this.title,
-    required this.subtitle,
-    required this.onChanged,
-  });
+  String latlngToCoords(LatLng latlng) {
+    String lat = NumberFormat('0.######').format(latlng.latitude);
+    String lng = NumberFormat('0.######').format(latlng.longitude);
+    return '$lat,$lng';
+  }
 
-  final int value;
-  final int groupValue;
-  final String title;
-  final String subtitle;
-  final void Function(int?) onChanged;
+  /// Get map style based on device theme.
+  String get mapStyle {
+    // if (MediaQuery.of(context).platformBrightness == Brightness.light) {
+    return '[{"featureType": "poi.attraction","stylers": [{"visibility": "off"}]},{"featureType": "poi.business","stylers": [{"visibility": "off"}]},{"featureType": "poi.government","stylers": [{"visibility": "off"}]},{"featureType": "poi.medical","stylers": [{"visibility": "off"}]},{"featureType": "poi.place_of_worship","stylers": [{"visibility": "off"}]},{"featureType": "poi.school","stylers": [{"visibility": "off"}]},{"featureType": "poi.sports_complex","stylers": [{"visibility": "off"}]},{"featureType": "transit","stylers": [{"visibility": "off"}]}]';
+    // } else {
+    // return '[{"elementType": "geometry","stylers": [{"color": "#242f3e"}]},{"elementType": "labels.text.fill","stylers": [{"color": "#746855"}]},{"elementType": "labels.text.stroke","stylers": [{"color": "#242f3e"}]},{"featureType": "administrative.locality","elementType": "labels.text.fill","stylers": [{"color": "#d59563"}]},{"featureType": "poi","elementType": "labels.text.fill","stylers": [{"color": "#d59563"}]},{"featureType": "poi.attraction","stylers": [{"visibility": "off"}]},{"featureType": "poi.business","stylers": [{"visibility": "off"}]},{"featureType": "poi.government","stylers": [{"visibility": "off"}]},{"featureType": "poi.medical","stylers": [{"visibility": "off"}]},{"featureType": "poi.park","elementType": "geometry","stylers": [{"color": "#263c3f"}]},{"featureType": "poi.park","elementType": "labels.text.fill","stylers": [{"color": "#6b9a76"}]},{"featureType": "poi.place_of_worship","stylers": [{"visibility": "off"}]},{"featureType": "poi.school","stylers": [{"visibility": "off"}]},{"featureType": "poi.sports_complex","stylers": [{"visibility": "off"}]},{"featureType": "road","elementType": "geometry","stylers": [{"color": "#38414e"}]},{"featureType": "road","elementType": "geometry.stroke","stylers": [{"color": "#212a37"}]},{"featureType": "road","elementType": "labels.text.fill","stylers": [{"color": "#9ca5b3"}]},{"featureType": "road.highway","elementType": "geometry","stylers": [{"color": "#746855"}]},{"featureType": "road.highway","elementType": "geometry.stroke","stylers": [{"color": "#1f2835"}]},{"featureType": "road.highway","elementType": "labels.text.fill","stylers": [{"color": "#f3d19c"}]},{"featureType": "transit","stylers": [{"visibility": "off"}]},{"featureType": "transit","elementType": "geometry","stylers": [{"color": "#2f3948"}]},{"featureType": "transit.station","elementType": "labels.text.fill","stylers": [{"color": "#d59563"}]},{"featureType": "water","elementType": "geometry","stylers": [{"color": "#17263c"}]},{"featureType": "water","elementType": "labels.text.fill","stylers": [{"color": "#515c6d"}]},{"featureType": "water","elementType": "labels.text.stroke","stylers": [{"color": "#17263c"}]}]';
+    // }
+  }
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 35.w),
-      child: RadioListTile(
-        contentPadding: EdgeInsets.zero,
-        visualDensity: VisualDensity.compact,
-        value: value,
-        groupValue: groupValue,
-        onChanged: onChanged,
-        activeColor: Styles.green,
-        dense: true,
-        title: Text(
-          subtitle,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: Styles.poppins(
-            fontSize: 14.sp,
-            color: context.textTheme.displaySmall!.color,
-            fontWeight: Styles.medium,
-            height: 1.2,
-          ),
-        ),
-        subtitle: Text(
-          title,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: Styles.poppins(
-            fontSize: 16.sp,
-            color: context.textTheme.displayLarge!.color,
-            fontWeight: Styles.semiBold,
-            height: 1.2,
-          ),
+  Future<void> initCurrentLocation() async {
+    if (googleMapController == null) return;
+    if (await Permissions.of(context).showLocationEnabled()) {
+      locationEnabledNotifier.setValue(false);
+      return;
+    }
+    // ignore: use_build_context_synchronously
+    if (await Permissions.of(context).showLocationPermission()) {
+      locationEnabledNotifier.setValue(false);
+
+      return;
+    }
+    locationEnabledNotifier.setValue(true);
+    Position location = await Geolocator.getCurrentPosition();
+    currentLocation = LatLng(location.latitude, location.longitude);
+    await animateCamera(currentLocation!);
+  }
+
+  Future<void> animteCameraToLocation() async {
+    await animateCamera(location!);
+  }
+
+  Future<void> animateCamera(LatLng position) async {
+    await googleMapController!.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: position,
+          zoom: zoomNearby,
         ),
       ),
     );

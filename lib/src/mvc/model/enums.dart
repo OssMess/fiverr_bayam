@@ -12,7 +12,7 @@ export 'enums/lottie_animation.dart';
 export 'enums/app_notification_type.dart';
 export 'enums/person_view_page.dart';
 export 'enums/plan_duration.dart';
-export 'enums/plan_name.dart';
 export 'enums/plan_type.dart';
+export 'enums/plan_place.dart';
 export 'enums/search_tab.dart';
 export 'enums/filter_type.dart';

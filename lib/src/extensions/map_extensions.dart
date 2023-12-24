@@ -17,6 +17,8 @@ extension Mapextensions on Map<dynamic, dynamic> {
 
   Tag get toTag => Tag.fromMap(this);
 
+  Plan get toPlan => Plan.fromMap(this);
+
   Country get toCountry => Country.fromMap(this);
 
   City get toCity => City.fromMap(this);

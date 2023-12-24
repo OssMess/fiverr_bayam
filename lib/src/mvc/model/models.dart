@@ -17,5 +17,6 @@ export './models/ip_location.dart';
 export './models/message_2.dart';
 export './models/message.dart';
 export './models/tag.dart';
+export './models/plan.dart';
 export './models/user_min.dart';
 export './models/user_session.dart';

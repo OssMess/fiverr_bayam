@@ -35,8 +35,11 @@ extension StringExtension on String {
 
   PlanDuration get toPlanDuration => {
         'monthly': PlanDuration.monthly,
+        '30': PlanDuration.monthly,
         'biannual': PlanDuration.biannual,
+        '180': PlanDuration.biannual,
         'annual': PlanDuration.annual,
+        '360': PlanDuration.annual,
       }[this]!;
 
   AdCategory get toCategory => {
@@ -48,14 +51,15 @@ extension StringExtension on String {
         'rentalStorageFacilities': AdCategory.rentalStorageFacilities,
       }[this]!;
 
-  PlanType get toPlanType => {
-        'by_city': PlanType.byCity,
-        'by_country': PlanType.byCountry,
+  PlanPlace get toPlanPlace => {
+        'VILLE': PlanPlace.byCity,
+        //FIXME
+        'by_country': PlanPlace.byCountry,
       }[this]!;
-  PlanName get toPlanName => {
-        'basic': PlanName.basic,
-        'advanced': PlanName.advanced,
-        'unlimited': PlanName.unlimited,
+  PlanType get toPlanType => {
+        'BASE': PlanType.basic,
+        'ADVANCED': PlanType.advanced,
+        'ILLIMITED': PlanType.illimited,
       }[this]!;
 
   AppNotificationType get toAppNotificationType => {

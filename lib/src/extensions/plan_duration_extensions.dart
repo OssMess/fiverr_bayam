@@ -21,4 +21,10 @@ extension PlanDurationExtensions on PlanDuration {
         PlanDuration.biannual: 'biannual',
         PlanDuration.annual: 'annual',
       }[this]!;
+
+  int get months => {
+        PlanDuration.monthly: 1,
+        PlanDuration.biannual: 6,
+        PlanDuration.annual: 12,
+      }[this]!;
 }

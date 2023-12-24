@@ -12,8 +12,8 @@ import '../../../model/models_map.dart';
 import '../../model_widgets.dart';
 
 /// Place finder by address.
-class LocationPickerSearch extends StatefulWidget {
-  const LocationPickerSearch({
+class PromoteLocationSearch extends StatefulWidget {
+  const PromoteLocationSearch({
     super.key,
     required this.onPick,
   });
@@ -22,10 +22,10 @@ class LocationPickerSearch extends StatefulWidget {
   final void Function(Place) onPick;
 
   @override
-  State<LocationPickerSearch> createState() => _LocationPickerSearchState();
+  State<PromoteLocationSearch> createState() => _PromoteLocationSearchState();
 }
 
-class _LocationPickerSearchState extends State<LocationPickerSearch> {
+class _PromoteLocationSearchState extends State<PromoteLocationSearch> {
   NotifierBool notifierSearching = NotifierBool.init(false);
   TextEditingController controller = TextEditingController();
   List<PlaceAutoComplete>? places;

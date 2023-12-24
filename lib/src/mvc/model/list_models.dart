@@ -7,6 +7,7 @@ export 'list_models/list_categories.dart';
 export 'list_models/list_chatbot_messages.dart';
 export 'list_models/list_cities.dart';
 export 'list_models/list_countries.dart';
+export 'list_models/list_plans.dart';
 export 'list_models/list_data.dart';
 export 'list_models/list_discussions.dart';
 export 'list_models/list_faq.dart';

@@ -23,6 +23,7 @@
     "pin_location",
     "my_ads_empty",
     "select_ad_category",
-    "empty_ads"
+    "empty_ads",
+    "edit"
   ]
 }

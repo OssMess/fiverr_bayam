@@ -20,6 +20,8 @@ extension ResponseExtensions on Response {
 
   Tag get toTag => Tag.fromResponse(body);
 
+  Plan get toPlan => Plan.fromResponse(body);
+
   Country get toCountry => Country.fromResponse(body);
 
   City get toCity => City.fromResponse(body);

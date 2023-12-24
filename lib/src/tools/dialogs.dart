@@ -446,6 +446,7 @@ class Dialogs {
   }
 
   Future<void> showDialogAdsOptions(
+    BuildContext parentContent,
     UserSession userSession,
     Ad ad,
   ) async {
@@ -486,8 +487,8 @@ class Dialogs {
               title: AppLocalizations.of(context)!.promote,
               onTap: () {
                 context.pop();
-                context.push(
-                  widget: SubscribeScreen(
+                parentContent.push(
+                  widget: PromoteSubscribe(
                     userSession: userSession,
                     ad: ad,
                   ),

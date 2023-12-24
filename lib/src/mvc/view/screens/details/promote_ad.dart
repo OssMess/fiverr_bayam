@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -17,14 +18,14 @@ class PromoteAd extends StatefulWidget {
     super.key,
     required this.userSession,
     required this.ad,
-    required this.price,
-    required this.months,
+    required this.plan,
+    required this.location,
   });
 
   final UserSession userSession;
   final Ad ad;
-  final String price;
-  final int months;
+  final Plan plan;
+  final LatLng location;
 
   @override
   State<PromoteAd> createState() => _PromoteAdState();
@@ -44,7 +45,7 @@ class _PromoteAdState extends State<PromoteAd> {
     endDateController.text = DateFormat('dd/MM/yyyy').format(
       DateTime.now().add(
         Duration(
-          days: widget.months * 30,
+          days: widget.plan.months * 30,
         ),
       ),
       // DateTime(
@@ -122,7 +123,7 @@ class _PromoteAdState extends State<PromoteAd> {
                       ),
                       16.heightSp,
                       CustomTextFormFieldBounded(
-                        initialValue: widget.price,
+                        initialValue: widget.plan.price,
                         labelText: AppLocalizations.of(context)!.budget,
                         hintText: '\$',
                         validator: Validators.validateNumberInt,
@@ -135,7 +136,7 @@ class _PromoteAdState extends State<PromoteAd> {
                       Align(
                         alignment: AlignmentDirectional.centerStart,
                         child: Text(
-                          'Payment',
+                          AppLocalizations.of(context)!.payment,
                           style: Styles.poppins(
                             fontSize: 14.sp,
                             color: context.textTheme.displayMedium!.color,
@@ -175,7 +176,7 @@ class _PromoteAdState extends State<PromoteAd> {
                                 alignment: Alignment.center,
                                 color: context.textTheme.headlineSmall!.color,
                                 child: Text(
-                                  'Edit',
+                                  AppLocalizations.of(context)!.edit,
                                   style: Styles.poppins(
                                     fontSize: 16.sp,
                                     fontWeight: Styles.medium,
@@ -212,9 +213,8 @@ class _PromoteAdState extends State<PromoteAd> {
           id: widget.ad.uuid,
           startDate: startDate!,
           endDate: endDate!,
-          //TODO
-          content: '',
           budget: int.parse(budget!),
+          content: '',
         );
       },
       onComplete: (_) {

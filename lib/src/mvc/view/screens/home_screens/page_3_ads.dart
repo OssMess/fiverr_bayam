@@ -113,6 +113,7 @@ class Page3CompanyAds extends StatelessWidget {
 
   void onTapAdOptions(BuildContext context, Ad ad) {
     Dialogs.of(context).showDialogAdsOptions(
+      context,
       userSession,
       ad,
     );

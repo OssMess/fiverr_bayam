@@ -1,4 +1,5 @@
 enum PlanType {
-  byCity,
-  byCountry,
+  basic,
+  advanced,
+  illimited,
 }

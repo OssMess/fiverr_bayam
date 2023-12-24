@@ -339,6 +339,7 @@
   "my_ads_empty":"You have no ads for now, create your first.",
   "select_ad_category":"Select your ad category!",
   "empty_ads":"There are no ads at this moment. Try again later.",
+  "edit":"Edit",
 
   "@sent_nb_messages":{
     "placeholders":{
