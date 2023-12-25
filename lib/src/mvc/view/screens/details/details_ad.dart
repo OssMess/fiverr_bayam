@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -99,13 +98,9 @@ class _DetailsAdState extends State<DetailsAd> {
                             ),
                           ],
                           16.heightSp,
-                          DetailsDescriptionBanner(
-                            description: ad.content,
-                            address: ad.location,
-                            tags: ad.tags.map((e) => e.name).toList(),
-                            likes: ad.likes,
-                            date: DateFormat('dd-MM-yy').format(ad.createdAt),
-                            onLike: () => ad.like(widget.userSession),
+                          DetailsAdDescriptionBanner(
+                            userSession: widget.userSession,
+                            ad: widget.ad,
                           ),
                           if (ad.author.isCompany) ...[
                             16.heightSp,

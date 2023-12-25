@@ -18,7 +18,6 @@ class HttpRequest {
     Duration timeout = const Duration(seconds: 10),
     bool forceSkipRetries = false,
   }) async {
-    print(HiveTokens.authorization);
     request.headers.addAll({
       ...HiveCookies.valideCookies,
       if (!ignoreAuthorization) ...HiveTokens.authorization,

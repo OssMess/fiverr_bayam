@@ -139,7 +139,7 @@ class AdPromotedTile extends StatelessWidget {
                             DateFormat.YEAR_MONTH_DAY,
                             DateTimeUtils.of(context).getLanguageCode(),
                           ).format(
-                            DateTime.now(),
+                            adPromoted.startDate,
                           ),
                           style: Styles.poppins(
                             fontSize: 12.sp,
@@ -167,7 +167,7 @@ class AdPromotedTile extends StatelessWidget {
                             DateFormat.YEAR_MONTH_DAY,
                             DateTimeUtils.of(context).getLanguageCode(),
                           ).format(
-                            DateTime.now(),
+                            adPromoted.endDate,
                           ),
                           style: Styles.poppins(
                             fontSize: 12.sp,
