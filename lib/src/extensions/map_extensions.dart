@@ -1,9 +1,14 @@
 import '../mvc/model/models.dart';
 
 extension Mapextensions on Map<dynamic, dynamic> {
-  Ad toAd(UserSession userSession) => Ad.fromAd(this, userSession);
+  Ad toAdGet(UserSession userSession) => Ad.fromMapGet(this, userSession);
 
-  AdPromoted get toAdPromoted => AdPromoted.fromMap(this);
+  Ad toAdPost(UserSession userSession) => Ad.fromMapPost(this, userSession);
+
+  AdPromoted toAdPromoted(UserSession userSession) => AdPromoted.fromMap(
+        this,
+        userSession,
+      );
 
   Author get toAuthor => Author.fromMap(this);
 

@@ -41,19 +41,12 @@ class _PromoteAdState extends State<PromoteAd> {
   @override
   void initState() {
     super.initState();
-    startDateController.text = DateFormat('yyyy/MM/dd').format(DateTime.now());
-    endDateController.text = DateFormat('yyyy/MM/dd').format(
-      DateTime.now().add(
-        Duration(
-          days: widget.plan.months * 30,
-        ),
-      ),
-      // DateTime(
-      //   DateTime.now().year,
-      //   DateTime.now().month + 1,
-      //   0,
-      // ),
+    startDate = DateTime.now().add(const Duration(days: 1));
+    endDate = startDate!.add(
+      Duration(days: widget.plan.months * 30),
     );
+    startDateController.text = DateFormat('yyyy/MM/dd').format(startDate!);
+    endDateController.text = DateFormat('yyyy/MM/dd').format(endDate!);
   }
 
   @override
@@ -119,7 +112,7 @@ class _PromoteAdState extends State<PromoteAd> {
                         suffixIcon: AwesomeIcons.calendar,
                         validator: Validators.validateNotNull,
                         readOnly: true,
-                        onTap: pickEndDate,
+                        // onTap: pickEndDate,
                       ),
                       16.heightSp,
                       CustomTextFormFieldBounded(
@@ -219,7 +212,6 @@ class _PromoteAdState extends State<PromoteAd> {
       },
       onComplete: (adPromoted) {
         widget.userSession.listAdsPromoted!.insert(adPromoted!);
-        context.popUntilFirst();
         Dialogs.of(context).showCustomDialog(
           header: AppLocalizations.of(context)!.ad_thankyou_header,
           title: AppLocalizations.of(context)!.success,
@@ -227,7 +219,9 @@ class _PromoteAdState extends State<PromoteAd> {
           yesAct: ModelTextButton(
             label: AppLocalizations.of(context)!.continu,
             color: Styles.green,
-            onPressed: context.pop,
+            onPressed: () {
+              context.popUntilFirst();
+            },
           ),
         );
       },
@@ -243,11 +237,11 @@ class _PromoteAdState extends State<PromoteAd> {
     );
     if (pickedDate == null) return;
     startDate = pickedDate;
-    if (endDate != null && startDate!.isAfter(endDate!)) {
-      endDate = null;
-      endDateController.text = '';
-    }
-    startDateController.text = DateFormat('dd/MM/yyyy').format(pickedDate);
+    endDate = startDate!.add(
+      Duration(days: widget.plan.months * 30),
+    );
+    startDateController.text = DateFormat('yyyy/MM/dd').format(startDate!);
+    endDateController.text = DateFormat('yyyy/MM/dd').format(endDate!);
   }
 
   Future<void> pickEndDate() async {

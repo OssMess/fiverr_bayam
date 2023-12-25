@@ -67,8 +67,9 @@ class Functions {
       'user-not-found': AppLocalizations.of(context)!.user_not_found,
       'unique-register-number':
           AppLocalizations.of(context)!.unique_register_number,
+      'unknown-location': AppLocalizations.of(context)!.location_not_found
     };
-    return translation[exception] ??
+    return translation[exception.code] ??
         AppLocalizations.of(context)!.unknown_error;
   }
 

@@ -8,7 +8,10 @@ extension ResponseExtensions on Response {
   Ad toAdPost(UserSession userSession) =>
       Ad.fromResponsePost(body, userSession);
 
-  AdPromoted get toAdPromoted => AdPromoted.fromResponse(body);
+  AdPromoted toAdPromoted(UserSession userSession) => AdPromoted.fromResponse(
+        body,
+        userSession,
+      );
 
   Category get toCategory => Category.fromResponse(body);
 

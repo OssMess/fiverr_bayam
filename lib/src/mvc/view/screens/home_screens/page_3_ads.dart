@@ -25,7 +25,6 @@ class Page3CompanyAds extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ValueNotifier<AdsViewPage>>(
       builder: (context, viewPage, _) {
-        bool promotedAds = viewPage.value == AdsViewPage.promotedAds;
         bool myAds = viewPage.value == AdsViewPage.myAds;
         return NotificationListener<ScrollNotification>(
           onNotification: myAds
@@ -41,69 +40,128 @@ class Page3CompanyAds extends StatelessWidget {
             },
             child: CustomScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
-              slivers: [
-                16.sliverSp,
-                SliverHeaderTile(
-                  title: viewPage.value == AdsViewPage.myAds
-                      ? AppLocalizations.of(context)!.my_ads
-                      : AppLocalizations.of(context)!.promoted_ads,
-                  trailing: AppLocalizations.of(context)!.m_ago(3),
-                ),
-                16.sliverSp,
-                if (myAds) ...[
-                  ChangeNotifierProvider.value(
-                    value: userSession.listAdsMy,
-                    child: Consumer<ListAdsMy>(
-                      builder: (context, listAds, _) {
-                        listAds.initData(callGet: page == 2);
-                        if (listAds.isNull) {
-                          return const CustomLoadingIndicator(
-                            isSliver: true,
-                          );
-                        }
-                        if (listAds.isEmpty) {
-                          return SliverToBoxAdapter(
-                            child: EmptyListView(
-                              title: AppLocalizations.of(context)!.my_ads_empty,
-                              svgPath: 'assets/images/Empty-pana.svg',
-                            ),
-                          );
-                        }
-                        return SliverPadding(
-                          padding: EdgeInsets.symmetric(horizontal: 16.sp),
-                          sliver: SliverList.separated(
-                            itemCount: listAds.childCount,
-                            separatorBuilder: (context, index) => 12.heightSp,
-                            itemBuilder: (_, index) {
-                              if (index < listAds.length) {
-                                return AdTile(
-                                  userSession: userSession,
-                                  ad: listAds.elementAt(index),
-                                  expanded: true,
-                                  showDates: promotedAds,
-                                  onTapOptions: () => onTapAdOptions(
-                                    context,
-                                    listAds.elementAt(index),
-                                  ),
-                                );
-                              } else {
-                                return CustomTrailingTile(
-                                  isNotNull: listAds.isNotNull,
-                                  isLoading: listAds.isLoading,
-                                  hasMore: listAds.hasMore,
-                                  isSliver: false,
-                                );
-                              }
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  70.sliverSp,
-                ],
-                (context.viewPadding.bottom + 20.sp).sliver,
-              ],
+              slivers: myAds
+                  ? [
+                      16.sliverSp,
+                      SliverHeaderTile(
+                        title: AppLocalizations.of(context)!.my_ads,
+                        trailing: AppLocalizations.of(context)!.m_ago(3),
+                      ),
+                      16.sliverSp,
+                      ChangeNotifierProvider.value(
+                        value: userSession.listAdsMy,
+                        child: Consumer<ListAdsMy>(
+                          builder: (context, listAds, _) {
+                            listAds.initData(callGet: page == 2);
+                            if (listAds.isNull) {
+                              return const CustomLoadingIndicator(
+                                isSliver: true,
+                              );
+                            }
+                            if (listAds.isEmpty) {
+                              return SliverToBoxAdapter(
+                                child: EmptyListView(
+                                  title: AppLocalizations.of(context)!
+                                      .my_ads_empty,
+                                  svgPath: 'assets/images/Empty-pana.svg',
+                                ),
+                              );
+                            }
+                            return SliverPadding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.sp),
+                              sliver: SliverList.separated(
+                                itemCount: listAds.childCount,
+                                separatorBuilder: (context, index) =>
+                                    12.heightSp,
+                                itemBuilder: (_, index) {
+                                  if (index < listAds.length) {
+                                    return AdTile(
+                                      userSession: userSession,
+                                      ad: listAds.elementAt(index),
+                                      expanded: true,
+                                      onTapOptions: () => onTapAdOptions(
+                                        context,
+                                        listAds.elementAt(index),
+                                      ),
+                                    );
+                                  } else {
+                                    return CustomTrailingTile(
+                                      isNotNull: listAds.isNotNull,
+                                      isLoading: listAds.isLoading,
+                                      hasMore: listAds.hasMore,
+                                      isSliver: false,
+                                    );
+                                  }
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      70.sliverSp,
+                      (context.viewPadding.bottom + 20.sp).sliver,
+                    ]
+                  : [
+                      16.sliverSp,
+                      SliverHeaderTile(
+                        title: AppLocalizations.of(context)!.promoted_ads,
+                        trailing: AppLocalizations.of(context)!.m_ago(3),
+                      ),
+                      16.sliverSp,
+                      ChangeNotifierProvider.value(
+                        value: userSession.listAdsPromoted,
+                        child: Consumer<ListAdsPromoted>(
+                          builder: (context, listAdsPromoted, _) {
+                            listAdsPromoted.initData(callGet: page == 2);
+                            if (listAdsPromoted.isNull) {
+                              return const CustomLoadingIndicator(
+                                isSliver: true,
+                              );
+                            }
+                            if (listAdsPromoted.isEmpty) {
+                              return SliverToBoxAdapter(
+                                child: EmptyListView(
+                                  title: AppLocalizations.of(context)!
+                                      .my_ads_promoted_empty,
+                                  svgPath: 'assets/images/Empty-pana.svg',
+                                ),
+                              );
+                            }
+                            return SliverPadding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.sp),
+                              sliver: SliverList.separated(
+                                itemCount: listAdsPromoted.childCount,
+                                separatorBuilder: (context, index) =>
+                                    12.heightSp,
+                                itemBuilder: (_, index) {
+                                  if (index < listAdsPromoted.length) {
+                                    return AdPromotedTile(
+                                      userSession: userSession,
+                                      adPromoted:
+                                          listAdsPromoted.elementAt(index),
+                                      expanded: true,
+                                      onTapOptions: () => onTapAdOptions(
+                                        context,
+                                        listAdsPromoted.elementAt(index).ad,
+                                      ),
+                                    );
+                                  } else {
+                                    return CustomTrailingTile(
+                                      isNotNull: listAdsPromoted.isNotNull,
+                                      isLoading: listAdsPromoted.isLoading,
+                                      hasMore: listAdsPromoted.hasMore,
+                                      isSliver: false,
+                                    );
+                                  }
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      70.sliverSp,
+                      (context.viewPadding.bottom + 20.sp).sliver,
+                    ],
             ),
           ),
         );

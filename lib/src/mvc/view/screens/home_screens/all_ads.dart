@@ -93,7 +93,6 @@ class AllAds extends StatelessWidget {
                                   userSession: userSession,
                                   ad: listAds.elementAt(index),
                                   expanded: true,
-                                  showDates: false,
                                 );
                               } else {
                                 return CustomTrailingTile(
@@ -105,7 +104,6 @@ class AllAds extends StatelessWidget {
                               }
                             },
                           );
-                          //FIXME add trailing tile
                         },
                       ),
                     ),

@@ -1,4 +1,5 @@
 export 'tiles/ad_tile.dart';
+export 'tiles/ad_promoted_tile.dart';
 export 'tiles/category_tile.dart';
 export 'tiles/discussion_tile.dart';
 export 'tiles/company_tile.dart';

@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../../../extensions.dart';
@@ -10,44 +12,44 @@ import '../model_widgets.dart';
 import '../screens.dart';
 import '../tiles_models.dart';
 
-class AdTile extends StatelessWidget {
-  const AdTile({
+class AdPromotedTile extends StatelessWidget {
+  const AdPromotedTile({
     super.key,
     required this.userSession,
-    required this.ad,
+    required this.adPromoted,
     this.expanded = false,
     this.onTapOptions,
   });
 
   final UserSession userSession;
-  final Ad ad;
+  final AdPromoted adPromoted;
   final bool expanded;
   final void Function()? onTapOptions;
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-      value: ad,
-      child: Consumer<Ad>(
-        builder: (context, ad, _) {
+      value: adPromoted,
+      child: Consumer<AdPromoted>(
+        builder: (context, adPromoted, _) {
           return CustomElevatedContainer(
             onTap: () => context.push(
               widget: DetailsAd(
                 userSession: userSession,
-                ad: ad,
+                ad: adPromoted.ad,
               ),
             ),
             width: expanded ? double.infinity : 280.sp,
-            height: expanded ? 280.sp : null,
+            height: expanded ? 325.sp : null,
             padding: EdgeInsets.all(10.sp),
             borderRadius: BorderRadius.circular(10.sp),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: ad.imagesUrl.isNotEmpty
+                  child: adPromoted.ad.imagesUrl.isNotEmpty
                       ? CachedNetworkImage(
-                          imageUrl: ad.imagesUrl.first,
+                          imageUrl: adPromoted.ad.imagesUrl.first,
                           fit: BoxFit.cover,
                           color: context.textTheme.headlineSmall!.color,
                           progressIndicatorBuilder: (context, url, progress) =>
@@ -75,11 +77,11 @@ class AdTile extends StatelessWidget {
                                 vertical: 6.sp,
                               ),
                               decoration: BoxDecoration(
-                                color: ad.type.toBackgroundColor,
+                                color: adPromoted.ad.type.toBackgroundColor,
                                 borderRadius: BorderRadius.circular(50),
                               ),
                               child: Text(
-                                ad.type.translate(context),
+                                adPromoted.ad.type.translate(context),
                                 style: Styles.poppins(
                                   fontSize: 14.sp,
                                   fontWeight: Styles.semiBold,
@@ -93,7 +95,7 @@ class AdTile extends StatelessWidget {
                 ),
                 8.heightSp,
                 Text(
-                  ad.content,
+                  adPromoted.ad.content,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: Styles.poppins(
@@ -108,11 +110,75 @@ class AdTile extends StatelessWidget {
                 ),
                 8.heightSp,
                 CompanyHeaderTile(
-                  name: ad.author.displayName,
-                  logoUrl: ad.author.imageUrl,
-                  isVerified: ad.author.isVerified,
+                  name: adPromoted.ad.author.displayName,
+                  logoUrl: adPromoted.ad.author.imageUrl,
+                  isVerified: adPromoted.ad.author.isVerified,
                   trailingUrl: null,
                   onTapOptions: onTapOptions,
+                ),
+                CustomDivider(
+                  padding: EdgeInsets.symmetric(vertical: 8.sp),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          AppLocalizations.of(context)!.start_date,
+                          style: Styles.poppins(
+                            fontSize: 12.sp,
+                            color: context.textTheme.displayMedium!.color,
+                            fontWeight: Styles.medium,
+                            height: 1.2,
+                          ),
+                        ),
+                        Text(
+                          DateFormat(
+                            DateFormat.YEAR_MONTH_DAY,
+                            DateTimeUtils.of(context).getLanguageCode(),
+                          ).format(
+                            DateTime.now(),
+                          ),
+                          style: Styles.poppins(
+                            fontSize: 12.sp,
+                            color: context.textTheme.displayLarge!.color,
+                            fontWeight: Styles.semiBold,
+                            height: 1.2,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          AppLocalizations.of(context)!.end_date,
+                          style: Styles.poppins(
+                            fontSize: 12.sp,
+                            color: context.textTheme.displayMedium!.color,
+                            fontWeight: Styles.medium,
+                            height: 1.2,
+                          ),
+                        ),
+                        Text(
+                          DateFormat(
+                            DateFormat.YEAR_MONTH_DAY,
+                            DateTimeUtils.of(context).getLanguageCode(),
+                          ).format(
+                            DateTime.now(),
+                          ),
+                          style: Styles.poppins(
+                            fontSize: 12.sp,
+                            color: context.textTheme.displayLarge!.color,
+                            fontWeight: Styles.semiBold,
+                            height: 1.2,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ],
             ),

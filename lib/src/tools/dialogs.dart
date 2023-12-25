@@ -176,7 +176,7 @@ class Dialogs {
           rethrow;
         } on BackendException catch (e) {
           if (kDebugMode) {
-            print(e);
+            print(e.code);
           }
           Dialogs.of(context).handleBackendException(
             exception: e,

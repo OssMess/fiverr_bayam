@@ -22,8 +22,10 @@
     "locations_empty",
     "pin_location",
     "my_ads_empty",
+    "my_ads_promoted_empty",
     "select_ad_category",
     "empty_ads",
-    "edit"
+    "edit",
+    "location_not_found"
   ]
 }

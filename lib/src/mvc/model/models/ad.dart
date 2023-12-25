@@ -14,7 +14,7 @@ Ad jsonToAd(
   Map<dynamic, dynamic> json,
   UserSession userSession,
 ) =>
-    Ad.fromAd(json, userSession);
+    Ad.fromMapGet(json, userSession);
 
 class Ad with ChangeNotifier {
   String uuid;
@@ -114,7 +114,7 @@ class Ad with ChangeNotifier {
         ),
       );
 
-  factory Ad.fromAd(
+  factory Ad.fromMapGet(
     Map<dynamic, dynamic> json,
     UserSession userSession,
   ) =>
@@ -170,14 +170,14 @@ class Ad with ChangeNotifier {
         'type': type.key,
         'tags': tags.map((e) => e.name).toList(),
         'isAds': false,
-        'video': 'h',
+        // 'video': 'h',
       };
 
   static Ad fromResponse(
     String body,
     UserSession userSession,
   ) =>
-      Ad.fromAd(
+      Ad.fromMapGet(
         jsonDecode(body),
         userSession,
       );

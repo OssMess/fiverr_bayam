@@ -19,6 +19,7 @@ class ProfileHeader extends StatelessWidget {
     this.description,
     this.actions,
     this.margin,
+    this.onTapImage,
     this.onTapDescription,
   });
 
@@ -30,6 +31,7 @@ class ProfileHeader extends StatelessWidget {
   final String? description;
   final List<ModelIconButton>? actions;
   final EdgeInsetsGeometry? margin;
+  final void Function()? onTapImage;
   final void Function()? onTapDescription;
 
   @override
@@ -57,10 +59,13 @@ class ProfileHeader extends StatelessWidget {
               end: 4.sp,
             ),
             showBadge: true,
-            child: CircleAvatar(
-              radius: 55.sp,
-              backgroundColor: context.textTheme.headlineSmall!.color,
-              foregroundImage: imageProfile,
+            child: InkResponse(
+              onTap: onTapImage,
+              child: CircleAvatar(
+                radius: 55.sp,
+                backgroundColor: context.textTheme.headlineSmall!.color,
+                foregroundImage: imageProfile,
+              ),
             ),
           ),
           12.heightSp,

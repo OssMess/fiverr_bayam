@@ -337,9 +337,11 @@
   "locations_empty":"No results found!\nTry another search",
   "pin_location":"Pin your ad location",
   "my_ads_empty":"You have no ads for now, create your first.",
+  "my_ads_promoted_empty":"You have no promoted ads for now.",
   "select_ad_category":"Select your ad category!",
   "empty_ads":"There are no ads at this moment. Try again later.",
   "edit":"Edit",
+  "location_not_found":"Location not found! Please pick another location and try again.",
 
   "@sent_nb_messages":{
     "placeholders":{

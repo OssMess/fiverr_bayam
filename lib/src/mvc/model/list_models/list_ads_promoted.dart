@@ -1,3 +1,4 @@
+import '../../controller/services.dart';
 import '../list_models.dart';
 import '../models.dart';
 
@@ -9,11 +10,10 @@ class ListAdsPromoted extends SetPaginationClasses<AdPromoted> {
     required int page,
     required bool refresh,
   }) async {
-    // Set<Ad> result = await AdPromotedServices.get();
-    // super.update(
-    //   result,
-    //   false,
-    //   refresh,
-    // );
+    await AdPromotedServices.of(userSession).getAdsPromoted(
+      page: page,
+      refresh: refresh,
+      update: super.update,
+    );
   }
 }
