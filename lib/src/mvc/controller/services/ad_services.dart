@@ -113,7 +113,7 @@ class AdServices {
   }
 
   /// Get ad by [id].
-  Future<Ad> get(String id) async {
+  Future<Ad> getById(String id) async {
     var request = http.Request(
       'GET',
       Uri.parse(
@@ -134,7 +134,7 @@ class AdServices {
     }
   }
 
-  Future<void> getAds({
+  Future<void> get({
     required int page,
     required bool refresh,
     required void Function(
@@ -174,7 +174,7 @@ class AdServices {
     }
   }
 
-  Future<void> getAdsMy({
+  Future<void> getMy({
     required int page,
     required bool refresh,
     required void Function(

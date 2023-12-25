@@ -16,6 +16,7 @@ class ListMessages extends SetPaginationClasses<Message> {
   Future<void> get({
     required int page,
     required bool refresh,
+    void Function()? onComplete,
   }) async {
     await MessageServices.of(userSession).get(
       uid: userSession.uid!,
@@ -26,5 +27,8 @@ class ListMessages extends SetPaginationClasses<Message> {
       refresh: refresh,
       update: super.update,
     );
+    if (onComplete != null) {
+      onComplete();
+    }
   }
 }

@@ -52,6 +52,7 @@ abstract class SetPaginationClasses<T> with ChangeNotifier {
   /// if [callGet] is `true` proceed with query, else break.
   Future<void> initData({
     required bool callGet,
+    void Function()? onComplete,
   }) async {
     if (!callGet) return;
     if (!isNull) return;
@@ -60,6 +61,7 @@ abstract class SetPaginationClasses<T> with ChangeNotifier {
     await get(
       page: currentPage,
       refresh: false,
+      onComplete: onComplete,
     );
   }
 
@@ -67,6 +69,7 @@ abstract class SetPaginationClasses<T> with ChangeNotifier {
   Future<void> get({
     required int page,
     required bool refresh,
+    void Function()? onComplete,
   });
 
   /// Get more data, uses pagination.
@@ -82,7 +85,7 @@ abstract class SetPaginationClasses<T> with ChangeNotifier {
   }
 
   /// Refresh data.
-  Future<void> refresh() async {
+  Future<void> refresh([void Function()? onComplete]) async {
     if (isLoading) return;
     totalElements = -1;
     currentPage = 0;
@@ -91,6 +94,7 @@ abstract class SetPaginationClasses<T> with ChangeNotifier {
     await get(
       page: currentPage,
       refresh: true,
+      onComplete: onComplete,
     );
   }
 

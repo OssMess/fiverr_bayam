@@ -14,6 +14,7 @@ class ListAdComments extends SetPaginationClasses<AdComment> {
   Future<void> get({
     required int page,
     required bool refresh,
+    void Function()? onComplete,
   }) async {
     await AdServices.of(userSession).getAdComments(
       adId: adId,
@@ -21,5 +22,8 @@ class ListAdComments extends SetPaginationClasses<AdComment> {
       refresh: refresh,
       update: super.update,
     );
+    if (onComplete != null) {
+      onComplete();
+    }
   }
 }

@@ -98,7 +98,47 @@ class AdPromotedServices {
     }
   }
 
-  Future<void> getAdsPromoted({
+  Future<void> getMy({
+    required int page,
+    required bool refresh,
+    required void Function(
+      Set<AdPromoted>, //result
+      int, //totalPages
+      int, // currentPage
+      bool, // error,
+      bool, // refresh,
+    ) update,
+  }) async {
+    var request = http.Request(
+      'GET',
+      Uri.parse(
+        '$baseUrl/api/ads/', //?page=${page + 1}',
+      ),
+    );
+    request.headers.addAll(
+      Services.headerAcceptldJson,
+    );
+    http.Response response = await HttpRequest.attemptHttpCall(
+      request,
+      forceSkipRetries: true,
+    );
+    if (response.statusCode == 200) {
+      Map<dynamic, dynamic> result = jsonDecode(response.body);
+      update(
+        List.from(result['hydra:member'])
+            .map((json) => AdPromoted.fromMap(json, userSession))
+            .toSet(),
+        result['hydra:totalItems'],
+        page + 1,
+        false,
+        refresh,
+      );
+    } else {
+      throw Functions.throwExceptionFromResponse(userSession, response);
+    }
+  }
+
+  Future<void> get({
     required int page,
     required bool refresh,
     required void Function(

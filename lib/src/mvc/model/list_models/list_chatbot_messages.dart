@@ -11,6 +11,7 @@ class ListChatBotMessages extends SetClasses<Message> {
   @override
   Future<void> get({
     required bool refresh,
+    void Function()? onComplete,
   }) async {
     super.update(
       HiveMessages.getListMessagesById(('chatbot')).toSet(),

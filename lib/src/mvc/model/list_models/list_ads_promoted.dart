@@ -9,11 +9,15 @@ class ListAdsPromoted extends SetPaginationClasses<AdPromoted> {
   Future<void> get({
     required int page,
     required bool refresh,
+    void Function()? onComplete,
   }) async {
-    await AdPromotedServices.of(userSession).getAdsPromoted(
+    await AdPromotedServices.of(userSession).getMy(
       page: page,
       refresh: refresh,
       update: super.update,
     );
+    if (onComplete != null) {
+      onComplete();
+    }
   }
 }

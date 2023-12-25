@@ -115,7 +115,7 @@
   "show_all":"Show all",
   "you_have_nb_new_messages":"You have {nb} new messages",
   "now":"Now",
-  "m_ago":"{nb, plural, =1{1 minute} other{{nb} minutes}} ago",
+  "m_ago":"{nb, plural, =0{moments} =1{1 minute} other{{nb} minutes}} ago",
   "h_ago":"{nb, plural, =1{1 hour} other{{nb} hours}} ago",
   "d_ago":"{nb, plural, =1{1 day} other{{nb} days}} ago",
   "nb_results":"{nb, plural, =1{1 result} other{{nb} results}}",

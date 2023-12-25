@@ -12,12 +12,16 @@ class ListPlans extends SetPaginationClasses<Plan> {
   Future<void> get({
     required int page,
     required bool refresh,
+    void Function()? onComplete,
   }) async {
     await PlanServices.of(userSession).get(
       page: page,
       refresh: refresh,
       update: super.update,
     );
+    if (onComplete != null) {
+      onComplete();
+    }
   }
 
   Iterable<Plan> get monthlyCity => list

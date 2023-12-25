@@ -14,6 +14,7 @@ class ListCities extends SetPaginationClasses<City> {
   Future<void> get({
     required int page,
     required bool refresh,
+    void Function()? onComplete,
   }) async {
     await CitiesServices.of(userSession).get(
       search: search,
@@ -21,6 +22,9 @@ class ListCities extends SetPaginationClasses<City> {
       refresh: refresh,
       update: super.update,
     );
+    if (onComplete != null) {
+      onComplete();
+    }
   }
 
   Future<void> onUpdateSearch(String search) async {

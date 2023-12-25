@@ -11,7 +11,7 @@ import '../../../model/models.dart';
 import '../../model_widgets.dart';
 import '../../tiles.dart';
 
-class Page3CompanyAds extends StatelessWidget {
+class Page3CompanyAds extends StatefulWidget {
   const Page3CompanyAds({
     super.key,
     required this.userSession,
@@ -22,20 +22,31 @@ class Page3CompanyAds extends StatelessWidget {
   final int page;
 
   @override
+  State<Page3CompanyAds> createState() => _Page3CompanyAdsState();
+}
+
+class _Page3CompanyAdsState extends State<Page3CompanyAds> {
+  ValueNotifier<DateTime?> lastFetchNotifier = ValueNotifier<DateTime?>(null);
+
+  @override
   Widget build(BuildContext context) {
     return Consumer<ValueNotifier<AdsViewPage>>(
       builder: (context, viewPage, _) {
         bool myAds = viewPage.value == AdsViewPage.myAds;
         return NotificationListener<ScrollNotification>(
           onNotification: myAds
-              ? userSession.listAdsMy?.onMaxScrollExtent
-              : userSession.listAdsPromoted?.onMaxScrollExtent,
+              ? widget.userSession.listAdsMy?.onMaxScrollExtent
+              : widget.userSession.listAdsPromoted?.onMaxScrollExtent,
           child: CustomRefreshIndicator(
             onRefresh: () async {
               if (myAds) {
-                await userSession.listAdsMy?.refresh();
+                await widget.userSession.listAdsMy?.refresh(
+                  () => lastFetchNotifier.value = DateTime.now(),
+                );
               } else {
-                await userSession.listAdsPromoted?.refresh();
+                await widget.userSession.listAdsPromoted?.refresh(
+                  () => lastFetchNotifier.value = DateTime.now(),
+                );
               }
             },
             child: CustomScrollView(
@@ -43,16 +54,29 @@ class Page3CompanyAds extends StatelessWidget {
               slivers: myAds
                   ? [
                       16.sliverSp,
-                      SliverHeaderTile(
-                        title: AppLocalizations.of(context)!.my_ads,
-                        trailing: AppLocalizations.of(context)!.m_ago(3),
+                      ValueListenableBuilder(
+                        valueListenable: lastFetchNotifier,
+                        builder: (context, value, _) {
+                          return SliverHeaderTile(
+                            title: AppLocalizations.of(context)!.my_ads,
+                            trailing: value == null
+                                ? null
+                                : AppLocalizations.of(context)!.m_ago(
+                                    DateTime.now().difference(value).inMinutes),
+                          );
+                        },
                       ),
                       16.sliverSp,
                       ChangeNotifierProvider.value(
-                        value: userSession.listAdsMy,
+                        value: widget.userSession.listAdsMy,
                         child: Consumer<ListAdsMy>(
                           builder: (context, listAds, _) {
-                            listAds.initData(callGet: page == 2);
+                            listAds.initData(
+                              callGet: widget.page == 2,
+                              onComplete: () {
+                                lastFetchNotifier.value = DateTime.now();
+                              },
+                            );
                             if (listAds.isNull) {
                               return const CustomLoadingIndicator(
                                 isSliver: true,
@@ -76,7 +100,7 @@ class Page3CompanyAds extends StatelessWidget {
                                 itemBuilder: (_, index) {
                                   if (index < listAds.length) {
                                     return AdTile(
-                                      userSession: userSession,
+                                      userSession: widget.userSession,
                                       ad: listAds.elementAt(index),
                                       expanded: true,
                                       onTapOptions: () => onTapAdOptions(
@@ -103,16 +127,30 @@ class Page3CompanyAds extends StatelessWidget {
                     ]
                   : [
                       16.sliverSp,
-                      SliverHeaderTile(
-                        title: AppLocalizations.of(context)!.promoted_ads,
-                        trailing: AppLocalizations.of(context)!.m_ago(3),
-                      ),
+                      ValueListenableBuilder(
+                          valueListenable: lastFetchNotifier,
+                          builder: (context, value, _) {
+                            return SliverHeaderTile(
+                              title: AppLocalizations.of(context)!.promoted_ads,
+                              trailing: value == null
+                                  ? null
+                                  : AppLocalizations.of(context)!.m_ago(
+                                      DateTime.now()
+                                          .difference(value)
+                                          .inMinutes),
+                            );
+                          }),
                       16.sliverSp,
                       ChangeNotifierProvider.value(
-                        value: userSession.listAdsPromoted,
+                        value: widget.userSession.listAdsPromoted,
                         child: Consumer<ListAdsPromoted>(
                           builder: (context, listAdsPromoted, _) {
-                            listAdsPromoted.initData(callGet: page == 2);
+                            listAdsPromoted.initData(
+                              callGet: widget.page == 2,
+                              onComplete: () {
+                                lastFetchNotifier.value = DateTime.now();
+                              },
+                            );
                             if (listAdsPromoted.isNull) {
                               return const CustomLoadingIndicator(
                                 isSliver: true,
@@ -136,7 +174,7 @@ class Page3CompanyAds extends StatelessWidget {
                                 itemBuilder: (_, index) {
                                   if (index < listAdsPromoted.length) {
                                     return AdPromotedTile(
-                                      userSession: userSession,
+                                      userSession: widget.userSession,
                                       adPromoted:
                                           listAdsPromoted.elementAt(index),
                                       expanded: true,
@@ -172,7 +210,7 @@ class Page3CompanyAds extends StatelessWidget {
   void onTapAdOptions(BuildContext context, Ad ad) {
     Dialogs.of(context).showDialogAdsOptions(
       context,
-      userSession,
+      widget.userSession,
       ad,
     );
   }

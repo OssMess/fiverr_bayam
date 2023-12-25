@@ -38,6 +38,7 @@ abstract class SetClasses<T> with ChangeNotifier {
   /// if [callGet] is `true` proceed with query, else break.
   Future<void> initData({
     required bool callGet,
+    void Function()? onComplete,
   }) async {
     if (!callGet) return;
     if (!isNull) return;
@@ -45,21 +46,26 @@ abstract class SetClasses<T> with ChangeNotifier {
     isLoading = true;
     await get(
       refresh: false,
+      onComplete: onComplete,
     );
   }
 
   /// call get to retrieve data from backend.
   Future<void> get({
     required bool refresh,
+    void Function()? onComplete,
   });
 
   /// Refresh data.
-  Future<void> refresh() async {
+  Future<void> refresh([
+    void Function()? onComplete,
+  ]) async {
     if (isLoading) return;
     hasError = false;
     isLoading = true;
     await get(
       refresh: true,
+      onComplete: onComplete,
     );
   }
 
