@@ -63,8 +63,6 @@ class Discussion with ChangeNotifier {
 
   String get displayName => receiver.displayName;
 
-  bool get isOnline => false;
-
   bool get isSeen => true;
 
   ImageProvider<Object>? get image => receiver.image;

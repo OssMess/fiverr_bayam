@@ -147,4 +147,28 @@ class UserServices {
       );
     }
   }
+
+  Future<void> updateLastSeen() async {
+    if (!userSession.isAuthenticated) return;
+    var request = http.Request(
+      'PATCH',
+      Uri.parse(
+        '$baseUrl/api/users/update-last-seen',
+      ),
+    );
+    request.headers.addAll({
+      HttpHeaders.contentTypeHeader: Services.mergePatchJson,
+      ...Services.headerAcceptldJson,
+    });
+    var body = {};
+    request.body = json.encode(body);
+    http.Response response = await HttpRequest.attemptHttpCall(
+      request,
+      retries: 0,
+      timeout: const Duration(seconds: 100),
+    );
+    if (response.statusCode != 200) {
+      throw Functions.throwExceptionFromResponse(userSession, response);
+    }
+  }
 }

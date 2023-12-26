@@ -344,6 +344,11 @@
   "edit":"Edit",
   "location_not_found":"Location not found! Please pick another location and try again.",
   "ad_deleted":"You ad has been deleted.",
+  "moments_ago":"Moments ago",
+  "m":"{nb}m",
+  "h":"{nb}h",
+  "d":"{nb}d",
+
 
   "@sent_nb_messages":{
     "placeholders":{

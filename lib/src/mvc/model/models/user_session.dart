@@ -7,6 +7,7 @@ import '../../controller/services.dart';
 import '../enums.dart';
 import '../list_models.dart';
 import '../models.dart';
+import '../models_ui.dart';
 
 /// this model represents user session
 class UserSession with ChangeNotifier {
@@ -50,6 +51,8 @@ class UserSession with ChangeNotifier {
   //company
   String? companyName;
 
+  DateTime? lastSeenOnline;
+
   //lists
   ListAds? listAds;
   ListAdsMy? listAdsMy;
@@ -63,6 +66,7 @@ class UserSession with ChangeNotifier {
   ListCountries? listCountries;
   ListCities? listCities;
   ListPlans? listPlans;
+  Bouncer bouncer = Bouncer.fromMinutes(15);
 
   UserSession({
     required this.authState,
@@ -95,6 +99,7 @@ class UserSession with ChangeNotifier {
     required this.uniqueRegisterNumber,
     required this.streetAddress,
     required this.twitterUrl,
+    required this.lastSeenOnline,
     required bool? isActive,
     required bool? isVerified,
     this.listAdsPromoted,
@@ -174,6 +179,7 @@ class UserSession with ChangeNotifier {
       listCountries: null,
       listCities: null,
       listPlans: null,
+      lastSeenOnline: null,
     );
     // AuthStateChange.save(user);
     if (authState == AuthState.awaiting) {
@@ -230,6 +236,7 @@ class UserSession with ChangeNotifier {
         twitterUrl: twitterUrl,
         isActive: isActive,
         isVerified: isVerified,
+        lastSeenOnline: lastSeenOnline,
       );
 
   Author get toAuthor => Author(
@@ -335,6 +342,7 @@ class UserSession with ChangeNotifier {
     region = user.region;
     uniqueRegisterNumber = user.uniqueRegisterNumber;
     streetAddress = user.streetAddress;
+    lastSeenOnline = user.lastSeenOnline;
     _isActive = user._isActive;
     _isVerified = user._isVerified;
     if (user.isAuthenticated) {
@@ -417,11 +425,15 @@ class UserSession with ChangeNotifier {
     listAds = ListAds(userSession: this);
     listAdsMy = ListAdsMy(userSession: this);
     listChatBotMessages = ListChatBotMessages(userSession: this);
+    lastSeenOnline = DateTime.tryParse(json['lastSeenOnline'] ?? '');
     HiveMessages.init(this);
     notifyListeners();
+    UserServices.of(this).updateLastSeen();
+    bouncer.run(UserServices.of(this).updateLastSeen);
   }
 
   Future<void> onSignout() async {
+    bouncer.cancel();
     updateFromUserSession(UserSession.initUnauthenticated());
     await HiveCookies.clear();
     await HiveTokens.clear();

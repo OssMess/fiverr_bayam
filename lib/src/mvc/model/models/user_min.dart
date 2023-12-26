@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import '../../../extensions.dart';
+import '../../../tools.dart';
 import '../enums.dart';
 
 /// this model represents user session
@@ -31,6 +32,7 @@ class UserMin with ChangeNotifier {
   String? facebookUrl;
   String? linkedinUrl;
   String? twitterUrl;
+  DateTime? lastSeenOnline;
 
   UserMin({
     required this.uid,
@@ -56,6 +58,7 @@ class UserMin with ChangeNotifier {
     required this.twitterUrl,
     required this.isActive,
     required this.isVerified,
+    required this.lastSeenOnline,
   });
 
   factory UserMin.fromMap(Map<dynamic, dynamic> json) {
@@ -87,6 +90,7 @@ class UserMin with ChangeNotifier {
       twitterUrl: json['twitterUrl'],
       isActive: json['isActive'] ?? false,
       isVerified: json['isVerified'],
+      lastSeenOnline: DateTime.tryParse(json['lastSeenOnline'] ?? ''),
     );
   }
 
@@ -103,4 +107,16 @@ class UserMin with ChangeNotifier {
   String? get imageUrl => imageProfileUrl ?? imageCompanyUrl;
 
   static UserMin fromResponse(String body) => UserMin.fromMap(jsonDecode(body));
+
+  bool get isOnline =>
+      lastSeenOnline != null &&
+      DateTime.now().difference(lastSeenOnline!).inMinutes < 15;
+
+  String? elapsedOnline(BuildContext context) {
+    if (lastSeenOnline == null) return null;
+    int inMinutes = DateTime.now().difference(lastSeenOnline!).inMinutes;
+    return inMinutes < 15
+        ? '0'
+        : DateTimeUtils.of(context).formatElapsed(lastSeenOnline!);
+  }
 }

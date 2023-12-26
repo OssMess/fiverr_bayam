@@ -7,15 +7,21 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../tools.dart';
 import '../../controller/hives.dart';
+import '../../controller/services.dart';
+import '../models.dart';
 
 Message jsonToMessage(
-        Map<dynamic, dynamic> json, String discussionId, String uid) =>
+  Map<dynamic, dynamic> json,
+  String discussionId,
+  String uid,
+) =>
     Message.fromMap(json, discussionId, uid);
 
 class Message with ChangeNotifier {
   String id;
   final String discussionId;
   final bool isMine;
+  bool isSeen;
   String message;
   final List<ImageProvider<Object>> images;
   final List<String> imagesUrl;
@@ -30,6 +36,7 @@ class Message with ChangeNotifier {
     required this.id,
     required this.discussionId,
     required this.isMine,
+    required this.isSeen,
     required this.message,
     required this.images,
     required this.imagesUrl,
@@ -45,6 +52,7 @@ class Message with ChangeNotifier {
         id: 'chatbot_${DateTime.now().millisecondsSinceEpoch}',
         discussionId: 'chatbot',
         isMine: isMine,
+        isSeen: true,
         message: message,
         images: [],
         imagesUrl: [],
@@ -60,6 +68,7 @@ class Message with ChangeNotifier {
         id: 'chatbot_${DateTime.now().millisecondsSinceEpoch}',
         discussionId: 'chatbot',
         isMine: false,
+        isSeen: true,
         message: '',
         images: [],
         imagesUrl: [],
@@ -80,6 +89,7 @@ class Message with ChangeNotifier {
         id: '',
         discussionId: discussionId,
         isMine: true,
+        isSeen: true,
         message: message ?? '',
         images: (images ?? []).map((e) => Image.file(e.toFile).image).toList(),
         imagesUrl: [],
@@ -100,6 +110,7 @@ class Message with ChangeNotifier {
         id: json['uuid'],
         discussionId: discussionId ?? json['discussionId'],
         isMine: json['isMine'] ?? json['sender']['uuid'] == uid,
+        isSeen: json['is_seen'] ?? true,
         message: json['message'],
         images: List.from(json['images'] ?? [])
             .map((e) => CachedNetworkImageProvider(e))
@@ -165,4 +176,11 @@ class Message with ChangeNotifier {
     String uid,
   ) =>
       Message.fromMap(jsonDecode(response), discussionId, uid);
+
+  Future<void> markAsSeen(UserSession userSession) async {
+    if (await MessageServices.of(userSession).markAsSeen(this)) {
+      isSeen = true;
+      notifyListeners();
+    }
+  }
 }

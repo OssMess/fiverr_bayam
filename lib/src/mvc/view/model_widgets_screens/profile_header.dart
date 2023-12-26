@@ -15,7 +15,7 @@ class ProfileHeader extends StatelessWidget {
     required this.email,
     required this.imageProfile,
     required this.isVerified,
-    required this.isOnline,
+    required this.elapsedOnline,
     this.description,
     this.actions,
     this.margin,
@@ -27,7 +27,7 @@ class ProfileHeader extends StatelessWidget {
   final String? email;
   final ImageProvider<Object>? imageProfile;
   final bool isVerified;
-  final bool isOnline;
+  final String? elapsedOnline;
   final String? description;
   final List<ModelIconButton>? actions;
   final EdgeInsetsGeometry? margin;
@@ -43,13 +43,18 @@ class ProfileHeader extends StatelessWidget {
         children: [
           badge.Badge(
             badgeStyle: badge.BadgeStyle(
+              shape: badge.BadgeShape.square,
               badgeColor: Styles.green[500]!,
               elevation: 0,
               borderSide: BorderSide(
                 color: context.scaffoldBackgroundColor,
                 width: 2.sp,
               ),
-              padding: EdgeInsets.all(9.sp),
+              padding: EdgeInsets.symmetric(
+                vertical: 4.sp,
+                horizontal: 6.sp,
+              ),
+              borderRadius: BorderRadius.circular(50),
             ),
             badgeAnimation: const badge.BadgeAnimation.scale(
               toAnimate: false,
@@ -58,7 +63,25 @@ class ProfileHeader extends StatelessWidget {
               bottom: 4.sp,
               end: 4.sp,
             ),
-            showBadge: true,
+            showBadge: elapsedOnline.isNotNull,
+            badgeContent: Builder(
+              builder: (context) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: 2),
+                  child: Text(
+                    elapsedOnline ?? '0',
+                    style: Styles.poppins(
+                      fontSize: 12.sp,
+                      fontWeight: Styles.semiBold,
+                      color: elapsedOnline == '0'
+                          ? Styles.green[500]!
+                          : Colors.white,
+                      height: 1.sp,
+                    ),
+                  ),
+                );
+              },
+            ),
             child: InkResponse(
               onTap: onTapImage,
               child: CircleAvatar(

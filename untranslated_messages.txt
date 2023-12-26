@@ -28,6 +28,10 @@
     "empty_ads",
     "edit",
     "location_not_found",
-    "ad_deleted"
+    "ad_deleted",
+    "moments_ago",
+    "m",
+    "h",
+    "d"
   ]
 }

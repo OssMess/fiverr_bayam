@@ -123,45 +123,45 @@ class DateTimeUtils {
     return DateFormat.yMMMd(locale).format(datetime);
   }
 
-  // ///Takes [context] and [datetime] to format the input into a date and time value.
-  // ///- if [datetime] is within an hour, format as `m` (e.g. 1m).
-  // ///- if [datetime] is in the same day, format as `h` (e.g. 1h).
-  // ///- if [datetime] is in the same week, format as `d` (e.g. 1d).
-  // ///- if ![showFullDate] return null,
-  // ///- if [datetime] is in the same year, format as `ABBR_MONTH_DAY` or `MMMd` (e.g. Jul 22).
-  // ///- else, format as `YEAR_ABBR_MONTH_DAY` or `yMMMd` (e.g. Jul 22, 2022).
-  // String? formatElapsed(
-  //   DateTime datetime, [
-  //   bool showFullDate = true,
-  // ]) {
-  //   final DateTime now = DateTime.now();
-  //   String locale = getLanguageCode();
-  //   final Duration diff = now.difference(datetime);
-  //   final inMinutes = diff.inMinutes;
-  //   if (inMinutes < 1) {
-  //     if (showFullDate) {
-  //       return AppLocalizations.of(context)!.moments_ago;
-  //     } else {
-  //       return '<${AppLocalizations.of(context)!.m(1)}';
-  //     }
-  //   }
-  //   if (diff.inHours < 1) {
-  //     return AppLocalizations.of(context)!.m(inMinutes);
-  //   }
-  //   final inHours = diff.inHours;
-  //   if (diff.inHours < 24) {
-  //     return AppLocalizations.of(context)!.h(inHours);
-  //   }
-  //   final inDays = diff.inDays;
-  //   if (isSameWeek(diff)) {
-  //     return AppLocalizations.of(context)!.d(inDays);
-  //   }
-  //   if (!showFullDate) return null;
-  //   if (isSameYear(now, datetime)) {
-  //     return DateFormat.MMMd(locale).format(datetime);
-  //   }
-  //   return DateFormat.yMMMd(locale).format(datetime);
-  // }
+  ///Takes [context] and [datetime] to format the input into a date and time value.
+  ///- if [datetime] is within an hour, format as `m` (e.g. 1m).
+  ///- if [datetime] is in the same day, format as `h` (e.g. 1h).
+  ///- if [datetime] is in the same week, format as `d` (e.g. 1d).
+  ///- if ![showFullDate] return null,
+  ///- if [datetime] is in the same year, format as `ABBR_MONTH_DAY` or `MMMd` (e.g. Jul 22).
+  ///- else, format as `YEAR_ABBR_MONTH_DAY` or `yMMMd` (e.g. Jul 22, 2022).
+  String? formatElapsed(
+    DateTime datetime, [
+    bool showFullDate = true,
+  ]) {
+    final DateTime now = DateTime.now();
+    String locale = getLanguageCode();
+    final Duration diff = now.difference(datetime);
+    final inMinutes = diff.inMinutes;
+    if (inMinutes < 1) {
+      if (showFullDate) {
+        return AppLocalizations.of(context)!.moments_ago;
+      } else {
+        return '<${AppLocalizations.of(context)!.m(1)}';
+      }
+    }
+    if (diff.inHours < 1) {
+      return AppLocalizations.of(context)!.m(inMinutes);
+    }
+    final inHours = diff.inHours;
+    if (diff.inHours < 24) {
+      return AppLocalizations.of(context)!.h(inHours);
+    }
+    final inDays = diff.inDays;
+    if (isSameWeek(diff)) {
+      return AppLocalizations.of(context)!.d(inDays);
+    }
+    if (!showFullDate) return null;
+    if (isSameYear(now, datetime)) {
+      return DateFormat.MMMd(locale).format(datetime);
+    }
+    return DateFormat.yMMMd(locale).format(datetime);
+  }
 
   /// Takes [datetime] and format it as `HOUR24_MINUTE` or `Hm` and force 24 hour time (e.g. 16:35).
   String formatToHour(DateTime datetime) {

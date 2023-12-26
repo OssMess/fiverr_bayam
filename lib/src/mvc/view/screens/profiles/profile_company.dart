@@ -45,7 +45,7 @@ class ProfileCompany extends StatelessWidget {
                       imageProfile: const CachedNetworkImageProvider(
                           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDLL2FyAeYaShg5h1YrW3gEyDHDCUb5o2_lw&usqp=CAU'),
                       isVerified: true,
-                      isOnline: true,
+                      elapsedOnline: null,
                       actions: [
                         ModelIconButton(
                           icon: AwesomeIcons.chat,

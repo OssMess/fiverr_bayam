@@ -48,18 +48,22 @@ class MessageServices {
     http.Response response = await HttpRequest.attemptHttpCall(request);
     if (response.statusCode == 200) {
       Map<dynamic, dynamic> result = jsonDecode(response.body);
+      Set<Message> newMessages = List.from(result['hydra:member'])
+          .map((json) => Message.fromMap(json, discussionId, uid))
+          .toSet();
       update(
         {
           if (isNull) ...HiveMessages.getListMessagesById(discussionId),
-          ...List.from(result['hydra:member'])
-              .map((json) => Message.fromMap(json, discussionId, uid))
-              .toSet()
+          ...newMessages,
         },
         result['hydra:totalItems'],
         page + 1,
         false,
         refresh,
       );
+      for (var message in newMessages.where((element) => !element.isSeen)) {
+        await message.markAsSeen(userSession);
+      }
     } else {
       throw Functions.throwExceptionFromResponse(userSession, response);
     }
@@ -98,6 +102,23 @@ class MessageServices {
       );
     } else {
       throw Functions.throwExceptionFromResponse(userSession, response);
+    }
+  }
+
+  Future<bool> markAsSeen(Message message) async {
+    if (message.isMine || message.isSeen) return false;
+    var request = http.Request(
+      'POST',
+      Uri.parse(
+        '$baseUrl/api/message/${message.id}/mark-is-seen',
+      ),
+    );
+    request.headers.addAll(Services.headersldJson);
+    http.Response response = await HttpRequest.attemptHttpCall(request);
+    if (response.statusCode == 201) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

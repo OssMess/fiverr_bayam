@@ -38,7 +38,7 @@ class Page5PersonProfile extends StatelessWidget {
                 email: userSession.email,
                 imageProfile: userSession.imageProfile,
                 isVerified: userSession.isVerified,
-                isOnline: false,
+                elapsedOnline: null,
                 description: userSession.bio,
                 onTapDescription: () =>
                     Dialogs.of(context).showTextValuePickerDialog(

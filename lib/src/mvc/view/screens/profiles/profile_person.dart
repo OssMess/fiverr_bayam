@@ -45,7 +45,7 @@ class ProfilePerson extends StatelessWidget {
                       imageProfile: const CachedNetworkImageProvider(
                           'https://i.pinimg.com/1200x/a1/1e/2a/a11e2a9d5803e4dc2c034819ce12a16e.jpg'),
                       isVerified: true,
-                      isOnline: true,
+                      elapsedOnline: null,
                       actions: [
                         ModelIconButton(
                           icon: AwesomeIcons.chat,

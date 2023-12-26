@@ -38,30 +38,62 @@ class DiscussionTile extends StatelessWidget {
               color: discussion.isSeen ? null : Styles.green,
             ),
             16.widthSp,
-            badge.Badge(
-              badgeStyle: badge.BadgeStyle(
-                badgeColor: Styles.green[500]!,
-                elevation: 0,
-                borderSide: BorderSide(
-                  color: context.scaffoldBackgroundColor,
-                  width: 2.sp,
+            Builder(builder: (context) {
+              String? elapsedOnline =
+                  discussion.receiver.elapsedOnline(context);
+              return badge.Badge(
+                badgeStyle: badge.BadgeStyle(
+                  shape: badge.BadgeShape.square,
+                  borderRadius: BorderRadius.circular(50),
+                  badgeColor: Styles.green[500]!,
+                  elevation: 0,
+                  borderSide: BorderSide(
+                    color: context.scaffoldBackgroundColor,
+                    width: 2.sp,
+                  ),
+                  padding: EdgeInsets.symmetric(
+                    vertical: 4.sp,
+                    horizontal: 6.sp,
+                  ),
                 ),
-                padding: EdgeInsets.all(9.sp),
-              ),
-              badgeAnimation: const badge.BadgeAnimation.scale(
-                toAnimate: false,
-              ),
-              position: badge.BadgePosition.topEnd(
-                top: -1.sp,
-                end: -1.sp,
-              ),
-              showBadge: discussion.isOnline,
-              child: CircleAvatar(
-                radius: 30.sp,
-                backgroundColor: context.textTheme.headlineMedium!.color,
-                backgroundImage: discussion.image,
-              ),
-            ),
+                badgeAnimation: const badge.BadgeAnimation.scale(
+                  toAnimate: false,
+                ),
+                position: elapsedOnline == '0'
+                    ? badge.BadgePosition.topEnd(
+                        top: -4.sp,
+                        end: -6.sp,
+                      )
+                    : badge.BadgePosition.topEnd(
+                        top: -4.sp,
+                        end: -6.sp,
+                      ),
+                badgeContent: Builder(
+                  builder: (context) {
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 2),
+                      child: Text(
+                        elapsedOnline ?? '0',
+                        style: Styles.poppins(
+                          fontSize: 12.sp,
+                          fontWeight: Styles.semiBold,
+                          color: elapsedOnline == '0'
+                              ? Styles.green[500]!
+                              : Colors.white,
+                          height: 1.sp,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                showBadge: discussion.receiver.isOnline,
+                child: CircleAvatar(
+                  radius: 30.sp,
+                  backgroundColor: context.textTheme.headlineMedium!.color,
+                  backgroundImage: discussion.image,
+                ),
+              );
+            }),
             16.widthSp,
             Expanded(
               child: Row(

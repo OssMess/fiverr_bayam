@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'dart:math';
-
 import 'package:badges/badges.dart' as badge;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
@@ -78,7 +76,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       top: 0.sp,
                       end: 0.sp,
                     ),
-                    showBadge: widget.discussion.isOnline,
+                    showBadge: widget.discussion.receiver.isOnline,
                     child: CircleAvatar(
                       radius: 25.sp,
                       backgroundColor: Styles.green[200],
@@ -99,23 +97,19 @@ class _ChatScreenState extends State<ChatScreen> {
                             height: 1.2,
                           ),
                         ),
-                        Text(
-                          discussion.isOnline
-                              ? AppLocalizations.of(context)!.online
-                              : DateTimeUtils.of(context).formatElapsedAgo(
-                                  DateTime.now().subtract(
-                                    Duration(
-                                      minutes: Random().nextInt(1000),
-                                    ),
-                                  ),
-                                )!,
-                          style: Styles.poppins(
-                            fontSize: 12.sp,
-                            fontWeight: Styles.regular,
-                            color: Colors.white,
-                            height: 1.2,
-                          ),
-                        ),
+                        Builder(builder: (context) {
+                          String? elapsed =
+                              discussion.receiver.elapsedOnline(context);
+                          return Text(
+                            elapsed.isNullOrEmpty ? '' : elapsed!,
+                            style: Styles.poppins(
+                              fontSize: 12.sp,
+                              fontWeight: Styles.regular,
+                              color: Colors.white,
+                              height: 1.2,
+                            ),
+                          );
+                        }),
                       ],
                     ),
                   )
@@ -240,101 +234,6 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
       images: images,
     );
-    // if (!msg.isNullOrEmpty) {
-    //   widget.discussion.listMessages.inse
-    //   ListData.aiChat.insert(
-    //     0,
-    //     Message2.fromJson(
-    //       {
-    //         'senderId': 'myid',
-    //         'senderAvatarUrl':
-    //             'https://i.pinimg.com/1200x/a1/1e/2a/a11e2a9d5803e4dc2c034819ce12a16e.jpg',
-    //         'message': msg,
-    //         'createdAt': DateTime.now(),
-    //         'photoUrl': null,
-    //         'aspectRatio': null,
-    //         'isSending': true,
-    //       },
-    //     ),
-    //   );
-    //   Future.delayed(
-    //     const Duration(milliseconds: 500),
-    //     () {
-    //       ListData.aiChat.where((element) => element.isSending).forEach(
-    //         (message) {
-    //           message.isSending = false;
-    //           setState(() {});
-    //         },
-    //       );
-    //     },
-    //   );
-    // } else if (!audioPath.isNullOrEmpty) {
-    //   ListData.aiChat.insert(
-    //     0,
-    //     Message2.fromJson(
-    //       {
-    //         'senderId': 'myid',
-    //         'senderAvatarUrl':
-    //             'https://i.pinimg.com/1200x/a1/1e/2a/a11e2a9d5803e4dc2c034819ce12a16e.jpg',
-    //         'message': null,
-    //         'createdAt': DateTime.now(),
-    //         'photoUrl': null,
-    //         'aspectRatio': null,
-    //         'audioUrl': audioPath,
-    //         'isSending': true,
-    //       },
-    //     ),
-    //   );
-    //   Future.delayed(
-    //     const Duration(milliseconds: 500),
-    //     () {
-    //       ListData.aiChat
-    //           .where((element) =>
-    //               element.audioUrl != null &&
-    //               element.audioUrl!.contains('m4a') &&
-    //               element.isSending)
-    //           .forEach(
-    //         (message) {
-    //           File(message.audioUrl!).delete();
-    //           message.audioUrl =
-    //               'https://firebasestorage.googleapis.com/v0/b/weclickk.appspot.com/o/chatAudios%2FZk9ngZprqVVeHegAVuyENA2mQ963_1695579031.m4a?alt=media&token=3e882c90-f672-4733-80a8-0b6e240874f5';
-    //           message.isSending = false;
-    //           setState(() {});
-    //         },
-    //       );
-    //     },
-    //   );
-    // } else if (!imagePath.isNullOrEmpty) {
-    //   double? aspectRatio = await getImageAspectRatioFromPath(imagePath!);
-    //   ListData.aiChat.insert(
-    //     0,
-    //     Message2.fromJson(
-    //       {
-    //         'senderId': 'myid',
-    //         'senderAvatarUrl':
-    //             'https://i.pinimg.com/1200x/a1/1e/2a/a11e2a9d5803e4dc2c034819ce12a16e.jpg',
-    //         'message': null,
-    //         'createdAt': DateTime.now(),
-    //         'photoUrl': imagePath,
-    //         'aspectRatio': aspectRatio,
-    //         'audioUrl': null,
-    //         'isSending': true,
-    //       },
-    //     ),
-    //   );
-    //   Future.delayed(
-    //     const Duration(milliseconds: 500),
-    //     () {
-    //       ListData.aiChat.where((element) => element.isSending).forEach(
-    //         (message) {
-    //           message.isSending = false;
-    //           setState(() {});
-    //         },
-    //       );
-    //     },
-    //   );
-    // }
-    // setState(() {});
   }
 
   Future<double> getImageAspectRatioFromPath(String imagePath) async {
