@@ -4,12 +4,20 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../extensions.dart';
 import '../../../model/enums.dart';
+import '../../../model/models.dart';
 import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
 
 class ReportScreen extends StatefulWidget {
-  const ReportScreen({super.key});
+  const ReportScreen({
+    super.key,
+    required this.userSession,
+    required this.ad,
+  });
+
+  final UserSession userSession;
+  final Ad ad;
 
   @override
   State<ReportScreen> createState() => _ReportScreenState();
@@ -101,6 +109,7 @@ class _ReportScreenState extends State<ReportScreen> {
     _keyForm.currentState!.save();
     Dialogs.of(context).runAsyncAction(
       future: () async {
+        //TODO report
         await Future.delayed(const Duration(seconds: 1));
       },
       onComplete: (_) {

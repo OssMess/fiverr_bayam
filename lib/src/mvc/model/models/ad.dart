@@ -21,16 +21,16 @@ class Ad with ChangeNotifier {
   final bool isMine;
   final UserMin author;
   final String title;
-  final String content;
-  final String location;
-  final AdType type;
-  final List<CategorySub> subCategories;
-  final List<Tag> tags;
+  String content;
+  String location;
+  AdType type;
+  List<CategorySub> subCategories;
+  List<Tag> tags;
   final DateTime createdAt;
   final bool isPromotion;
-  final List<ImageProvider<Object>> images;
-  final List<String> imagesUrl;
-  final List<XFile> imagesFile;
+  List<ImageProvider<Object>> images;
+  List<String> imagesUrl;
+  List<XFile> imagesFile;
   int likes;
   ListAdComments listAdComments;
 
@@ -56,29 +56,31 @@ class Ad with ChangeNotifier {
   int get imagesCount => imagesUrl.length;
 
   factory Ad.init({
+    required String? uuid,
     required UserSession userSession,
     required String title,
     required String content,
     required String location,
     required List<CategorySub> subCategories,
-    required AdType adType,
+    required AdType type,
     required List<Tag> tags,
     required List<XFile> imagesFile,
+    required List<String> imagesUrl,
   }) =>
       Ad(
-        uuid: '',
+        uuid: uuid ?? '',
         isMine: true,
         author: userSession.toUserMin,
         title: title,
         content: content,
         location: location,
         subCategories: subCategories,
-        type: adType,
+        type: type,
         tags: tags,
         createdAt: DateTime.now(),
         isPromotion: false,
         images: [],
-        imagesUrl: [],
+        imagesUrl: imagesUrl,
         imagesFile: imagesFile,
         likes: 0,
         listAdComments: ListAdComments(userSession: userSession, adId: ''),
@@ -147,18 +149,17 @@ class Ad with ChangeNotifier {
 
   void updateWithAd(
     Ad ad,
-    UserSession userSession,
   ) {
-    uuid = ad.uuid;
     images.clear();
     images.addAll(ad.images);
     imagesUrl.clear();
     imagesUrl.addAll(ad.imagesUrl);
     imagesFile.clear();
-    listAdComments = ListAdComments(
-      userSession: userSession,
-      adId: ad.uuid,
-    );
+    content = ad.content;
+    location = ad.location;
+    type = ad.type;
+    subCategories = ad.subCategories;
+    tags = ad.tags;
     notifyListeners();
   }
 

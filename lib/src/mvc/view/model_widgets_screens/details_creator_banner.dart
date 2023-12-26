@@ -1,9 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../extensions.dart';
+import '../../model/models.dart';
 import '../model_widgets.dart';
 import '../../../tools.dart';
 import '../screens.dart';
@@ -11,14 +11,12 @@ import '../screens.dart';
 class DetailsCreatorBanner extends StatelessWidget {
   const DetailsCreatorBanner({
     super.key,
-    required this.name,
-    required this.photoUrl,
-    required this.service,
+    required this.userSession,
+    required this.ad,
   });
 
-  final String name;
-  final String? photoUrl;
-  final String service;
+  final UserSession userSession;
+  final Ad ad;
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +40,7 @@ class DetailsCreatorBanner extends StatelessWidget {
               CircleAvatar(
                 radius: 24.sp,
                 backgroundColor: context.textTheme.headlineSmall!.color,
-                backgroundImage: photoUrl.isNotNullOrEmpty
-                    ? CachedNetworkImageProvider(
-                        photoUrl!,
-                      )
-                    : null,
+                backgroundImage: ad.author.image,
               ),
               16.widthSp,
               Expanded(
@@ -57,7 +51,7 @@ class DetailsCreatorBanner extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          name,
+                          ad.author.displayName,
                           style: Styles.poppins(
                             fontSize: 14.sp,
                             fontWeight: Styles.semiBold,
@@ -74,7 +68,7 @@ class DetailsCreatorBanner extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      service,
+                      AppLocalizations.of(context)!.agriculture,
                       style: Styles.poppins(
                         fontSize: 12.sp,
                         fontWeight: Styles.regular,
@@ -91,12 +85,19 @@ class DetailsCreatorBanner extends StatelessWidget {
                 iconColor: context.textTheme.headlineMedium!.color,
                 onTap: () {},
               ),
-              16.widthSp,
-              CustomFlatButton(
-                icon: AwesomeIcons.flag_pennant,
-                iconColor: Styles.red,
-                onTap: () => context.push(widget: const ReportScreen()),
-              ),
+              if (!ad.isMine) ...[
+                16.widthSp,
+                CustomFlatButton(
+                  icon: AwesomeIcons.flag_pennant,
+                  iconColor: Styles.red,
+                  onTap: () => context.push(
+                    widget: ReportScreen(
+                      userSession: userSession,
+                      ad: ad,
+                    ),
+                  ),
+                ),
+              ],
             ],
           ),
         ],

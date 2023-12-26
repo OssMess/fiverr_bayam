@@ -75,12 +75,12 @@ class AdServices {
       ...ad.toMapInit,
       'images': imagesBase64,
     });
-    request.headers.addAll(Services.headersldJson);
+    request.headers.addAll(Services.headerPatchldJson);
     http.Response response = await HttpRequest.attemptHttpCall(
       request,
       forceSkipRetries: true,
     );
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       return response.toAdPost(userSession);
     } else {
       throw Functions.throwExceptionFromResponse(userSession, response);

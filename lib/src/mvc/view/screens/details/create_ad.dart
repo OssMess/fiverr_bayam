@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -34,19 +35,21 @@ class _CreateAdState extends State<CreateAd>
   String? title, content, location;
   CategorySub? categorySub;
   Set<String> stringTags = {};
-  Set<XFile> images = {};
+  List<String> imagesUrl = [];
+  Set<XFile> imagesFile = {};
   late TabController tabController;
   TextEditingController categoryConttroller = TextEditingController();
   TextEditingController tagsConttroller = TextEditingController();
 
   @override
   void initState() {
-    if (widget.ad != null) {
+    if (isEditing) {
       adTypeIndex = widget.ad?.type.index ?? -1;
       title = widget.ad!.title;
       content = widget.ad!.content;
       categorySub = widget.ad!.subCategories.first;
       location = widget.ad!.location;
+      imagesUrl.addAll(widget.ad!.imagesUrl);
       stringTags.addAll(widget.ad!.tags.map((e) => e.name));
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         categoryConttroller.text = categorySub?.name ?? '';
@@ -120,31 +123,6 @@ class _CreateAdState extends State<CreateAd>
                               },
                             ),
                           );
-                          // if (widget.userSession.listCategories!.isNull) {
-                          //   await Dialogs.of(context).runAsyncAction(
-                          //     future: () async => widget
-                          //         .userSession.listCategoriesSub!
-                          //         .initData(callGet: true),
-                          //   );
-                          // }
-                          // if (!context.mounted) return;
-                          // Dialogs.of(context).showSingleValuePickerDialog(
-                          //   mainAxisSize: MainAxisSize.max,
-                          //   title: AppLocalizations.of(context)!.category_hint,
-                          //   values: widget.userSession.listCategoriesSub!.list
-                          //       .map(
-                          //         (e) => e.name,
-                          //       )
-                          //       .toList(),
-                          //   initialvalue: categorySub?.name,
-                          //   onPick: (value) {
-                          //     categoryConttroller.text = value;
-                          //     categorySub = widget
-                          //         .userSession.listCategoriesSub!.list
-                          //         .firstWhere(
-                          //             (element) => element.name == value);
-                          //   },
-                          // );
                         },
                       ),
                       16.heightSp,
@@ -183,25 +161,68 @@ class _CreateAdState extends State<CreateAd>
                               height: 17.sp,
                               padding: EdgeInsets.symmetric(horizontal: 32.sp),
                             ),
-                            SizedBox(
-                              height: 100.sp,
-                              child: ListView.separated(
-                                padding:
-                                    EdgeInsets.symmetric(horizontal: 16.sp),
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) => ImageCard(
-                                  index: index,
-                                  images: images,
-                                  onAddImages: (elements) => setState(() {
-                                    images.addAll(elements);
-                                  }),
-                                  onDeleteImage: (value) => setState(() {
-                                    images.remove(value);
-                                  }),
-                                ),
-                                separatorBuilder: (context, index) => 8.widthSp,
-                                itemCount: images.length + 1,
-                              ),
+                            StatefulBuilder(
+                              builder: (context, setState) {
+                                return SizedBox(
+                                  height: 100.sp,
+                                  child: ListView.separated(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 16.sp),
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) => Builder(
+                                      builder: (context) {
+                                        if (index < imagesFile.length) {
+                                          return ImageCard(
+                                            index: index,
+                                            image: Image.file(
+                                              imagesFile
+                                                  .elementAt(index)
+                                                  .toFile,
+                                            ).image,
+                                            onDeleteImage: (value) =>
+                                                setState(() {
+                                              imagesFile.remove(
+                                                imagesFile.elementAt(index),
+                                              );
+                                            }),
+                                          );
+                                        } else if (index <
+                                            imagesFile.length +
+                                                imagesUrl.length) {
+                                          return ImageCard(
+                                            index: index,
+                                            image: CachedNetworkImageProvider(
+                                              imagesUrl.elementAt(
+                                                index - imagesFile.length,
+                                              ),
+                                            ),
+                                            onDeleteImage: (value) => setState(
+                                              () {
+                                                imagesUrl.removeAt(
+                                                  index - imagesFile.length,
+                                                );
+                                              },
+                                            ),
+                                          );
+                                        } else {
+                                          return ImageCard(
+                                            index: index,
+                                            onAddImages: (elements) =>
+                                                setState(() {
+                                              imagesFile.addAll(elements);
+                                            }),
+                                          );
+                                        }
+                                      },
+                                    ),
+                                    separatorBuilder: (context, index) =>
+                                        8.widthSp,
+                                    itemCount: imagesFile.length +
+                                        imagesUrl.length +
+                                        1,
+                                  ),
+                                );
+                              },
                             ),
                           ],
                         ),
@@ -306,6 +327,8 @@ class _CreateAdState extends State<CreateAd>
     );
   }
 
+  bool get isEditing => widget.ad != null;
+
   void onAddTag() {
     if (tagsConttroller.text.isNotEmpty &&
         stringTags.add(tagsConttroller.text.capitalizeFirstLetter)) {
@@ -336,31 +359,64 @@ class _CreateAdState extends State<CreateAd>
             tags.add(tag);
           }
         }
-        return await AdServices.of(widget.userSession).post(
-          Ad.init(
-            userSession: widget.userSession,
-            title: title!,
-            content: content!,
-            location: location!,
-            subCategories: [categorySub!],
-            adType: adTypeIndex.toAdType,
-            tags: tags,
-            imagesFile: images.toList(),
-          ),
-        );
+        if (isEditing) {
+          return await AdServices.of(widget.userSession).patch(
+            Ad.init(
+              uuid: widget.ad!.uuid,
+              userSession: widget.userSession,
+              title: title!,
+              content: content!,
+              location: location!,
+              subCategories: [categorySub!],
+              type: adTypeIndex.toAdType,
+              tags: tags,
+              imagesFile: imagesFile.toList(),
+              imagesUrl: imagesUrl,
+            ),
+          );
+        } else {
+          return await AdServices.of(widget.userSession).post(
+            Ad.init(
+              uuid: null,
+              userSession: widget.userSession,
+              title: title!,
+              content: content!,
+              location: location!,
+              subCategories: [categorySub!],
+              type: adTypeIndex.toAdType,
+              tags: tags,
+              imagesFile: imagesFile.toList(),
+              imagesUrl: imagesUrl,
+            ),
+          );
+        }
       },
       onComplete: (ad) {
-        widget.userSession.listAdsMy?.insert(ad!);
-        Dialogs.of(context).showCustomDialog(
-          header: AppLocalizations.of(context)!.ad_thankyou_header,
-          title: AppLocalizations.of(context)!.success,
-          subtitle: AppLocalizations.of(context)!.ad_create_sucess_subtitle,
-          yesAct: ModelTextButton(
-            label: AppLocalizations.of(context)!.continu,
-            color: Styles.green,
-            onPressed: context.pop,
-          ),
-        );
+        if (isEditing) {
+          widget.ad!.updateWithAd(ad!);
+          Dialogs.of(context).showCustomDialog(
+            header: AppLocalizations.of(context)!.ad_thankyou_header,
+            title: AppLocalizations.of(context)!.success,
+            subtitle: AppLocalizations.of(context)!.ad_update_sucess_subtitle,
+            yesAct: ModelTextButton(
+              label: AppLocalizations.of(context)!.continu,
+              color: Styles.green,
+              onPressed: context.pop,
+            ),
+          );
+        } else {
+          widget.userSession.listAdsMy?.insert(ad!);
+          Dialogs.of(context).showCustomDialog(
+            header: AppLocalizations.of(context)!.ad_thankyou_header,
+            title: AppLocalizations.of(context)!.success,
+            subtitle: AppLocalizations.of(context)!.ad_create_sucess_subtitle,
+            yesAct: ModelTextButton(
+              label: AppLocalizations.of(context)!.continu,
+              color: Styles.green,
+              onPressed: context.pop,
+            ),
+          );
+        }
       },
       onError: (_) {
         Dialogs.of(context).showCustomDialog(
@@ -383,19 +439,20 @@ class ImageCard extends StatelessWidget {
   const ImageCard({
     super.key,
     required this.index,
-    required this.images,
-    required this.onAddImages,
-    required this.onDeleteImage,
-  });
+    this.image,
+    this.onAddImages,
+    this.onDeleteImage,
+  }) : assert((image == null && onDeleteImage == null && onAddImages != null) ||
+            (image != null && onDeleteImage != null && onAddImages == null));
 
   final int index;
-  final Set<XFile> images;
-  final void Function(Iterable<XFile>) onAddImages;
-  final void Function(XFile) onDeleteImage;
+  final ImageProvider<Object>? image;
+  final void Function(Iterable<XFile>)? onAddImages;
+  final void Function(int)? onDeleteImage;
 
   @override
   Widget build(BuildContext context) {
-    if (index == images.length) {
+    if (image == null) {
       return InkResponse(
         onTap: () async {
           if (await Permissions.of(context).showPhotoLibraryPermission()) {
@@ -409,7 +466,7 @@ class ImageCard extends StatelessWidget {
           )
               .then(
             (files) {
-              onAddImages(files);
+              onAddImages!(files);
             },
           );
         },
@@ -430,9 +487,7 @@ class ImageCard extends StatelessWidget {
       );
     }
     return InkResponse(
-      onTap: () => onDeleteImage(
-        images.elementAt(index),
-      ),
+      onTap: () => onDeleteImage!(index),
       child: badge.Badge(
         badgeStyle: badge.BadgeStyle(
           badgeColor: context.scaffoldBackgroundColor,
@@ -460,9 +515,7 @@ class ImageCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(14.sp),
               color: context.textTheme.headlineLarge!.color,
               image: DecorationImage(
-                image: Image.file(
-                  images.elementAt(index).toFile,
-                ).image,
+                image: image!,
                 fit: BoxFit.cover,
               ),
             ),

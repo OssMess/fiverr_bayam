@@ -119,12 +119,19 @@ class DetailsAdDescriptionBanner extends StatelessWidget {
                   ],
                 ),
               ),
-              16.widthSp,
-              CustomFlatButton(
-                icon: AwesomeIcons.flag_pennant,
-                iconColor: Styles.red,
-                onTap: () => context.push(widget: const ReportScreen()),
-              ),
+              if (!ad.isMine) ...[
+                16.widthSp,
+                CustomFlatButton(
+                  icon: AwesomeIcons.flag_pennant,
+                  iconColor: Styles.red,
+                  onTap: () => context.push(
+                    widget: ReportScreen(
+                      userSession: userSession,
+                      ad: ad,
+                    ),
+                  ),
+                ),
+              ],
               16.widthSp,
               CustomFlatButton(
                 icon: AwesomeIcons.share_from_square,

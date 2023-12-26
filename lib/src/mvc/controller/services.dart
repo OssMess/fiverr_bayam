@@ -34,6 +34,11 @@ class Services {
         HttpHeaders.acceptHeader: ldjson,
       };
 
+  static Map<String, String> get headerPatchldJson => {
+        HttpHeaders.contentTypeHeader: mergePatchJson,
+        HttpHeaders.acceptHeader: ldjson,
+      };
+
   static Map<String, String> get headerAcceptJson => {
         HttpHeaders.acceptHeader: json,
       };

@@ -1,5 +1,6 @@
 {
   "fr": [
+    "ad_update_sucess_subtitle",
     "unknown_error",
     "facebook_url",
     "twitter_url",

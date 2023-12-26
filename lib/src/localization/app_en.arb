@@ -251,6 +251,7 @@
   "tags_hint":"Enter your product keywords here",
   "add":"Add",
   "ad_create_sucess_subtitle":"Your ad has been published and all users of our network will be able to see it.",
+  "ad_update_sucess_subtitle":"Your ad has been updated and all users of our network will be able to see it.",
   "buy":"Buy",
   "sell":"Sell",
   "rent":"Rent",
