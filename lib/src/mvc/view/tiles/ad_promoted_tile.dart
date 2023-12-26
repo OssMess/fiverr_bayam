@@ -18,13 +18,13 @@ class AdPromotedTile extends StatelessWidget {
     required this.userSession,
     required this.adPromoted,
     this.expanded = false,
-    this.onTapOptions,
+    // this.onTapOptions,
   });
 
   final UserSession userSession;
   final AdPromoted adPromoted;
   final bool expanded;
-  final void Function()? onTapOptions;
+  // final void Function()? onTapOptions;
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +114,7 @@ class AdPromotedTile extends StatelessWidget {
                   logoUrl: adPromoted.ad.author.imageUrl,
                   isVerified: adPromoted.ad.author.isVerified,
                   trailingUrl: null,
-                  onTapOptions: onTapOptions,
+                  // onTapOptions: onTapOptions,
                 ),
                 CustomDivider(
                   padding: EdgeInsets.symmetric(vertical: 8.sp),

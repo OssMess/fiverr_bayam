@@ -114,7 +114,6 @@ class _ReportScreenState extends State<ReportScreen> {
           widget.ad,
           report!,
         );
-        await Future.delayed(const Duration(seconds: 1));
       },
       onComplete: (_) {
         Dialogs.of(context).showCustomDialog(

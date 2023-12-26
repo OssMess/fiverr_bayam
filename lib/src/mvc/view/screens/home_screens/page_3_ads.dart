@@ -178,10 +178,10 @@ class _Page3CompanyAdsState extends State<Page3CompanyAds> {
                                       adPromoted:
                                           listAdsPromoted.elementAt(index),
                                       expanded: true,
-                                      onTapOptions: () => onTapAdOptions(
-                                        context,
-                                        listAdsPromoted.elementAt(index).ad,
-                                      ),
+                                      // onTapOptions: () => onTapAdOptions(
+                                      //   context,
+                                      //   listAdsPromoted.elementAt(index).ad,
+                                      // ),
                                     );
                                   } else {
                                     return CustomTrailingTile(

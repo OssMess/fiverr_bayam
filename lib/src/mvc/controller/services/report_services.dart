@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:bayam/src/extensions.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../tools.dart';
@@ -19,7 +18,7 @@ class ReportServices {
   }
 
   /// Create a report for [ad] with [message].
-  Future<Tag> post(Ad ad, String message) async {
+  Future<void> post(Ad ad, String message) async {
     var request = http.Request(
       'POST',
       Uri.parse(
@@ -35,9 +34,7 @@ class ReportServices {
       request,
       forceSkipRetries: true,
     );
-    if (response.statusCode == 201) {
-      return response.toTag;
-    } else {
+    if (response.statusCode != 201) {
       throw Functions.throwExceptionFromResponse(userSession, response);
     }
   }
