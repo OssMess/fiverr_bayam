@@ -501,7 +501,7 @@ class Dialogs {
               title: AppLocalizations.of(context)!.modify,
               onTap: () {
                 context.pop();
-                context.push(
+                parentContent.push(
                   widget: CreateAd(
                     userSession: userSession,
                     ad: ad,
@@ -516,13 +516,31 @@ class Dialogs {
               leadingIconColor: Styles.red,
               onTap: () {
                 context.pop();
-                Dialogs.of(context).showCustomDialog(
+                Dialogs.of(parentContent).showCustomDialog(
                   title: AppLocalizations.of(context)!.warning,
                   subtitle: AppLocalizations.of(context)!.delete_ad_subtitle,
                   yesAct: ModelTextButton(
                     label: AppLocalizations.of(context)!.continu,
                     color: Styles.red,
-                    onPressed: () {},
+                    onPressed: () {
+                      Dialogs.of(parentContent).runAsyncAction(
+                        future: () async {
+                          await ad.delete(userSession);
+                        },
+                        onComplete: (_) {
+                          Dialogs.of(context).showCustomDialog(
+                            header: AppLocalizations.of(context)!
+                                .error_contact_support,
+                            title: AppLocalizations.of(context)!.success,
+                            subtitle: AppLocalizations.of(context)!.ad_deleted,
+                            yesAct: ModelTextButton(
+                              label: AppLocalizations.of(context)!.close,
+                              color: Styles.green,
+                            ),
+                          );
+                        },
+                      );
+                    },
                   ),
                   noAct: ModelTextButton(
                     label: AppLocalizations.of(context)!.cancel,

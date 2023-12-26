@@ -48,6 +48,45 @@ class AdServices {
     }
   }
 
+  Future<String> networkImageToBase64(String imageUrl) async {
+    http.Response response = await http.get(Uri.parse(imageUrl));
+    final bytes = response.bodyBytes;
+    return base64Encode(bytes);
+  }
+
+  /// Update [ad].
+  Future<Ad> patch(Ad ad) async {
+    var request = http.Request(
+      'PATCH',
+      Uri.parse(
+        '$baseUrl/api/posts/${ad.uuid}',
+      ),
+    );
+    List<String> imagesBase64 = [];
+    for (var imageUrl in ad.imagesUrl) {
+      imagesBase64.add(await networkImageToBase64(imageUrl));
+    }
+    if (ad.imagesFile.isNotEmpty) {
+      for (var image in ad.imagesFile) {
+        imagesBase64.add(await image.toFile.toBase64String());
+      }
+    }
+    request.body = json.encode({
+      ...ad.toMapInit,
+      'images': imagesBase64,
+    });
+    request.headers.addAll(Services.headersldJson);
+    http.Response response = await HttpRequest.attemptHttpCall(
+      request,
+      forceSkipRetries: true,
+    );
+    if (response.statusCode == 201) {
+      return response.toAdPost(userSession);
+    } else {
+      throw Functions.throwExceptionFromResponse(userSession, response);
+    }
+  }
+
   /// like post.
   Future<void> like(Ad ad) async {
     var request = http.Request(
@@ -66,6 +105,26 @@ class AdServices {
       forceSkipRetries: true,
     );
     if (response.statusCode == 201) {
+    } else {
+      throw Functions.throwExceptionFromResponse(userSession, response);
+    }
+  }
+
+  /// like post.
+  Future<void> delete(Ad ad) async {
+    var request = http.Request(
+      'DELETE',
+      Uri.parse(
+        '$baseUrl/api/posts/${ad.uuid}',
+      ),
+    );
+
+    request.headers.addAll(Services.headerAcceptldJson);
+    http.Response response = await HttpRequest.attemptHttpCall(
+      request,
+      forceSkipRetries: true,
+    );
+    if (response.statusCode == 204) {
     } else {
       throw Functions.throwExceptionFromResponse(userSession, response);
     }

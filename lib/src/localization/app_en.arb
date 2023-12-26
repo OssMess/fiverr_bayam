@@ -342,6 +342,7 @@
   "empty_ads":"There are no ads at this moment. Try again later.",
   "edit":"Edit",
   "location_not_found":"Location not found! Please pick another location and try again.",
+  "ad_deleted":"You ad has been deleted.",
 
   "@sent_nb_messages":{
     "placeholders":{

@@ -26,6 +26,7 @@
     "select_ad_category",
     "empty_ads",
     "edit",
-    "location_not_found"
+    "location_not_found",
+    "ad_deleted"
   ]
 }

@@ -200,6 +200,11 @@ class Ad with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> delete(UserSession userSession) async {
+    await AdServices.of(userSession).delete(this);
+    userSession.listAdsMy!.remove(this);
+  }
+
   Future<void> comment(UserSession userSession, String comment) async {
     AdComment adComment = await AdServices.of(userSession).comment(
       this,

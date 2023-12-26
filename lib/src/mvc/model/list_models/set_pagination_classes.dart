@@ -148,6 +148,13 @@ abstract class SetPaginationClasses<T> with ChangeNotifier {
     notifyListeners();
   }
 
+  void remove(T element) {
+    if (isNull) return;
+    if (list.remove(element)) {
+      notifyListeners();
+    }
+  }
+
   ///For lazzy loading, Use [scrollNotification] to detect if the scroll has
   ///reached the end of the page, and if the list has more data, call `getMore`.
   ///if [muteScrollNotification] is set to true, mute scroll notification in the
