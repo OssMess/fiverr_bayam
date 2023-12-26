@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -119,7 +120,7 @@ class DetailsAdDescriptionBanner extends StatelessWidget {
                   ],
                 ),
               ),
-              if (!ad.isMine) ...[
+              if (!ad.isMine || kDebugMode) ...[
                 16.widthSp,
                 CustomFlatButton(
                   icon: AwesomeIcons.flag_pennant,

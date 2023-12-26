@@ -6,7 +6,6 @@ import 'package:share_plus/share_plus.dart';
 import '../../../extensions.dart';
 import '../model_widgets.dart';
 import '../../../tools.dart';
-import '../screens.dart';
 
 class DetailsDescriptionBanner extends StatelessWidget {
   const DetailsDescriptionBanner({
@@ -163,12 +162,12 @@ class DetailsDescriptionBanner extends StatelessWidget {
                   ],
                 ),
               ),
-              16.widthSp,
-              CustomFlatButton(
-                icon: AwesomeIcons.flag_pennant,
-                iconColor: Styles.red,
-                onTap: () => context.push(widget: const ReportScreen()),
-              ),
+              // 16.widthSp,
+              // CustomFlatButton(
+              //   icon: AwesomeIcons.flag_pennant,
+              //   iconColor: Styles.red,
+              //   onTap: () => context.push(widget: const ReportScreen()),
+              // ),
               16.widthSp,
               CustomFlatButton(
                 icon: AwesomeIcons.share_from_square,

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../extensions.dart';
+import '../../../controller/services.dart';
 import '../../../model/enums.dart';
 import '../../../model/models.dart';
 import '../../../model/models_ui.dart';
@@ -109,7 +110,10 @@ class _ReportScreenState extends State<ReportScreen> {
     _keyForm.currentState!.save();
     Dialogs.of(context).runAsyncAction(
       future: () async {
-        //TODO report
+        await ReportServices.of(widget.userSession).post(
+          widget.ad,
+          report!,
+        );
         await Future.delayed(const Duration(seconds: 1));
       },
       onComplete: (_) {

@@ -15,6 +15,7 @@ export './services/message_services.dart';
 export './services/other_services.dart';
 export './services/plan_services.dart';
 export './services/tag_services.dart';
+export './services/report_services.dart';
 export './services/user_services.dart';
 
 class Services {
