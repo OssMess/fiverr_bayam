@@ -13,10 +13,12 @@ import '../../model_widgets_screens.dart';
 class DetailsCompany extends StatefulWidget {
   const DetailsCompany({
     super.key,
-    required this.company,
+    required this.userSession,
+    required this.userMin,
   });
 
-  final Company company;
+  final UserSession userSession;
+  final UserMin userMin;
 
   @override
   State<DetailsCompany> createState() => _DetailsCompanyState();
@@ -54,14 +56,10 @@ class _DetailsCompanyState extends State<DetailsCompany> {
               child: Column(
                 children: [
                   DetailsAlbumGallery(
-                    photosUrl: [
-                      widget.company.coverUrl,
-                      widget.company.coverUrl,
-                      widget.company.coverUrl,
-                      widget.company.coverUrl,
-                      widget.company.coverUrl,
+                    photosUrl: const [
+                      //FIXME company gallery
                     ],
-                    description: 'widget.company.bio',
+                    description: widget.userMin.bio ?? '',
                     pageController: pageController,
                   ),
                   16.heightSp,
@@ -92,13 +90,11 @@ class _DetailsCompanyState extends State<DetailsCompany> {
                     onLike: null,
                   ),
                   16.heightSp,
-                  //FIXME add back bellow widget
-                  // const DetailsCompanyBanner(
-                  //   name: 'Samak Enterprises',
-                  //   logoUrl:
-                  //       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjCuB_T9XRgCcwrQi4u8_zhnVFoQcsIOGa6Q&usqp=CAU',
-                  //   isMine: false,
-                  // ),
+                  DetailsCompanyBanner(
+                    userSession: widget.userSession,
+                    userMin: widget.userMin,
+                    isMine: widget.userMin.uid == widget.userSession.uid,
+                  ),
                   (context.viewPadding.bottom + 20.sp).height,
                 ],
               ),

@@ -12,11 +12,13 @@ import '../tiles_models.dart';
 class CompanyTile extends StatelessWidget {
   const CompanyTile({
     super.key,
-    required this.company,
+    required this.userSession,
+    required this.userMin,
     this.isExpanded = false,
   });
 
-  final Company company;
+  final UserSession userSession;
+  final UserMin userMin;
   final bool isExpanded;
 
   @override
@@ -24,7 +26,8 @@ class CompanyTile extends StatelessWidget {
     return CustomElevatedContainer(
       onTap: () => context.push(
         widget: DetailsCompany(
-          company: company,
+          userSession: userSession,
+          userMin: userMin,
         ),
       ),
       width: isExpanded ? double.infinity : 160.sp,
@@ -34,7 +37,7 @@ class CompanyTile extends StatelessWidget {
         children: [
           Expanded(
             child: CachedNetworkImage(
-              imageUrl: company.coverUrl,
+              imageUrl: userMin.imageUrl!,
               fit: BoxFit.cover,
               color: context.textTheme.headlineSmall!.color,
               progressIndicatorBuilder: (context, url, progress) => Container(
@@ -56,15 +59,17 @@ class CompanyTile extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
-                child: Text(
-                  company.category.translateTitle(context),
-                  style: Styles.poppins(
-                    fontSize: 18.sp,
-                    fontWeight: Styles.semiBold,
-                    color: Colors.white,
-                    height: 1.2,
-                  ),
-                ),
+                //FIXME add category or subcategory to company/user min/author
+                // child:
+                // Text(
+                //   company.category.translateTitle(context),
+                //   style: Styles.poppins(
+                //     fontSize: 18.sp,
+                //     fontWeight: Styles.semiBold,
+                //     color: Colors.white,
+                //     height: 1.2,
+                //   ),
+                // ),
               ),
             ),
           ),
@@ -73,9 +78,9 @@ class CompanyTile extends StatelessWidget {
                 ? EdgeInsets.only(bottom: 10.sp)
                 : EdgeInsets.symmetric(vertical: 8.sp),
             child: CompanyHeaderTile(
-              logoUrl: company.logoUrl,
-              name: company.name,
-              isVerified: company.isVerified,
+              logoUrl: userMin.imageUrl!,
+              name: userMin.displayName,
+              isVerified: userMin.isVerified,
               sizeOffset: 0,
               padding: EdgeInsetsDirectional.only(start: 10.sp),
             ),

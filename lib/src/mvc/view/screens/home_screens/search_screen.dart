@@ -292,22 +292,24 @@ class _SearchScreenState extends State<SearchScreen>
                                 ),
                               );
                             }
+                            return const SizedBox.shrink();
 
+                            /// //FIXME searchable popular companies
                             /// Tab view 2: Companies search results
-                            return Expanded(
-                              child: ListView.separated(
-                                // shrinkWrap: true,
-                                padding: EdgeInsets.all(16.sp),
-                                itemCount: ListData.popularCompanies.length,
-                                itemBuilder: (context, index) => CompanyTile(
-                                  company: ListData.popularCompanies
-                                      .elementAt(index),
-                                  isExpanded: true,
-                                ),
-                                separatorBuilder: (context, index) =>
-                                    12.heightSp,
-                              ),
-                            );
+                            // return Expanded(
+                            //   child: ListView.separated(
+                            //     // shrinkWrap: true,
+                            //     padding: EdgeInsets.all(16.sp),
+                            //     itemCount: ListData.popularCompanies.length,
+                            //     itemBuilder: (context, index) => CompanyTile(
+                            //       company: ListData.popularCompanies
+                            //           .elementAt(index),
+                            //       isExpanded: true,
+                            //     ),
+                            //     separatorBuilder: (context, index) =>
+                            //         12.heightSp,
+                            //   ),
+                            // );
                           },
                         ),
                       ],

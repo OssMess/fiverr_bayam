@@ -103,7 +103,7 @@ class _DetailsAdState extends State<DetailsAd> {
                             16.heightSp,
                             DetailsCompanyBanner(
                               userSession: widget.userSession,
-                              author: ad.author,
+                              userMin: ad.author,
                               isMine: ad.isMine,
                             ),
                           ],

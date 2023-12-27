@@ -59,6 +59,7 @@ class UserSession with ChangeNotifier {
   ListCompaniesPopular? listCompaniesPopular;
   ListAdsMy? listAdsMy;
   ListAdsPromoted? listAdsPromoted;
+  ListAdsPromotedMy? listAdsPromotedMy;
   ListDiscussions? listDiscussions;
   ListChatBotMessages? listChatBotMessages;
 
@@ -106,6 +107,7 @@ class UserSession with ChangeNotifier {
     required bool? isActive,
     required bool? isVerified,
     this.listAdsPromoted,
+    this.listAdsPromotedMy,
     this.listDiscussions,
     this.listAds,
     this.listCompaniesPopular,
@@ -175,6 +177,7 @@ class UserSession with ChangeNotifier {
       isActive: null,
       isVerified: null,
       listAdsPromoted: null,
+      listAdsPromotedMy: null,
       listDiscussions: null,
       listAds: null,
       listCompaniesPopular: null,
@@ -244,6 +247,7 @@ class UserSession with ChangeNotifier {
         isActive: isActive,
         isVerified: isVerified,
         lastSeenOnline: lastSeenOnline,
+        actionLikeType: null,
       );
 
   Author get toAuthor => Author(
@@ -354,6 +358,7 @@ class UserSession with ChangeNotifier {
     _isVerified = user._isVerified;
     if (user.isAuthenticated) {
       listAdsPromoted = ListAdsPromoted(userSession: this);
+      listAdsPromotedMy = ListAdsPromotedMy(userSession: this);
       listDiscussions = ListDiscussions(userSession: this);
       listAds = ListAds(userSession: this);
       listCompaniesPopular = ListCompaniesPopular(userSession: this);
@@ -366,6 +371,7 @@ class UserSession with ChangeNotifier {
       listPlans = ListPlans(userSession: this);
     } else {
       listAdsPromoted = null;
+      listAdsPromotedMy = null;
       listDiscussions = null;
       listAds = null;
       listCompaniesPopular = null;

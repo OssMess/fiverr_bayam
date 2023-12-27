@@ -21,7 +21,12 @@ class DetailsCreatorBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomElevatedContainer(
-      onTap: () => context.push(widget: const ProfilePerson()),
+      onTap: () => context.push(
+        widget: ProfilePerson(
+          userSession: userSession,
+          userMin: ad.author,
+        ),
+      ),
       padding: EdgeInsets.all(16.sp),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

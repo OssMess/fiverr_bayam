@@ -17,6 +17,7 @@ export 'screens/details/promote_location.dart';
 export 'screens/details/promote_subscribe.dart';
 export 'screens/details/report_screen.dart';
 export 'screens/home_screens/all_ads.dart';
+export 'screens/home_screens/all_ads_promoted.dart';
 export 'screens/home_screens/all_companies.dart';
 export 'screens/home_screens/home_screen.dart';
 export 'screens/home_screens/notification_screen.dart';

@@ -2,8 +2,8 @@ import '../../controller/services.dart';
 import '../list_models.dart';
 import '../models.dart';
 
-class ListAdsPromoted extends SetPaginationClasses<AdPromoted> {
-  ListAdsPromoted({required super.userSession});
+class ListAdsPromotedMy extends SetPaginationClasses<AdPromoted> {
+  ListAdsPromotedMy({required super.userSession});
 
   @override
   Future<void> get({
@@ -11,7 +11,7 @@ class ListAdsPromoted extends SetPaginationClasses<AdPromoted> {
     required bool refresh,
     void Function()? onComplete,
   }) async {
-    await AdPromotedServices.of(userSession).get(
+    await AdPromotedServices.of(userSession).getMy(
       page: page,
       refresh: refresh,
       update: super.update,

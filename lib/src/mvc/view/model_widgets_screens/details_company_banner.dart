@@ -13,19 +13,25 @@ class DetailsCompanyBanner extends StatelessWidget {
   const DetailsCompanyBanner({
     super.key,
     required this.userSession,
-    required this.author,
+    required this.userMin,
     required this.isMine,
   });
 
   final UserSession userSession;
-  final UserMin author;
+  final UserMin userMin;
   final bool isMine;
 
   @override
   Widget build(BuildContext context) {
     return CustomElevatedContainer(
-      onTap:
-          !isMine ? () => context.push(widget: const ProfileCompany()) : null,
+      onTap: !isMine
+          ? () => context.push(
+                widget: ProfileCompany(
+                  userSession: userSession,
+                  userMin: userMin,
+                ),
+              )
+          : null,
       padding: EdgeInsets.all(16.sp),
       child: Row(
         children: [
@@ -43,7 +49,7 @@ class DetailsCompanyBanner extends StatelessWidget {
             ),
             child: CircleAvatar(
               backgroundColor: context.textTheme.headlineSmall!.color,
-              backgroundImage: author.image,
+              backgroundImage: userMin.image,
             ),
           ),
           16.widthSp,
@@ -61,7 +67,7 @@ class DetailsCompanyBanner extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  author.displayName,
+                  userMin.displayName,
                   overflow: TextOverflow.ellipsis,
                   style: Styles.poppins(
                     fontSize: 16.sp,
@@ -81,11 +87,11 @@ class DetailsCompanyBanner extends StatelessWidget {
                   future: () async {
                     try {
                       return userSession.listDiscussions!.list.firstWhere(
-                        (element) => element.receiver.uid == author.uid,
+                        (element) => element.receiver.uid == userMin.uid,
                       );
                     } catch (e) {
                       return await DiscussionServices.of(userSession)
-                          .post(receiverId: author.uid);
+                          .post(receiverId: userMin.uid);
                     }
                   },
                   onComplete: (discussion) {

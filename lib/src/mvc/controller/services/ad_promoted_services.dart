@@ -152,7 +152,7 @@ class AdPromotedServices {
     var request = http.Request(
       'GET',
       Uri.parse(
-        '$baseUrl/api/ads/', //?page=${page + 1}',
+        '$baseUrl/api/user/ads/timeline/?page=${page + 1}',
       ),
     );
     request.headers.addAll(
@@ -177,23 +177,4 @@ class AdPromotedServices {
       throw Functions.throwExceptionFromResponse(userSession, response);
     }
   }
-
-  // Future<AdPromoted> get() async {
-  //   var request = http.Request(
-  //     'GET',
-  //     Uri.parse(
-  //       '$baseUrl/api/ads/',
-  //     ),
-  //   );
-  //   request.headers.addAll(Services.headerAcceptldJson);
-  //   http.Response response = await HttpRequest.attemptHttpCall(
-  //     request,
-  //     forceSkipRetries: true,
-  //   );
-  //   if (response.statusCode == 200) {
-  //     return AdPromoted.fromMap(jsonDecode(response.body));
-  //   } else {
-  //     throw Functions.throwExceptionFromResponse(userSession, response);
-  //   }
-  // }
 }

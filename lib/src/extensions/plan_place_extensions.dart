@@ -11,7 +11,6 @@ extension PlanPlaceExtensions on PlanPlace {
 
   String get key => {
         PlanPlace.byCity: 'VILLE',
-        //FIXME
-        PlanPlace.byCountry: 'by_country',
+        PlanPlace.byCountry: 'COUNTRY',
       }[this]!;
 }

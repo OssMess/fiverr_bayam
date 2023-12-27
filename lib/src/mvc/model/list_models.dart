@@ -3,6 +3,7 @@ export 'list_models/list_ads_my.dart';
 export 'list_models/list_ads.dart';
 export 'list_models/list_companies_popular.dart';
 export 'list_models/list_ads_promoted.dart';
+export 'list_models/list_ads_promoted_my.dart';
 export 'list_models/list_categories_sub.dart';
 export 'list_models/list_categories.dart';
 export 'list_models/list_chatbot_messages.dart';

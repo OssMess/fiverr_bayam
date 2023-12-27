@@ -36,7 +36,7 @@ class _Page3CompanyAdsState extends State<Page3CompanyAds> {
         return NotificationListener<ScrollNotification>(
           onNotification: myAds
               ? widget.userSession.listAdsMy?.onMaxScrollExtent
-              : widget.userSession.listAdsPromoted?.onMaxScrollExtent,
+              : widget.userSession.listAdsPromotedMy?.onMaxScrollExtent,
           child: CustomRefreshIndicator(
             onRefresh: () async {
               if (myAds) {
@@ -44,7 +44,7 @@ class _Page3CompanyAdsState extends State<Page3CompanyAds> {
                   () => lastFetchNotifier.value = DateTime.now(),
                 );
               } else {
-                await widget.userSession.listAdsPromoted?.refresh(
+                await widget.userSession.listAdsPromotedMy?.refresh(
                   () => lastFetchNotifier.value = DateTime.now(),
                 );
               }
@@ -142,21 +142,21 @@ class _Page3CompanyAdsState extends State<Page3CompanyAds> {
                           }),
                       16.sliverSp,
                       ChangeNotifierProvider.value(
-                        value: widget.userSession.listAdsPromoted,
-                        child: Consumer<ListAdsPromoted>(
-                          builder: (context, listAdsPromoted, _) {
-                            listAdsPromoted.initData(
+                        value: widget.userSession.listAdsPromotedMy,
+                        child: Consumer<ListAdsPromotedMy>(
+                          builder: (context, listAdsPromotedMy, _) {
+                            listAdsPromotedMy.initData(
                               callGet: widget.page == 2,
                               onComplete: () {
                                 lastFetchNotifier.value = DateTime.now();
                               },
                             );
-                            if (listAdsPromoted.isNull) {
+                            if (listAdsPromotedMy.isNull) {
                               return const CustomLoadingIndicator(
                                 isSliver: true,
                               );
                             }
-                            if (listAdsPromoted.isEmpty) {
+                            if (listAdsPromotedMy.isEmpty) {
                               return SliverToBoxAdapter(
                                 child: EmptyListView(
                                   title: AppLocalizations.of(context)!
@@ -168,26 +168,26 @@ class _Page3CompanyAdsState extends State<Page3CompanyAds> {
                             return SliverPadding(
                               padding: EdgeInsets.symmetric(horizontal: 16.sp),
                               sliver: SliverList.separated(
-                                itemCount: listAdsPromoted.childCount,
+                                itemCount: listAdsPromotedMy.childCount,
                                 separatorBuilder: (context, index) =>
                                     12.heightSp,
                                 itemBuilder: (_, index) {
-                                  if (index < listAdsPromoted.length) {
+                                  if (index < listAdsPromotedMy.length) {
                                     return AdPromotedTile(
                                       userSession: widget.userSession,
                                       adPromoted:
-                                          listAdsPromoted.elementAt(index),
+                                          listAdsPromotedMy.elementAt(index),
                                       expanded: true,
                                       // onTapOptions: () => onTapAdOptions(
                                       //   context,
-                                      //   listAdsPromoted.elementAt(index).ad,
+                                      //   listAdsPromotedMy.elementAt(index).ad,
                                       // ),
                                     );
                                   } else {
                                     return CustomTrailingTile(
-                                      isNotNull: listAdsPromoted.isNotNull,
-                                      isLoading: listAdsPromoted.isLoading,
-                                      hasMore: listAdsPromoted.hasMore,
+                                      isNotNull: listAdsPromotedMy.isNotNull,
+                                      isLoading: listAdsPromotedMy.isLoading,
+                                      hasMore: listAdsPromotedMy.hasMore,
                                       isSliver: false,
                                     );
                                   }

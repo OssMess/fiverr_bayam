@@ -1,11 +1,12 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../extensions.dart';
 import '../../../model/enums.dart';
+import '../../../model/models.dart';
 import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
@@ -14,7 +15,12 @@ import '../../model_widgets_screens.dart';
 class ProfileCompany extends StatelessWidget {
   const ProfileCompany({
     super.key,
+    required this.userSession,
+    required this.userMin,
   });
+
+  final UserSession userSession;
+  final UserMin userMin;
 
   @override
   Widget build(BuildContext context) {
@@ -39,26 +45,27 @@ class ProfileCompany extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 16.sp),
                 child: Column(
                   children: [
-                    //FIXME profile
                     ProfileHeader(
-                      displayName: 'BigMop',
-                      email: 'Bigmop@gmail.com',
-                      imageProfile: const CachedNetworkImageProvider(
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDLL2FyAeYaShg5h1YrW3gEyDHDCUb5o2_lw&usqp=CAU'),
-                      isVerified: true,
-                      elapsedOnline: null,
+                      displayName: userMin.displayName,
+                      email: userMin.email,
+                      imageProfile: userMin.image,
+                      isVerified: userMin.isVerified,
+                      elapsedOnline: userMin.elapsedOnline(context),
                       actions: [
-                        ModelIconButton(
-                          icon: AwesomeIcons.chat,
-                          color: context.scaffoldBackgroundColor,
-                          // onPressed: () => context.push(
-                          //   widget: const DiscussionScreen(
-                          //   ),
-                          // ),
-                        ),
+                        if (userMin.uid != userSession.uid)
+                          ModelIconButton(
+                            icon: AwesomeIcons.chat,
+                            color: context.scaffoldBackgroundColor,
+                            onPressed: () {
+                              //FIXME get or create a discussion and opens screen
+                            },
+                          ),
                         ModelIconButton(
                           icon: AwesomeIcons.phone,
                           color: context.scaffoldBackgroundColor,
+                          onPressed: () => launchUrl(
+                            Uri.parse('tel:${userMin.phoneNumber}'),
+                          ),
                         ),
                       ],
                       margin: EdgeInsets.zero,
@@ -67,18 +74,33 @@ class ProfileCompany extends StatelessWidget {
                       padding: EdgeInsets.symmetric(vertical: 32.sp),
                       child: ProfileRowActions(
                         actions: [
-                          ModelIconButton(
-                            icon: AwesomeIcons.facebook_f,
-                            color: const Color(0xFF3B5998),
-                          ),
-                          ModelIconButton(
-                            icon: AwesomeIcons.twitter,
-                            color: const Color(0xFF00ACEE),
-                          ),
-                          ModelIconButton(
-                            icon: AwesomeIcons.linkedin_in,
-                            color: const Color(0xFF0A66C2),
-                          ),
+                          if (userMin.facebookUrl.isNotNullOrEmpty)
+                            ModelIconButton(
+                              icon: AwesomeIcons.facebook_f,
+                              color: const Color(0xFF3B5998),
+                              onPressed: () => launchUrl(
+                                Uri.parse(userMin.facebookUrl!),
+                                mode: LaunchMode.externalApplication,
+                              ),
+                            ),
+                          if (userMin.twitterUrl.isNotNullOrEmpty)
+                            ModelIconButton(
+                              icon: AwesomeIcons.twitter,
+                              color: const Color(0xFF00ACEE),
+                              onPressed: () => launchUrl(
+                                Uri.parse(userMin.twitterUrl!),
+                                mode: LaunchMode.externalApplication,
+                              ),
+                            ),
+                          if (userMin.linkedinUrl.isNotNullOrEmpty)
+                            ModelIconButton(
+                              icon: AwesomeIcons.linkedin_in,
+                              color: const Color(0xFF0A66C2),
+                              onPressed: () => launchUrl(
+                                Uri.parse(userMin.linkedinUrl!),
+                                mode: LaunchMode.externalApplication,
+                              ),
+                            ),
                           ModelIconButton(
                             icon: AwesomeIcons.share_from_square,
                             color: Styles.green,
@@ -90,28 +112,30 @@ class ProfileCompany extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Align(
-                      alignment: AlignmentDirectional.centerStart,
-                      child: Text(
-                        AppLocalizations.of(context)!.company_description,
+                    if (userMin.bio.isNotNullOrEmpty) ...[
+                      Align(
+                        alignment: AlignmentDirectional.centerStart,
+                        child: Text(
+                          AppLocalizations.of(context)!.company_description,
+                          textAlign: TextAlign.center,
+                          style: Styles.poppins(
+                            fontSize: 16.sp,
+                            fontWeight: Styles.semiBold,
+                            color: context.textTheme.displayLarge!.color,
+                          ),
+                        ),
+                      ),
+                      12.heightSp,
+                      Text(
+                        userMin.bio!,
                         textAlign: TextAlign.center,
                         style: Styles.poppins(
                           fontSize: 16.sp,
-                          fontWeight: Styles.semiBold,
+                          fontWeight: Styles.medium,
                           color: context.textTheme.displayLarge!.color,
                         ),
                       ),
-                    ),
-                    12.heightSp,
-                    Text(
-                      'Lorem ipsum dolor sit amet, consectetur adiing elit, sed do eiusmod tempor incididunt ut labore et dore magna alua. Ut enim ad minim venm, quis nostrud exercitation ullamco laboris nisi ut.',
-                      textAlign: TextAlign.center,
-                      style: Styles.poppins(
-                        fontSize: 16.sp,
-                        fontWeight: Styles.medium,
-                        color: context.textTheme.displayLarge!.color,
-                      ),
-                    ),
+                    ],
                   ],
                 ),
               ),

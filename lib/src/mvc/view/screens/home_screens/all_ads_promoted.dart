@@ -11,8 +11,8 @@ import '../../model_widgets.dart';
 import '../../model_widgets_screens.dart';
 import '../../tiles.dart';
 
-class AllCompanies extends StatelessWidget {
-  const AllCompanies({
+class AllAdsPromoted extends StatelessWidget {
+  const AllAdsPromoted({
     super.key,
     required this.userSession,
   });
@@ -22,9 +22,9 @@ class AllCompanies extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-      value: userSession.listCompaniesPopular,
-      child: Consumer<ListCompaniesPopular>(
-        builder: (context, listCompaniesPopular, _) {
+      value: userSession.listAdsPromoted,
+      child: Consumer<ListAdsPromoted>(
+        builder: (context, listAdsPromoted, _) {
           return Scaffold(
             resizeToAvoidBottomInset: false,
             extendBodyBehindAppBar: true,
@@ -43,22 +43,22 @@ class AllCompanies extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.all(16.sp),
                   child: SettingsHeaderSubtitle(
-                    title: AppLocalizations.of(context)!.popular_companies,
+                    title: AppLocalizations.of(context)!.premium_ads,
                   ),
                 ),
                 Expanded(
                   child: NotificationListener(
-                    onNotification: listCompaniesPopular.onMaxScrollExtent,
+                    onNotification: listAdsPromoted.onMaxScrollExtent,
                     child: CustomRefreshIndicator(
-                      onRefresh: listCompaniesPopular.refresh,
+                      onRefresh: listAdsPromoted.refresh,
                       child: Builder(
                         builder: (context) {
-                          if (listCompaniesPopular.isLoading) {
+                          if (listAdsPromoted.isLoading) {
                             return const CustomLoadingIndicator(
                               isSliver: false,
                             );
                           }
-                          if (listCompaniesPopular.isEmpty) {
+                          if (listAdsPromoted.isEmpty) {
                             return EmptyListView(
                               svgPath: 'assets/images/Empty-pana.svg',
                               title: AppLocalizations.of(context)!.empty_ads,
@@ -69,20 +69,20 @@ class AllCompanies extends StatelessWidget {
                                 .copyWith(
                               bottom: context.viewPadding.bottom,
                             ),
-                            itemCount: listCompaniesPopular.childCount,
+                            itemCount: listAdsPromoted.childCount,
                             separatorBuilder: (context, index) => 16.heightSp,
                             itemBuilder: (_, index) {
-                              if (index < listCompaniesPopular.length) {
-                                return CompanyTile(
+                              if (index < listAdsPromoted.length) {
+                                return AdTile(
                                   userSession: userSession,
-                                  userMin:
-                                      listCompaniesPopular.elementAt(index),
+                                  ad: listAdsPromoted.elementAt(index).ad,
+                                  expanded: true,
                                 );
                               } else {
                                 return CustomTrailingTile(
-                                  isNotNull: listCompaniesPopular.isNotNull,
-                                  isLoading: listCompaniesPopular.isLoading,
-                                  hasMore: listCompaniesPopular.hasMore,
+                                  isNotNull: listAdsPromoted.isNotNull,
+                                  isLoading: listAdsPromoted.isLoading,
+                                  hasMore: listAdsPromoted.hasMore,
                                   isSliver: false,
                                 );
                               }

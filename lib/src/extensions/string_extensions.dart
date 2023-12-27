@@ -56,7 +56,6 @@ extension StringExtension on String {
 
   PlanPlace get toPlanPlace => {
         'VILLE': PlanPlace.byCity,
-        //FIXME
         'COUNTRY': PlanPlace.byCountry,
       }[this]!;
   PlanType get toPlanType => {

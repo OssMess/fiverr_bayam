@@ -25,12 +25,15 @@ class Page1Home extends StatefulWidget {
 
 class _Page1HomeState extends State<Page1Home> {
   ScrollController listAdsController = ScrollController();
+  ScrollController listAdsPromotedController = ScrollController();
   ScrollController listCompaniesPopularController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     widget.userSession.listAds?.addControllerListener(listAdsController);
+    widget.userSession.listAdsPromoted
+        ?.addControllerListener(listAdsController);
     widget.userSession.listCompaniesPopular
         ?.addControllerListener(listCompaniesPopularController);
     initDate();
@@ -38,8 +41,8 @@ class _Page1HomeState extends State<Page1Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<ListAds, ListCompaniesPopular>(
-      builder: (context, listAds, listCompaniesPopular, _) {
+    return Consumer3<ListAds, ListCompaniesPopular, ListAdsPromoted>(
+      builder: (context, listAds, listCompaniesPopular, listAdsPromoted, _) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -70,70 +73,77 @@ class _Page1HomeState extends State<Page1Home> {
                   return CustomScrollView(
                     physics: const AlwaysScrollableScrollPhysics(),
                     slivers: [
-                      16.sliverSp,
-                      SliverHeaderTile(
-                        title: AppLocalizations.of(context)!.popular_companies,
-                        trailing: '${AppLocalizations.of(context)!.show_all} >',
-                        onTapTrailing: () => context.push(
-                          widget: AllCompanies(
-                            title:
-                                AppLocalizations.of(context)!.popular_companies,
-                            listCompanies: ListData.popularCompanies,
+                      8.sliverSp,
+                      if (listAdsPromoted.isNotEmpty) ...[
+                        8.sliverSp,
+                        SliverHeaderTile(
+                          title:
+                              AppLocalizations.of(context)!.popular_companies,
+                          trailing:
+                              '${AppLocalizations.of(context)!.show_all} >',
+                          onTapTrailing: () => context.push(
+                            widget: AllCompanies(
+                              userSession: widget.userSession,
+                            ),
                           ),
                         ),
-                      ),
-                      SliverToBoxAdapter(
-                        child: SizedBox(
-                          width: double.infinity,
-                          height: 190.sp,
-                          child: ListView.separated(
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            controller: listCompaniesPopularController,
-                            scrollDirection: Axis.horizontal,
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 16.sp,
-                              vertical: 12.sp,
+                        SliverToBoxAdapter(
+                          child: SizedBox(
+                            width: double.infinity,
+                            height: 190.sp,
+                            child: ListView.separated(
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              controller: listCompaniesPopularController,
+                              scrollDirection: Axis.horizontal,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 16.sp,
+                                vertical: 12.sp,
+                              ),
+                              itemCount: listCompaniesPopular.length,
+                              itemBuilder: (context, index) => CompanyTile(
+                                userSession: widget.userSession,
+                                userMin: listCompaniesPopular.elementAt(index),
+                              ),
+                              separatorBuilder: (context, index) => 12.widthSp,
                             ),
-                            itemCount: listCompaniesPopular.length,
-                            itemBuilder: (context, index) => CompanyTile(
-                              company: ListData.popularCompanies[index],
-                            ),
-                            separatorBuilder: (context, index) => 12.widthSp,
                           ),
                         ),
-                      ),
-                      // 8.sliverSp,
-                      // SliverHeaderTile(
-                      //   title: AppLocalizations.of(context)!.premium_ads,
-                      //   trailing: '${AppLocalizations.of(context)!.show_all} >',
-                      //   onTapTrailing: () => context.push(
-                      //     widget: AllAdsPremium(
-                      //       userSession: widget.userSession,
-                      //       title: AppLocalizations.of(context)!.premium_ads,
-                      //       listAds: ListData.premiumAds,
-                      //     ),
-                      //   ),
-                      // ),
-                      // SliverToBoxAdapter(
-                      //   child: SizedBox(
-                      //     width: double.infinity,
-                      //     height: 290.sp,
-                      //     child: ListView.separated(
-                      //       scrollDirection: Axis.horizontal,
-                      //       padding: EdgeInsets.symmetric(
-                      //         horizontal: 16.sp,
-                      //         vertical: 12.sp,
-                      //       ),
-                      //       itemCount: ListData.premiumAds.length,
-                      //       itemBuilder: (context, index) => AdTile(
-                      //         userSession: widget.userSession,
-                      //         ad: ListData.premiumAds[index],
-                      //         expanded: false,
-                      //       ),
-                      //       separatorBuilder: (context, index) => 12.widthSp,
-                      //     ),
-                      //   ),
-                      // ),
+                      ],
+                      if (listAdsPromoted.isNotEmpty) ...[
+                        8.sliverSp,
+                        SliverHeaderTile(
+                          title: AppLocalizations.of(context)!.premium_ads,
+                          trailing:
+                              '${AppLocalizations.of(context)!.show_all} >',
+                          onTapTrailing: () => context.push(
+                            widget: AllAdsPromoted(
+                              userSession: widget.userSession,
+                            ),
+                          ),
+                        ),
+                        SliverToBoxAdapter(
+                          child: SizedBox(
+                            width: double.infinity,
+                            height: 290.sp,
+                            child: ListView.separated(
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              controller: listAdsPromotedController,
+                              scrollDirection: Axis.horizontal,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 16.sp,
+                                vertical: 12.sp,
+                              ),
+                              itemCount: listAdsPromoted.length,
+                              itemBuilder: (context, index) => AdTile(
+                                userSession: widget.userSession,
+                                ad: listAdsPromoted.elementAt(index).ad,
+                                expanded: false,
+                              ),
+                              separatorBuilder: (context, index) => 12.widthSp,
+                            ),
+                          ),
+                        ),
+                      ],
                       if (listAds.isNotEmpty) ...[
                         8.sliverSp,
                         SliverHeaderTile(
@@ -184,14 +194,22 @@ class _Page1HomeState extends State<Page1Home> {
   Future<void> initDate() async {
     await widget.userSession.listCompaniesPopular!.initData(callGet: true);
     await widget.userSession.listAds!.initData(callGet: true);
+    await widget.userSession.listAdsPromoted!.initData(callGet: true);
   }
 
   Future<void> refreshData() async {
     await widget.userSession.listCompaniesPopular!.refresh();
     await widget.userSession.listAds!.refresh();
+    await widget.userSession.listAdsPromoted!.refresh();
   }
 
   bool get isLoading =>
       widget.userSession.listAds!.isNull ||
+      widget.userSession.listAdsPromoted!.isNull ||
       widget.userSession.listCompaniesPopular!.isNull;
+
+  bool get isEmpty =>
+      widget.userSession.listAds!.isEmpty &&
+      widget.userSession.listAdsPromoted!.isEmpty &&
+      widget.userSession.listCompaniesPopular!.isEmpty;
 }
