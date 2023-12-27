@@ -50,11 +50,13 @@ class UserSession with ChangeNotifier {
 
   //company
   String? companyName;
+  int? countLiked;
 
   DateTime? lastSeenOnline;
 
   //lists
   ListAds? listAds;
+  ListCompaniesPopular? listCompaniesPopular;
   ListAdsMy? listAdsMy;
   ListAdsPromoted? listAdsPromoted;
   ListDiscussions? listDiscussions;
@@ -83,6 +85,7 @@ class UserSession with ChangeNotifier {
     required this.firstName,
     required this.lastName,
     required this.companyName,
+    required this.countLiked,
     required this.accountType,
     required this.bio,
     required this.birthDate,
@@ -105,6 +108,7 @@ class UserSession with ChangeNotifier {
     this.listAdsPromoted,
     this.listDiscussions,
     this.listAds,
+    this.listCompaniesPopular,
     this.listAdsMy,
     this.listChatBotMessages,
     this.listCategories,
@@ -151,6 +155,7 @@ class UserSession with ChangeNotifier {
       firstName: null,
       lastName: null,
       companyName: null,
+      countLiked: null,
       accountType: null,
       bio: null,
       birthDate: null,
@@ -172,6 +177,7 @@ class UserSession with ChangeNotifier {
       listAdsPromoted: null,
       listDiscussions: null,
       listAds: null,
+      listCompaniesPopular: null,
       listAdsMy: null,
       listChatBotMessages: null,
       listCategories: null,
@@ -222,6 +228,7 @@ class UserSession with ChangeNotifier {
         firstName: firstName,
         lastName: lastName,
         companyName: companyName,
+        countLiked: countLiked,
         accountType: accountType!,
         bio: bio,
         birthDate: birthDate,
@@ -349,6 +356,7 @@ class UserSession with ChangeNotifier {
       listAdsPromoted = ListAdsPromoted(userSession: this);
       listDiscussions = ListDiscussions(userSession: this);
       listAds = ListAds(userSession: this);
+      listCompaniesPopular = ListCompaniesPopular(userSession: this);
       listAdsMy = ListAdsMy(userSession: this);
       listChatBotMessages = ListChatBotMessages(userSession: this);
       listCategories = ListCategories(userSession: this);
@@ -360,6 +368,7 @@ class UserSession with ChangeNotifier {
       listAdsPromoted = null;
       listDiscussions = null;
       listAds = null;
+      listCompaniesPopular = null;
       listAdsMy = null;
       listChatBotMessages = null;
       listCategories = null;
@@ -423,9 +432,11 @@ class UserSession with ChangeNotifier {
     authState = AuthState.authenticated;
     listDiscussions = ListDiscussions(userSession: this);
     listAds = ListAds(userSession: this);
+    listCompaniesPopular = ListCompaniesPopular(userSession: this);
     listAdsMy = ListAdsMy(userSession: this);
     listChatBotMessages = ListChatBotMessages(userSession: this);
     lastSeenOnline = DateTime.tryParse(json['lastSeenOnline'] ?? '');
+    countLiked = json['countLiked'];
     HiveMessages.init(this);
     notifyListeners();
     UserServices.of(this).updateLastSeen();

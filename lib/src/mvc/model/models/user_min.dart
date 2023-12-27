@@ -33,6 +33,7 @@ class UserMin with ChangeNotifier {
   String? linkedinUrl;
   String? twitterUrl;
   DateTime? lastSeenOnline;
+  int? countLiked;
 
   UserMin({
     required this.uid,
@@ -59,6 +60,7 @@ class UserMin with ChangeNotifier {
     required this.isActive,
     required this.isVerified,
     required this.lastSeenOnline,
+    required this.countLiked,
   });
 
   factory UserMin.fromMap(Map<dynamic, dynamic> json) {
@@ -91,6 +93,7 @@ class UserMin with ChangeNotifier {
       isActive: json['isActive'] ?? false,
       isVerified: json['isVerified'],
       lastSeenOnline: DateTime.tryParse(json['lastSeenOnline'] ?? ''),
+      countLiked: json['countLiked'],
     );
   }
 

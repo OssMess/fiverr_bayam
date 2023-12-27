@@ -2,6 +2,7 @@ import 'dart:io';
 
 export './services/ad_promoted_services.dart';
 export './services/ad_services.dart';
+export './services/company_services.dart';
 export './services/auth_services.dart';
 export './services/categories_services.dart';
 export './services/categories_sub_services.dart';

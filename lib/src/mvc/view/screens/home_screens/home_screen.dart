@@ -61,6 +61,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ChangeNotifierProvider.value(
           value: widget.userSession.listAds,
         ),
+        ChangeNotifierProvider.value(
+          value: widget.userSession.listCompaniesPopular,
+        ),
       ],
       child: WillPopScope(
         onWillPop: () {

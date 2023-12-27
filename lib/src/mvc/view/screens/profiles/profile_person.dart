@@ -39,6 +39,7 @@ class ProfilePerson extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 24.sp),
                 child: Column(
                   children: [
+                    //FIXME profile
                     ProfileHeader(
                       displayName: 'Pierre Owona',
                       email: 'pierre.owona@gmail.com',

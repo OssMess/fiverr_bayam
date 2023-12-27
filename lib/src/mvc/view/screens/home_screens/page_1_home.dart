@@ -25,18 +25,21 @@ class Page1Home extends StatefulWidget {
 
 class _Page1HomeState extends State<Page1Home> {
   ScrollController listAdsController = ScrollController();
+  ScrollController listCompaniesPopularController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     widget.userSession.listAds?.addControllerListener(listAdsController);
+    widget.userSession.listCompaniesPopular
+        ?.addControllerListener(listCompaniesPopularController);
+    initDate();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ListAds>(
-      builder: (context, listAds, _) {
-        listAds.initData(callGet: true);
+    return Consumer2<ListAds, ListCompaniesPopular>(
+      builder: (context, listAds, listCompaniesPopular, _) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -57,9 +60,7 @@ class _Page1HomeState extends State<Page1Home> {
             ),
             Expanded(
               child: CustomRefreshIndicator(
-                onRefresh: () async {
-                  await listAds.refresh();
-                },
+                onRefresh: refreshData,
                 child: Builder(builder: (context) {
                   if (isLoading) {
                     return const CustomLoadingIndicator(
@@ -86,12 +87,14 @@ class _Page1HomeState extends State<Page1Home> {
                           width: double.infinity,
                           height: 190.sp,
                           child: ListView.separated(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            controller: listCompaniesPopularController,
                             scrollDirection: Axis.horizontal,
                             padding: EdgeInsets.symmetric(
                               horizontal: 16.sp,
                               vertical: 12.sp,
                             ),
-                            itemCount: ListData.popularCompanies.length,
+                            itemCount: listCompaniesPopular.length,
                             itemBuilder: (context, index) => CompanyTile(
                               company: ListData.popularCompanies[index],
                             ),
@@ -178,5 +181,17 @@ class _Page1HomeState extends State<Page1Home> {
     );
   }
 
-  bool get isLoading => widget.userSession.listAds!.isLoading;
+  Future<void> initDate() async {
+    await widget.userSession.listCompaniesPopular!.initData(callGet: true);
+    await widget.userSession.listAds!.initData(callGet: true);
+  }
+
+  Future<void> refreshData() async {
+    await widget.userSession.listCompaniesPopular!.refresh();
+    await widget.userSession.listAds!.refresh();
+  }
+
+  bool get isLoading =>
+      widget.userSession.listAds!.isNull ||
+      widget.userSession.listCompaniesPopular!.isNull;
 }
