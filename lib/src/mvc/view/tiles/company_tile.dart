@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import '../../../extensions.dart';
 import '../../../tools.dart';
@@ -23,72 +24,82 @@ class CompanyTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomElevatedContainer(
-      onTap: () => context.push(
-        widget: DetailsCompany(
-          userSession: userSession,
-          userMin: userMin,
-        ),
-      ),
-      width: isExpanded ? double.infinity : 160.sp,
-      height: isExpanded ? 240.sp : null,
-      borderRadius: BorderRadius.circular(10.sp),
-      child: Column(
-        children: [
-          Expanded(
-            child: CachedNetworkImage(
-              imageUrl: userMin.imageCompanyUrl != null &&
-                      userMin.imageCompanyUrl!.isNotEmpty
-                  ? userMin.imageCompanyUrl!.first
-                  : userMin.imageProfileUrl ?? '',
-              fit: BoxFit.cover,
-              color: context.textTheme.headlineSmall!.color,
-              progressIndicatorBuilder: (context, url, progress) => Container(
-                alignment: Alignment.center,
-                child: CircularProgressIndicator(
-                  value: progress.progress,
-                  color: Styles.green,
-                ),
+    return ChangeNotifierProvider.value(
+      value: userMin,
+      child: Consumer<UserMin>(
+        builder: (context, userMin, _) {
+          return CustomElevatedContainer(
+            onTap: () => context.push(
+              widget: DetailsCompany(
+                userSession: userSession,
+                userMin: userMin,
               ),
-              imageBuilder: (context, imageProvider) => Container(
-                margin: isExpanded ? EdgeInsets.all(10.sp) : EdgeInsets.zero,
-                padding: EdgeInsets.all(8.sp),
-                alignment: Alignment.bottomLeft,
-                decoration: BoxDecoration(
-                  color: context.textTheme.headlineSmall!.color,
-                  borderRadius: BorderRadius.circular(10.sp),
-                  image: DecorationImage(
-                    image: imageProvider,
-                    fit: BoxFit.cover,
+            ),
+            width: isExpanded ? double.infinity : 160.sp,
+            height: isExpanded ? 240.sp : null,
+            borderRadius: BorderRadius.circular(10.sp),
+            child: Column(
+              children: [
+                Expanded(
+                  child: userMin.imageCompanyUrl != null &&
+                          userMin.imageCompanyUrl!.isNotEmpty
+                      ? CachedNetworkImage(
+                          imageUrl: userMin.imageCompanyUrl!.first,
+                          fit: BoxFit.cover,
+                          color: context.textTheme.headlineSmall!.color,
+                          progressIndicatorBuilder: (context, url, progress) =>
+                              Container(
+                            alignment: Alignment.center,
+                            child: CircularProgressIndicator(
+                              value: progress.progress,
+                              color: Styles.green,
+                            ),
+                          ),
+                          imageBuilder: (context, imageProvider) => Container(
+                            margin: isExpanded
+                                ? EdgeInsets.all(10.sp)
+                                : EdgeInsets.zero,
+                            padding: EdgeInsets.all(8.sp),
+                            alignment: Alignment.bottomLeft,
+                            decoration: BoxDecoration(
+                              color: context.textTheme.headlineSmall!.color,
+                              borderRadius: BorderRadius.circular(10.sp),
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            //FIXME add category or subcategory to company/user min/author
+                            // child:
+                            // Text(
+                            //   company.category.translateTitle(context),
+                            //   style: Styles.poppins(
+                            //     fontSize: 18.sp,
+                            //     fontWeight: Styles.semiBold,
+                            //     color: Colors.white,
+                            //     height: 1.2,
+                            //   ),
+                            // ),
+                          ),
+                        )
+                      : Container(color: context.b6),
+                ),
+                Padding(
+                  padding: isExpanded
+                      ? EdgeInsets.only(bottom: 10.sp).copyWith(top: 8.sp)
+                      : EdgeInsets.symmetric(vertical: 8.sp),
+                  child: CompanyHeaderTile(
+                    logoUrl: userMin.imageProfileUrl,
+                    name: userMin.displayName,
+                    isVerified: userMin.isVerified,
+                    sizeOffset: 0,
+                    padding: EdgeInsetsDirectional.only(start: 10.sp),
                   ),
                 ),
-                //FIXME add category or subcategory to company/user min/author
-                // child:
-                // Text(
-                //   company.category.translateTitle(context),
-                //   style: Styles.poppins(
-                //     fontSize: 18.sp,
-                //     fontWeight: Styles.semiBold,
-                //     color: Colors.white,
-                //     height: 1.2,
-                //   ),
-                // ),
-              ),
+              ],
             ),
-          ),
-          Padding(
-            padding: isExpanded
-                ? EdgeInsets.only(bottom: 10.sp)
-                : EdgeInsets.symmetric(vertical: 8.sp),
-            child: CompanyHeaderTile(
-              logoUrl: userMin.imageProfileUrl!,
-              name: userMin.displayName,
-              isVerified: userMin.isVerified,
-              sizeOffset: 0,
-              padding: EdgeInsetsDirectional.only(start: 10.sp),
-            ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }

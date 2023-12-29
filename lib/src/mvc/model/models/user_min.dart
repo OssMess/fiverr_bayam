@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 
 import '../../../extensions.dart';
 import '../../../tools.dart';
+import '../../controller/services.dart';
 import '../enums.dart';
+import 'user_session.dart';
 
 /// this model represents user session
 class UserMin with ChangeNotifier {
@@ -34,7 +36,7 @@ class UserMin with ChangeNotifier {
   String? twitterUrl;
   DateTime? lastSeenOnline;
   int? countLiked;
-  String? actionLikeType;
+  ActionLikeType? actionLikeType;
 
   UserMin({
     required this.uid,
@@ -96,7 +98,7 @@ class UserMin with ChangeNotifier {
       isVerified: json['isVerified'],
       lastSeenOnline: DateTime.tryParse(json['lastSeenOnline'] ?? ''),
       countLiked: json['countLiked'],
-      actionLikeType: json['actionLikeType'],
+      actionLikeType: (json['actionLikeType'] as String?).toActionLikeType,
     );
   }
 
@@ -114,11 +116,29 @@ class UserMin with ChangeNotifier {
       lastSeenOnline != null &&
       DateTime.now().difference(lastSeenOnline!).inMinutes < 15;
 
+  bool get isLiked => actionLikeType == ActionLikeType.like;
+
   String? elapsedOnline(BuildContext context) {
     if (lastSeenOnline == null) return null;
     int inMinutes = DateTime.now().difference(lastSeenOnline!).inMinutes;
     return inMinutes < 15
         ? '0'
         : DateTimeUtils.of(context).formatElapsed(lastSeenOnline!);
+  }
+
+  Future<void> likeCompany(
+    BuildContext context,
+    UserSession userSession,
+  ) async {
+    await Dialogs.of(context).runAsyncAction<(int, ActionLikeType?)>(
+      future: () async {
+        return await CompanyServices.of(userSession).like(this);
+      },
+      onComplete: (result) {
+        countLiked = result?.$1;
+        actionLikeType = result?.$2;
+        notifyListeners();
+      },
+    );
   }
 }

@@ -1,7 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../settings.dart';
 import '../../../../extensions.dart';
@@ -77,8 +80,9 @@ class Page5PersonProfile extends StatelessWidget {
                         hintText: AppLocalizations.of(context)!.url_hint,
                         initialvalue: userSession.facebookUrl,
                         showPasteButton: true,
-                        onPick: (value) {
+                        onPick: (value) async {
                           if (userSession.facebookUrl == value) return;
+                          if (await validateUrl(context, value) == null) return;
                           userSession.facebookUrl = value;
                           userSession.updateUserSession(context, setState);
                         },
@@ -96,8 +100,9 @@ class Page5PersonProfile extends StatelessWidget {
                         hintText: AppLocalizations.of(context)!.url_hint,
                         initialvalue: userSession.twitterUrl,
                         showPasteButton: true,
-                        onPick: (value) {
+                        onPick: (value) async {
                           if (userSession.twitterUrl == value) return;
+                          if (await validateUrl(context, value) == null) return;
                           userSession.twitterUrl = value;
                           userSession.updateUserSession(context, setState);
                         },
@@ -115,8 +120,9 @@ class Page5PersonProfile extends StatelessWidget {
                         hintText: AppLocalizations.of(context)!.url_hint,
                         initialvalue: userSession.linkedinUrl,
                         showPasteButton: true,
-                        onPick: (value) {
+                        onPick: (value) async {
                           if (userSession.linkedinUrl == value) return;
+                          if (await validateUrl(context, value) == null) return;
                           userSession.linkedinUrl = value;
                           userSession.updateUserSession(context, setState);
                         },
@@ -187,5 +193,20 @@ class Page5PersonProfile extends StatelessWidget {
         (context.viewPadding.bottom + 20.sp).sliver,
       ],
     );
+  }
+
+  Future<String?> validateUrl(BuildContext context, String? value) async {
+    try {
+      if (!await canLaunchUrl(Uri.parse(value ?? ''))) {
+        throw Exception();
+      }
+      return value;
+    } catch (e) {
+      if (!context.mounted) return null;
+      context.showSnackBar(
+        message: AppLocalizations.of(context)!.invalid_url,
+      );
+      return null;
+    }
   }
 }

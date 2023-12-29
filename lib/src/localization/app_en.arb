@@ -348,6 +348,7 @@
   "m":"{nb}m",
   "h":"{nb}h",
   "d":"{nb}d",
+  "invalid_url":"Invalid link! Please try again.",
 
 
   "@sent_nb_messages":{

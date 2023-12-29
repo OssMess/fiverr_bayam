@@ -9,7 +9,6 @@ import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
 import '../../model_widgets_screens.dart';
-import '../../screens.dart';
 
 class SecuritySettings extends StatelessWidget {
   const SecuritySettings({
@@ -44,24 +43,24 @@ class SecuritySettings extends StatelessWidget {
                   SettingsHeaderSubtitle(
                     title: AppLocalizations.of(context)!.security_settings,
                   ),
-                  16.heightSp,
-                  CustomElevatedListTile(
-                    title: AppLocalizations.of(context)!.change_password,
-                    leadingIcon: AwesomeIcons.lock_rounded,
-                    showContainerDecoration: false,
-                    showTrailing: false,
-                    padding: EdgeInsets.all(12.sp),
-                    onTap: () => context.push(widget: const ChangePassword()),
-                  ),
-                  16.heightSp,
-                  CustomElevatedListTile(
-                    title: AppLocalizations.of(context)!.forgot_password,
-                    leadingIcon: AwesomeIcons.circle_question,
-                    showContainerDecoration: false,
-                    showTrailing: false,
-                    padding: EdgeInsets.all(12.sp),
-                    onTap: () => context.push(widget: const ForgotPassword()),
-                  ),
+                  // 16.heightSp,
+                  // CustomElevatedListTile(
+                  //   title: AppLocalizations.of(context)!.change_password,
+                  //   leadingIcon: AwesomeIcons.lock_rounded,
+                  //   showContainerDecoration: false,
+                  //   showTrailing: false,
+                  //   padding: EdgeInsets.all(12.sp),
+                  //   onTap: () => context.push(widget: const ChangePassword()),
+                  // ),
+                  // 16.heightSp,
+                  // CustomElevatedListTile(
+                  //   title: AppLocalizations.of(context)!.forgot_password,
+                  //   leadingIcon: AwesomeIcons.circle_question,
+                  //   showContainerDecoration: false,
+                  //   showTrailing: false,
+                  //   padding: EdgeInsets.all(12.sp),
+                  //   onTap: () => context.push(widget: const ForgotPassword()),
+                  // ),
                   16.heightSp,
                   CustomElevatedListTile(
                     title: AppLocalizations.of(context)!.delete_account,

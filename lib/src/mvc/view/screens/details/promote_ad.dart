@@ -211,7 +211,7 @@ class _PromoteAdState extends State<PromoteAd> {
         );
       },
       onComplete: (adPromoted) {
-        widget.userSession.listAdsPromoted!.insert(adPromoted!);
+        widget.userSession.listAdsPromotedMy!.insert(adPromoted!);
         Dialogs.of(context).showCustomDialog(
           header: AppLocalizations.of(context)!.ad_thankyou_header,
           title: AppLocalizations.of(context)!.success,

@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import '../../../extensions.dart';
 import '../../../tools.dart';
+import '../../model/enums.dart';
 import '../../model/models.dart';
 import '../services.dart';
 
@@ -18,7 +20,7 @@ class CompanyServices {
   }
 
   /// like company.
-  Future<void> like(UserMin userMin) async {
+  Future<(int, ActionLikeType?)> like(UserMin userMin) async {
     var request = http.Request(
       'POST',
       Uri.parse(
@@ -32,6 +34,11 @@ class CompanyServices {
       forceSkipRetries: true,
     );
     if (response.statusCode == 201) {
+      Map<dynamic, dynamic> result = jsonDecode(response.body);
+      return (
+        (result['countLiked'] ?? 0) as int,
+        (result['actionLikeType'] as String?).toActionLikeType
+      );
     } else {
       throw Functions.throwExceptionFromResponse(userSession, response);
     }

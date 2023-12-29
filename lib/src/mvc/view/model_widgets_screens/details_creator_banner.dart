@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -64,16 +65,20 @@ class DetailsCreatorBanner extends StatelessWidget {
                             height: 1.2,
                           ),
                         ),
-                        8.widthSp,
-                        Icon(
-                          AwesomeIcons.badge_check,
-                          size: 16.sp,
-                          color: Styles.blue,
-                        ),
+                        if (ad.author.isVerified) ...[
+                          8.widthSp,
+                          Icon(
+                            AwesomeIcons.badge_check,
+                            size: 16.sp,
+                            color: Styles.blue,
+                          ),
+                        ],
                       ],
                     ),
                     Text(
-                      AppLocalizations.of(context)!.agriculture,
+                      ad.subCategories.map((e) => e.name).join(' • '),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: Styles.poppins(
                         fontSize: 12.sp,
                         fontWeight: Styles.regular,
@@ -84,12 +89,14 @@ class DetailsCreatorBanner extends StatelessWidget {
                   ],
                 ),
               ),
-              16.widthSp,
-              CustomFlatButton(
-                icon: AwesomeIcons.thumbs_up,
-                iconColor: context.textTheme.headlineMedium!.color,
-                onTap: () {},
-              ),
+              if (!ad.isMine || kDebugMode) ...[
+                16.widthSp,
+                CustomFlatButton(
+                  icon: AwesomeIcons.thumbs_up,
+                  iconColor: context.textTheme.headlineMedium!.color,
+                  onTap: () => ad.author.likeCompany(context, userSession),
+                ),
+              ],
               if (!ad.isMine) ...[
                 16.widthSp,
                 CustomFlatButton(

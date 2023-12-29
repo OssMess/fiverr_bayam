@@ -77,6 +77,7 @@ class AllCompanies extends StatelessWidget {
                                   userSession: userSession,
                                   userMin:
                                       listCompaniesPopular.elementAt(index),
+                                  isExpanded: true,
                                 );
                               } else {
                                 return CustomTrailingTile(

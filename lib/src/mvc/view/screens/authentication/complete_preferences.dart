@@ -122,8 +122,9 @@ class _CompletePreferencesState extends State<CompletePreferences> {
                                 CategorySub preference =
                                     list.list.elementAt(index);
                                 return PreferenceCheckListTile(
-                                  checked:
-                                      pickedPreferences.contains(preference),
+                                  checked: pickedPreferences
+                                      .map((element) => element.uuid)
+                                      .contains(preference.uuid),
                                   preference: preference,
                                   onChange: (added) {
                                     if (added) {

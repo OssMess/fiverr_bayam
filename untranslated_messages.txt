@@ -32,6 +32,7 @@
     "moments_ago",
     "m",
     "h",
-    "d"
+    "d",
+    "invalid_url"
   ]
 }

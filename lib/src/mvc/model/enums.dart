@@ -16,3 +16,4 @@ export 'enums/plan_type.dart';
 export 'enums/plan_place.dart';
 export 'enums/search_tab.dart';
 export 'enums/filter_type.dart';
+export 'enums/action_like_type.dart';

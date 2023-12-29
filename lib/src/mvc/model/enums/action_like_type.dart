@@ -1,0 +1,4 @@
+enum ActionLikeType {
+  like,
+  dislike,
+}

@@ -53,24 +53,32 @@ class CompanyHeaderTile extends StatelessWidget {
             ),
           ),
           8.widthSp,
-          Text(
-            name,
-            overflow: TextOverflow.fade,
-            style: Styles.poppins(
-              fontSize: 14.sp - sizeOffset,
-              fontWeight: Styles.semiBold,
-              color: context.textTheme.displayLarge!.color,
-              height: 1.2,
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    name,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: Styles.poppins(
+                      fontSize: 14.sp - sizeOffset,
+                      fontWeight: Styles.semiBold,
+                      color: context.textTheme.displayLarge!.color,
+                      height: 1.2,
+                    ),
+                  ),
+                ),
+                4.widthSp,
+                if (isVerified)
+                  Icon(
+                    AwesomeIcons.badge_check,
+                    size: 16.sp - sizeOffset,
+                    color: Styles.blue,
+                  ),
+              ],
             ),
           ),
-          4.widthSp,
-          if (isVerified)
-            Icon(
-              AwesomeIcons.badge_check,
-              size: 16.sp - sizeOffset,
-              color: Styles.blue,
-            ),
-          const Spacer(),
           if (trailingUrl != null)
             CircleAvatar(
               radius: 20.sp - sizeOffset,

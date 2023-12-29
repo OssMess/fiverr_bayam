@@ -20,11 +20,11 @@ class DetailsDescriptionBanner extends StatelessWidget {
     required this.onLike,
   });
 
-  final String description;
-  final String address;
+  final String? description;
+  final String? address;
   final String? date;
   final String? website;
-  final List<String> tags;
+  final List<String>? tags;
   final int? employees;
   final int likes;
   final void Function()? onLike;
@@ -45,24 +45,32 @@ class DetailsDescriptionBanner extends StatelessWidget {
               color: context.textTheme.displayLarge!.color,
             ),
           ),
-          8.heightSp,
-          Text(
-            description,
-            style: Styles.poppins(
-              fontSize: 14.sp,
-              fontWeight: Styles.medium,
-              color: context.textTheme.displayLarge!.color,
-            ),
-          ),
-          CustomDivider(
-            height: 24.sp,
-          ),
-          DescriptionInfoTile(
-            icon: AwesomeIcons.location_dot_outlined,
-            label: address,
-          ),
-          if (website != null) ...[
+          if (description.isNotNullOrEmpty) ...[
             8.heightSp,
+            Text(
+              description!,
+              style: Styles.poppins(
+                fontSize: 14.sp,
+                fontWeight: Styles.medium,
+                color: context.textTheme.displayLarge!.color,
+              ),
+            ),
+          ],
+          if (description.isNotNullOrEmpty && address.isNotNullOrEmpty) ...[
+            CustomDivider(
+              height: 24.sp,
+            ),
+          ],
+          if (address.isNotNullOrEmpty) ...[
+            DescriptionInfoTile(
+              icon: AwesomeIcons.location_dot_outlined,
+              label: address!,
+            ),
+          ],
+          if (website.isNotNullOrEmpty && address.isNotNullOrEmpty) ...[
+            8.heightSp,
+          ],
+          if (website.isNotNullOrEmpty) ...[
             DescriptionInfoTile(
               icon: Icons.link,
               label: website!,
@@ -75,41 +83,43 @@ class DetailsDescriptionBanner extends StatelessWidget {
               label: date!,
             ),
           ],
-          CustomDivider(
-            height: 24.sp,
-          ),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Wrap(
-                  alignment: WrapAlignment.start,
-                  crossAxisAlignment: WrapCrossAlignment.start,
-                  direction: Axis.horizontal,
-                  runAlignment: WrapAlignment.start,
-                  runSpacing: 8.sp,
-                  spacing: 8.sp,
-                  children: tags
-                      .map(
-                        (text) => CustomFlatButton(
-                          color: Styles.green[50],
-                          child: Text(
-                            text,
-                            style: Styles.poppins(
-                              fontSize: 14.sp,
-                              fontWeight: Styles.medium,
-                              color: Styles.green,
+          if (tags != null && tags!.isNotEmpty) ...[
+            CustomDivider(
+              height: 24.sp,
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Wrap(
+                    alignment: WrapAlignment.start,
+                    crossAxisAlignment: WrapCrossAlignment.start,
+                    direction: Axis.horizontal,
+                    runAlignment: WrapAlignment.start,
+                    runSpacing: 8.sp,
+                    spacing: 8.sp,
+                    children: tags!
+                        .map(
+                          (text) => CustomFlatButton(
+                            color: Styles.green[50],
+                            child: Text(
+                              text,
+                              style: Styles.poppins(
+                                fontSize: 14.sp,
+                                fontWeight: Styles.medium,
+                                color: Styles.green,
+                              ),
                             ),
                           ),
-                        ),
-                      )
-                      .toList(),
+                        )
+                        .toList(),
+                  ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
+          ],
           CustomDivider(
             height: 24.sp,
           ),

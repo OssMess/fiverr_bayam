@@ -58,6 +58,7 @@ extension StringExtension on String {
         'VILLE': PlanPlace.byCity,
         'COUNTRY': PlanPlace.byCountry,
       }[this]!;
+
   PlanType get toPlanType => {
         'BASE': PlanType.basic,
         'base': PlanType.basic,
@@ -99,4 +100,9 @@ extension StringNullableExtension on String? {
 
   ImageProvider<Object>? get toImageProvider =>
       isNullOrEmpty ? null : CachedNetworkImageProvider(this!);
+
+  ActionLikeType? get toActionLikeType => {
+        'LIKE': ActionLikeType.like,
+        'DISLIKE': ActionLikeType.dislike,
+      }[this];
 }
