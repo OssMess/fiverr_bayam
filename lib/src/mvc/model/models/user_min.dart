@@ -12,8 +12,8 @@ class UserMin with ChangeNotifier {
   String phoneNumber;
   ImageProvider<Object>? imageProfile;
   String? imageProfileUrl;
-  ImageProvider<Object>? imageCompany;
-  String? imageCompanyUrl;
+  List<ImageProvider<Object>>? imageCompany;
+  List<String>? imageCompanyUrl;
   AccountType accountType;
   String? email;
   String? city;
@@ -73,7 +73,7 @@ class UserMin with ChangeNotifier {
       imageProfileUrl: (json['imageProfile'] as String?),
       imageCompany: List.from(json['imageCompany'] ?? [])
           .map((e) => (e as String).toImageProvider!)
-          .firstOrNull,
+          .toList(),
       imageCompanyUrl: List.from(json['imageCompany'] ?? []).firstOrNull,
       firstName: json['firstName'],
       lastName: json['lastName'],
@@ -107,10 +107,6 @@ class UserMin with ChangeNotifier {
   bool get isCompany => accountType == AccountType.company;
 
   String get displayName => companyName ?? '$firstName $lastName';
-
-  ImageProvider<Object>? get image => imageProfile ?? imageCompany;
-
-  String? get imageUrl => imageProfileUrl ?? imageCompanyUrl;
 
   static UserMin fromResponse(String body) => UserMin.fromMap(jsonDecode(body));
 

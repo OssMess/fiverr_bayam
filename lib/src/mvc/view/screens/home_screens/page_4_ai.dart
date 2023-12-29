@@ -127,7 +127,7 @@ class _Page4AIState extends State<Page4AI> {
                         var message = listChatBotMessages.elementAt(i);
                         return MessageTile(
                           avatar: message.isMine
-                              ? widget.userSession.image
+                              ? widget.userSession.imageProfile
                               : const CachedNetworkImageProvider(
                                   'https://images.squarespace-cdn.com/content/v1/51ef4493e4b0561c90fa76d6/1667315305235-RCUO3EX7WIENHM8CG9U1/20210601_SLP2805-edit.jpg?format=1000w',
                                 ),

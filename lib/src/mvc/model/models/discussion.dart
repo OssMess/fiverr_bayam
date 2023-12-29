@@ -65,9 +65,9 @@ class Discussion with ChangeNotifier {
 
   bool get isSeen => true;
 
-  ImageProvider<Object>? get image => receiver.image;
+  ImageProvider<Object>? get image => receiver.imageProfile;
 
-  String? get imageUrl => receiver.imageUrl;
+  String? get imageUrl => receiver.imageProfileUrl;
 
   String get lastMessage => messages.isEmpty ? '' : messages.first.message;
 

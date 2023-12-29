@@ -74,7 +74,7 @@ class _Page1HomeState extends State<Page1Home> {
                     physics: const AlwaysScrollableScrollPhysics(),
                     slivers: [
                       8.sliverSp,
-                      if (listAdsPromoted.isNotEmpty) ...[
+                      if (listCompaniesPopular.isNotEmpty) ...[
                         8.sliverSp,
                         SliverHeaderTile(
                           title:

@@ -45,7 +45,7 @@ class DetailsCreatorBanner extends StatelessWidget {
               CircleAvatar(
                 radius: 24.sp,
                 backgroundColor: context.textTheme.headlineSmall!.color,
-                backgroundImage: ad.author.image,
+                backgroundImage: ad.author.imageProfile,
               ),
               16.widthSp,
               Expanded(

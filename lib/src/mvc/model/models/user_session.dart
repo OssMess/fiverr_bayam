@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../extensions.dart';
@@ -21,8 +22,8 @@ class UserSession with ChangeNotifier {
   String? imageProfileUrl;
   List<ImageProvider<Object>>? imageUserIdentity;
   List<String>? imageUserIdentityUrl;
-  ImageProvider<Object>? imageCompany;
-  String? imageCompanyUrl;
+  List<ImageProvider<Object>>? imageCompany;
+  List<String>? imageCompanyUrl;
   List<ImageProvider<Object>>? imageCompanyTax;
   List<String>? imageCompanyTaxUrl;
   AccountType? accountType;
@@ -402,8 +403,9 @@ class UserSession with ChangeNotifier {
         List<String>.from(json['imageUserIdentity'] ?? []).toList();
     imageUserIdentity =
         (imageUserIdentityUrl ?? []).map((e) => e.toImageProvider!).toList();
-    imageCompanyUrl = List<String>.from(json['imageCompany'] ?? []).firstOrNull;
-    imageCompany = imageCompanyUrl.toImageProvider;
+    imageCompanyUrl = List<String>.from(json['imageCompany'] ?? []);
+    imageCompany =
+        imageCompanyUrl?.map((e) => CachedNetworkImageProvider(e)).toList();
     imageCompanyTaxUrl =
         List<String>.from(json['imageCompanyTax'] ?? []).toList();
     imageCompanyTax =
@@ -443,6 +445,11 @@ class UserSession with ChangeNotifier {
     listChatBotMessages = ListChatBotMessages(userSession: this);
     lastSeenOnline = DateTime.tryParse(json['lastSeenOnline'] ?? '');
     countLiked = json['countLiked'];
+    listCategories = ListCategories(userSession: this);
+    listCategoriesSub = ListCategoriesSub(userSession: this);
+    listCountries = ListCountries(userSession: this);
+    listCities = ListCities(userSession: this);
+    listPlans = ListPlans(userSession: this);
     HiveMessages.init(this);
     notifyListeners();
     UserServices.of(this).updateLastSeen();
@@ -494,6 +501,4 @@ class UserSession with ChangeNotifier {
   }
 
   String get displayName => companyName ?? '$firstName $lastName';
-
-  ImageProvider<Object>? get image => imageProfile ?? imageCompany;
 }

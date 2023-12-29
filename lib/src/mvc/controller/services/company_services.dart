@@ -55,11 +55,8 @@ class CompanyServices {
       ),
     );
     request.headers.addAll(
-      Services.headersldJson,
+      Services.headerAcceptldJson,
     );
-    request.body = json.encode({
-      'actionLikeType': '',
-    });
     http.Response response = await HttpRequest.attemptHttpCall(
       request,
       forceSkipRetries: true,

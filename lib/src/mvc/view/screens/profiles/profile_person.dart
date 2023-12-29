@@ -48,7 +48,7 @@ class ProfilePerson extends StatelessWidget {
                     ProfileHeader(
                       displayName: userMin.displayName,
                       email: userMin.email,
-                      imageProfile: userMin.image,
+                      imageProfile: userMin.imageProfile,
                       isVerified: userMin.isVerified,
                       elapsedOnline: userMin.elapsedOnline(context),
                       actions: [

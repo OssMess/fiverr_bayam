@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../extensions.dart';
 import '../../../model/enums.dart';
-import '../../../model/list_models.dart';
 import '../../../model/models.dart';
 import '../../model_widgets.dart';
-import '../../tiles.dart';
 
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({
@@ -32,30 +29,31 @@ class FavoritesScreen extends StatelessWidget {
               onTap: context.pop,
             ),
           ),
-          Expanded(
-            child: CustomRefreshIndicator(
-              onRefresh: () async {
-                await Future.delayed(const Duration(seconds: 1));
-              },
-              child: CustomScrollView(
-                slivers: [
-                  SliverPadding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.sp),
-                    sliver: SliverList.separated(
-                      itemCount: ListData.ads.length,
-                      separatorBuilder: (context, index) => 12.heightSp,
-                      itemBuilder: (context, index) => AdTile(
-                        userSession: userSession,
-                        ad: ListData.ads[index],
-                        expanded: true,
-                      ),
-                    ),
-                  ),
-                  (context.viewPadding.bottom + 20.sp).sliver,
-                ],
-              ),
-            ),
-          ),
+          //FIXME favorits ads
+          // Expanded(
+          //   child: CustomRefreshIndicator(
+          //     onRefresh: () async {
+          //       await Future.delayed(const Duration(seconds: 1));
+          //     },
+          //     child: CustomScrollView(
+          //       slivers: [
+          //         SliverPadding(
+          //           padding: EdgeInsets.symmetric(horizontal: 16.sp),
+          //           sliver: SliverList.separated(
+          //             itemCount: ListData.ads.length,
+          //             separatorBuilder: (context, index) => 12.heightSp,
+          //             itemBuilder: (context, index) => AdTile(
+          //               userSession: userSession,
+          //               ad: ListData.ads[index],
+          //               expanded: true,
+          //             ),
+          //           ),
+          //         ),
+          //         (context.viewPadding.bottom + 20.sp).sliver,
+          //       ],
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

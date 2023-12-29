@@ -111,7 +111,7 @@ class AdPromotedTile extends StatelessWidget {
                 8.heightSp,
                 CompanyHeaderTile(
                   name: adPromoted.ad.author.displayName,
-                  logoUrl: adPromoted.ad.author.imageUrl,
+                  logoUrl: adPromoted.ad.author.imageProfileUrl,
                   isVerified: adPromoted.ad.author.isVerified,
                   trailingUrl: null,
                   // onTapOptions: onTapOptions,

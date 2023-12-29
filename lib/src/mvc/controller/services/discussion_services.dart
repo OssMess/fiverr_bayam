@@ -59,25 +59,29 @@ class DiscussionServices {
   Future<Discussion> post({
     required String receiverId,
   }) async {
-    receiverId = '3d3f3e2f-75ce-45b6-8351-d46fe49f5991';
-    var request = http.Request(
-      'POST',
-      Uri.parse(
-        '$baseUrl/api/discussion',
-      ),
-    );
-    request.headers.addAll(Services.headersldJson);
-    request.body = json.encode({
-      'receiver': receiverId,
-    });
-    http.Response response = await HttpRequest.attemptHttpCall(request);
-    if (response.statusCode == 201) {
-      return jsonToDiscussion(
-        jsonDecode(response.body),
-        userSession,
+    try {
+      return userSession.listDiscussions!.list
+          .firstWhere((element) => element.receiver.uid == receiverId);
+    } catch (e) {
+      var request = http.Request(
+        'POST',
+        Uri.parse(
+          '$baseUrl/api/discussion',
+        ),
       );
-    } else {
-      throw Functions.throwExceptionFromResponse(userSession, response);
+      request.headers.addAll(Services.headersldJson);
+      request.body = json.encode({
+        'receiver': receiverId,
+      });
+      http.Response response = await HttpRequest.attemptHttpCall(request);
+      if (response.statusCode == 201) {
+        return jsonToDiscussion(
+          jsonDecode(response.body),
+          userSession,
+        );
+      } else {
+        throw Functions.throwExceptionFromResponse(userSession, response);
+      }
     }
   }
 }

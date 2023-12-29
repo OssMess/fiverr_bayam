@@ -180,8 +180,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                 Message message = listMessages.elementAt(index);
                                 return MessageTile(
                                   avatar: message.isMine
-                                      ? widget.userSession.image
-                                      : widget.discussion.receiver.image,
+                                      ? widget.userSession.imageProfile
+                                      : widget.discussion.receiver.imageProfile,
                                   message: message,
                                   lastMessage: index > 0
                                       ? listMessages.elementAt(index - 1)

@@ -17,14 +17,14 @@ class CompletePreferences extends StatefulWidget {
   const CompletePreferences({
     super.key,
     required this.userSession,
-    this.imageCompany,
+    this.imageProfile,
     this.accountType,
     this.onPick,
   }) : assert((accountType == null && onPick != null) ||
             (accountType != null && onPick == null));
 
   final UserSession userSession;
-  final XFile? imageCompany;
+  final XFile? imageProfile;
   final AccountType? accountType;
   final void Function(Set<CategorySub>)? onPick;
 
@@ -153,11 +153,12 @@ class _CompletePreferencesState extends State<CompletePreferences> {
   }
 
   Future<void> next() async {
-    // CategoriesSubServices.of(widget.userSession).post(
-    //   name: 'sub-category 4',
-    //   description: '',
-    //   category: '68672060-6fa5-4e5b-8852-7fe8a1d735c2',
-    // );
+    // CategoriesSubServices.of(widget.userSession)
+    //     .post(
+    //         name: 'Sub-category 4',
+    //         description: '',
+    //         categoryId: '1eea5c2c-c008-6406-994e-35c8555a9e4c')
+    //     .then((value) => print(value.uuid));
     // return;
     if (widget.accountType != null) {
       if (pickedPreferences.length < 3) {
@@ -173,7 +174,7 @@ class _CompletePreferencesState extends State<CompletePreferences> {
           context.push(
             widget: CompleteRegistrationC2(
               userSession: widget.userSession,
-              imageCompany: widget.imageCompany,
+              imageProfile: widget.imageProfile,
             ),
           );
           break;

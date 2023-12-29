@@ -32,7 +32,7 @@ class _CompleteRegistrationPageC1State
   final GlobalKey<FormState> _keyForm = GlobalKey();
   TextEditingController dateController = TextEditingController();
   String? companyName;
-  XFile? imageCompany;
+  XFile? imageProfile;
   String? uniqueRegisterNumber;
   String? streetAddress;
   String? city;
@@ -111,7 +111,7 @@ class _CompleteRegistrationPageC1State
                           await Functions.of(context).pickImage(
                             source: ImageSource.gallery,
                             onPick: (xfile) {
-                              imageCompany = xfile;
+                              imageProfile = xfile;
                             },
                           );
                         },
@@ -334,7 +334,7 @@ class _CompleteRegistrationPageC1State
       widget: CompletePreferences(
         userSession: widget.userSession,
         accountType: AccountType.company,
-        imageCompany: imageCompany,
+        imageProfile: imageProfile,
       ),
     );
   }

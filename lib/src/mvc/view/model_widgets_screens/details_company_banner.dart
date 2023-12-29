@@ -49,7 +49,7 @@ class DetailsCompanyBanner extends StatelessWidget {
             ),
             child: CircleAvatar(
               backgroundColor: context.textTheme.headlineSmall!.color,
-              backgroundImage: userMin.image,
+              backgroundImage: userMin.imageProfile,
             ),
           ),
           16.widthSp,

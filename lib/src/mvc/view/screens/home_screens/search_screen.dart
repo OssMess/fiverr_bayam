@@ -6,7 +6,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../extensions.dart';
 import '../../../model/change_notifiers.dart';
 import '../../../model/enums.dart';
-import '../../../model/list_models.dart';
 import '../../../model/models.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
@@ -237,24 +236,25 @@ class _SearchScreenState extends State<SearchScreen>
                             ),
                           ),
                         ),
-                        8.heightSp,
-                        Expanded(
-                          child: ListView.separated(
-                            // shrinkWrap: true,
-                            padding: EdgeInsets.all(16.sp),
-                            itemCount: ListData.searchHistory.length,
-                            itemBuilder: (context, index) => SearchHistoryTile(
-                              searchHistory: ListData.searchHistory[index],
-                              onTap: notifierViewMode.openPageResults,
-                              onClose: () => setState(() {
-                                ListData.searchHistory.removeAt(index);
-                              }),
-                            ),
-                            separatorBuilder: (context, index) => CustomDivider(
-                              height: 12.sp,
-                            ),
-                          ),
-                        ),
+                        //FIXME search history
+                        // 8.heightSp,
+                        // Expanded(
+                        //   child: ListView.separated(
+                        //     // shrinkWrap: true,
+                        //     padding: EdgeInsets.all(16.sp),
+                        //     itemCount: ListData.searchHistory.length,
+                        //     itemBuilder: (context, index) => SearchHistoryTile(
+                        //       searchHistory: ListData.searchHistory[index],
+                        //       onTap: notifierViewMode.openPageResults,
+                        //       onClose: () => setState(() {
+                        //         ListData.searchHistory.removeAt(index);
+                        //       }),
+                        //     ),
+                        //     separatorBuilder: (context, index) => CustomDivider(
+                        //       height: 12.sp,
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                       if (notifierViewMode.isInPageResults) ...[
                         16.heightSp,
@@ -275,25 +275,26 @@ class _SearchScreenState extends State<SearchScreen>
                           animation: tabController,
                           // child: SliverToBoxAdapter(child: SizedBox.shrink()),
                           builder: (context, child) {
-                            /// Tab view 1: Ads search results
-                            if (tabController.index == 0) {
-                              return Expanded(
-                                child: ListView.separated(
-                                  // shrinkWrap: true,
-                                  padding: EdgeInsets.all(16.sp),
-                                  itemCount: ListData.ads.length,
-                                  separatorBuilder: (context, index) =>
-                                      12.heightSp,
-                                  itemBuilder: (context, index) => AdTile(
-                                    userSession: widget.userSession,
-                                    ad: ListData.ads[index],
-                                    expanded: true,
-                                  ),
-                                ),
-                              );
-                            }
                             return const SizedBox.shrink();
 
+                            /// //FIXME searchable ads
+                            /// Tab view 1: Ads search results
+                            // if (tabController.index == 0) {
+                            //   return Expanded(
+                            //     child: ListView.separated(
+                            //       // shrinkWrap: true,
+                            //       padding: EdgeInsets.all(16.sp),
+                            //       itemCount: ListData.ads.length,
+                            //       separatorBuilder: (context, index) =>
+                            //           12.heightSp,
+                            //       itemBuilder: (context, index) => AdTile(
+                            //         userSession: widget.userSession,
+                            //         ad: ListData.ads[index],
+                            //         expanded: true,
+                            //       ),
+                            //     ),
+                            //   );
+                            // }
                             /// //FIXME searchable popular companies
                             /// Tab view 2: Companies search results
                             // return Expanded(

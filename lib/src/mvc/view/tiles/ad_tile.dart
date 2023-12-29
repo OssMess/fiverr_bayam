@@ -109,7 +109,7 @@ class AdTile extends StatelessWidget {
                 8.heightSp,
                 CompanyHeaderTile(
                   name: ad.author.displayName,
-                  logoUrl: ad.author.imageUrl,
+                  logoUrl: ad.author.imageProfileUrl,
                   isVerified: ad.author.isVerified,
                   trailingUrl: null,
                   onTapOptions: onTapOptions,

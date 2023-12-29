@@ -8,7 +8,6 @@ export './models/category_sub.dart';
 export './models/category.dart';
 export './models/chat.dart';
 export './models/city.dart';
-export './models/company.dart';
 export './models/country.dart';
 export './models/discussion.dart';
 export './models/faq.dart';

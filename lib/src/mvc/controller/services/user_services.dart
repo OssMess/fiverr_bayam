@@ -44,7 +44,7 @@ class UserServices {
   /// [imageCompany],[imageCompanyTax], and [imageUserIdentity].
   Future<void> post({
     File? imageProfile,
-    File? imageCompany,
+    List<File>? imageCompany,
     List<File>? imageCompanyTax,
     List<File>? imageUserIdentity,
   }) async {
@@ -96,10 +96,16 @@ class UserServices {
             'imageProfile': value,
           }));
     }
-    if (imageCompany != null) {
-      await imageCompany.toBase64String().then((value) => body.addAll({
-            'imageCompany': [value],
-          }));
+    if (imageCompany != null && imageCompany.isNotEmpty) {
+      List<String> imageCompanyString = [];
+      for (var image in imageCompany) {
+        await image
+            .toBase64String()
+            .then((value) => imageCompanyString.add(value));
+      }
+      body.addAll({
+        'imageCompany': imageCompanyString,
+      });
     }
     if (imageCompanyTax != null) {
       List<String> imagesCompanyTaxt = [];

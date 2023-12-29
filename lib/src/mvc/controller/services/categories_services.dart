@@ -90,7 +90,7 @@ class CategoriesServices {
     var request = http.Request(
       'POST',
       Uri.parse(
-        '$baseUrl/api/preferences/category',
+        '$baseUrl/api/preference_categories',
       ),
     );
     request.headers.addAll(Services.headersldJson);

@@ -37,7 +37,10 @@ class CompanyTile extends StatelessWidget {
         children: [
           Expanded(
             child: CachedNetworkImage(
-              imageUrl: userMin.imageUrl!,
+              imageUrl: userMin.imageCompanyUrl != null &&
+                      userMin.imageCompanyUrl!.isNotEmpty
+                  ? userMin.imageCompanyUrl!.first
+                  : userMin.imageProfileUrl ?? '',
               fit: BoxFit.cover,
               color: context.textTheme.headlineSmall!.color,
               progressIndicatorBuilder: (context, url, progress) => Container(
@@ -78,7 +81,7 @@ class CompanyTile extends StatelessWidget {
                 ? EdgeInsets.only(bottom: 10.sp)
                 : EdgeInsets.symmetric(vertical: 8.sp),
             child: CompanyHeaderTile(
-              logoUrl: userMin.imageUrl!,
+              logoUrl: userMin.imageProfileUrl!,
               name: userMin.displayName,
               isVerified: userMin.isVerified,
               sizeOffset: 0,

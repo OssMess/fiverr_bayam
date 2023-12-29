@@ -16,11 +16,11 @@ class CompleteRegistrationC2 extends StatefulWidget {
   const CompleteRegistrationC2({
     super.key,
     required this.userSession,
-    required this.imageCompany,
+    required this.imageProfile,
   });
 
   final UserSession userSession;
-  final XFile? imageCompany;
+  final XFile? imageProfile;
 
   @override
   State<CompleteRegistrationC2> createState() => _CompleteRegistrationC2State();
@@ -199,7 +199,7 @@ class _CompleteRegistrationC2State extends State<CompleteRegistrationC2> {
     Dialogs.of(context).runAsyncAction(
       future: () async {
         await UserServices.of(widget.userSession).post(
-          imageCompany: widget.imageCompany?.toFile,
+          imageProfile: widget.imageProfile?.toFile,
           imageCompanyTax: imageCompanyTaxt.map((e) => e.toFile).toList(),
         );
       },

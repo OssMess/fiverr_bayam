@@ -56,9 +56,7 @@ class _DetailsCompanyState extends State<DetailsCompany> {
               child: Column(
                 children: [
                   DetailsAlbumGallery(
-                    photosUrl: const [
-                      //FIXME company gallery
-                    ],
+                    photosUrl: widget.userMin.imageCompanyUrl ?? [],
                     description: widget.userMin.bio ?? '',
                     pageController: pageController,
                   ),
