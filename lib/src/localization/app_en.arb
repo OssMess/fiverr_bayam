@@ -87,7 +87,8 @@
   "sign_up_title":"Profile Informations",
   "sign_up_subtitle":"It won't take more than minute. We Promise.",
   "i_am_a":"I'm a",
-  "upload_company_image":"Upload Company Image",
+  "upload_company_profile_image":"Upload Company profile Image",
+  "upload_company_gallery_images":"Upload Company gallery images",
   "upload_documents":"Upload Documents",
   "company_upload_tax_documents":"Please upload your tax report to let us understand  better and verify that your submitted details are correct",
   "person_upload_id":"Please scan the ID card. Make sure it clear and easily readable.",
@@ -349,6 +350,8 @@
   "h":"{nb}h",
   "d":"{nb}d",
   "invalid_url":"Invalid link! Please try again.",
+  "pick_company_image_profile":"Upload a profile image for your company.",
+  "pick_company_images_gallery":"Upload at least one image for your company pgallery",
 
 
   "@sent_nb_messages":{

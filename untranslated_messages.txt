@@ -1,5 +1,7 @@
 {
   "fr": [
+    "upload_company_profile_image",
+    "upload_company_gallery_images",
     "ad_update_sucess_subtitle",
     "unknown_error",
     "facebook_url",
@@ -33,6 +35,8 @@
     "m",
     "h",
     "d",
-    "invalid_url"
+    "invalid_url",
+    "pick_company_image_profile",
+    "pick_company_images_gallery"
   ]
 }

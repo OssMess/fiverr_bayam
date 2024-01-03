@@ -6,3 +6,4 @@ export 'tiles/company_tile.dart';
 export 'tiles/message_tile.dart';
 export 'tiles/search_history_tile.dart';
 export 'tiles/chat_image_card.dart';
+export 'tiles/image_card.dart';

@@ -18,6 +18,7 @@ class CompletePreferences extends StatefulWidget {
     super.key,
     required this.userSession,
     this.imageProfile,
+    this.imageCompany,
     this.accountType,
     this.onPick,
   }) : assert((accountType == null && onPick != null) ||
@@ -25,6 +26,7 @@ class CompletePreferences extends StatefulWidget {
 
   final UserSession userSession;
   final XFile? imageProfile;
+  final Set<XFile>? imageCompany;
   final AccountType? accountType;
   final void Function(Set<CategorySub>)? onPick;
 
@@ -176,6 +178,7 @@ class _CompletePreferencesState extends State<CompletePreferences> {
             widget: CompleteRegistrationC2(
               userSession: widget.userSession,
               imageProfile: widget.imageProfile,
+              imageCompany: widget.imageCompany,
             ),
           );
           break;

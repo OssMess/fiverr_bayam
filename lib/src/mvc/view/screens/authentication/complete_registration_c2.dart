@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -17,10 +18,12 @@ class CompleteRegistrationC2 extends StatefulWidget {
     super.key,
     required this.userSession,
     required this.imageProfile,
+    required this.imageCompany,
   });
 
   final UserSession userSession;
   final XFile? imageProfile;
+  final Set<XFile>? imageCompany;
 
   @override
   State<CompleteRegistrationC2> createState() => _CompleteRegistrationC2State();
@@ -90,7 +93,8 @@ class _CompleteRegistrationC2State extends State<CompleteRegistrationC2> {
                 InkResponse(
                   onTap: () async {
                     await Functions.of(context).pickImage(
-                      source: ImageSource.camera,
+                      source:
+                          kDebugMode ? ImageSource.gallery : ImageSource.camera,
                       onPick: (xfile) {
                         setState(() {
                           imageCompanyTaxt.add(xfile);
@@ -200,6 +204,7 @@ class _CompleteRegistrationC2State extends State<CompleteRegistrationC2> {
       future: () async {
         await UserServices.of(widget.userSession).post(
           imageProfile: widget.imageProfile?.toFile,
+          imageCompany: widget.imageCompany?.map((e) => e.toFile).toList(),
           imageCompanyTax: imageCompanyTaxt.map((e) => e.toFile).toList(),
         );
       },

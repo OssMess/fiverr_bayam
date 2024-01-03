@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,6 +14,7 @@ import '../../../model/enums.dart';
 import '../../../model/models.dart';
 import '../../model_widgets.dart';
 import '../../screens.dart';
+import '../../tiles.dart';
 
 class CompleteRegistrationPageC1 extends StatefulWidget {
   const CompleteRegistrationPageC1({
@@ -33,6 +37,8 @@ class _CompleteRegistrationPageC1State
   TextEditingController dateController = TextEditingController();
   String? companyName;
   XFile? imageProfile;
+  Set<XFile> imageCompany = {};
+  List<String> imagesUrl = [];
   String? uniqueRegisterNumber;
   String? streetAddress;
   String? city;
@@ -106,49 +112,164 @@ class _CompleteRegistrationPageC1State
                         textInputAction: TextInputAction.next,
                       ),
                       16.heightSp,
-                      InkResponse(
-                        onTap: () async {
-                          await Functions.of(context).pickImage(
-                            source: ImageSource.gallery,
-                            onPick: (xfile) {
-                              imageProfile = xfile;
+                      StatefulBuilder(
+                        builder: (context, setState) {
+                          return InkResponse(
+                            onTap: () async {
+                              await Functions.of(context).pickImage(
+                                source: ImageSource.gallery,
+                                onPick: (xfile) {
+                                  setState(() {
+                                    imageProfile = xfile;
+                                  });
+                                },
+                              );
                             },
-                          );
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          height: 0.15.sh,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: context.textTheme.headlineSmall!.color!,
-                            borderRadius: BorderRadius.circular(14.sp),
-                            // image: companyImage != null
-                            //     ? DecorationImage(
-                            //         image:
-                            //             Image.file(companyImage!.toFile).image,
-                            //       )
-                            //     : null,
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                AwesomeIcons.cloud_arrow_up,
-                                color: Styles.green,
-                                size: 40.sp,
+                            child: Container(
+                              width: double.infinity,
+                              height: 0.15.sh,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: context.textTheme.headlineSmall!.color!,
+                                borderRadius: BorderRadius.circular(14.sp),
+                                image: imageProfile != null
+                                    ? DecorationImage(
+                                        image: Image.file(imageProfile!.toFile)
+                                            .image,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : null,
                               ),
-                              Text(
-                                AppLocalizations.of(context)!
-                                    .upload_company_image,
-                                style: Styles.poppins(
-                                  fontSize: 12.sp,
-                                  fontWeight: Styles.semiBold,
-                                  color: Styles.green,
+                              child: ClipRRect(
+                                child: BackdropFilter(
+                                  filter: ImageFilter.blur(
+                                    sigmaX: 3,
+                                    sigmaY: 3,
+                                  ),
+                                  child: Container(
+                                    padding: EdgeInsets.all(12.sp),
+                                    decoration: BoxDecoration(
+                                      color: context.scaffoldBackgroundColor
+                                          .withOpacity(0.2),
+                                      borderRadius:
+                                          BorderRadius.circular(12.sp),
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          AwesomeIcons.cloud_arrow_up,
+                                          color: Styles.green,
+                                          size: 40.sp,
+                                        ),
+                                        Text(
+                                          AppLocalizations.of(context)!
+                                              .upload_company_profile_image,
+                                          textAlign: TextAlign.center,
+                                          style: Styles.poppins(
+                                            fontSize: 12.sp,
+                                            fontWeight: Styles.semiBold,
+                                            color: Styles.green,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
+                            ),
+                          );
+                        },
+                      ),
+                      16.heightSp,
+                      StatefulBuilder(
+                        builder: (context, setState) {
+                          return Container(
+                            padding: EdgeInsets.symmetric(vertical: 12.sp),
+                            decoration: BoxDecoration(
+                              color: context.textTheme.headlineSmall!.color!,
+                              borderRadius: BorderRadius.circular(14.sp),
+                            ),
+                            height: 0.16.sh,
+                            child: Column(
+                              children: [
+                                Center(
+                                  child: Text(
+                                    AppLocalizations.of(context)!
+                                        .upload_company_gallery_images,
+                                    textAlign: TextAlign.center,
+                                    style: Styles.poppins(
+                                      fontSize: 14.sp,
+                                      fontWeight: Styles.semiBold,
+                                      color: Styles.green,
+                                    ),
+                                  ),
+                                ),
+                                8.heightSp,
+                                Expanded(
+                                  child: ListView.separated(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 12.sp),
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) => Builder(
+                                      builder: (context) {
+                                        if (index < imageCompany.length) {
+                                          return ImageCard(
+                                            index: index,
+                                            image: Image.file(
+                                              imageCompany
+                                                  .elementAt(index)
+                                                  .toFile,
+                                            ).image,
+                                            onDeleteImage: (value) =>
+                                                setState(() {
+                                              imageCompany.remove(
+                                                imageCompany.elementAt(index),
+                                              );
+                                            }),
+                                          );
+                                        } else if (index <
+                                            imageCompany.length +
+                                                imagesUrl.length) {
+                                          return ImageCard(
+                                            index: index,
+                                            image: CachedNetworkImageProvider(
+                                              imagesUrl.elementAt(
+                                                index - imageCompany.length,
+                                              ),
+                                            ),
+                                            onDeleteImage: (value) => setState(
+                                              () {
+                                                imagesUrl.removeAt(
+                                                  index - imageCompany.length,
+                                                );
+                                              },
+                                            ),
+                                          );
+                                        } else {
+                                          return ImageCard(
+                                            index: index,
+                                            onAddImages: (elements) =>
+                                                setState(() {
+                                              imageCompany.addAll(elements);
+                                            }),
+                                          );
+                                        }
+                                      },
+                                    ),
+                                    separatorBuilder: (context, index) =>
+                                        8.widthSp,
+                                    itemCount: imageCompany.length +
+                                        imagesUrl.length +
+                                        1,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
                       ),
                       16.heightSp,
                       CustomTextFormFieldBounded(
@@ -320,6 +441,18 @@ class _CompleteRegistrationPageC1State
   }
 
   Future<void> next() async {
+    if (imageProfile == null) {
+      context.showSnackBar(
+        message: AppLocalizations.of(context)!.pick_company_image_profile,
+      );
+      return;
+    }
+    if (imageCompany.isEmpty) {
+      context.showSnackBar(
+        message: AppLocalizations.of(context)!.pick_company_images_gallery,
+      );
+      return;
+    }
     if (!_keyForm.currentState!.validate()) return;
     _keyForm.currentState!.save();
     widget.userSession.companyName = companyName;
@@ -335,6 +468,7 @@ class _CompleteRegistrationPageC1State
         userSession: widget.userSession,
         accountType: AccountType.company,
         imageProfile: imageProfile,
+        imageCompany: imageCompany,
       ),
     );
   }
