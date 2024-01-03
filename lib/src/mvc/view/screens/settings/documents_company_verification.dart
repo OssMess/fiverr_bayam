@@ -324,7 +324,7 @@ class _DocumentsCompanyVerificationState
 
   Future<void> takeImageCamera({void Function(XFile)? onPick}) async {
     await Functions.of(context).pickImage(
-      source: ImageSource.gallery,
+      source: ImageSource.camera,
       onPick: (xfile) {
         if (onPick != null) {
           onPick(xfile);
@@ -343,26 +343,4 @@ class _DocumentsCompanyVerificationState
       },
     );
   }
-
-  // Future<void> takeImageCamera() async {
-  //   await Functions.of(context).pickImage(
-  //     source: ImageSource.gallery,
-  //     onPick: (xfile) {
-  //       setState(() {
-  //         cropImage(xfile);
-  //       });
-  //     },
-  //   );
-  // }
-
-  // Future<void> takeImageGallery() async {
-  //   await Functions.of(context).pickImage(
-  //     source: ImageSource.gallery,
-  //     onPick: (xfile) {
-  //       setState(() {
-  //         cropImage(xfile);
-  //       });
-  //     },
-  //   );
-  // }
 }

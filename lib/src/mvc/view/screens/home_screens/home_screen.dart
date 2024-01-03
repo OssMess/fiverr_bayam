@@ -68,15 +68,13 @@ class _HomeScreenState extends State<HomeScreen> {
           value: widget.userSession.listAdsPromoted,
         ),
       ],
-      child: WillPopScope(
-        onWillPop: () {
-          if (pageNotifier.currentPage != 0) {
+      child: PopScope(
+        onPopInvoked: (pop) {
+          if (!pop) {
             pageNotifier.setCurrentPage(0);
-            return Future.value(false);
-          } else {
-            return Future.value(true);
           }
         },
+        canPop: pageNotifier.currentPage == 0,
         child: Scaffold(
           resizeToAvoidBottomInset: pageNotifier.currentPage == 3,
           extendBodyBehindAppBar: true,

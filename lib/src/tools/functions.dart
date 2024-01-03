@@ -1,5 +1,7 @@
 import 'dart:developer';
+import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart';
@@ -110,18 +112,20 @@ class Functions {
     required ImageSource source,
     required void Function(XFile) onPick,
   }) async {
-    if (context.mounted &&
+    if (!context.mounted) return;
+    if ((kDebugMode && Platform.isIOS) &&
         source == ImageSource.camera &&
         await Permissions.of(context).showCameraPermission()) {
       return;
-    } else if (context.mounted &&
-        source == ImageSource.gallery &&
+    }
+    if (source == ImageSource.gallery &&
+        // ignore: use_build_context_synchronously
         await Permissions.of(context).showPhotoLibraryPermission()) {
       return;
     }
     return await ImagePicker()
         .pickImage(
-      source: source,
+      source: kDebugMode && Platform.isIOS ? ImageSource.gallery : source,
       maxHeight: 1080,
       maxWidth: 1080,
       imageQuality: 80,

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -93,8 +92,7 @@ class _CompleteRegistrationC2State extends State<CompleteRegistrationC2> {
                 InkResponse(
                   onTap: () async {
                     await Functions.of(context).pickImage(
-                      source:
-                          kDebugMode ? ImageSource.gallery : ImageSource.camera,
+                      source: ImageSource.camera,
                       onPick: (xfile) {
                         setState(() {
                           imageCompanyTaxt.add(xfile);

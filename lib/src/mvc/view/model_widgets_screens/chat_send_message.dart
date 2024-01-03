@@ -332,9 +332,9 @@ class _ChatSendMessageState extends State<ChatSendMessage> {
 
 class RecorderIndicatorStreamBuilder extends StatefulWidget {
   const RecorderIndicatorStreamBuilder({
-    Key? key,
+    super.key,
     required this.maxDuration,
-  }) : super(key: key);
+  });
 
   final Duration maxDuration;
 

@@ -5,9 +5,9 @@ import '../../../../tools.dart';
 
 class SingleImageSlideshow extends StatelessWidget {
   const SingleImageSlideshow({
-    Key? key,
+    super.key,
     required this.image,
-  }) : super(key: key);
+  });
 
   final ImageProvider<Object> image;
 

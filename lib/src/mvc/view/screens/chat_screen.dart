@@ -100,6 +100,9 @@ class _ChatScreenState extends State<ChatScreen> {
                         Builder(builder: (context) {
                           String? elapsed =
                               discussion.receiver.elapsedOnline(context);
+                          if ((elapsed ?? '0') == '0') {
+                            return const SizedBox.shrink();
+                          }
                           return Text(
                             elapsed.isNullOrEmpty ? '' : elapsed!,
                             style: Styles.poppins(

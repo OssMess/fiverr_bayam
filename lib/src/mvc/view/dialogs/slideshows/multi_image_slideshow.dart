@@ -6,10 +6,10 @@ import '../../../../tools.dart';
 
 class MultiImageSlideshow extends StatefulWidget {
   const MultiImageSlideshow({
-    Key? key,
+    super.key,
     required this.images,
     required this.initialPage,
-  }) : super(key: key);
+  });
 
   final List<ImageProvider<Object>> images;
   final int initialPage;

@@ -41,7 +41,7 @@ class _Page1HomeState extends State<Page1Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer3<ListAds, ListCompaniesPopular, ListAdsPromoted>(
+    return Consumer3<ListAds?, ListCompaniesPopular?, ListAdsPromoted?>(
       builder: (context, listAds, listCompaniesPopular, listAdsPromoted, _) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,7 +74,7 @@ class _Page1HomeState extends State<Page1Home> {
                     physics: const AlwaysScrollableScrollPhysics(),
                     slivers: [
                       8.sliverSp,
-                      if (listCompaniesPopular.isNotEmpty) ...[
+                      if (listCompaniesPopular!.isNotEmpty) ...[
                         8.sliverSp,
                         SliverHeaderTile(
                           title:
@@ -109,7 +109,7 @@ class _Page1HomeState extends State<Page1Home> {
                           ),
                         ),
                       ],
-                      if (listAdsPromoted.isNotEmpty) ...[
+                      if (listAdsPromoted!.isNotEmpty) ...[
                         8.sliverSp,
                         SliverHeaderTile(
                           title: AppLocalizations.of(context)!.premium_ads,
@@ -144,7 +144,7 @@ class _Page1HomeState extends State<Page1Home> {
                           ),
                         ),
                       ],
-                      if (listAds.isNotEmpty) ...[
+                      if (listAds!.isNotEmpty) ...[
                         8.sliverSp,
                         SliverHeaderTile(
                           title: AppLocalizations.of(context)!.ads,
@@ -204,9 +204,9 @@ class _Page1HomeState extends State<Page1Home> {
   }
 
   bool get isLoading =>
-      widget.userSession.listAds!.isNull ||
-      widget.userSession.listAdsPromoted!.isNull ||
-      widget.userSession.listCompaniesPopular!.isNull;
+      (widget.userSession.listAds?.isNull ?? true) ||
+      (widget.userSession.listAdsPromoted?.isNull ?? true) ||
+      (widget.userSession.listCompaniesPopular?.isNull ?? true);
 
   bool get isEmpty =>
       widget.userSession.listAds!.isEmpty &&
