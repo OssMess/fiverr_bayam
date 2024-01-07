@@ -37,6 +37,8 @@
     "d",
     "invalid_url",
     "pick_company_image_profile",
-    "pick_company_images_gallery"
+    "pick_company_images_gallery",
+    "wrong_otp",
+    "post_not_found"
   ]
 }

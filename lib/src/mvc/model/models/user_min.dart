@@ -76,7 +76,7 @@ class UserMin with ChangeNotifier {
       imageCompany: List.from(json['imageCompany'] ?? [])
           .map((e) => (e as String).toImageProvider!)
           .toList(),
-      imageCompanyUrl: List.from(json['imageCompany'] ?? []).firstOrNull,
+      imageCompanyUrl: List.from(json['imageCompany'] ?? []),
       firstName: json['firstName'],
       lastName: json['lastName'],
       companyName: json['companyName'],
@@ -141,4 +141,29 @@ class UserMin with ChangeNotifier {
       },
     );
   }
+
+  Map<String, dynamic> get toMapInit => {
+        'uid': uid,
+        'phoneNumber': phoneNumber,
+        'imageProfile': imageProfileUrl,
+        'imageCompany': imageCompanyUrl,
+        'firstName': firstName,
+        'lastName': lastName,
+        'companyName': companyName,
+        'bio': bio,
+        'birthDate': birthDate,
+        'email': email,
+        'facebookUrl': facebookUrl,
+        'linkedinUrl': linkedinUrl,
+        'twitterUrl': twitterUrl,
+        'city': city,
+        'country': country,
+        'postalCode': postalCode,
+        'region': region,
+        'streetAddress': streetAddress,
+        'isActive': isActive,
+        'isVerified': isVerified,
+        'countLiked': countLiked,
+        'actionLikeType': actionLikeType,
+      };
 }

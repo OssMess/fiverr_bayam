@@ -31,7 +31,6 @@ class CompanyServices {
     request.headers.addAll(Services.headersldJson);
     http.Response response = await HttpRequest.attemptHttpCall(
       request,
-      forceSkipRetries: true,
     );
     if (response.statusCode == 201) {
       Map<dynamic, dynamic> result = jsonDecode(response.body);
@@ -66,7 +65,6 @@ class CompanyServices {
     );
     http.Response response = await HttpRequest.attemptHttpCall(
       request,
-      forceSkipRetries: true,
     );
     if (response.statusCode == 200) {
       Map<dynamic, dynamic> result = jsonDecode(response.body);

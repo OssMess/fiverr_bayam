@@ -22,10 +22,17 @@ class CategorySub with ChangeNotifier {
         uuid: json['uuid'] ?? json['id'],
         name: json['name'],
         description: json['description'],
-        categoryId: json['preferenceCategory'] is String
+        categoryId: json['categoryId'] ?? json['preferenceCategory'] is String
             ? json['preferenceCategory']
             : json['preferenceCategory']?['@id'] ?? json['@id'],
       );
+
+  Map<dynamic, dynamic> get toMapInit => {
+        'uuid': uuid,
+        'name': name,
+        'description': description,
+        'categoryId': categoryId,
+      };
 
   static CategorySub fromResponse(String body) =>
       CategorySub.fromMap(jsonDecode(body));

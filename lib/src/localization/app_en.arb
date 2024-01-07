@@ -327,7 +327,7 @@
   "upload_document_id":"Please upload both front side and back side of your id",
   "invalid_input":"invalid_input",
   "unprocessable_entity":"unprocessable_entity",
-  "internal_server_error":"internal_server_error",
+  "internal_server_error":"Oops! Something went wrong on our end. Our team is working to fix it. Please try again later.",
   "resource_not_found":"resource_not_found",
   "unauthorized":"unauthorized",
   "user_not_found":"user_not_found",
@@ -352,6 +352,8 @@
   "invalid_url":"Invalid link! Please try again.",
   "pick_company_image_profile":"Upload a profile image for your company.",
   "pick_company_images_gallery":"Upload at least one image for your company pgallery",
+  "wrong_otp":"Wrong OTP code! please try again.",
+  "post_not_found":"Post not found or has been deleted! Please refresh and try again.",
 
 
   "@sent_nb_messages":{

@@ -89,7 +89,6 @@ class AdPromotedServices {
     request.body = json.encode(body);
     http.Response response = await HttpRequest.attemptHttpCall(
       request,
-      forceSkipRetries: true,
     );
     if (response.statusCode == 201) {
       return response.toAdPromoted(userSession);
@@ -120,7 +119,6 @@ class AdPromotedServices {
     );
     http.Response response = await HttpRequest.attemptHttpCall(
       request,
-      forceSkipRetries: true,
     );
     if (response.statusCode == 200) {
       Map<dynamic, dynamic> result = jsonDecode(response.body);
@@ -160,7 +158,6 @@ class AdPromotedServices {
     );
     http.Response response = await HttpRequest.attemptHttpCall(
       request,
-      forceSkipRetries: true,
     );
     if (response.statusCode == 200) {
       Map<dynamic, dynamic> result = jsonDecode(response.body);

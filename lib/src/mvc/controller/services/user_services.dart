@@ -40,6 +40,22 @@ class UserServices {
     }
   }
 
+  Future<void> delete() async {
+    var request = http.Request(
+      'DELETE',
+      Uri.parse(
+        '$baseUrl/api/users/${userSession.uid}',
+      ),
+    );
+    // request.headers.addAll(Services.headerAcceptldJson);
+    http.Response response = await HttpRequest.attemptHttpCall(request);
+    if (response.statusCode == 204) {
+      userSession.onSignout();
+    } else {
+      throw Functions.throwExceptionFromResponse(userSession, response);
+    }
+  }
+
   /// Update user details with current values, as well as [imageProfile],
   /// [imageCompany],[imageCompanyTax], and [imageUserIdentity].
   Future<void> post({

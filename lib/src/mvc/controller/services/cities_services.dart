@@ -29,7 +29,6 @@ class CitiesServices {
     request.headers.addAll(Services.headerAcceptldJson);
     http.Response response = await HttpRequest.attemptHttpCall(
       request,
-      forceSkipRetries: true,
     );
     if (response.statusCode == 200) {
       return response.toCity;

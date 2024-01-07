@@ -75,16 +75,11 @@ class _Page4AIState extends State<Page4AI> {
                                     .ai_how_bayam_work,
                                 fontSize: 14.sp,
                                 elevation: 0,
-                                onPressed: () {},
+                                onPressed: () {
+                                  //FIXME send me prompt
+                                },
                               ),
                               12.heightSp,
-                              CustomElevatedButton(
-                                label: AppLocalizations.of(context)!
-                                    .ai_import_my_contacts,
-                                fontSize: 14.sp,
-                                elevation: 0,
-                                onPressed: () {},
-                              ),
                               12.heightSp,
                               ValueListenableBuilder(
                                 valueListenable: notifierTextFormField.notifier,

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../extensions.dart';
+import '../../../controller/services.dart';
 import '../../../model/enums.dart';
 import '../../../model/models.dart';
 import '../../../model/models_ui.dart';
@@ -79,10 +80,9 @@ class SecuritySettings extends StatelessWidget {
                         onPressed: () {
                           Dialogs.of(context).runAsyncAction(
                             future: () async {
-                              await Future.delayed(const Duration(seconds: 1));
+                              await UserServices.of(userSession).delete();
                             },
                             onComplete: (_) {
-                              userSession.onSignout();
                               context.popUntilFirst();
                             },
                           );

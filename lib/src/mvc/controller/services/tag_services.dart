@@ -29,7 +29,6 @@ class TagServices {
     request.headers.addAll(Services.headerAcceptldJson);
     http.Response response = await HttpRequest.attemptHttpCall(
       request,
-      forceSkipRetries: true,
     );
     if (response.statusCode == 200) {
       return response.toTag;
@@ -53,7 +52,6 @@ class TagServices {
     request.headers.addAll(Services.headersldJson);
     http.Response response = await HttpRequest.attemptHttpCall(
       request,
-      forceSkipRetries: true,
     );
     if (response.statusCode == 201) {
       return response.toTag;

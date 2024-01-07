@@ -191,11 +191,36 @@ class UserSession with ChangeNotifier {
       listPlans: null,
       lastSeenOnline: null,
     );
-    // AuthStateChange.save(user);
+    user.initLists();
     if (authState == AuthState.awaiting) {
       user.getAuthState();
     }
     return user;
+  }
+
+  void initLists() {
+    listAds = ListAds(userSession: this);
+    listAdsMy = ListAdsMy(userSession: this);
+    listAdsPromoted = ListAdsPromoted(userSession: this);
+    listAdsPromotedMy = ListAdsPromotedMy(userSession: this);
+    listCategories = ListCategories(userSession: this);
+    listCategoriesSub = ListCategoriesSub(userSession: this);
+    listChatBotMessages = ListChatBotMessages(userSession: this);
+    listCities = ListCities(userSession: this);
+    listCompaniesPopular = ListCompaniesPopular(userSession: this);
+    listCountries = ListCountries(userSession: this);
+    listDiscussions = ListDiscussions(userSession: this);
+    listPlans = ListPlans(userSession: this);
+  }
+
+  void resetLists() {
+    listAds?.reset();
+    listAdsMy?.reset();
+    listAdsPromoted?.reset();
+    listAdsPromotedMy?.reset();
+    listChatBotMessages?.reset();
+    listCompaniesPopular?.reset();
+    listDiscussions?.reset();
   }
 
   Map<dynamic, dynamic> get toAuthorMap => {
@@ -249,31 +274,6 @@ class UserSession with ChangeNotifier {
         isVerified: isVerified,
         lastSeenOnline: lastSeenOnline,
         actionLikeType: null,
-      );
-
-  Author get toAuthor => Author(
-        uid: uid!,
-        phoneNumber: phoneNumber!,
-        photoUrl: null,
-        firstName: firstName,
-        lastName: lastName,
-        companyName: companyName,
-        accountType: accountType!,
-        bio: bio,
-        birthDate: birthDate,
-        city: city,
-        country: country,
-        email: email,
-        facebookUrl: facebookUrl,
-        linkedinUrl: linkedinUrl,
-        postalCode: postalCode,
-        preferences: preferences!,
-        region: region,
-        uniqueRegisterNumber: uniqueRegisterNumber,
-        streetAddress: streetAddress,
-        twitterUrl: twitterUrl,
-        isActive: isActive,
-        isVerified: isVerified,
       );
 
   /// return true if awaiting for user sessions
@@ -357,33 +357,6 @@ class UserSession with ChangeNotifier {
     lastSeenOnline = user.lastSeenOnline;
     _isActive = user._isActive;
     _isVerified = user._isVerified;
-    if (user.isAuthenticated) {
-      listAdsPromoted = ListAdsPromoted(userSession: this);
-      listAdsPromotedMy = ListAdsPromotedMy(userSession: this);
-      listDiscussions = ListDiscussions(userSession: this);
-      listAds = ListAds(userSession: this);
-      listCompaniesPopular = ListCompaniesPopular(userSession: this);
-      listAdsMy = ListAdsMy(userSession: this);
-      listChatBotMessages = ListChatBotMessages(userSession: this);
-      listCategories = ListCategories(userSession: this);
-      listCategoriesSub = ListCategoriesSub(userSession: this);
-      listCountries = ListCountries(userSession: this);
-      listCities = ListCities(userSession: this);
-      listPlans = ListPlans(userSession: this);
-    } else {
-      listAdsPromoted = null;
-      listAdsPromotedMy = null;
-      listDiscussions = null;
-      listAds = null;
-      listCompaniesPopular = null;
-      listAdsMy = null;
-      listChatBotMessages = null;
-      listCategories = null;
-      listCategoriesSub = null;
-      listCountries = null;
-      listCities = null;
-      listPlans = null;
-    }
     notifyListeners();
   }
 
@@ -438,18 +411,8 @@ class UserSession with ChangeNotifier {
     _isActive = json['isActive'];
     _isVerified = json['isVerified'];
     authState = AuthState.authenticated;
-    listDiscussions = ListDiscussions(userSession: this);
-    listAds = ListAds(userSession: this);
-    listCompaniesPopular = ListCompaniesPopular(userSession: this);
-    listAdsMy = ListAdsMy(userSession: this);
-    listChatBotMessages = ListChatBotMessages(userSession: this);
     lastSeenOnline = DateTime.tryParse(json['lastSeenOnline'] ?? '');
     countLiked = json['countLiked'];
-    listCategories = ListCategories(userSession: this);
-    listCategoriesSub = ListCategoriesSub(userSession: this);
-    listCountries = ListCountries(userSession: this);
-    listCities = ListCities(userSession: this);
-    listPlans = ListPlans(userSession: this);
     HiveMessages.init(this);
     notifyListeners();
     UserServices.of(this).updateLastSeen();
@@ -459,9 +422,11 @@ class UserSession with ChangeNotifier {
   Future<void> onSignout() async {
     bouncer.cancel();
     updateFromUserSession(UserSession.initUnauthenticated());
+    resetLists();
     await HiveCookies.clear();
     await HiveTokens.clear();
     await HiveMessages.clear();
+    await HiveSearchHistory.clear();
     notifyListeners();
   }
 
@@ -478,19 +443,15 @@ class UserSession with ChangeNotifier {
     } else {
       data = await GeoCodingLocation.getCountryCityFromIP(this, 'en');
     }
-    if (data.$1 != null) {
-      if (data.$1 != null &&
-          countries!.where((element) => element.id == data!.$1!.id).isEmpty) {
-        countries!.add(data.$1!);
-        update = true;
-      }
+    if (data.$1 != null &&
+        countries!.where((element) => element.id == data!.$1!.id).isEmpty) {
+      countries!.add(data.$1!);
+      update = true;
     }
-    if (data.$2 != null) {
-      if (data.$2 != null &&
-          cities!.where((element) => element.id == data!.$2!.id).isEmpty) {
-        cities!.add(data.$2!);
-        update = true;
-      }
+    if (data.$2 != null &&
+        cities!.where((element) => element.id == data!.$2!.id).isEmpty) {
+      cities!.add(data.$2!);
+      update = true;
     }
     try {
       if (update) {

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../extensions.dart';
+import '../../../controller/hives.dart';
 import '../../../model/change_notifiers.dart';
 import '../../../model/enums.dart';
 import '../../../model/models.dart';
@@ -236,25 +237,36 @@ class _SearchScreenState extends State<SearchScreen>
                             ),
                           ),
                         ),
-                        //FIXME search history
-                        // 8.heightSp,
-                        // Expanded(
-                        //   child: ListView.separated(
-                        //     // shrinkWrap: true,
-                        //     padding: EdgeInsets.all(16.sp),
-                        //     itemCount: ListData.searchHistory.length,
-                        //     itemBuilder: (context, index) => SearchHistoryTile(
-                        //       searchHistory: ListData.searchHistory[index],
-                        //       onTap: notifierViewMode.openPageResults,
-                        //       onClose: () => setState(() {
-                        //         ListData.searchHistory.removeAt(index);
-                        //       }),
-                        //     ),
-                        //     separatorBuilder: (context, index) => CustomDivider(
-                        //       height: 12.sp,
-                        //     ),
-                        //   ),
-                        // ),
+                        8.heightSp,
+                        StatefulBuilder(
+                          builder: (context, setState) {
+                            return Expanded(
+                              child: ListView.separated(
+                                // shrinkWrap: true,
+                                padding: EdgeInsets.all(16.sp),
+                                itemCount: HiveSearchHistory.list.length,
+                                itemBuilder: (context, index) =>
+                                    SearchHistoryTile(
+                                  searchHistory: HiveSearchHistory.list[index],
+                                  onTap: () {
+                                    notifierViewMode.openPageResults();
+                                    //FIXME on filter by category sub
+                                  },
+                                  onClose: () => setState(
+                                    () {
+                                      HiveSearchHistory.delete(
+                                          HiveSearchHistory.list[index]);
+                                    },
+                                  ),
+                                ),
+                                separatorBuilder: (context, index) =>
+                                    CustomDivider(
+                                  height: 12.sp,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                       ],
                       if (notifierViewMode.isInPageResults) ...[
                         16.heightSp,

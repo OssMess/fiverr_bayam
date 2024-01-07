@@ -39,7 +39,6 @@ class AdServices {
     request.headers.addAll(Services.headersldJson);
     http.Response response = await HttpRequest.attemptHttpCall(
       request,
-      forceSkipRetries: true,
     );
     if (response.statusCode == 201) {
       return response.toAdPost(userSession);
@@ -78,7 +77,6 @@ class AdServices {
     request.headers.addAll(Services.headerPatchldJson);
     http.Response response = await HttpRequest.attemptHttpCall(
       request,
-      forceSkipRetries: true,
     );
     if (response.statusCode == 200) {
       return response.toAdPost(userSession);
@@ -102,7 +100,6 @@ class AdServices {
     request.headers.addAll(Services.headersldJson);
     http.Response response = await HttpRequest.attemptHttpCall(
       request,
-      forceSkipRetries: true,
     );
     if (response.statusCode == 201) {
     } else {
@@ -122,7 +119,6 @@ class AdServices {
     request.headers.addAll(Services.headerAcceptldJson);
     http.Response response = await HttpRequest.attemptHttpCall(
       request,
-      forceSkipRetries: true,
     );
     if (response.statusCode == 204) {
     } else {
@@ -144,7 +140,6 @@ class AdServices {
     request.headers.addAll(Services.headersldJson);
     http.Response response = await HttpRequest.attemptHttpCall(
       request,
-      forceSkipRetries: true,
     );
     if (response.statusCode == 201) {
       return response.toAdComment;
@@ -164,7 +159,6 @@ class AdServices {
     request.headers.addAll(Services.headerAcceptldJson);
     http.Response response = await HttpRequest.attemptHttpCall(
       request,
-      forceSkipRetries: true,
     );
     if (response.statusCode != 201) {
       throw Functions.throwExceptionFromResponse(userSession, response);
@@ -184,7 +178,6 @@ class AdServices {
     );
     http.Response response = await HttpRequest.attemptHttpCall(
       request,
-      forceSkipRetries: true,
     );
     if (response.statusCode == 200) {
       return response.toAd(userSession);
@@ -215,7 +208,6 @@ class AdServices {
     );
     http.Response response = await HttpRequest.attemptHttpCall(
       request,
-      forceSkipRetries: true,
     );
     if (response.statusCode == 200) {
       Map<dynamic, dynamic> result = jsonDecode(response.body);
@@ -255,7 +247,6 @@ class AdServices {
     );
     http.Response response = await HttpRequest.attemptHttpCall(
       request,
-      forceSkipRetries: true,
     );
     if (response.statusCode == 200) {
       Map<dynamic, dynamic> result = jsonDecode(response.body);
@@ -296,7 +287,6 @@ class AdServices {
     );
     http.Response response = await HttpRequest.attemptHttpCall(
       request,
-      forceSkipRetries: true,
     );
     if (response.statusCode == 200) {
       Map<dynamic, dynamic> result = jsonDecode(response.body);

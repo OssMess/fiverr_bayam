@@ -87,7 +87,7 @@ class AuthServices {
         jsonDecode(response.body)['receiver'],
       );
     } else {
-      throw Functions.throwExceptionFromResponse(userSession, response);
+      Functions.throwExceptionFromResponse(userSession, response);
     }
   }
 }

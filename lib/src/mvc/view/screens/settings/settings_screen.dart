@@ -163,7 +163,11 @@ class SettingsScreen extends StatelessWidget {
                       showContainerDecoration: false,
                       showTrailing: false,
                       padding: EdgeInsets.all(12.sp),
-                      onTap: () => context.push(widget: const FAQSupport()),
+                      onTap: () => context.push(
+                        widget: FAQSupport(
+                          userSession: userSession,
+                        ),
+                      ),
                     ),
                     (context.viewPadding.bottom + 20.sp).height,
                   ],

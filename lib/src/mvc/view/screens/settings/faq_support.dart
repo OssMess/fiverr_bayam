@@ -11,7 +11,12 @@ import '../../../../tools.dart';
 import '../../screens.dart';
 
 class FAQSupport extends StatefulWidget {
-  const FAQSupport({super.key});
+  const FAQSupport({
+    super.key,
+    required this.userSession,
+  });
+
+  final UserSession userSession;
 
   @override
   State<FAQSupport> createState() => _FAQSupportState();
@@ -132,8 +137,11 @@ class _FAQSupportState extends State<FAQSupport> {
                       Center(
                         child: CustomElevatedButton(
                           label: AppLocalizations.of(context)!.contact_support,
-                          onPressed: () =>
-                              context.push(widget: const ContactSupport()),
+                          onPressed: () => context.push(
+                            widget: ContactSupport(
+                              userSession: widget.userSession,
+                            ),
+                          ),
                         ),
                       ),
                       0.15.sh.height,

@@ -18,4 +18,5 @@ export './models/message.dart';
 export './models/tag.dart';
 export './models/plan.dart';
 export './models/user_min.dart';
+export './models/search_history.dart';
 export './models/user_session.dart';

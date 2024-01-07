@@ -6,28 +6,32 @@ import '../../../tools.dart';
 import '../../model/models.dart';
 import '../services.dart';
 
-class ReportServices {
+class SupportServices {
   static const String baseUrl = 'https://api.bayam.site';
 
   final UserSession userSession;
 
-  ReportServices(this.userSession);
+  SupportServices(this.userSession);
 
-  static ReportServices of(UserSession userSession) {
-    return ReportServices(userSession);
+  static SupportServices of(UserSession userSession) {
+    return SupportServices(userSession);
   }
 
-  /// Create a report for [ad] with [message].
-  Future<void> post(Ad ad, String message) async {
+  Future<void> post({
+    required String subject,
+    required String department,
+    required String message,
+  }) async {
     var request = http.Request(
       'POST',
       Uri.parse(
-        '$baseUrl/api/post/report',
+        '$baseUrl/api/user/ask',
       ),
     );
     request.body = json.encode({
-      'description': message,
-      'post': ad.uuid,
+      'subject': subject,
+      'message': message,
+      'speciality': department,
     });
     request.headers.addAll(Services.headersldJson);
     http.Response response = await HttpRequest.attemptHttpCall(

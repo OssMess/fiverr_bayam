@@ -4,12 +4,19 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../extensions.dart';
+import '../../../controller/services.dart';
 import '../../../model/enums.dart';
+import '../../../model/models.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
 
 class ContactSupport extends StatefulWidget {
-  const ContactSupport({super.key});
+  const ContactSupport({
+    super.key,
+    required this.userSession,
+  });
+
+  final UserSession userSession;
 
   @override
   State<ContactSupport> createState() => _ContactSupportState();
@@ -19,7 +26,7 @@ class _ContactSupportState extends State<ContactSupport> {
   TextEditingController departementController = TextEditingController();
   final GlobalKey<FormState> _keyForm = GlobalKey();
   bool msgSent = false;
-  String? subject, departement, message;
+  String? subject, department, message;
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +108,7 @@ class _ContactSupportState extends State<ContactSupport> {
                           keyboardType: TextInputType.text,
                           validator: Validators.validateNotNull,
                           onSaved: (value) {
-                            departement = value;
+                            department = value;
                           },
                           textInputAction: TextInputAction.next,
                           suffixIcon: Icons.arrow_drop_down,
@@ -118,7 +125,7 @@ class _ContactSupportState extends State<ContactSupport> {
                               'Refund',
                               'Other',
                             ],
-                            initialvalue: departement,
+                            initialvalue: department,
                             onPick: (value) {
                               departementController.text = value;
                             },
@@ -159,8 +166,10 @@ class _ContactSupportState extends State<ContactSupport> {
     _keyForm.currentState!.save();
     Dialogs.of(context).runAsyncAction(
       future: () async {
-        await Future.delayed(
-          const Duration(seconds: 1),
+        await SupportServices.of(widget.userSession).post(
+          subject: subject!,
+          department: department!,
+          message: message!,
         );
       },
       onComplete: (_) {

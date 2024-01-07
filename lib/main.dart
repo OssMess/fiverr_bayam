@@ -21,6 +21,7 @@ void main() async {
   await Hive.initFlutter();
   await HiveCookies.init();
   await HiveTokens.init();
+  await HiveSearchHistory.init();
   UserSession userSession = UserSession.initAwaiting();
   runApp(
     MultiProvider(

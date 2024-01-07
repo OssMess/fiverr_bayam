@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 import '../hives.dart';
@@ -13,11 +14,15 @@ class HttpRequest {
   static Future<http.Response> attemptHttpCall(
     http.Request request, {
     bool ignoreAuthorization = false,
-    int retries = 5,
+    int retries = 3,
     Duration delay = const Duration(milliseconds: 200),
-    Duration timeout = const Duration(seconds: 10),
+    Duration timeout = const Duration(seconds: 5),
     bool forceSkipRetries = false,
   }) async {
+    late DateTime start;
+    if (kDebugMode) {
+      start = DateTime.now();
+    }
     request.headers.addAll({
       ...HiveCookies.valideCookies,
       if (!ignoreAuthorization) ...HiveTokens.authorization,
@@ -60,6 +65,10 @@ class HttpRequest {
       http.Response response = await http.Response.fromStream(streamedResponse);
       await HiveCookies.update(response);
       await HiveTokens.update(response);
+      if (kDebugMode) {
+        DateTime end = DateTime.now();
+        log('http request ${request.method} ${request.url.path} took ${end.difference(start).inMilliseconds} milliseconds');
+      }
       return response;
     }
   }

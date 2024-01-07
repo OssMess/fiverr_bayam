@@ -1,10 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 
 import '../../../extensions.dart';
 import '../../../tools.dart';
-import '../../model/models_ui.dart';
+import '../../model/models.dart';
 
 class SearchHistoryTile extends StatelessWidget {
   const SearchHistoryTile({
@@ -29,7 +28,7 @@ class SearchHistoryTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  searchHistory.category.translateTitle(context),
+                  searchHistory.categorySub.name,
                   style: Styles.poppins(
                     fontSize: 15.sp,
                     fontWeight: Styles.semiBold,
@@ -37,7 +36,7 @@ class SearchHistoryTile extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  searchHistory.category.translateSubtitle(context),
+                  searchHistory.categorySub.description,
                   style: Styles.poppins(
                     fontSize: 12.sp,
                     fontWeight: Styles.medium,
@@ -47,32 +46,32 @@ class SearchHistoryTile extends StatelessWidget {
               ],
             ),
           ),
-          4.widthSp,
-          SizedBox(
-            width: 70.sp,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  radius: 18.sp,
-                  backgroundColor: context.textTheme.headlineSmall!.color,
-                  backgroundImage: CachedNetworkImageProvider(
-                    searchHistory.companyPhotoUrl,
+          if (searchHistory.displayName.isNotNullOrEmpty) ...[
+            4.widthSp,
+            SizedBox(
+              width: 70.sp,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 18.sp,
+                    backgroundColor: context.textTheme.headlineSmall!.color,
+                    backgroundImage: searchHistory.image,
                   ),
-                ),
-                4.heightSp,
-                Text(
-                  searchHistory.companyName,
-                  overflow: TextOverflow.fade,
-                  style: Styles.poppins(
-                    fontSize: 12.sp,
-                    fontWeight: Styles.medium,
-                    color: context.textTheme.displayLarge!.color,
+                  4.heightSp,
+                  Text(
+                    searchHistory.displayName!,
+                    overflow: TextOverflow.fade,
+                    style: Styles.poppins(
+                      fontSize: 12.sp,
+                      fontWeight: Styles.medium,
+                      color: context.textTheme.displayLarge!.color,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
+          ],
           4.widthSp,
           IconButton(
             visualDensity: VisualDensity.compact,

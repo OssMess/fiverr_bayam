@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
@@ -36,7 +37,14 @@ class Functions {
     Response response, [
     Map<int, String>? errorMap,
   ]) {
-    log(response.body);
+    Map<dynamic, dynamic> body = jsonDecode(response.body);
+    log('${response.statusCode}:${body['message']}');
+    if ((body['message'] ?? '').contains('Ce post n\'existe pas')) {
+      return BackendException(code: 'post-not-found', statusCode: 404);
+    }
+    if ((body['message'] ?? '').contains('Cannot find User with code')) {
+      throw BackendException(code: 'wrong-otp', statusCode: 404);
+    }
     Map<int, String> statusCodesPhrases = {
       400: 'invalid-input',
       403: 'unauthorized',
@@ -69,7 +77,9 @@ class Functions {
       'user-not-found': AppLocalizations.of(context)!.user_not_found,
       'unique-register-number':
           AppLocalizations.of(context)!.unique_register_number,
-      'unknown-location': AppLocalizations.of(context)!.location_not_found
+      'unknown-location': AppLocalizations.of(context)!.location_not_found,
+      'wrong-otp': AppLocalizations.of(context)!.wrong_otp,
+      'post-not-found': AppLocalizations.of(context)!.post_not_found,
     };
     return translation[exception.code] ??
         AppLocalizations.of(context)!.unknown_error;
