@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../tools.dart';
@@ -42,6 +43,7 @@ class CustomTextFormField extends StatelessWidget {
     this.unfocusOnTapOutside = true,
     this.fontSize,
     this.autofocus = false,
+    this.inputFormatters,
   }) : assert(
           ((prefixOnTap == null || prefixIcon != null) &&
               (suffixOnTap == null || suffixIcon != null)),
@@ -82,6 +84,7 @@ class CustomTextFormField extends StatelessWidget {
   final bool unfocusOnTapOutside;
   final double? fontSize;
   final bool autofocus;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   Widget build(BuildContext context) {
@@ -119,6 +122,7 @@ class CustomTextFormField extends StatelessWidget {
       onTapOutside:
           unfocusOnTapOutside ? (_) => FocusScope.of(context).unfocus() : null,
       autofocus: autofocus,
+      inputFormatters: inputFormatters,
       decoration: InputDecoration(
         labelText: labelText,
         hintText: hintText,

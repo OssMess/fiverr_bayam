@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../mvc/model/models.dart';
@@ -120,6 +121,7 @@ class Functions {
 
   Future<void> pickImage({
     required ImageSource source,
+    bool crop = false,
     required void Function(XFile) onPick,
   }) async {
     if (!context.mounted) return;
@@ -141,9 +143,47 @@ class Functions {
       imageQuality: 80,
     )
         .then(
-      (xfile) {
+      (xfile) async {
         if (xfile == null) return;
-        onPick(xfile);
+        if (crop) {
+          await ImageCropper().cropImage(
+            sourcePath: xfile.path,
+            maxWidth: 512,
+            maxHeight: 512,
+            compressFormat: ImageCompressFormat.png,
+            cropStyle: CropStyle.circle,
+            aspectRatio: const CropAspectRatio(
+              ratioX: 1,
+              ratioY: 1,
+            ),
+            aspectRatioPresets: [CropAspectRatioPreset.square],
+            uiSettings: [
+              AndroidUiSettings(
+                activeControlsWidgetColor: Theme.of(context).primaryColor,
+                toolbarTitle: 'Cropper',
+                toolbarColor: Theme.of(context).primaryColor,
+                toolbarWidgetColor: Colors.white,
+                initAspectRatio: CropAspectRatioPreset.square,
+                lockAspectRatio: true,
+              ),
+              IOSUiSettings(
+                minimumAspectRatio: 1,
+                title: 'Cropper',
+                aspectRatioLockEnabled: true,
+                aspectRatioPickerButtonHidden: true,
+                aspectRatioLockDimensionSwapEnabled: true,
+                rotateButtonsHidden: true,
+              ),
+            ],
+          ).then(
+            (file) {
+              if (file == null) return;
+              onPick(XFile(file.path));
+            },
+          );
+        } else {
+          onPick(xfile);
+        }
       },
     );
   }

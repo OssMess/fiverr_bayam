@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../extensions.dart';
@@ -173,52 +172,13 @@ class _CompleteRegistrationP1State extends State<CompleteRegistrationP1> {
     );
   }
 
-  Future<void> cropImage(XFile file) async {
-    await ImageCropper().cropImage(
-      sourcePath: file.path,
-      maxWidth: 512,
-      maxHeight: 512,
-      compressFormat: ImageCompressFormat.png,
-      cropStyle: CropStyle.circle,
-      aspectRatio: const CropAspectRatio(
-        ratioX: 1,
-        ratioY: 1,
-      ),
-      aspectRatioPresets: [CropAspectRatioPreset.square],
-      uiSettings: [
-        AndroidUiSettings(
-          activeControlsWidgetColor: Theme.of(context).primaryColor,
-          toolbarTitle: 'Cropper',
-          toolbarColor: Theme.of(context).primaryColor,
-          toolbarWidgetColor: Colors.white,
-          initAspectRatio: CropAspectRatioPreset.square,
-          lockAspectRatio: true,
-        ),
-        IOSUiSettings(
-          minimumAspectRatio: 1,
-          title: 'Cropper',
-          aspectRatioLockEnabled: true,
-          aspectRatioPickerButtonHidden: true,
-          aspectRatioLockDimensionSwapEnabled: true,
-          rotateButtonsHidden: true,
-        ),
-      ],
-    ).then(
-      (file) {
-        if (file == null) return;
-        setState(() {
-          imageFile = XFile(file.path);
-        });
-      },
-    );
-  }
-
   Future<void> takeImageGallery() async {
     await Functions.of(context).pickImage(
       source: ImageSource.gallery,
+      crop: true,
       onPick: (xfile) {
         setState(() {
-          cropImage(xfile);
+          imageFile = xfile;
         });
       },
     );
@@ -227,9 +187,10 @@ class _CompleteRegistrationP1State extends State<CompleteRegistrationP1> {
   Future<void> takeImageCamera() async {
     await Functions.of(context).pickImage(
       source: ImageSource.camera,
+      crop: true,
       onPick: (xfile) {
         setState(() {
-          cropImage(xfile);
+          imageFile = xfile;
         });
       },
     );

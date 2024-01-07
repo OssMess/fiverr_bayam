@@ -56,9 +56,8 @@ class ProfileCompany extends StatelessWidget {
                           ModelIconButton(
                             icon: AwesomeIcons.chat,
                             color: context.scaffoldBackgroundColor,
-                            onPressed: () {
-                              //FIXME get or create a discussion and opens screen
-                            },
+                            onPressed: () =>
+                                userMin.openDiscussion(context, userSession),
                           ),
                         ModelIconButton(
                           icon: AwesomeIcons.phone,

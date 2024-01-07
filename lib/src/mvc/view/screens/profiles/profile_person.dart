@@ -55,9 +55,8 @@ class ProfilePerson extends StatelessWidget {
                         if (userMin.uid != userSession.uid)
                           ModelIconButton(
                             icon: AwesomeIcons.chat,
-                            onPressed: () {
-                              //FIXME get or create a discussion and opens screen
-                            },
+                            onPressed: () =>
+                                userMin.openDiscussion(context, userSession),
                           ),
                         ModelIconButton(
                           icon: AwesomeIcons.phone,

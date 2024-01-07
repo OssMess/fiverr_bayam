@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../tools.dart';
@@ -25,6 +26,7 @@ class CustomTextFormFieldBounded extends StatefulWidget {
     this.onSaved,
     this.onEditingComplete,
     this.onTap,
+    this.inputFormatters,
   }) : assert(suffix == null || suffixIcon == null);
 
   final String labelText;
@@ -45,6 +47,7 @@ class CustomTextFormFieldBounded extends StatefulWidget {
   final void Function(String?)? onSaved;
   final void Function()? onEditingComplete;
   final void Function()? onTap;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   State<CustomTextFormFieldBounded> createState() =>
@@ -66,6 +69,26 @@ class _CustomTextFormFieldBoundedState
 
   @override
   Widget build(BuildContext context) {
+    late List<TextInputFormatter> inputFormatters;
+    switch (widget.keyboardType) {
+      case TextInputType.name:
+        inputFormatters = [
+          TextInputFormatters.nameFormatter,
+        ];
+        break;
+      case TextInputType.emailAddress:
+        inputFormatters = [
+          TextInputFormatters.emailFormatter,
+        ];
+        break;
+      case TextInputType.phone:
+        inputFormatters = [
+          TextInputFormatters.phoneNumberFormatter,
+        ];
+        break;
+      default:
+        inputFormatters = [];
+    }
     return InkResponse(
       onTap: widget.onTap ?? (widget.focusNode ?? focusNode).requestFocus,
       child: Container(
@@ -155,6 +178,8 @@ class _CustomTextFormFieldBoundedState
                         color: context.textTheme.displayLarge!.color,
                         height: 1.2,
                       ),
+                      inputFormatters:
+                          widget.inputFormatters ?? inputFormatters,
                       decoration: InputDecoration(
                         isDense: true,
                         hintText: widget.hintText,

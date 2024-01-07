@@ -6,6 +6,7 @@ import 'package:badges/badges.dart' as badge;
 import '../../../extensions.dart';
 import '../../../tools.dart';
 import '../../model/models_ui.dart';
+import '../dialogs.dart';
 import '../model_widgets.dart';
 
 class ProfileHeader extends StatelessWidget {
@@ -41,69 +42,112 @@ class ProfileHeader extends StatelessWidget {
       padding: EdgeInsets.all(16.sp),
       child: Column(
         children: [
-          badge.Badge(
-            badgeStyle: badge.BadgeStyle(
-              shape: badge.BadgeShape.square,
-              badgeColor: Styles.green[500]!,
-              elevation: 0,
-              borderSide: BorderSide(
-                color: context.scaffoldBackgroundColor,
-                width: 2.sp,
+          if (onTapImage != null)
+            badge.Badge(
+              badgeStyle: badge.BadgeStyle(
+                shape: badge.BadgeShape.circle,
+                badgeColor: Styles.green[500]!,
+                elevation: 0,
+                padding: EdgeInsets.all(5.sp),
               ),
-              padding: EdgeInsets.symmetric(
-                vertical: 4.sp,
-                horizontal: 6.sp,
+              badgeAnimation: const badge.BadgeAnimation.scale(
+                toAnimate: false,
               ),
-              borderRadius: BorderRadius.circular(50),
+              position: badge.BadgePosition.bottomEnd(
+                bottom: 4.sp,
+                end: 4.sp,
+              ),
+              showBadge: true,
+              badgeContent: Icon(
+                Icons.camera_alt,
+                size: 18.sp,
+                color: Colors.black,
+              ),
+              child: InkResponse(
+                onTap: onTapImage,
+                child: CircleAvatar(
+                  radius: 55.sp,
+                  backgroundColor: context.textTheme.headlineSmall!.color,
+                  foregroundImage: imageProfile,
+                ),
+              ),
             ),
-            badgeAnimation: const badge.BadgeAnimation.scale(
-              toAnimate: false,
-            ),
-            position: badge.BadgePosition.bottomEnd(
-              bottom: 4.sp,
-              end: 4.sp,
-            ),
-            showBadge: elapsedOnline.isNotNull,
-            badgeContent: Builder(
-              builder: (context) {
-                return Padding(
-                  padding: const EdgeInsets.only(top: 2),
-                  child: Text(
-                    elapsedOnline ?? '0',
-                    style: Styles.poppins(
-                      fontSize: 12.sp,
-                      fontWeight: Styles.semiBold,
-                      color: elapsedOnline == '0'
-                          ? Styles.green[500]!
-                          : Colors.white,
-                      height: 1.sp,
+          if (onTapImage == null)
+            badge.Badge(
+              badgeStyle: badge.BadgeStyle(
+                shape: badge.BadgeShape.square,
+                badgeColor: Styles.green[500]!,
+                elevation: 0,
+                borderSide: BorderSide(
+                  color: context.scaffoldBackgroundColor,
+                  width: 2.sp,
+                ),
+                padding: EdgeInsets.symmetric(
+                  vertical: 4.sp,
+                  horizontal: 6.sp,
+                ),
+                borderRadius: BorderRadius.circular(50),
+              ),
+              badgeAnimation: const badge.BadgeAnimation.scale(
+                toAnimate: false,
+              ),
+              position: badge.BadgePosition.bottomEnd(
+                bottom: 4.sp,
+                end: 4.sp,
+              ),
+              showBadge: elapsedOnline.isNotNull,
+              badgeContent: Builder(
+                builder: (context) {
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 2),
+                    child: Text(
+                      elapsedOnline ?? '0',
+                      style: Styles.poppins(
+                        fontSize: 12.sp,
+                        fontWeight: Styles.semiBold,
+                        color: elapsedOnline == '0'
+                            ? Styles.green[500]!
+                            : Colors.white,
+                        height: 1.sp,
+                      ),
                     ),
-                  ),
-                );
-              },
-            ),
-            child: InkResponse(
-              onTap: onTapImage,
-              child: CircleAvatar(
-                radius: 55.sp,
-                backgroundColor: context.textTheme.headlineSmall!.color,
-                foregroundImage: imageProfile,
+                  );
+                },
+              ),
+              child: InkResponse(
+                onTap: imageProfile != null
+                    ? () => Dialogs.of(context)
+                        .showProfileImageSlideShow(imageProfile!)
+                    : null,
+                child: CircleAvatar(
+                  radius: 55.sp,
+                  backgroundColor: context.textTheme.headlineSmall!.color,
+                  foregroundImage: imageProfile,
+                ),
               ),
             ),
-          ),
           12.heightSp,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                displayName,
-                style: Styles.poppins(
-                  fontSize: 26.sp,
-                  fontWeight: Styles.bold,
-                  color: context.textTheme.displayLarge!.color,
+              if (true) ...[
+                28.widthSp,
+              ],
+              ConstrainedBox(
+                constraints: BoxConstraints.tightFor(width: 1.sw - 140.sp),
+                child: Text(
+                  displayName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  style: Styles.poppins(
+                    fontSize: 26.sp,
+                    fontWeight: Styles.bold,
+                    color: context.textTheme.displayLarge!.color,
+                  ),
                 ),
               ),
-              if (isVerified) ...[
+              if (true) ...[
                 8.widthSp,
                 Icon(
                   AwesomeIcons.badge_check,

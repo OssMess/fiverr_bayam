@@ -383,6 +383,19 @@ class Dialogs {
     );
   }
 
+  Future<void> showProfileImageSlideShow(ImageProvider<Object> image) async {
+    await showModalBottomSheet(
+      context: context,
+      builder: (_) => ProfileImageSlideshow(
+        image: image,
+      ),
+      backgroundColor: Colors.transparent,
+      enableDrag: true,
+      isScrollControlled: true,
+      isDismissible: true,
+    );
+  }
+
   /// Shows a value picker dialog with
   /// dialog [title],
   /// [values] to pick one from,

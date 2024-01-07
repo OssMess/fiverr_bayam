@@ -3,12 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../settings.dart';
 import '../../../../extensions.dart';
 import '../../../../tools.dart';
+import '../../../controller/services.dart';
 import '../../../model/change_notifiers.dart';
 import '../../../model/models.dart';
 import '../../../model/models_ui.dart';
@@ -43,6 +45,19 @@ class Page5PersonProfile extends StatelessWidget {
                 isVerified: userSession.isVerified,
                 elapsedOnline: null,
                 description: userSession.bio,
+                onTapImage: () => Functions.of(context).pickImage(
+                  source: ImageSource.gallery,
+                  crop: true,
+                  onPick: (xfile) {
+                    Dialogs.of(context).runAsyncAction(
+                      future: () async {
+                        await UserServices.of(userSession).post(
+                          imageProfile: xfile.toFile,
+                        );
+                      },
+                    );
+                  },
+                ),
                 onTapDescription: () =>
                     Dialogs.of(context).showTextValuePickerDialog(
                   title: AppLocalizations.of(context)!.about,

@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../extensions.dart';
-import '../../controller/services.dart';
 import '../../model/models.dart';
 import '../model_widgets.dart';
 import '../../../tools.dart';
@@ -82,28 +81,7 @@ class DetailsCompanyBanner extends StatelessWidget {
           if (!isMine) ...[
             16.widthSp,
             IconButton(
-              onPressed: () {
-                Dialogs.of(context).runAsyncAction<Discussion>(
-                  future: () async {
-                    try {
-                      return userSession.listDiscussions!.list.firstWhere(
-                        (element) => element.receiver.uid == userMin.uid,
-                      );
-                    } catch (e) {
-                      return await DiscussionServices.of(userSession)
-                          .post(receiverId: userMin.uid);
-                    }
-                  },
-                  onComplete: (discussion) {
-                    context.push(
-                      widget: ChatScreen(
-                        userSession: userSession,
-                        discussion: discussion!,
-                      ),
-                    );
-                  },
-                );
-              },
+              onPressed: () => userMin.openDiscussion(context, userSession),
               icon: Icon(
                 AwesomeIcons.chat_bold,
                 color: Styles.green,

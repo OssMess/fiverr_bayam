@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../../../extensions.dart';
 import '../../../../tools.dart';
 
 class MultiImageSlideshow extends StatefulWidget {
@@ -61,20 +62,17 @@ class _MultiImageSlideshowState extends State<MultiImageSlideshow> {
         PositionedDirectional(
           top: Paddings.viewPadding.top,
           end: 0,
-          child: ConstrainedBox(
-            constraints: BoxConstraints.tightFor(width: 56.sp),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: Icon(
-                    Icons.close,
-                    color: Colors.white,
-                    size: 24.sp,
-                  ),
-                ),
-              ],
+          child: SizedBox(
+            height: 56,
+            width: 56,
+            child: IconButton(
+              visualDensity: VisualDensity.compact,
+              onPressed: context.pop,
+              icon: Icon(
+                Icons.close,
+                color: Colors.white,
+                size: 24.sp,
+              ),
             ),
           ),
         ),

@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import '../../../extensions.dart';
 import '../../../tools.dart';
 import '../../controller/services.dart';
+import '../../view/screens.dart';
 import '../enums.dart';
+import '../models.dart';
 import 'user_session.dart';
 
 /// this model represents user session
@@ -166,4 +168,29 @@ class UserMin with ChangeNotifier {
         'countLiked': countLiked,
         'actionLikeType': actionLikeType,
       };
+
+  void openDiscussion(
+    BuildContext context,
+    UserSession userSession,
+  ) {
+    Dialogs.of(context).runAsyncAction<Discussion>(
+      future: () async {
+        try {
+          return userSession.listDiscussions!.list.firstWhere(
+            (element) => element.receiver.uid == uid,
+          );
+        } catch (e) {
+          return await DiscussionServices.of(userSession).post(receiverId: uid);
+        }
+      },
+      onComplete: (discussion) {
+        context.push(
+          widget: ChatScreen(
+            userSession: userSession,
+            discussion: discussion!,
+          ),
+        );
+      },
+    );
+  }
 }
