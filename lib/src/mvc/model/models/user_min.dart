@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 
 import '../../../extensions.dart';
@@ -8,7 +9,6 @@ import '../../controller/services.dart';
 import '../../view/screens.dart';
 import '../enums.dart';
 import '../models.dart';
-import 'user_session.dart';
 
 /// this model represents user session
 class UserMin with ChangeNotifier {
@@ -20,11 +20,13 @@ class UserMin with ChangeNotifier {
   List<String>? imageCompanyUrl;
   AccountType accountType;
   String? email;
-  String? city;
   String? streetAddress;
   String? postalCode;
   String? region;
   String? country;
+  String? city;
+  List<Country> countries;
+  List<City> cities;
   bool isActive;
   bool isVerified;
   String? firstName;
@@ -53,8 +55,10 @@ class UserMin with ChangeNotifier {
     required this.accountType,
     required this.bio,
     required this.birthDate,
-    required this.city,
     required this.country,
+    required this.city,
+    required this.countries,
+    required this.cities,
     required this.email,
     required this.facebookUrl,
     required this.linkedinUrl,
@@ -87,8 +91,14 @@ class UserMin with ChangeNotifier {
           : AccountType.person,
       bio: json['bio'],
       birthDate: json['birthDate'],
-      city: json['city'],
       country: json['country'],
+      city: json['city'],
+      cities: List.from(json['citiess'] ?? [])
+          .map((e) => (e as Map<dynamic, dynamic>).toCity)
+          .toList(),
+      countries: List.from(json['countriess'] ?? [])
+          .map((e) => (e as Map<dynamic, dynamic>).toCountry)
+          .toList(),
       email: json['email'],
       facebookUrl: json['facebookUrl'],
       linkedinUrl: json['linkedinUrl'],
@@ -144,31 +154,6 @@ class UserMin with ChangeNotifier {
     );
   }
 
-  Map<String, dynamic> get toMapInit => {
-        'uid': uid,
-        'phoneNumber': phoneNumber,
-        'imageProfile': imageProfileUrl,
-        'imageCompany': imageCompanyUrl,
-        'firstName': firstName,
-        'lastName': lastName,
-        'companyName': companyName,
-        'bio': bio,
-        'birthDate': birthDate,
-        'email': email,
-        'facebookUrl': facebookUrl,
-        'linkedinUrl': linkedinUrl,
-        'twitterUrl': twitterUrl,
-        'city': city,
-        'country': country,
-        'postalCode': postalCode,
-        'region': region,
-        'streetAddress': streetAddress,
-        'isActive': isActive,
-        'isVerified': isVerified,
-        'countLiked': countLiked,
-        'actionLikeType': actionLikeType,
-      };
-
   void openDiscussion(
     BuildContext context,
     UserSession userSession,
@@ -193,4 +178,25 @@ class UserMin with ChangeNotifier {
       },
     );
   }
+
+  String? countryName() {
+    try {
+      return country ?? countries.first.name;
+    } on Exception {
+      return null;
+    }
+  }
+
+  String? cityName() {
+    try {
+      return city ?? cities.first.name;
+    } on Exception {
+      return null;
+    }
+  }
+
+  String get phoneCode => phoneNumber.substring(0, 4);
+
+  String? get countryCode =>
+      CountryCode.fromDialCode(phoneNumber.substring(0, 4)).code;
 }

@@ -65,6 +65,7 @@ class _DetailsCompanyState extends State<DetailsCompany> {
                               photosUrl: userMin.imageCompanyUrl ?? [],
                               description: userMin.bio ?? '',
                               pageController: pageController,
+                              countryCode: userMin.countryCode,
                             ),
                             16.heightSp,
                             SmoothPageIndicator(

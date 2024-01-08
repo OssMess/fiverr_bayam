@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../extensions.dart';
 import '../../../tools.dart';
+import '../model_widgets_screens.dart';
 
 class CompanyHeaderTile extends StatelessWidget {
   const CompanyHeaderTile({
@@ -11,8 +12,8 @@ class CompanyHeaderTile extends StatelessWidget {
     required this.logoUrl,
     required this.name,
     required this.isVerified,
+    required this.countryCode,
     this.sizeOffset = 0,
-    this.trailingUrl,
     this.padding,
     this.onTapOptions,
   });
@@ -21,7 +22,7 @@ class CompanyHeaderTile extends StatelessWidget {
   final String name;
   final bool isVerified;
   final double sizeOffset;
-  final String? trailingUrl;
+  final String? countryCode;
   final EdgeInsetsGeometry? padding;
   final void Function()? onTapOptions;
 
@@ -79,13 +80,9 @@ class CompanyHeaderTile extends StatelessWidget {
               ],
             ),
           ),
-          if (trailingUrl != null)
-            CircleAvatar(
-              radius: 20.sp - sizeOffset,
-              backgroundColor: context.textTheme.headlineSmall!.color,
-              backgroundImage: CachedNetworkImageProvider(
-                trailingUrl!,
-              ),
+          if (countryCode.isNotNullOrEmpty)
+            CountryLogo(
+              countryCode: countryCode!,
             ),
           if (onTapOptions != null) ...[
             8.widthSp,

@@ -73,6 +73,7 @@ class _DetailsAdState extends State<DetailsAd> {
                             description: ad.content,
                             adType: ad.type,
                             pageController: pageController,
+                            countryCode: ad.author.countryCode,
                           ),
                           16.heightSp,
                           SmoothPageIndicator(

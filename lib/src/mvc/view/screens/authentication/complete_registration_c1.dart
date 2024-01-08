@@ -55,8 +55,20 @@ class _CompleteRegistrationPageC1State
         widget.geocodingLocation?.streetAddress;
     postalCode =
         widget.userSession.postalCode ?? widget.geocodingLocation?.postalCode;
-    city = widget.userSession.city ?? widget.geocodingLocation?.city;
-    country = widget.userSession.country ?? widget.geocodingLocation?.country;
+    try {
+      city = widget.userSession.city ??
+          widget.userSession.cities?.first.name ??
+          widget.geocodingLocation?.city;
+    } on Exception {
+      country = widget.geocodingLocation?.city;
+    }
+    try {
+      country = widget.userSession.country ??
+          widget.userSession.countries?.first.name ??
+          widget.geocodingLocation?.country;
+    } on Exception {
+      country = widget.geocodingLocation?.country;
+    }
     region = widget.userSession.region;
     startupDate = DateTime.tryParse(widget.userSession.birthDate ?? '');
     dateController.text = widget.userSession.birthDate ?? '';

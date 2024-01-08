@@ -111,7 +111,7 @@ class AdTile extends StatelessWidget {
                   name: ad.author.displayName,
                   logoUrl: ad.author.imageProfileUrl,
                   isVerified: ad.author.isVerified,
-                  trailingUrl: null,
+                  countryCode: ad.author.countryCode,
                   onTapOptions: onTapOptions,
                 ),
               ],

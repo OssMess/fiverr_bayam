@@ -91,6 +91,7 @@ class CompanyTile extends StatelessWidget {
                   child: CompanyHeaderTile(
                     logoUrl: userMin.imageProfileUrl,
                     name: userMin.displayName,
+                    countryCode: null,
                     isVerified: userMin.isVerified,
                     sizeOffset: 0,
                     padding: EdgeInsetsDirectional.only(start: 10.sp),

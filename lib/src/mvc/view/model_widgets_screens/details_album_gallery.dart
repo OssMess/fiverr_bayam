@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../extensions.dart';
 import '../../../tools.dart';
 import '../../model/enums.dart';
+import '../model_widgets_screens.dart';
 
 class DetailsAlbumGallery extends StatelessWidget {
   const DetailsAlbumGallery({
@@ -13,12 +14,14 @@ class DetailsAlbumGallery extends StatelessWidget {
     required this.description,
     this.adType,
     required this.pageController,
+    required this.countryCode,
   });
 
   final List<String> photosUrl;
   final String description;
   final AdType? adType;
   final PageController pageController;
+  final String? countryCode;
 
   @override
   Widget build(BuildContext context) {
@@ -86,12 +89,10 @@ class DetailsAlbumGallery extends StatelessWidget {
                             ),
                           )
                         : const SizedBox.shrink(),
-                    // CircleAvatar(
-                    //   backgroundColor: context.textTheme.headlineSmall!.color,
-                    //   backgroundImage: const CachedNetworkImageProvider(
-                    //     'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Flag_of_Cameroon.png/640px-Flag_of_Cameroon.png',
-                    //   ),
-                    // ),
+                    if (countryCode.isNotNullOrEmpty)
+                      CountryLogo(
+                        countryCode: countryCode!,
+                      ),
                   ],
                 ),
                 Text(

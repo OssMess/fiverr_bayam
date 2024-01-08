@@ -6,7 +6,6 @@ import 'package:badges/badges.dart' as badge;
 import '../../../extensions.dart';
 import '../../../tools.dart';
 import '../../model/models_ui.dart';
-import '../dialogs.dart';
 import '../model_widgets.dart';
 
 class ProfileHeader extends StatelessWidget {

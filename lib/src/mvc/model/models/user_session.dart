@@ -30,13 +30,13 @@ class UserSession with ChangeNotifier {
   String? bio;
   List<String>? preferences;
   String? email;
-  String? city;
   String? streetAddress;
   String? postalCode;
   String? region;
   String? country;
-  Set<Country>? countries;
-  Set<City>? cities;
+  String? city;
+  List<Country>? countries;
+  List<City>? cities;
   String? uniqueRegisterNumber;
   String? facebookUrl;
   String? linkedinUrl;
@@ -91,8 +91,8 @@ class UserSession with ChangeNotifier {
     required this.accountType,
     required this.bio,
     required this.birthDate,
-    required this.city,
     required this.country,
+    required this.city,
     required this.countries,
     required this.cities,
     required this.email,
@@ -162,8 +162,8 @@ class UserSession with ChangeNotifier {
       accountType: null,
       bio: null,
       birthDate: null,
-      city: null,
       country: null,
+      city: null,
       countries: null,
       cities: null,
       email: null,
@@ -223,30 +223,6 @@ class UserSession with ChangeNotifier {
     listDiscussions?.reset();
   }
 
-  Map<dynamic, dynamic> get toAuthorMap => {
-        'isCompanyOrClient': true,
-        'isVerified': false,
-        'uuid': uid,
-        'phoneNumber': phoneNumber,
-        if (firstName.isNotNullOrEmpty) 'firstName': firstName,
-        if (lastName.isNotNullOrEmpty) 'lastName': lastName,
-        if (email.isNotNullOrEmpty) 'email': email,
-        if (birthDate.isNotNullOrEmpty) 'birthdate': birthDate,
-        if (city.isNotNullOrEmpty) 'city': city,
-        if (bio.isNotNullOrEmpty) 'bio': bio,
-        if (streetAddress.isNotNullOrEmpty) 'streetAddress': streetAddress,
-        if (postalCode.isNotNullOrEmpty) 'postalCode': postalCode,
-        if (region.isNotNullOrEmpty) 'region': region,
-        'country': country,
-        if (companyName.isNotNullOrEmpty) 'companyName': companyName,
-        if (facebookUrl.isNotNullOrEmpty) 'facebookUrl': facebookUrl,
-        if (linkedinUrl.isNotNullOrEmpty) 'linkedinUrl': linkedinUrl,
-        if (twitterUrl.isNotNullOrEmpty) 'twitterUrl': twitterUrl,
-        if (uniqueRegisterNumber.isNotNullOrEmpty)
-          'uniqueRegisterNumber': uniqueRegisterNumber,
-        'preferenceList': preferences ?? [],
-      };
-
   UserMin get toUserMin => UserMin(
         uid: uid!,
         phoneNumber: phoneNumber!,
@@ -261,8 +237,10 @@ class UserSession with ChangeNotifier {
         accountType: accountType!,
         bio: bio,
         birthDate: birthDate,
-        city: city,
         country: country,
+        city: city,
+        cities: cities ?? [],
+        countries: countries ?? [],
         email: email,
         facebookUrl: facebookUrl,
         linkedinUrl: linkedinUrl,
@@ -342,8 +320,8 @@ class UserSession with ChangeNotifier {
     accountType = user.accountType;
     bio = user.bio;
     birthDate = user.birthDate;
-    city = user.city;
     country = user.country;
+    city = user.city;
     countries = user.countries;
     cities = user.cities;
     email = user.email;
@@ -393,12 +371,14 @@ class UserSession with ChangeNotifier {
     companyName = json['companyName'];
     bio = json['bio'];
     birthDate = json['birthdate'];
-    city = json['city'];
     country = json['country'];
-    countries = Set.from(json['countries'] ?? [])
-        .map((e) => Country.fromMap(e))
-        .toSet();
-    cities = Set.from(json['cities'] ?? []).map((e) => City.fromMap(e)).toSet();
+    city = json['city'];
+    cities = List.from(json['cities'] ?? [])
+        .map((e) => (e as Map<dynamic, dynamic>).toCity)
+        .toList();
+    countries = List.from(json['countries'] ?? [])
+        .map((e) => (e as Map<dynamic, dynamic>).toCountry)
+        .toList();
     email = json['email'];
     facebookUrl = json['facebookUrl'];
     linkedinUrl = json['linkedinUrl'];

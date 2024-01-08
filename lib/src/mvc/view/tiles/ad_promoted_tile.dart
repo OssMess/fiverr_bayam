@@ -113,7 +113,7 @@ class AdPromotedTile extends StatelessWidget {
                   name: adPromoted.ad.author.displayName,
                   logoUrl: adPromoted.ad.author.imageProfileUrl,
                   isVerified: adPromoted.ad.author.isVerified,
-                  trailingUrl: null,
+                  countryCode: null,
                   // onTapOptions: onTapOptions,
                 ),
                 CustomDivider(

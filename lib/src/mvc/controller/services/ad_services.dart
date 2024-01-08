@@ -155,8 +155,8 @@ class AdServices {
         '$baseUrl/api/user/post/timeline/${ad.uuid}/read',
       ),
     );
-
-    request.headers.addAll(Services.headerAcceptldJson);
+    request.body = json.encode({});
+    request.headers.addAll(Services.headersldJson);
     http.Response response = await HttpRequest.attemptHttpCall(
       request,
     );
