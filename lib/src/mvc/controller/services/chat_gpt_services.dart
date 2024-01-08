@@ -3,13 +3,17 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
+import '../../model/list_models.dart';
 import '../../model/models.dart';
 
 class ChatGPTServices {
-  static const String baseUrl = 'https://api.openai.com/v1/chat/completions';
+  static const String baseUrl =
+      // 'https://api.openai.com/v1/chat/completions';
+      'https://api.openai.com/v1/engines/davinci-codex/completions';
 
   static Future<Message> sendMessage({
     required String message,
+    required ListChatBotMessages listChatBotMessages,
   }) async {
     var request = http.Request(
       'POST',
@@ -25,6 +29,7 @@ class ChatGPTServices {
     var body = {
       'model': 'gpt-3.5-turbo',
       'messages': [
+        ...listChatBotMessages.listChatGPTMap,
         {
           'role': 'user',
           'content': message,
@@ -35,7 +40,7 @@ class ChatGPTServices {
     http.StreamedResponse streamedResponse = await request.send();
     if (streamedResponse.statusCode == 200) {
       http.Response response = await http.Response.fromStream(streamedResponse);
-      var body = jsonDecode(response.body);
+      var body = jsonDecode(utf8.decode(response.bodyBytes));
       return Message.initChatBotMessage(
         false,
         List.from(body['choices'])[0]['message']['content'],

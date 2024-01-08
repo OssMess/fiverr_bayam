@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../extensions.dart';
 import '../../../tools.dart';
@@ -48,10 +49,34 @@ class _MessageTileState extends State<MessageTile> {
         builder: (context, message, _) {
           if (message.isSending && !message.isMine) {
             return Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SpinKitThreeBounce(
                   color: context.primaryColor,
                   size: 14.sp,
+                ),
+                5.widthSp,
+                RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    style: Styles.poppins(
+                      fontSize: 14.sp,
+                      fontWeight: Styles.bold,
+                      color: context.textTheme.displayLarge!.color,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: AppLocalizations.of(context)!.ai,
+                      ),
+                      TextSpan(
+                        text: ' ${AppLocalizations.of(context)!.is_typing}',
+                        style: Styles.poppins(
+                          fontSize: 14.sp,
+                          fontWeight: Styles.medium,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             );

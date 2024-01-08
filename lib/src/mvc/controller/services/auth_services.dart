@@ -86,6 +86,7 @@ class AuthServices {
       userSession.onSignInCompleted(
         jsonDecode(response.body)['receiver'],
       );
+      userSession.updateLastSeen();
     } else {
       Functions.throwExceptionFromResponse(userSession, response);
     }

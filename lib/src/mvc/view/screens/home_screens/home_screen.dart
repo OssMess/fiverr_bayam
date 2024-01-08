@@ -151,9 +151,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               child: AppBarActionButton(
                                 icon: AwesomeIcons.bell,
-                                onTap: () => context.push(
-                                  widget: const NotificationScreen(),
-                                ),
+                                onTap: () {
+                                  context.push(
+                                    widget: const NotificationScreen(),
+                                  );
+                                },
                               ),
                             );
                           } else {

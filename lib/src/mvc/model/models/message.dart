@@ -183,4 +183,9 @@ class Message with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Map<String, String> get toChatGPTMap => {
+        'role': isMine ? 'user' : 'assistant',
+        'content': message,
+      };
 }

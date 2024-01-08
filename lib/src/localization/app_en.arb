@@ -354,6 +354,8 @@
   "pick_company_images_gallery":"Upload at least one image for your company pgallery",
   "wrong_otp":"Wrong OTP code! please try again.",
   "post_not_found":"Post not found or has been deleted! Please refresh and try again.",
+  "ai":"AI",
+  "is_typing":"is typing...",
 
 
   "@sent_nb_messages":{

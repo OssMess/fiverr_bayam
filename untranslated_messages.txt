@@ -39,6 +39,8 @@
     "pick_company_image_profile",
     "pick_company_images_gallery",
     "wrong_otp",
-    "post_not_found"
+    "post_not_found",
+    "ai",
+    "is_typing"
   ]
 }

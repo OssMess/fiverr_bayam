@@ -360,6 +360,11 @@ class UserSession with ChangeNotifier {
     notifyListeners();
   }
 
+  void updateLastSeen() {
+    UserServices.of(this).updateLastSeen();
+    bouncer.run(UserServices.of(this).updateLastSeen);
+  }
+
   void onSignInCompleted(Map<String, dynamic> json) {
     uid = json['uuid'];
     phoneNumber = json['phoneNumber'];
@@ -398,12 +403,10 @@ class UserSession with ChangeNotifier {
     facebookUrl = json['facebookUrl'];
     linkedinUrl = json['linkedinUrl'];
     postalCode = json['postalCode'];
-    preferences = json['preferences'] ??
-        [
-          '9e837e03-4cba-470f-8b5a-eda270a7fd39',
-          'ca175607-9064-4f1f-8cc1-9a05f1fd2277',
-          '64008c47-c19f-4afd-b1e0-d9b2a06dc3b4',
-        ];
+    preferences = List.from(json['preferenceList'] ?? [])
+        .map((e) => (e['@id'] as String)
+            .replaceAll('/api/preference_sub_categories/', ''))
+        .toList();
     region = json['region'];
     uniqueRegisterNumber = json['uniqueRegisterNumber'];
     streetAddress = json['streetAddress'];
@@ -415,8 +418,6 @@ class UserSession with ChangeNotifier {
     countLiked = json['countLiked'];
     HiveMessages.init(this);
     notifyListeners();
-    UserServices.of(this).updateLastSeen();
-    bouncer.run(UserServices.of(this).updateLastSeen);
   }
 
   Future<void> onSignout() async {

@@ -27,9 +27,11 @@ class ListChatBotMessages extends SetClasses<Message> {
     Message botMessage = Message.initChatBotAwaitingMessage();
     super.insert(botMessage);
     try {
-      Message botResponse = await ChatGPTServices.sendMessage(message: message);
+      Message botResponse = await ChatGPTServices.sendMessage(
+        message: message,
+        listChatBotMessages: this,
+      );
       botMessage.updateWithChatBotMessage(botResponse);
-      HiveMessages.save(botMessage);
     } catch (e) {
       list.remove(botMessage);
       notifyListeners();
@@ -37,4 +39,10 @@ class ListChatBotMessages extends SetClasses<Message> {
       HiveMessages.save(myMessage);
     }
   }
+
+  Iterable<Map<String, String>> get listChatGPTMap => list
+      .where((element) => element.message.isNotEmpty)
+      .map((e) => e.toChatGPTMap)
+      .toList()
+      .reversed;
 }
