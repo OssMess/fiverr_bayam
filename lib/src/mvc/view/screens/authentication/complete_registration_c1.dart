@@ -59,14 +59,14 @@ class _CompleteRegistrationPageC1State
       city = widget.userSession.city ??
           widget.userSession.cities?.first.name ??
           widget.geocodingLocation?.city;
-    } on Exception {
-      country = widget.geocodingLocation?.city;
+    } catch (e) {
+      city = widget.geocodingLocation?.city;
     }
     try {
       country = widget.userSession.country ??
           widget.userSession.countries?.first.name ??
           widget.geocodingLocation?.country;
-    } on Exception {
+    } catch (e) {
       country = widget.geocodingLocation?.country;
     }
     region = widget.userSession.region;

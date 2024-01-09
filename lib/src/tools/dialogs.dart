@@ -119,9 +119,9 @@ class Dialogs {
     await showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (_) => const PopScope(
-        canPop: false,
-        child: Column(
+      builder: (_) => WillPopScope(
+        onWillPop: () => Future.value(false),
+        child: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -329,8 +329,8 @@ class Dialogs {
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        return PopScope(
-          canPop: false,
+        return WillPopScope(
+          onWillPop: () => Future.value(false),
           child: Dialog(
             insetPadding: EdgeInsets.symmetric(horizontal: 24.w),
             clipBehavior: Clip.antiAliasWithSaveLayer,

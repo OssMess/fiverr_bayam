@@ -182,7 +182,7 @@ class UserMin with ChangeNotifier {
   String? countryName() {
     try {
       return country ?? countries.first.name;
-    } on Exception {
+    } catch (e) {
       return null;
     }
   }
@@ -190,7 +190,7 @@ class UserMin with ChangeNotifier {
   String? cityName() {
     try {
       return city ?? cities.first.name;
-    } on Exception {
+    } catch (e) {
       return null;
     }
   }

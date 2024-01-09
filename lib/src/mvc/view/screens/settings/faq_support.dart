@@ -36,15 +36,14 @@ class _FAQSupportState extends State<FAQSupport> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      onPopInvoked: (pop) {
-        if (!pop) {
-          setState(() {
-            faq = null;
-          });
-        }
+    return WillPopScope(
+      onWillPop: () {
+        if (!showFAQView) return Future.value(true);
+        setState(() {
+          faq = null;
+        });
+        return Future.value(false);
       },
-      canPop: !showFAQView,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         extendBodyBehindAppBar: true,

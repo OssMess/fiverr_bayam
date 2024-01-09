@@ -30,13 +30,12 @@ class _ContactSupportState extends State<ContactSupport> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      onPopInvoked: (pop) {
-        if (!pop) {
-          context.popUntilFirst();
-        }
+    return WillPopScope(
+      onWillPop: () {
+        if (!msgSent) return Future.value(true);
+        context.popUntilFirst();
+        return Future.value(false);
       },
-      canPop: !msgSent,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         extendBodyBehindAppBar: true,

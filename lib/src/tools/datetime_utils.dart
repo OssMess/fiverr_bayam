@@ -337,7 +337,8 @@ class DateTimeUtils {
         return DateTime.parse(value);
       }
       throw Exception();
-    } on Exception {
+      // ignore: unused_catch_clause
+    } on Exception catch (e) {
       if (initIfNull) {
         return DateTime.now();
       } else {
