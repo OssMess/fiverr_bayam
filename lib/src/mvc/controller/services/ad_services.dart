@@ -142,7 +142,7 @@ class AdServices {
       request,
     );
     if (response.statusCode == 201) {
-      return response.toAdComment;
+      return response.toAdComment(userSession);
     } else {
       throw Functions.throwExceptionFromResponse(userSession, response);
     }
@@ -292,7 +292,10 @@ class AdServices {
       Map<dynamic, dynamic> result = jsonDecode(response.body);
       update(
         List.from(result['hydra:member'])
-            .map((json) => AdComment.fromMap(json))
+            .map((json) => AdComment.fromMap(
+                  json,
+                  userSession,
+                ))
             .toSet(),
         result['hydra:totalItems'],
         page + 1,

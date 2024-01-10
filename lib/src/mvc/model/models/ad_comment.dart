@@ -3,8 +3,11 @@ import 'dart:convert';
 import '../../../extensions.dart';
 import '../models.dart';
 
-AdComment jsonToAdComment(Map<dynamic, dynamic> json) =>
-    AdComment.fromMap(json);
+AdComment jsonToAdComment(
+  Map<dynamic, dynamic> json,
+  UserSession userSession,
+) =>
+    AdComment.fromMap(json, userSession);
 
 class AdComment {
   final UserMin author;
@@ -25,8 +28,13 @@ class AdComment {
     required this.isValid,
   });
 
-  factory AdComment.fromMap(Map<dynamic, dynamic> json) => AdComment(
-        author: (json['author'] as Map<dynamic, dynamic>).toUserMin,
+  factory AdComment.fromMap(
+    Map<dynamic, dynamic> json,
+    UserSession userSession,
+  ) =>
+      AdComment(
+        author:
+            (json['author'] as Map<dynamic, dynamic>).toUserMin(userSession),
         post: json['post'],
         uuid: json['uuid'],
         createdAt: json['created_at'],
@@ -43,6 +51,9 @@ class AdComment {
         'isValid': isValid,
       };
 
-  static AdComment fromResponse(String body) =>
-      AdComment.fromMap(jsonDecode(body));
+  static AdComment fromResponse(String body, UserSession userSession) =>
+      AdComment.fromMap(
+        jsonDecode(body),
+        userSession,
+      );
 }

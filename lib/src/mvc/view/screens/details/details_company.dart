@@ -82,15 +82,12 @@ class _DetailsCompanyState extends State<DetailsCompany> {
                             ),
                             16.heightSp,
                           ],
-                          DetailsDescriptionBanner(
+                          DetailsCompanyDescriptionBanner(
                             description: userMin.bio,
                             address: userMin.streetAddress,
-                            //FIXME add company tags
-                            tags: null,
+                            tags: userMin.preferenceList,
                             likes: userMin.countLiked ?? 0,
-                            //FIXME website url
                             website: null,
-                            //FIXME employees
                             employees: null,
                             onLike: () => userMin.likeCompany(
                               context,

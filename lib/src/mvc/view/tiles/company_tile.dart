@@ -69,17 +69,17 @@ class CompanyTile extends StatelessWidget {
                                 fit: BoxFit.cover,
                               ),
                             ),
-                            //FIXME add category or subcategory to company/user min/author
-                            // child:
-                            // Text(
-                            //   company.category.translateTitle(context),
-                            //   style: Styles.poppins(
-                            //     fontSize: 18.sp,
-                            //     fontWeight: Styles.semiBold,
-                            //     color: Colors.white,
-                            //     height: 1.2,
-                            //   ),
-                            // ),
+                            child: userMin.preferenceList!.isNotEmpty
+                                ? Text(
+                                    userMin.preferenceList!.first,
+                                    style: Styles.poppins(
+                                      fontSize: 18.sp,
+                                      fontWeight: Styles.semiBold,
+                                      color: Colors.white,
+                                      height: 1.2,
+                                    ),
+                                  )
+                                : null,
                           ),
                         )
                       : Container(color: context.b6),

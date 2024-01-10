@@ -93,7 +93,8 @@ class Ad with ChangeNotifier {
       Ad(
         uuid: json['uuid'],
         isMine: json['author']['uuid'] == userSession.uid,
-        author: (json['author'] as Map<dynamic, dynamic>).toUserMin,
+        author:
+            (json['author'] as Map<dynamic, dynamic>).toUserMin(userSession),
         title: json['title'],
         content: json['content'],
         location: json['location'],
@@ -123,7 +124,8 @@ class Ad with ChangeNotifier {
       Ad(
         uuid: json['uuid'],
         isMine: json['post']['author']['uuid'] == userSession.uid,
-        author: (json['post']['author'] as Map<dynamic, dynamic>).toUserMin,
+        author: (json['post']['author'] as Map<dynamic, dynamic>)
+            .toUserMin(userSession),
         title: json['post']['title'],
         content: json['post']['content'],
         location: json['post']['location'],

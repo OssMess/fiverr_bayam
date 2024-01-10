@@ -12,7 +12,10 @@ extension Mapextensions on Map<dynamic, dynamic> {
 
   Author get toAuthor => Author.fromMap(this);
 
-  UserMin get toUserMin => UserMin.fromMap(this);
+  UserMin toUserMin(UserSession userSession) => UserMin.fromMap(
+        this,
+        userSession,
+      );
 
   Category get toCategory => Category.fromMap(this);
 
@@ -28,7 +31,10 @@ extension Mapextensions on Map<dynamic, dynamic> {
 
   City get toCity => City.fromMap(this);
 
-  AdComment get toAdComment => AdComment.fromMap(this);
+  AdComment toAdComment(UserSession userSession) => AdComment.fromMap(
+        this,
+        userSession,
+      );
 
   Discussion toDiscussion(UserSession userSession) =>
       Discussion.fromMap(this, userSession);

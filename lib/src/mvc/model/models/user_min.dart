@@ -40,7 +40,8 @@ class UserMin with ChangeNotifier {
   String? twitterUrl;
   DateTime? lastSeenOnline;
   int? countLiked;
-  ActionLikeType? actionLikeType;
+  List<String>? preferenceList;
+  bool isLiked;
 
   UserMin({
     required this.uid,
@@ -70,10 +71,11 @@ class UserMin with ChangeNotifier {
     required this.isVerified,
     required this.lastSeenOnline,
     required this.countLiked,
-    required this.actionLikeType,
+    required this.preferenceList,
+    required this.isLiked,
   });
 
-  factory UserMin.fromMap(Map<dynamic, dynamic> json) {
+  factory UserMin.fromMap(Map<dynamic, dynamic> json, UserSession userSession) {
     return UserMin(
       uid: json['uuid'],
       phoneNumber: json['phoneNumber'],
@@ -110,7 +112,10 @@ class UserMin with ChangeNotifier {
       isVerified: json['isVerified'],
       lastSeenOnline: DateTime.tryParse(json['lastSeenOnline'] ?? ''),
       countLiked: json['countLiked'],
-      actionLikeType: (json['actionLikeType'] as String?).toActionLikeType,
+      preferenceList: List.from(json['preferenceList'] ?? [])
+          .map((e) => e['name'] as String)
+          .toList(),
+      isLiked: userSession.likedCompanies!.contains(json['uuid']),
     );
   }
 
@@ -122,13 +127,18 @@ class UserMin with ChangeNotifier {
 
   String get displayName => companyName ?? '$firstName $lastName';
 
-  static UserMin fromResponse(String body) => UserMin.fromMap(jsonDecode(body));
+  static UserMin fromResponse(
+    String body,
+    UserSession userSession,
+  ) =>
+      UserMin.fromMap(
+        jsonDecode(body),
+        userSession,
+      );
 
   bool get isOnline =>
       lastSeenOnline != null &&
       DateTime.now().difference(lastSeenOnline!).inMinutes < 15;
-
-  bool get isLiked => actionLikeType == ActionLikeType.like;
 
   String? elapsedOnline(BuildContext context) {
     if (lastSeenOnline == null) return null;
@@ -148,7 +158,11 @@ class UserMin with ChangeNotifier {
       },
       onComplete: (result) {
         countLiked = result?.$1;
-        actionLikeType = result?.$2;
+        if (result?.$2 == ActionLikeType.like) {
+          isLiked = true;
+        } else {
+          isLiked = false;
+        }
         notifyListeners();
       },
     );

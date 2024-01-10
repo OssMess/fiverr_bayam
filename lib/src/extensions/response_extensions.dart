@@ -19,7 +19,10 @@ extension ResponseExtensions on Response {
 
   Chat get toChat => Chat.fromResponse(body);
 
-  UserMin get toUserMin => UserMin.fromResponse(body);
+  UserMin toUserMin(UserSession userSession) => UserMin.fromResponse(
+        body,
+        userSession,
+      );
 
   Tag get toTag => Tag.fromResponse(body);
 
@@ -29,7 +32,10 @@ extension ResponseExtensions on Response {
 
   City get toCity => City.fromResponse(body);
 
-  AdComment get toAdComment => AdComment.fromResponse(body);
+  AdComment toAdComment(UserSession userSession) => AdComment.fromResponse(
+        body,
+        userSession,
+      );
 
   Discussion toDiscussion(UserSession userSession) =>
       Discussion.fromResponse(body, userSession);

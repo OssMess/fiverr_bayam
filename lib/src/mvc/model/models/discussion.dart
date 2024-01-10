@@ -40,8 +40,14 @@ class Discussion with ChangeNotifier {
       Discussion(
         id: json['uuid'],
         receiver: json['receiver']['uuid'] != userSession.uid
-            ? UserMin.fromMap(json['receiver'])
-            : UserMin.fromMap(json['sender']),
+            ? UserMin.fromMap(
+                json['receiver'],
+                userSession,
+              )
+            : UserMin.fromMap(
+                json['sender'],
+                userSession,
+              ),
         messages: List.from(json['messages'])
             .map(
               (e) => Message.fromMap(

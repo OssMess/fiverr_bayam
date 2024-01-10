@@ -99,28 +99,28 @@ class DetailsAdDescriptionBanner extends StatelessWidget {
           ),
           Row(
             children: [
-              CustomFlatButton(
-                onTap: () => ad.like(userSession),
-                child: Row(
-                  children: [
-                    Icon(
-                      AwesomeIcons.heart,
-                      color: Styles.green,
-                      size: 20.sp,
-                    ),
-                    8.widthSp,
-                    Text(
-                      AppLocalizations.of(context)!.nb_likes(ad.likes),
-                      style: Styles.poppins(
-                        fontSize: 14.sp,
-                        fontWeight: Styles.medium,
-                        color: context.textTheme.displayLarge!.color,
+              if (!ad.isMine) ...[
+                CustomFlatButton(
+                  onTap: () => ad.like(userSession),
+                  child: Row(
+                    children: [
+                      Icon(
+                        AwesomeIcons.heart,
+                        color: Styles.green,
+                        size: 20.sp,
                       ),
-                    ),
-                  ],
+                      8.widthSp,
+                      Text(
+                        AppLocalizations.of(context)!.nb_likes(ad.likes),
+                        style: Styles.poppins(
+                          fontSize: 14.sp,
+                          fontWeight: Styles.medium,
+                          color: context.textTheme.displayLarge!.color,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              if (!ad.isMine || kDebugMode) ...[
                 16.widthSp,
                 CustomFlatButton(
                   icon: AwesomeIcons.flag_pennant,
@@ -132,8 +132,8 @@ class DetailsAdDescriptionBanner extends StatelessWidget {
                     ),
                   ),
                 ),
+                16.widthSp,
               ],
-              16.widthSp,
               CustomFlatButton(
                 icon: AwesomeIcons.share_from_square,
                 iconColor: Styles.green,

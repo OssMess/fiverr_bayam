@@ -7,8 +7,8 @@ import '../../../extensions.dart';
 import '../model_widgets.dart';
 import '../../../tools.dart';
 
-class DetailsDescriptionBanner extends StatelessWidget {
-  const DetailsDescriptionBanner({
+class DetailsCompanyDescriptionBanner extends StatelessWidget {
+  const DetailsCompanyDescriptionBanner({
     super.key,
     required this.description,
     required this.address,
@@ -151,6 +151,7 @@ class DetailsDescriptionBanner extends StatelessWidget {
                 ),
                 16.widthSp,
               ],
+              //FIXME isMine hide this, replace widget params with userMin
               CustomFlatButton(
                 onTap: onLike,
                 child: Row(
@@ -172,12 +173,6 @@ class DetailsDescriptionBanner extends StatelessWidget {
                   ],
                 ),
               ),
-              // 16.widthSp,
-              // CustomFlatButton(
-              //   icon: AwesomeIcons.flag_pennant,
-              //   iconColor: Styles.red,
-              //   onTap: () => context.push(widget: const ReportScreen()),
-              // ),
               16.widthSp,
               CustomFlatButton(
                 icon: AwesomeIcons.share_from_square,

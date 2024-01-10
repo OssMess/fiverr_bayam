@@ -71,6 +71,7 @@ class UserSession with ChangeNotifier {
   ListCities? listCities;
   ListPlans? listPlans;
   Bouncer bouncer = Bouncer.fromMinutes(15);
+  List<String>? likedCompanies;
 
   UserSession({
     required this.authState,
@@ -105,6 +106,7 @@ class UserSession with ChangeNotifier {
     required this.streetAddress,
     required this.twitterUrl,
     required this.lastSeenOnline,
+    required this.likedCompanies,
     required bool? isActive,
     required bool? isVerified,
     this.listAdsPromoted,
@@ -190,6 +192,7 @@ class UserSession with ChangeNotifier {
       listCities: null,
       listPlans: null,
       lastSeenOnline: null,
+      likedCompanies: null,
     );
     user.initLists();
     if (authState == AuthState.awaiting) {
@@ -251,7 +254,8 @@ class UserSession with ChangeNotifier {
         isActive: isActive,
         isVerified: isVerified,
         lastSeenOnline: lastSeenOnline,
-        actionLikeType: null,
+        preferenceList: [],
+        isLiked: false,
       );
 
   /// return true if awaiting for user sessions
@@ -335,6 +339,7 @@ class UserSession with ChangeNotifier {
     lastSeenOnline = user.lastSeenOnline;
     _isActive = user._isActive;
     _isVerified = user._isVerified;
+    likedCompanies = user.likedCompanies;
     notifyListeners();
   }
 
@@ -396,6 +401,9 @@ class UserSession with ChangeNotifier {
     authState = AuthState.authenticated;
     lastSeenOnline = DateTime.tryParse(json['lastSeenOnline'] ?? '');
     countLiked = json['countLiked'];
+    likedCompanies = List.from(json['likedCompanies'] ?? [])
+        .map((e) => e['uuid'] as String)
+        .toList();
     HiveMessages.init(this);
     notifyListeners();
   }

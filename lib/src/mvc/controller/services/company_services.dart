@@ -70,7 +70,7 @@ class CompanyServices {
       Map<dynamic, dynamic> result = jsonDecode(response.body);
       update(
         List.from(result['hydra:member'])
-            .map((json) => UserMin.fromMap(json))
+            .map((json) => UserMin.fromMap(json, userSession))
             .toSet(),
         result['hydra:totalItems'] ?? 0,
         page + 1,
