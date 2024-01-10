@@ -83,16 +83,8 @@ class _DetailsCompanyState extends State<DetailsCompany> {
                             16.heightSp,
                           ],
                           DetailsCompanyDescriptionBanner(
-                            description: userMin.bio,
-                            address: userMin.streetAddress,
-                            tags: userMin.preferenceList,
-                            likes: userMin.countLiked ?? 0,
-                            website: null,
-                            employees: null,
-                            onLike: () => userMin.likeCompany(
-                              context,
-                              widget.userSession,
-                            ),
+                            userSession: widget.userSession,
+                            userMin: widget.userMin,
                           ),
                           16.heightSp,
                           DetailsCompanyBanner(

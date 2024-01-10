@@ -4,30 +4,19 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../extensions.dart';
+import '../../model/models.dart';
 import '../model_widgets.dart';
 import '../../../tools.dart';
 
 class DetailsCompanyDescriptionBanner extends StatelessWidget {
   const DetailsCompanyDescriptionBanner({
     super.key,
-    required this.description,
-    required this.address,
-    this.date,
-    this.website,
-    required this.tags,
-    this.employees,
-    required this.likes,
-    required this.onLike,
+    required this.userSession,
+    required this.userMin,
   });
 
-  final String? description;
-  final String? address;
-  final String? date;
-  final String? website;
-  final List<String>? tags;
-  final int? employees;
-  final int likes;
-  final void Function()? onLike;
+  final UserSession userSession;
+  final UserMin userMin;
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +34,10 @@ class DetailsCompanyDescriptionBanner extends StatelessWidget {
               color: context.textTheme.displayLarge!.color,
             ),
           ),
-          if (description.isNotNullOrEmpty) ...[
+          if (userMin.bio.isNotNullOrEmpty) ...[
             8.heightSp,
             Text(
-              description!,
+              userMin.bio!,
               style: Styles.poppins(
                 fontSize: 14.sp,
                 fontWeight: Styles.medium,
@@ -56,34 +45,36 @@ class DetailsCompanyDescriptionBanner extends StatelessWidget {
               ),
             ),
           ],
-          if (description.isNotNullOrEmpty && address.isNotNullOrEmpty) ...[
+          if (userMin.bio.isNotNullOrEmpty &&
+              userMin.streetAddress.isNotNullOrEmpty) ...[
             CustomDivider(
               height: 24.sp,
             ),
           ],
-          if (address.isNotNullOrEmpty) ...[
+          if (userMin.streetAddress.isNotNullOrEmpty) ...[
             DescriptionInfoTile(
               icon: AwesomeIcons.location_dot_outlined,
-              label: address!,
+              label: userMin.streetAddress!,
             ),
           ],
-          if (website.isNotNullOrEmpty && address.isNotNullOrEmpty) ...[
-            8.heightSp,
-          ],
-          if (website.isNotNullOrEmpty) ...[
-            DescriptionInfoTile(
-              icon: Icons.link,
-              label: website!,
-            ),
-          ],
-          if (date != null) ...[
-            8.heightSp,
-            DescriptionInfoTile(
-              icon: AwesomeIcons.calendar_clock_outlined,
-              label: date!,
-            ),
-          ],
-          if (tags != null && tags!.isNotEmpty) ...[
+          // if (userMin.website.isNotNullOrEmpty && userMin.streetAddress.isNotNullOrEmpty) ...[
+          //   8.heightSp,
+          // ],
+          // if (website.isNotNullOrEmpty) ...[
+          //   DescriptionInfoTile(
+          //     icon: Icons.link,
+          //     label: website!,
+          //   ),
+          // ],
+          // if (date != null) ...[
+          //   8.heightSp,
+          //   DescriptionInfoTile(
+          //     icon: AwesomeIcons.calendar_clock_outlined,
+          //     label: date!,
+          //   ),
+          // ],
+          if (userMin.preferenceList != null &&
+              userMin.preferenceList!.isNotEmpty) ...[
             CustomDivider(
               height: 24.sp,
             ),
@@ -100,7 +91,7 @@ class DetailsCompanyDescriptionBanner extends StatelessWidget {
                     runAlignment: WrapAlignment.start,
                     runSpacing: 8.sp,
                     spacing: 8.sp,
-                    children: tags!
+                    children: userMin.preferenceList!
                         .map(
                           (text) => CustomFlatButton(
                             color: Styles.green[50],
@@ -125,35 +116,34 @@ class DetailsCompanyDescriptionBanner extends StatelessWidget {
           ),
           Row(
             children: [
-              if (employees != null) ...[
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        AppLocalizations.of(context)!.total_employees,
-                        style: Styles.poppins(
-                          fontSize: 13.sp,
-                          fontWeight: Styles.regular,
-                          color: context.textTheme.displayMedium!.color,
-                        ),
-                      ),
-                      Text(
-                        employees!.toString(),
-                        style: Styles.poppins(
-                          fontSize: 14.sp,
-                          fontWeight: Styles.semiBold,
-                          color: context.textTheme.displayLarge!.color,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                16.widthSp,
-              ],
-              //FIXME isMine hide this, replace widget params with userMin
+              // if (employees != null) ...[
+              //   Expanded(
+              //     child: Column(
+              //       crossAxisAlignment: CrossAxisAlignment.start,
+              //       children: [
+              //         Text(
+              //           AppLocalizations.of(context)!.total_employees,
+              //           style: Styles.poppins(
+              //             fontSize: 13.sp,
+              //             fontWeight: Styles.regular,
+              //             color: context.textTheme.displayMedium!.color,
+              //           ),
+              //         ),
+              //         Text(
+              //           employees!.toString(),
+              //           style: Styles.poppins(
+              //             fontSize: 14.sp,
+              //             fontWeight: Styles.semiBold,
+              //             color: context.textTheme.displayLarge!.color,
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              //   16.widthSp,
+              // ],
               CustomFlatButton(
-                onTap: onLike,
+                onTap: () => userMin.likeCompany(context, userSession),
                 child: Row(
                   children: [
                     Icon(
@@ -163,7 +153,8 @@ class DetailsCompanyDescriptionBanner extends StatelessWidget {
                     ),
                     8.widthSp,
                     Text(
-                      AppLocalizations.of(context)!.nb_likes(likes),
+                      AppLocalizations.of(context)!
+                          .nb_likes(userMin.countLiked ?? 0),
                       style: Styles.poppins(
                         fontSize: 14.sp,
                         fontWeight: Styles.medium,
