@@ -132,6 +132,20 @@ class DetailsAdDescriptionBanner extends StatelessWidget {
                   ),
                 ),
                 16.widthSp,
+                CustomFlatButton(
+                  icon: AwesomeIcons.bookmark_solid,
+                  iconColor: Styles.green,
+                  onTap: () {
+                    Dialogs.of(context).runAsyncAction(future: () async {
+                      await ad.addToFavorites(userSession);
+                    }, onComplete: (_) {
+                      context.showSnackBar(
+                        message: AppLocalizations.of(context)!.ad_bookmarked,
+                      );
+                    });
+                  },
+                ),
+                16.widthSp,
               ],
               CustomFlatButton(
                 icon: AwesomeIcons.share_from_square,

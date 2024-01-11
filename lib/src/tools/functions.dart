@@ -46,6 +46,10 @@ class Functions {
     if ((body['message'] ?? '').contains('Cannot find User with code')) {
       throw BackendException(code: 'wrong-otp', statusCode: 404);
     }
+    if ((body['message'] ?? '')
+        .contains('This favorite already exist for this user')) {
+      throw BackendException(code: 'already-bookmarked', statusCode: 404);
+    }
     Map<int, String> statusCodesPhrases = {
       400: 'invalid-input',
       403: 'unauthorized',
@@ -81,6 +85,7 @@ class Functions {
       'unknown-location': AppLocalizations.of(context)!.location_not_found,
       'wrong-otp': AppLocalizations.of(context)!.wrong_otp,
       'post-not-found': AppLocalizations.of(context)!.post_not_found,
+      'already-bookmarked': AppLocalizations.of(context)!.already_bookmarked,
     };
     return translation[exception.code] ??
         AppLocalizations.of(context)!.unknown_error;

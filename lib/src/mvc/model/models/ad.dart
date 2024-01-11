@@ -122,10 +122,12 @@ class Ad with ChangeNotifier {
     UserSession userSession,
   ) =>
       Ad(
-        uuid: json['uuid'],
-        isMine: json['post']['author']['uuid'] == userSession.uid,
-        author: (json['post']['author'] as Map<dynamic, dynamic>)
-            .toUserMin(userSession),
+        uuid: json['post']['uuid'],
+        isMine:
+            (json['user'] ?? json['post']['author'])['uuid'] == userSession.uid,
+        author:
+            ((json['user'] ?? json['post']['author']) as Map<dynamic, dynamic>)
+                .toUserMin(userSession),
         title: json['post']['title'],
         content: json['post']['content'],
         location: json['post']['location'],
@@ -214,5 +216,9 @@ class Ad with ChangeNotifier {
       comment,
     );
     listAdComments.insert(adComment);
+  }
+
+  Future<void> addToFavorites(UserSession userSession) async {
+    await FavoritesServices.of(userSession).post(uuid);
   }
 }

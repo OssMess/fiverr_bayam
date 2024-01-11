@@ -19,6 +19,7 @@ export './services/report_services.dart';
 export './services/support_services.dart';
 export './services/tag_services.dart';
 export './services/user_services.dart';
+export './services/favorites_services.dart';
 
 class Services {
   static String get json => 'application/json';

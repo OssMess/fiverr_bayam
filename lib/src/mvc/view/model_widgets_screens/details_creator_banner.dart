@@ -90,14 +90,10 @@ class DetailsCreatorBanner extends StatelessWidget {
               ),
               if (!ad.isMine) ...[
                 16.widthSp,
-                IconButton(
-                  onPressed: () =>
-                      ad.author.openDiscussion(context, userSession),
-                  icon: Icon(
-                    AwesomeIcons.chat_bold,
-                    color: Styles.green,
-                    size: 24.sp,
-                  ),
+                CustomFlatButton(
+                  icon: AwesomeIcons.chat_bold,
+                  iconColor: Styles.green,
+                  onTap: () => ad.author.openDiscussion(context, userSession),
                 ),
                 16.widthSp,
                 CustomFlatButton(

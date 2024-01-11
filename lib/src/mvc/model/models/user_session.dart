@@ -59,6 +59,7 @@ class UserSession with ChangeNotifier {
   ListAds? listAds;
   ListCompaniesPopular? listCompaniesPopular;
   ListAdsMy? listAdsMy;
+  ListAdsFavorites? listAdsFavorites;
   ListAdsPromoted? listAdsPromoted;
   ListAdsPromotedMy? listAdsPromotedMy;
   ListDiscussions? listDiscussions;
@@ -115,6 +116,7 @@ class UserSession with ChangeNotifier {
     this.listAds,
     this.listCompaniesPopular,
     this.listAdsMy,
+    this.listAdsFavorites,
     this.listChatBotMessages,
     this.listCategories,
     this.listCategoriesSub,
@@ -185,6 +187,7 @@ class UserSession with ChangeNotifier {
       listAds: null,
       listCompaniesPopular: null,
       listAdsMy: null,
+      listAdsFavorites: null,
       listChatBotMessages: null,
       listCategories: null,
       listCategoriesSub: null,
@@ -204,6 +207,7 @@ class UserSession with ChangeNotifier {
   void initLists() {
     listAds = ListAds(userSession: this);
     listAdsMy = ListAdsMy(userSession: this);
+    listAdsFavorites = ListAdsFavorites(userSession: this);
     listAdsPromoted = ListAdsPromoted(userSession: this);
     listAdsPromotedMy = ListAdsPromotedMy(userSession: this);
     listCategories = ListCategories(userSession: this);
@@ -219,6 +223,7 @@ class UserSession with ChangeNotifier {
   void resetLists() {
     listAds?.reset();
     listAdsMy?.reset();
+    listAdsFavorites?.reset();
     listAdsPromoted?.reset();
     listAdsPromotedMy?.reset();
     listChatBotMessages?.reset();
