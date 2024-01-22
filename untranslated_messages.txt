@@ -1,1 +1,6 @@
-{}
+{
+  "fr": [
+    "ads_search",
+    "empty_ads_search"
+  ]
+}

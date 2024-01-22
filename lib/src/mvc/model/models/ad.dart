@@ -147,6 +147,37 @@ class Ad with ChangeNotifier {
         likes: json['post']['likeNumber'] ?? 0,
         listAdComments: ListAdComments(
           userSession: userSession,
+          adId: json['post']?['uuid'] ?? json['uuid'],
+        ),
+      );
+
+  factory Ad.fromMapSearch(
+    Map<dynamic, dynamic> json,
+    UserSession userSession,
+  ) =>
+      Ad(
+        uuid: json['uuid'],
+        isMine: json['author']['uuid'] == userSession.uid,
+        author:
+            (json['author'] as Map<dynamic, dynamic>).toUserMin(userSession),
+        title: json['title'],
+        content: json['content'],
+        location: json['location'],
+        subCategories: List.from(json['subCategory'])
+            .map((json) => CategorySub.fromMap(json))
+            .toList(),
+        type: (json['type'] as String).toAdType,
+        tags: List.from(json['tags']).map((e) => Tag.fromMap(e)).toList(),
+        createdAt: DateTime.parse(json['created_at']),
+        isPromotion: json['isAds'],
+        images: List.from(json['images'] ?? [])
+            .map((e) => CachedNetworkImageProvider(e))
+            .toList(),
+        imagesUrl: List.from(json['images'] ?? []),
+        imagesFile: [],
+        likes: json['likeNumber'] ?? 0,
+        listAdComments: ListAdComments(
+          userSession: userSession,
           adId: json['uuid'],
         ),
       );

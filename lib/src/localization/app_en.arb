@@ -359,6 +359,8 @@
   "zip_hint":"Enter ZIP Code here",
   "zip_label":"ZIP Code",
   "already_bookmarked":"This ad has already been bookmarked.",
+  "ads_search":"Easily search and find ads",
+  "empty_ads_search":"No results! Please try again",
 
 
   "@sent_nb_messages":{

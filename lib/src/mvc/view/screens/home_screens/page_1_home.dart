@@ -53,7 +53,12 @@ class _Page1HomeState extends State<Page1Home> {
                     AppLocalizations.of(context)!.what_are_you_looking_for,
                 prefixIcon: AwesomeIcons.magnifying_glass,
                 fillColor: context.textTheme.headlineSmall!.color,
-                onEditingComplete: () {},
+                onTap: () => context.push(
+                  widget: AllAdsSearch(
+                    userSession: widget.userSession,
+                  ),
+                ),
+                readOnly: true,
                 textInputAction: TextInputAction.done,
                 suffix: SizedBox(
                   height: 55.sp,

@@ -19,6 +19,7 @@ class EmptyListView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        1.sw.width,
         50.heightH,
         SizedBox(
           width: 0.6.sw,

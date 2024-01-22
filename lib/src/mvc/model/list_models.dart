@@ -1,6 +1,7 @@
 export 'list_models/list_ad_comments.dart';
 export 'list_models/list_ads_my.dart';
 export 'list_models/list_ads.dart';
+export 'list_models/list_ads_search.dart';
 export 'list_models/list_ads_favorites.dart';
 export 'list_models/list_companies_popular.dart';
 export 'list_models/list_ads_promoted.dart';
