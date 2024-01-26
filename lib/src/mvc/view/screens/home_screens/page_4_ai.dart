@@ -76,7 +76,10 @@ class _Page4AIState extends State<Page4AI> {
                                 fontSize: 14.sp,
                                 elevation: 0,
                                 onPressed: () {
-                                  //FIXME send me prompt
+                                  onSendMessage(
+                                    AppLocalizations.of(context)!
+                                        .ai_how_bayam_work,
+                                  );
                                 },
                               ),
                               12.heightSp,
@@ -201,10 +204,10 @@ class _Page4AIState extends State<Page4AI> {
     );
   }
 
-  Future<void> onSendMessage() async {
-    if (controller.text.isEmpty) return;
+  Future<void> onSendMessage([String? msg]) async {
+    if (msg.isNullOrEmpty && controller.text.isEmpty) return;
     notifierTextFormField.setValue(false);
-    widget.userSession.listChatBotMessages!.sendMessage(controller.text);
+    widget.userSession.listChatBotMessages!.sendMessage(msg ?? controller.text);
     controller.text = '';
   }
 }
