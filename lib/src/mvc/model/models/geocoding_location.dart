@@ -116,10 +116,18 @@ class GeoCodingLocation {
     if (geoCodingLocation == null) {
       return (null, null);
     }
-    Country? country = await CountriesServices.of(userSession)
-        .find(search: geoCodingLocation.country!);
-    City? city = await CitiesServices.of(userSession)
-        .find(search: geoCodingLocation.city!);
+    Country? country = (userSession.countries ?? [])
+            .where((element) => element.name == geoCodingLocation.country)
+            .isNotEmpty
+        ? null
+        : await CountriesServices.of(userSession)
+            .find(search: geoCodingLocation.country!);
+    City? city = (userSession.cities ?? [])
+            .where((element) => element.name == geoCodingLocation.city)
+            .isNotEmpty
+        ? null
+        : await CitiesServices.of(userSession)
+            .find(search: geoCodingLocation.city!);
     return (country, city);
   }
 }

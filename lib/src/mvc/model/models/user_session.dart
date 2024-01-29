@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -425,6 +427,7 @@ class UserSession with ChangeNotifier {
   }
 
   Future<void> updateCountriesCities() async {
+    if ((countries ?? []).isNotEmpty && Random().nextInt(4) >= 1) return;
     bool update = false;
     if (listCities == null || listCountries == null) return;
     (Country?, City?)? data;

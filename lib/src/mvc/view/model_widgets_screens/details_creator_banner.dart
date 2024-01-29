@@ -95,23 +95,6 @@ class DetailsCreatorBanner extends StatelessWidget {
                   iconColor: Styles.green,
                   onTap: () => ad.author.openDiscussion(context, userSession),
                 ),
-                16.widthSp,
-                CustomFlatButton(
-                  icon: AwesomeIcons.thumbs_up,
-                  iconColor: context.textTheme.headlineMedium!.color,
-                  onTap: () => ad.author.likeCompany(context, userSession),
-                ),
-                16.widthSp,
-                CustomFlatButton(
-                  icon: AwesomeIcons.flag_pennant,
-                  iconColor: Styles.red,
-                  onTap: () => context.push(
-                    widget: ReportScreen(
-                      userSession: userSession,
-                      ad: ad,
-                    ),
-                  ),
-                ),
               ],
             ],
           ),

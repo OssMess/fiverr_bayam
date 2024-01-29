@@ -113,7 +113,7 @@ class UserMin with ChangeNotifier {
       lastSeenOnline: DateTime.tryParse(json['lastSeenOnline'] ?? ''),
       countLiked: json['countLiked'],
       preferenceList: List.from(json['preferenceList'] ?? [])
-          .map((e) => e['name'] as String)
+          .map((e) => (e['name'] ?? e['@id']) as String)
           .toList(),
       isLiked: userSession.likedCompanies!.contains(json['uuid']),
     );

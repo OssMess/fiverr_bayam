@@ -27,7 +27,7 @@ class Page4AI extends StatefulWidget {
 }
 
 class _Page4AIState extends State<Page4AI> {
-  NotifierBool notifierTextFormField = NotifierBool.init(false);
+  NotifierBool notifierTextFormField = NotifierBool.init(true);
   FocusNode focusNode = FocusNode();
   TextEditingController controller = TextEditingController();
 
@@ -110,7 +110,7 @@ class _Page4AIState extends State<Page4AI> {
                                       fontSize: 14.sp,
                                       elevation: 0,
                                       onPressed: () {
-                                        notifierTextFormField.setValue(true);
+                                        // notifierTextFormField.setValue(true);
                                         focusNode.requestFocus();
                                       },
                                     );
@@ -206,7 +206,7 @@ class _Page4AIState extends State<Page4AI> {
 
   Future<void> onSendMessage([String? msg]) async {
     if (msg.isNullOrEmpty && controller.text.isEmpty) return;
-    notifierTextFormField.setValue(false);
+    // notifierTextFormField.setValue(false);
     widget.userSession.listChatBotMessages!.sendMessage(msg ?? controller.text);
     controller.text = '';
   }
