@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../extensions.dart';
@@ -17,6 +18,7 @@ class CustomTextFormFieldLabel extends StatelessWidget {
     required this.validator,
     this.onSave,
     this.onTap,
+    this.inputFormatters,
   });
 
   final TextEditingController? controller;
@@ -28,9 +30,30 @@ class CustomTextFormFieldLabel extends StatelessWidget {
   final String? Function(String?) validator;
   final void Function(String?)? onSave;
   final void Function()? onTap;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   Widget build(BuildContext context) {
+    late List<TextInputFormatter> inputFormatters;
+    switch (keyboardType) {
+      case TextInputType.name:
+        inputFormatters = [
+          TextInputFormatters.nameFormatter,
+        ];
+        break;
+      case TextInputType.emailAddress:
+        inputFormatters = [
+          TextInputFormatters.emailFormatter,
+        ];
+        break;
+      case TextInputType.phone:
+        inputFormatters = [
+          TextInputFormatters.phoneNumberFormatter,
+        ];
+        break;
+      default:
+        inputFormatters = [];
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -58,6 +81,7 @@ class CustomTextFormFieldLabel extends StatelessWidget {
           onTap: onTap,
           readOnly: onTap != null,
           textInputAction: textInputAction,
+          inputFormatters: this.inputFormatters ?? inputFormatters,
         ),
       ],
     );

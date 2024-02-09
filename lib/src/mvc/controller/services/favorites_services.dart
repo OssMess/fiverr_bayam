@@ -33,7 +33,7 @@ class FavoritesServices {
     request = http.Request(
       'GET',
       Uri.parse(
-        '$baseUrl/api/favorites/?page=${page + 2}',
+        '$baseUrl/api/favorites/?page=${page + 1}',
       ),
     );
     request.headers.addAll(Services.headerAcceptldJson);

@@ -232,8 +232,8 @@ class Ad with ChangeNotifier {
 
   Future<void> like(UserSession userSession) async {
     AdServices.of(userSession).like(this);
-    likes++;
-    notifyListeners();
+    // likes++;
+    // notifyListeners();
   }
 
   Future<void> delete(UserSession userSession) async {

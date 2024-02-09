@@ -77,7 +77,7 @@ class UserMin with ChangeNotifier {
 
   factory UserMin.fromMap(Map<dynamic, dynamic> json, UserSession userSession) {
     return UserMin(
-      uid: json['uuid'],
+      uid: json['uuid'] ?? userSession.uid,
       phoneNumber: json['phoneNumber'],
       imageProfile: (json['imageProfile'] as String?).toImageProvider,
       imageProfileUrl: (json['imageProfile'] as String?),

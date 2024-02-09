@@ -108,9 +108,15 @@ class UserServices {
       'cities': userSession.cities!.map((e) => e.id).toList(),
     };
     if (imageProfile != null) {
-      await imageProfile.toBase64String().then((value) => body.addAll({
-            'imageProfile': value,
-          }));
+      await imageProfile.toBase64String().then(
+        (value) {
+          body.addAll(
+            {
+              'imageProfile': value,
+            },
+          );
+        },
+      );
     }
     if (imageCompany != null && imageCompany.isNotEmpty) {
       List<String> imageCompanyString = [];

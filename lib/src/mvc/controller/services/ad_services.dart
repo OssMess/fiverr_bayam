@@ -101,8 +101,9 @@ class AdServices {
     http.Response response = await HttpRequest.attemptHttpCall(
       request,
     );
-    if (response.statusCode == 201) {
-    } else {
+    var body = jsonDecode(response.body);
+    //FIXME
+    if (response.statusCode != 201) {
       throw Functions.throwExceptionFromResponse(userSession, response);
     }
   }
