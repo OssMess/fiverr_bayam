@@ -25,7 +25,7 @@
             android:value="channel_id"/>
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/logo_notif" />
+            android:resource="@drawable/ic_stat_onesignal_default" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

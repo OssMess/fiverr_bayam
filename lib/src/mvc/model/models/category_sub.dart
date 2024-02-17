@@ -19,7 +19,7 @@ class CategorySub with ChangeNotifier {
   });
 
   factory CategorySub.fromMap(Map<dynamic, dynamic> json) => CategorySub(
-        uuid: json['uuid'] ?? json['id'],
+        uuid: json['uuid'] ?? json['id'] ?? json['@id'],
         name: json['name'],
         description: json['description'],
         categoryId: json['categoryId'] ?? json['preferenceCategory'] is String
