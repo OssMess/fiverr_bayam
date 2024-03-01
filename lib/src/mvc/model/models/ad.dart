@@ -32,6 +32,7 @@ class Ad with ChangeNotifier {
   List<String> imagesUrl;
   List<XFile> imagesFile;
   int likes;
+  bool? liked;
   ListAdComments listAdComments;
 
   Ad({
@@ -50,6 +51,7 @@ class Ad with ChangeNotifier {
     required this.imagesUrl,
     required this.imagesFile,
     required this.likes,
+    required this.liked,
     required this.listAdComments,
   });
 
@@ -83,6 +85,7 @@ class Ad with ChangeNotifier {
         imagesUrl: imagesUrl,
         imagesFile: imagesFile,
         likes: 0,
+        liked: null,
         listAdComments: ListAdComments(userSession: userSession, adId: ''),
       );
 
@@ -111,6 +114,7 @@ class Ad with ChangeNotifier {
         imagesUrl: List.from(json['images'] ?? []),
         imagesFile: [],
         likes: json['likes'] ?? 0,
+        liked: null,
         listAdComments: ListAdComments(
           userSession: userSession,
           adId: json['uuid'],
@@ -145,6 +149,7 @@ class Ad with ChangeNotifier {
         imagesUrl: List.from(json['post']['images'] ?? []),
         imagesFile: [],
         likes: json['post']['likeNumber'] ?? 0,
+        liked: null,
         listAdComments: ListAdComments(
           userSession: userSession,
           adId: json['post']?['uuid'] ?? json['uuid'],
@@ -176,6 +181,7 @@ class Ad with ChangeNotifier {
         imagesUrl: List.from(json['images'] ?? []),
         imagesFile: [],
         likes: json['likeNumber'] ?? 0,
+        liked: null,
         listAdComments: ListAdComments(
           userSession: userSession,
           adId: json['uuid'],
@@ -231,9 +237,22 @@ class Ad with ChangeNotifier {
       AdServices.of(userSession).markAsVisited(this);
 
   Future<void> like(UserSession userSession) async {
-    AdServices.of(userSession).like(this);
-    // likes++;
-    // notifyListeners();
+    late (int, bool) result;
+    if (liked == true) {
+      result = await AdServices.of(userSession).unlike(this);
+    } else {
+      result = await AdServices.of(userSession).like(this);
+    }
+    likes = result.$1;
+    liked = result.$2;
+    notifyListeners();
+  }
+
+  Future<void> reactions(UserSession userSession) async {
+    var result = await AdServices.of(userSession).reactions(this);
+    likes = result.$1;
+    liked = result.$2;
+    notifyListeners();
   }
 
   Future<void> delete(UserSession userSession) async {

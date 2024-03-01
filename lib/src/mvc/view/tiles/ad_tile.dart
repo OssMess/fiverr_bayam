@@ -31,11 +31,16 @@ class AdTile extends StatelessWidget {
       child: Consumer<Ad>(
         builder: (context, ad, _) {
           return CustomElevatedContainer(
-            onTap: () => context.push(
-              widget: DetailsAd(
-                userSession: userSession,
-                ad: ad,
-              ),
+            onTap: () => Dialogs.of(context).runAsyncAction(
+              future: () async => ad.reactions(userSession),
+              onComplete: (_) {
+                context.push(
+                  widget: DetailsAd(
+                    userSession: userSession,
+                    ad: ad,
+                  ),
+                );
+              },
             ),
             width: expanded ? double.infinity : 280.sp,
             height: expanded ? 280.sp : null,

@@ -86,7 +86,7 @@ class AdServices {
   }
 
   /// like post.
-  Future<void> like(Ad ad) async {
+  Future<(int, bool)> like(Ad ad) async {
     var request = http.Request(
       'POST',
       Uri.parse(
@@ -105,6 +105,58 @@ class AdServices {
     //FIXME
     if (response.statusCode != 201) {
       throw Functions.throwExceptionFromResponse(userSession, response);
+    } else {
+      return ((body['totalLikeNumber'] as int? ?? 0), true);
+    }
+  }
+
+  /// unlike post.
+  Future<(int, bool)> unlike(Ad ad) async {
+    var request = http.Request(
+      'POST',
+      Uri.parse(
+        '$baseUrl/api/post/like',
+      ),
+    );
+    request.body = json.encode({
+      'post': ad.uuid,
+      'actionType': 'unlike',
+    });
+    request.headers.addAll(Services.headersldJson);
+    http.Response response = await HttpRequest.attemptHttpCall(
+      request,
+    );
+    var body = jsonDecode(response.body);
+    //FIXME
+    if (response.statusCode != 201) {
+      throw Functions.throwExceptionFromResponse(userSession, response);
+    } else {
+      return ((body['totalLikeNumber'] as int? ?? 0), false);
+    }
+  }
+
+  /// like post.
+  Future<(int, bool)> reactions(Ad ad) async {
+    var request = http.Request(
+      'GET',
+      Uri.parse(
+        '$baseUrl/api/reactions/${ad.uuid}',
+      ),
+    );
+    request.headers.addAll(Services.headerAcceptldJson);
+    http.Response response = await HttpRequest.attemptHttpCall(
+      request,
+    );
+    var body = jsonDecode(response.body);
+    if (response.statusCode != 200) {
+      throw Functions.throwExceptionFromResponse(userSession, response);
+    } else {
+      return (
+        List.from(body['hydra:member']).length,
+        List.from(body['hydra:member'])
+            .where((element) => element['user']['uuid'] == userSession.uid)
+            .isNotEmpty,
+      );
     }
   }
 
