@@ -59,14 +59,21 @@ class SearchHistoryTile extends StatelessWidget {
                     backgroundImage: searchHistory.image,
                   ),
                   4.heightSp,
-                  Text(
-                    searchHistory.displayName!,
-                    overflow: TextOverflow.fade,
-                    style: Styles.poppins(
-                      fontSize: 12.sp,
-                      fontWeight: Styles.medium,
-                      color: context.textTheme.displayLarge!.color,
-                    ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          searchHistory.displayName!,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: Styles.poppins(
+                            fontSize: 12.sp,
+                            fontWeight: Styles.medium,
+                            color: context.textTheme.displayLarge!.color,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

@@ -16,12 +16,14 @@ class AdTile extends StatelessWidget {
     required this.userSession,
     required this.ad,
     this.expanded = false,
+    this.onTap,
     this.onTapOptions,
   });
 
   final UserSession userSession;
   final Ad ad;
   final bool expanded;
+  final void Function()? onTap;
   final void Function()? onTapOptions;
 
   @override
@@ -31,17 +33,22 @@ class AdTile extends StatelessWidget {
       child: Consumer<Ad>(
         builder: (context, ad, _) {
           return CustomElevatedContainer(
-            onTap: () => Dialogs.of(context).runAsyncAction(
-              future: () async => ad.reactions(userSession),
-              onComplete: (_) {
-                context.push(
-                  widget: DetailsAd(
-                    userSession: userSession,
-                    ad: ad,
-                  ),
-                );
-              },
-            ),
+            onTap: () {
+              if (onTap != null) {
+                onTap!();
+              }
+              Dialogs.of(context).runAsyncAction(
+                future: () async => ad.reactions(userSession),
+                onComplete: (_) {
+                  context.push(
+                    widget: DetailsAd(
+                      userSession: userSession,
+                      ad: ad,
+                    ),
+                  );
+                },
+              );
+            },
             width: expanded ? double.infinity : 280.sp,
             height: expanded ? 280.sp : null,
             padding: EdgeInsets.all(10.sp),

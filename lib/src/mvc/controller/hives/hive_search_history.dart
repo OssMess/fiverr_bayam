@@ -26,16 +26,16 @@ class HiveSearchHistory {
   /// Save [json] to `_box`.
   static Future<void> save(SearchHistory searchHistory) async {
     list.add(searchHistory);
-    await _box.delete(searchHistory.categorySub.uuid);
+    await _box.delete(searchHistory.id);
     await _box.put(
-      searchHistory.categorySub.uuid,
+      searchHistory.id,
       searchHistory.toMapInit,
     );
   }
 
   static Future<void> delete(SearchHistory searchHistory) async {
     list.remove(searchHistory);
-    await _box.delete(searchHistory.categorySub.uuid);
+    await _box.delete(searchHistory.id);
   }
 
   /// Clear Hive `_box`

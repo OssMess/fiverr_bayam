@@ -8,10 +8,4 @@ enum SearchViewPage {
 
   /// search results view
   results,
-
-  /// empty results
-  empty,
-
-  /// loading screen
-  loading,
 }

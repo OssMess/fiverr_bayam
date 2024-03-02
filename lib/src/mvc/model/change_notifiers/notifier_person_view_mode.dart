@@ -14,10 +14,6 @@ class NotifierPersonViewMode extends ValueNotifier<SearchViewPage> {
 
   bool get isInPageNormal => value == SearchViewPage.normal;
 
-  bool get isInLoadingPage => value == SearchViewPage.loading;
-
-  bool get isInEmptyPage => value == SearchViewPage.empty;
-
   bool get isInPageSuggestions => value == SearchViewPage.suggestions;
 
   bool get isNotInPageSuggestions => value != SearchViewPage.suggestions;
@@ -36,11 +32,6 @@ class NotifierPersonViewMode extends ValueNotifier<SearchViewPage> {
 
   void openPageSuggestions() {
     value = SearchViewPage.suggestions;
-    notifyListeners();
-  }
-
-  void openPageLoading() {
-    value = SearchViewPage.loading;
     notifyListeners();
   }
 

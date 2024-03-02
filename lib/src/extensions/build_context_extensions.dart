@@ -1,3 +1,4 @@
+import 'package:bayam/src/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -66,6 +67,11 @@ extension BuildContextPaddings<T> on BuildContext {
   EdgeInsets get viewPadding => MediaQuery.of(this).viewPadding;
   EdgeInsets get viewInsets => MediaQuery.of(this).viewInsets;
   EdgeInsets get padding => MediaQuery.of(this).padding;
+  Widget get paddingBottom =>
+      (MediaQuery.of(this).viewPadding.bottom + 15).height;
+  Widget get paddingBottomSliver => SliverToBoxAdapter(
+        child: (MediaQuery.of(this).viewPadding.bottom + 15).height,
+      );
 }
 
 extension BuildContextSizes<T> on BuildContext {

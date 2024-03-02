@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import '../models.dart';
 
 class SearchHistory {
+  final String id;
   final CategorySub categorySub;
   final String? displayName;
   final ImageProvider<Object>? image;
   final String? imageUrl;
 
   SearchHistory({
+    required this.id,
     required this.categorySub,
     required this.displayName,
     required this.image,
@@ -22,13 +24,26 @@ class SearchHistory {
     CategorySub categorySub,
   ) =>
       SearchHistory(
+        id: userMin.uid,
         categorySub: categorySub,
         displayName: userMin.displayName,
         image: userMin.imageProfile,
         imageUrl: userMin.imageProfileUrl,
       );
 
+  factory SearchHistory.fromAd(
+    Ad ad,
+  ) =>
+      SearchHistory(
+        id: ad.uuid,
+        categorySub: ad.subCategories.first,
+        displayName: ad.author.displayName,
+        image: ad.author.imageProfile,
+        imageUrl: ad.author.imageProfileUrl,
+      );
+
   factory SearchHistory.fromMap(Map<dynamic, dynamic> json) => SearchHistory(
+        id: json['id'],
         categorySub: (json['categorySub'] as Map).toCategorySub,
         displayName: json['displayName'],
         image: json['imageUrl'] != null
@@ -38,6 +53,7 @@ class SearchHistory {
       );
 
   Map<dynamic, dynamic> get toMapInit => {
+        'id': id,
         'categorySub': categorySub.toMapInit,
         'displayName': displayName,
         'imageUrl': imageUrl,

@@ -72,218 +72,87 @@ class _SearchScreenState extends State<SearchScreen>
               child: ValueListenableBuilder(
                   valueListenable: notifierViewMode,
                   builder: (context, _, __) {
-                    return Column(
-                      children: [
-                        //search text form field
-                        //TODO on search text content
-                        MainSearchTextFormField(
-                          onSearch: (content) {
-                            this.content = content;
-                            callAdsFilter();
-                          },
-                          notifierViewMode: notifierViewMode,
-                        ),
-                        16.heightSp,
-                        //filters
-                        SizedBox(
-                          height: 34.sp,
-                          width: double.infinity,
-                          child: ListView(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 16.sp,
+                    return CustomScrollView(
+                      slivers: [
+                        SliverList.list(
+                          children: [
+                            //search text form field
+                            MainSearchTextFormField(
+                              onSearch: (content) {
+                                this.content = content;
+                                callAdsFilter();
+                              },
+                              notifierViewMode: notifierViewMode,
                             ),
-                            children: [
-                              //filter by country
-                              Stack(
-                                children: [
-                                  FilterCard(
-                                    text: country,
-                                    filter: FilterType.country,
-                                    onTap: () {},
-                                  ),
-                                  Opacity(
-                                    opacity: 0,
-                                    child: CountryCodePicker(
-                                      initialSelection: 'CM',
-                                      showCountryOnly: true,
-                                      enabled: true,
-                                      favorite: const ['+237'],
-                                      comparator: (a, b) =>
-                                          b.name!.compareTo(a.name!),
-                                      boxDecoration: BoxDecoration(
-                                        color: context.scaffoldBackgroundColor,
-                                        borderRadius:
-                                            BorderRadius.circular(10.sp),
-                                      ),
-                                      textStyle: Styles.poppins(
-                                        fontWeight: Styles.medium,
-                                        color: context
-                                            .textTheme.displayMedium!.color,
-                                        fontSize: 14.sp,
-                                        height: 1.2,
-                                      ),
-                                      onChanged: (code) {
-                                        setState(() {
-                                          country = code.name;
-                                          region = null;
-                                        });
-                                        callAdsFilter();
-                                      },
-                                      padding: EdgeInsets.zero,
-                                      flagWidth: 30.sp,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              12.widthSp,
-                              //filter by region
-                              FilterCard(
-                                text: region,
-                                filter: FilterType.region,
-                                onTap: () {
-                                  Dialogs.of(context).showTextValuePickerDialog(
-                                    title: AppLocalizations.of(context)!
-                                        .filter_by_region,
-                                    hintText: AppLocalizations.of(context)!
-                                        .filter_by_region,
-                                    initialvalue: region,
-                                    showPasteButton: false,
-                                    onPick: (value) {
-                                      setState(() {
-                                        region = value;
-                                        country = null;
-                                      });
-                                      callAdsFilter();
-                                    },
-                                  );
-                                },
-                              ),
-                              12.widthSp,
-                              FilterCard(
-                                text: type?.translate(context),
-                                filter: FilterType.adtype,
-                                onTap: () {
-                                  Dialogs.of(context)
-                                      .showSingleValuePickerDialog(
-                                    mainAxisSize: MainAxisSize.min,
-                                    title: AppLocalizations.of(context)!
-                                        .filter_ads_by_type,
-                                    values: [
-                                      AppLocalizations.of(context)!.all,
-                                      AdType.rent.translate(context),
-                                      AdType.sell.translate(context),
-                                      AdType.want.translate(context),
-                                    ],
-                                    initialvalue: type?.translate(context) ??
-                                        AppLocalizations.of(context)!.all,
-                                    onPick: (value) {
-                                      setState(() {
-                                        type = {
-                                          AdType.rent.translate(context):
-                                              AdType.rent,
-                                          AdType.sell.translate(context):
-                                              AdType.sell,
-                                          AdType.want.translate(context):
-                                              AdType.want,
-                                          AppLocalizations.of(context)!.all:
-                                              null,
-                                        }[value];
-                                      });
-                                      callAdsFilter();
-                                    },
-                                  );
-                                },
+                            16.heightSp,
+                            //filters
+                            Filters(
+                              content: content,
+                              country: country,
+                              region: region,
+                              type: type,
+                              onChange: onChangeAdFilter,
+                            ),
+
+                            /// Categories
+                            if (notifierViewMode.isInPageNormal ||
+                                notifierViewMode.isInPageResults) ...[
+                              TabViewController(
+                                notifierPersonViewMode: notifierViewMode,
+                                tabController: tabController,
                               ),
                             ],
-                          ),
+                          ],
                         ),
-
-                        /// results are being loaded
-                        // if (notifierViewMode.isInLoadingPage) ...[
-                        //   const CustomLoadingIndicator(
-                        //     isSliver: false,
-                        //   ),
-                        // ],
-                        /// Tabs: categories and companies
-                        /// results are ready, or not yet queried
-                        if (notifierViewMode.isInPageNormal) ...[
-                          16.heightSp,
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16.sp),
-                            child: CustomTabBar(
-                              controller: tabController,
-                              tabs: [
-                                AppLocalizations.of(context)!
-                                    .products_and_services,
-                                AppLocalizations.of(context)!.companies,
-                              ],
-                              onTap: (tab) {},
-                            ),
+                        if (notifierViewMode.isInPageNormal)
+                          CategoryPicker(
+                            tabController: tabController,
+                            notifierViewMode: notifierViewMode,
                           ),
-                          AnimatedBuilder(
-                            animation: tabController,
-                            // child: SliverToBoxAdapter(child: SizedBox.shrink()),
-                            builder: (context, child) {
-                              List<AdCategory> categories = [
-                                AdCategory.agriculture,
-                                AdCategory.livestock,
-                                AdCategory.fishing,
-                                AdCategory.phytosnitary,
-                                AdCategory.localFoodProducts,
-                                AdCategory.rentalStorageFacilities,
-                              ];
-                              return Expanded(
-                                child: ListView.separated(
-                                  // shrinkWrap: true,
-                                  padding: EdgeInsets.all(16.sp),
-                                  itemCount: categories.length,
-                                  itemBuilder: (context, index) => CategoryTile(
-                                    category: categories.elementAt(index),
-                                    onTap: () =>
-                                        notifierViewMode.openPageResults(),
-                                  ),
-                                  separatorBuilder: (context, index) =>
-                                      12.heightSp,
-                                ),
-                              );
-                            },
-                          ),
-                        ],
 
                         /// user in suggestions page
                         if (notifierViewMode.isInPageSuggestions) ...[
-                          12.heightSp,
-                          Align(
-                            alignment: AlignmentDirectional.centerStart,
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 16.sp),
-                              child: Text(
-                                AppLocalizations.of(context)!.recent_searches,
-                                style: Styles.poppins(
-                                  fontSize: 18.sp,
-                                  fontWeight: Styles.semiBold,
-                                  color: context.textTheme.displayLarge!.color,
+                          SliverList.list(
+                            children: [
+                              12.heightSp,
+                              Align(
+                                alignment: AlignmentDirectional.centerStart,
+                                child: Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 16.sp),
+                                  child: Text(
+                                    AppLocalizations.of(context)!
+                                        .recent_searches,
+                                    style: Styles.poppins(
+                                      fontSize: 18.sp,
+                                      fontWeight: Styles.semiBold,
+                                      color:
+                                          context.textTheme.displayLarge!.color,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
+                              8.heightSp,
+                            ],
                           ),
-                          8.heightSp,
                           StatefulBuilder(
                             builder: (context, setState) {
-                              return Expanded(
-                                child: ListView.separated(
-                                  // shrinkWrap: true,
-                                  padding: EdgeInsets.all(16.sp),
+                              return SliverPadding(
+                                padding: EdgeInsets.all(16.sp),
+                                sliver: SliverList.separated(
                                   itemCount: HiveSearchHistory.list.length,
                                   itemBuilder: (context, index) =>
                                       SearchHistoryTile(
                                     searchHistory:
                                         HiveSearchHistory.list[index],
                                     onTap: () {
-                                      notifierViewMode.openPageResults();
-                                      //FIXME on filter by category sub
+                                      onChangeAdFilter(
+                                        content: HiveSearchHistory.list
+                                            .elementAt(index)
+                                            .categorySub
+                                            .name,
+                                      );
+                                      // notifierViewMode.openPageResults();
                                     },
                                     onClose: () => setState(
                                       () {
@@ -304,91 +173,73 @@ class _SearchScreenState extends State<SearchScreen>
 
                         /// user is the results page
                         if (notifierViewMode.isInPageResults) ...[
-                          16.heightSp,
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16.sp),
-                            child: CustomTabBar(
-                              controller: tabController,
-                              tabs: [
-                                AppLocalizations.of(context)!
-                                    .products_and_services,
-                                AppLocalizations.of(context)!.companies,
-                              ],
-                              onTap: (tab) {},
+                          NotificationListener<ScrollNotification>(
+                            onNotification: listAdsFilter.onMaxScrollExtent,
+                            child: AnimatedBuilder(
+                              animation: tabController,
+                              // child: SliverToBoxAdapter(child: SizedBox.shrink()),
+                              builder: (context, child) {
+                                if (notifierViewMode.isInTabProducts) {
+                                  return Consumer<ListAdsFilter>(
+                                    builder: (context, listAdsFilter, _) {
+                                      if (listAdsFilter.isLoading) {
+                                        return const CustomLoadingIndicator(
+                                          isSliver: true,
+                                        );
+                                      }
+                                      if (listAdsFilter.isEmpty) {}
+                                      return SliverPadding(
+                                        padding: EdgeInsets.all(16.sp),
+                                        sliver: SliverList.separated(
+                                          itemCount: listAdsFilter.childCount,
+                                          separatorBuilder: (context, index) =>
+                                              12.heightSp,
+                                          itemBuilder: (context, index) =>
+                                              Builder(
+                                            builder: (context) {
+                                              if (index <
+                                                  listAdsFilter.length) {
+                                                return AdTile(
+                                                  userSession:
+                                                      widget.userSession,
+                                                  ad: listAdsFilter
+                                                      .elementAt(index),
+                                                  expanded: true,
+                                                  onTap: () {
+                                                    HiveSearchHistory.save(
+                                                      SearchHistory.fromAd(
+                                                        listAdsFilter
+                                                            .elementAt(index),
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                              } else {
+                                                return CustomTrailingTile(
+                                                  hasMore:
+                                                      listAdsFilter.hasMore,
+                                                  isLoading:
+                                                      listAdsFilter.isLoading,
+                                                  isNotNull:
+                                                      listAdsFilter.isNotNull,
+                                                  isSliver: false,
+                                                );
+                                              }
+                                            },
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  return const SliverToBoxAdapter(
+                                    child: SizedBox.shrink(),
+                                  );
+                                }
+                              },
                             ),
                           ),
-                          16.heightSp,
-                          AnimatedBuilder(
-                            animation: tabController,
-                            // child: SliverToBoxAdapter(child: SizedBox.shrink()),
-                            builder: (context, child) {
-                              if (notifierViewMode.isInTabProducts) {
-                                return Consumer<ListAdsFilter>(
-                                  builder: (context, listAdsFilter, _) {
-                                    if (listAdsFilter.isLoading) {
-                                      return const CustomLoadingIndicator(
-                                        isSliver: false,
-                                      );
-                                    }
-                                    if (listAdsFilter.isEmpty) {}
-                                    return Expanded(
-                                      child: ListView.separated(
-                                        // shrinkWrap: true,
-                                        padding: EdgeInsets.all(16.sp),
-                                        itemCount: listAdsFilter.length,
-                                        separatorBuilder: (context, index) =>
-                                            12.heightSp,
-                                        itemBuilder: (context, index) => AdTile(
-                                          userSession: widget.userSession,
-                                          ad: listAdsFilter.elementAt(index),
-                                          expanded: true,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                );
-                              } else {
-                                return const SizedBox.shrink();
-                              }
-
-                              /// //FIXME searchable ads
-                              /// Tab view 1: Ads search results
-                              // if (tabController.index == 0) {
-                              //   return Expanded(
-                              //     child: ListView.separated(
-                              //       // shrinkWrap: true,
-                              //       padding: EdgeInsets.all(16.sp),
-                              //       itemCount: ListData.ads.length,
-                              //       separatorBuilder: (context, index) =>
-                              //           12.heightSp,
-                              //       itemBuilder: (context, index) => AdTile(
-                              //         userSession: widget.userSession,
-                              //         ad: ListData.ads[index],
-                              //         expanded: true,
-                              //       ),
-                              //     ),
-                              //   );
-                              // }
-                              /// //FIXME searchable popular companies
-                              /// Tab view 2: Companies search results
-                              // return Expanded(
-                              //   child: ListView.separated(
-                              //     // shrinkWrap: true,
-                              //     padding: EdgeInsets.all(16.sp),
-                              //     itemCount: ListData.popularCompanies.length,
-                              //     itemBuilder: (context, index) => CompanyTile(
-                              //       company: ListData.popularCompanies
-                              //           .elementAt(index),
-                              //       isExpanded: true,
-                              //     ),
-                              //     separatorBuilder: (context, index) =>
-                              //         12.heightSp,
-                              //   ),
-                              // );
-                            },
-                          ),
                         ],
-                        // (context.viewPadding.bottom + 20.sp).height,
                       ],
                     );
                   }),
@@ -410,6 +261,102 @@ class _SearchScreenState extends State<SearchScreen>
     );
     notifierViewMode.openPageResults();
   }
+
+  void onChangeAdFilter({
+    String? content,
+    String? country,
+    String? region,
+    AdType? type,
+  }) {
+    if (content.isNotNullOrEmpty) {
+      this.content = content;
+    }
+    if (country.isNotNullOrEmpty) {
+      this.country = country;
+      this.region = null;
+    }
+    if (region.isNotNullOrEmpty) {
+      this.region = region;
+    }
+    if (type != null) {
+      this.type = type;
+    }
+    callAdsFilter();
+  }
+}
+
+class CategoryPicker extends StatelessWidget {
+  const CategoryPicker({
+    super.key,
+    required this.tabController,
+    required this.notifierViewMode,
+  });
+
+  final TabController tabController;
+  final NotifierPersonViewMode notifierViewMode;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: tabController,
+      // child: SliverToBoxAdapter(child: SizedBox.shrink()),
+      builder: (context, child) {
+        List<AdCategory> categories = [
+          AdCategory.agriculture,
+          AdCategory.livestock,
+          AdCategory.fishing,
+          AdCategory.phytosnitary,
+          AdCategory.localFoodProducts,
+          AdCategory.rentalStorageFacilities,
+        ];
+        return SliverPadding(
+          padding: EdgeInsets.all(16.sp),
+          sliver: SliverList.separated(
+            itemCount: categories.length,
+            itemBuilder: (context, index) => CategoryTile(
+              category: categories.elementAt(index),
+              onTap: () => notifierViewMode.openPageResults(),
+            ),
+            separatorBuilder: (context, index) => 12.heightSp,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class TabViewController extends StatelessWidget {
+  const TabViewController({
+    super.key,
+    required this.notifierPersonViewMode,
+    required this.tabController,
+  });
+
+  final NotifierPersonViewMode notifierPersonViewMode;
+  final TabController tabController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.sp).copyWith(
+        top: 16.sp,
+      ),
+      child: CustomTabBar(
+        controller: tabController,
+        tabs: [
+          AppLocalizations.of(context)!.products_and_services,
+          AppLocalizations.of(context)!.companies,
+        ],
+        onTap: (tab) {
+          if (tab == 0) {
+            notifierPersonViewMode.openTabProducts();
+          } else {
+            notifierPersonViewMode.openTabCompanies();
+          }
+        },
+      ),
+    );
+  }
 }
 
 class FilterCard extends StatelessWidget {
@@ -430,6 +377,10 @@ class FilterCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         alignment: Alignment.center,
+        constraints: BoxConstraints(
+          maxWidth: 125.w,
+          minWidth: 60.w,
+        ),
         padding: EdgeInsets.symmetric(
           horizontal: 6.sp,
           vertical: 6.sp,
@@ -442,17 +393,21 @@ class FilterCard extends StatelessWidget {
           ),
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             10.widthSp,
-            Text(
-              text ?? filter.translate(context),
-              style: Styles.poppins(
-                fontSize: 14.sp,
-                fontWeight: Styles.regular,
-                color: text.isNotNullOrEmpty
-                    ? context.textTheme.displayLarge!.color
-                    : context.textTheme.headlineLarge!.color,
-                height: 1.2,
+            Expanded(
+              child: Text(
+                text ?? filter.translate(context),
+                overflow: TextOverflow.ellipsis,
+                style: Styles.poppins(
+                  fontSize: 14.sp,
+                  fontWeight: Styles.regular,
+                  color: text.isNotNullOrEmpty
+                      ? context.textTheme.displayLarge!.color
+                      : context.textTheme.headlineLarge!.color,
+                  height: 1.2,
+                ),
               ),
             ),
             6.widthSp,
@@ -464,6 +419,133 @@ class FilterCard extends StatelessWidget {
             4.widthSp,
           ],
         ),
+      ),
+    );
+  }
+}
+
+class Filters extends StatelessWidget {
+  const Filters({
+    super.key,
+    required this.content,
+    required this.country,
+    required this.region,
+    required this.type,
+    required this.onChange,
+  });
+
+  final String? content;
+  final String? country;
+  final String? region;
+  final AdType? type;
+  final void Function({
+    String? content,
+    String? country,
+    String? region,
+    AdType? type,
+  }) onChange;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 34.sp,
+      width: double.infinity,
+      child: ListView(
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        padding: EdgeInsets.symmetric(
+          horizontal: 16.sp,
+        ),
+        children: [
+          //filter by country
+          Stack(
+            children: [
+              FilterCard(
+                text: country,
+                filter: FilterType.country,
+                onTap: () {},
+              ),
+              Positioned.fill(
+                child: Opacity(
+                  opacity: 0,
+                  child: CountryCodePicker(
+                    initialSelection: 'CM',
+                    showCountryOnly: true,
+                    enabled: true,
+                    favorite: const ['+237'],
+                    comparator: (a, b) => b.name!.compareTo(a.name!),
+                    boxDecoration: BoxDecoration(
+                      color: context.scaffoldBackgroundColor,
+                      borderRadius: BorderRadius.circular(10.sp),
+                    ),
+                    textStyle: Styles.poppins(
+                      fontWeight: Styles.medium,
+                      color: context.textTheme.displayMedium!.color,
+                      fontSize: 14.sp,
+                      height: 1.2,
+                    ),
+                    onChanged: (code) {
+                      onChange(
+                        country: code.name,
+                        region: null,
+                      );
+                    },
+                    padding: EdgeInsets.zero,
+                    flagWidth: 30.sp,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          12.widthSp,
+          //filter by region
+          FilterCard(
+            text: region,
+            filter: FilterType.region,
+            onTap: () {
+              Dialogs.of(context).showTextValuePickerDialog(
+                title: AppLocalizations.of(context)!.filter_by_region,
+                hintText: AppLocalizations.of(context)!.filter_by_region,
+                initialvalue: region,
+                showPasteButton: false,
+                onPick: (value) {
+                  onChange(
+                    region: value,
+                  );
+                },
+              );
+            },
+          ),
+          12.widthSp,
+          FilterCard(
+            text: type?.translate(context),
+            filter: FilterType.adtype,
+            onTap: () {
+              Dialogs.of(context).showSingleValuePickerDialog(
+                mainAxisSize: MainAxisSize.min,
+                title: AppLocalizations.of(context)!.filter_ads_by_type,
+                values: [
+                  AppLocalizations.of(context)!.all,
+                  AdType.rent.translate(context),
+                  AdType.sell.translate(context),
+                  AdType.want.translate(context),
+                ],
+                initialvalue: type?.translate(context) ??
+                    AppLocalizations.of(context)!.all,
+                onPick: (value) {
+                  onChange(
+                    type: {
+                      AdType.rent.translate(context): AdType.rent,
+                      AdType.sell.translate(context): AdType.sell,
+                      AdType.want.translate(context): AdType.want,
+                      AppLocalizations.of(context)!.all: null,
+                    }[value],
+                  );
+                },
+              );
+            },
+          ),
+        ],
       ),
     );
   }
