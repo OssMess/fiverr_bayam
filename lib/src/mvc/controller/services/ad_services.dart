@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bayam/src/mvc/model/enums/ad_type.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../extensions.dart';
@@ -398,6 +399,71 @@ class AdServices {
         true,
         true,
       );
+      throw Functions.throwExceptionFromResponse(userSession, response);
+    }
+  }
+
+  Future<void> filterAds({
+    String? content,
+    String? country,
+    String? region,
+    AdType? type,
+    required int page,
+    required bool refresh,
+    required void Function(
+      Set<Ad> result,
+      int totalPages,
+      int currentPage,
+      bool error,
+      bool refresh,
+    ) update,
+  }) async {
+    String url = '$baseUrl/api/post/search/?page=${page + 1}';
+    // if (content.isNotNullOrEmpty ||
+    //     region.isNotNullOrEmpty ||
+    //     country.isNotNullOrEmpty ||
+    //     type != null) {
+    //   url += '/?';
+    // }
+    {
+      if (content.isNotNullOrEmpty) {
+        url += 'content=$content';
+      }
+      if (country.isNotNullOrEmpty) {
+        url += 'country=$country';
+      }
+      if (region.isNotNullOrEmpty) {
+        url += 'region=$region';
+      }
+      if (type != null) {
+        url += 'type=${type.key}';
+      }
+    }
+    var request = http.Request(
+      'GET',
+      Uri.parse(url),
+    );
+    request.headers.addAll(
+      Services.headerAcceptldJson,
+    );
+    http.Response response = await HttpRequest.attemptHttpCall(
+      request,
+    );
+    if (response.statusCode == 200) {
+      Map<dynamic, dynamic> result = jsonDecode(response.body);
+      update(
+        List.from(result['hydra:member'])
+            .map((json) => Ad.fromMapPost(
+                  json,
+                  userSession,
+                ))
+            .toSet(),
+        result['hydra:totalItems'],
+        page + 1,
+        false,
+        refresh,
+      );
+    } else {
       throw Functions.throwExceptionFromResponse(userSession, response);
     }
   }

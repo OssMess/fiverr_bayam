@@ -1,5 +1,5 @@
 /// presents the diffrent views for the search page
-enum PersonViewPage {
+enum SearchViewPage {
   /// default view
   normal,
 
@@ -8,4 +8,10 @@ enum PersonViewPage {
 
   /// search results view
   results,
+
+  /// empty results
+  empty,
+
+  /// loading screen
+  loading,
 }

@@ -10,9 +10,11 @@ import '../../../tools.dart';
 class MainSearchTextFormField extends StatefulWidget {
   const MainSearchTextFormField({
     super.key,
+    required this.onSearch,
     required this.notifierViewMode,
   });
 
+  final void Function(String) onSearch;
   final NotifierPersonViewMode notifierViewMode;
 
   @override
@@ -22,7 +24,6 @@ class MainSearchTextFormField extends StatefulWidget {
 
 class _MainSearchTextFormFieldState extends State<MainSearchTextFormField> {
   TextEditingController controller = TextEditingController();
-  String? filter;
 
   @override
   void dispose() {
@@ -43,8 +44,8 @@ class _MainSearchTextFormFieldState extends State<MainSearchTextFormField> {
             : context.backButtonIcon,
         fillColor: Styles.green[50],
         onEditingComplete: () {
-          widget.notifierViewMode.openPageResults();
           FocusScope.of(context).unfocus();
+          widget.onSearch(controller.text);
         },
         textInputAction: TextInputAction.done,
         onTap: () {
