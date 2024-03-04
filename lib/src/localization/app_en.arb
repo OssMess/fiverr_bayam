@@ -324,7 +324,7 @@
   "town_label":"Town *",
   "try_again":"Try again",
   "twitter_url":"Twitter profile",
-  "type_of_ads":"Type of ads",
+  "type_of_ads":"Ads type",
   "type_something":"Type something",
   "unauthorized":"Unauthorized. Your session has expired or is no longer valid. Please log in again to continue accessing the content.",
   "unique_register_number":"Unique register number required. The provided register number is already in use. Please choose a different, unique register number.",
@@ -361,6 +361,8 @@
   "already_bookmarked":"This ad has already been bookmarked.",
   "ads_search":"Easily search and find ads",
   "empty_ads_search":"No results! Please try again",
+  "empty_companies_filter":"No companies were found! Please try again.",
+  "empty_ads_filter":"No ads were found! Please try again.",
 
 
   "@sent_nb_messages":{

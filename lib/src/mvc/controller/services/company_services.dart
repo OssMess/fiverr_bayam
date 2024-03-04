@@ -81,4 +81,57 @@ class CompanyServices {
       throw Functions.throwExceptionFromResponse(userSession, response);
     }
   }
+
+  Future<void> filterCompanies({
+    required String? content,
+    required String? country,
+    required String? region,
+    required int page,
+    required bool refresh,
+    required void Function(
+      Set<UserMin> result,
+      int totalPages,
+      int currentPage,
+      bool error,
+      bool refresh,
+    ) update,
+  }) async {
+    String url = '$baseUrl/api/company/search/?page=${page + 1}';
+    if (content.isNotNullOrEmpty) {
+      url += '&company=$content';
+    }
+    if (country.isNotNullOrEmpty) {
+      url += '&country=$country';
+    }
+    if (region.isNotNullOrEmpty) {
+      url += '&region=$region';
+    }
+    var request = http.Request(
+      'GET',
+      Uri.parse(url),
+    );
+    request.headers.addAll(
+      Services.headerAcceptldJson,
+    );
+    http.Response response = await HttpRequest.attemptHttpCall(
+      request,
+    );
+    if (response.statusCode == 200) {
+      Map<dynamic, dynamic> result = jsonDecode(response.body);
+      update(
+        List.from(result['hydra:member'])
+            .map((json) => UserMin.fromMap(
+                  json,
+                  userSession,
+                ))
+            .toSet(),
+        result['hydra:totalItems'],
+        page + 1,
+        false,
+        refresh,
+      );
+    } else {
+      throw Functions.throwExceptionFromResponse(userSession, response);
+    }
+  }
 }

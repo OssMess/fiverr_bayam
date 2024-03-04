@@ -32,8 +32,8 @@ class ImageCard extends StatelessWidget {
           ImagePicker()
               .pickMultiImage(
             imageQuality: 80,
-            maxHeight: 1080,
-            maxWidth: 1080,
+            maxHeight: 720,
+            maxWidth: 720,
           )
               .then(
             (files) {

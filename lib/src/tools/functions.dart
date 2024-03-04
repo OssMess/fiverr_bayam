@@ -112,8 +112,8 @@ class Functions {
     }
     return await ImagePicker()
         .pickMultiImage(
-      maxHeight: 1080,
-      maxWidth: 1080,
+      maxHeight: 720,
+      maxWidth: 720,
       imageQuality: 80,
     )
         .then(
@@ -143,8 +143,8 @@ class Functions {
     return await ImagePicker()
         .pickImage(
       source: kDebugMode && Platform.isIOS ? ImageSource.gallery : source,
-      maxHeight: 1080,
-      maxWidth: 1080,
+      maxHeight: 720,
+      maxWidth: 720,
       imageQuality: 80,
     )
         .then(

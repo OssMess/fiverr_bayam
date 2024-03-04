@@ -32,6 +32,7 @@ class _SearchScreenState extends State<SearchScreen>
   NotifierPersonViewMode notifierViewMode = NotifierPersonViewMode();
   late TabController tabController;
   late ListAdsFilter listAdsFilter;
+  late ListCompaniesFilter listCompaniesFilter;
   String? content;
   String? country;
   String? region;
@@ -45,6 +46,7 @@ class _SearchScreenState extends State<SearchScreen>
       vsync: this,
     );
     listAdsFilter = ListAdsFilter(userSession: widget.userSession);
+    listCompaniesFilter = ListCompaniesFilter(userSession: widget.userSession);
   }
 
   @override
@@ -52,6 +54,7 @@ class _SearchScreenState extends State<SearchScreen>
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: listAdsFilter),
+        ChangeNotifierProvider.value(value: listCompaniesFilter),
       ],
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -80,7 +83,7 @@ class _SearchScreenState extends State<SearchScreen>
                             MainSearchTextFormField(
                               onSearch: (content) {
                                 this.content = content;
-                                callAdsFilter();
+                                callFilter();
                               },
                               notifierViewMode: notifierViewMode,
                             ),
@@ -100,6 +103,25 @@ class _SearchScreenState extends State<SearchScreen>
                               TabViewController(
                                 notifierPersonViewMode: notifierViewMode,
                                 tabController: tabController,
+                                onChange: (page) {
+                                  if (!notifierViewMode.isInPageResults) return;
+                                  if (page == 0) {
+                                    if (listAdsFilter.isNotNull) return;
+                                    listAdsFilter.filter(
+                                      content: content,
+                                      country: country,
+                                      region: region,
+                                      type: type,
+                                    );
+                                  } else {
+                                    if (listCompaniesFilter.isNotNull) return;
+                                    listCompaniesFilter.filter(
+                                      content: content,
+                                      country: country,
+                                      region: region,
+                                    );
+                                  }
+                                },
                               ),
                             ],
                           ],
@@ -187,7 +209,16 @@ class _SearchScreenState extends State<SearchScreen>
                                           isSliver: true,
                                         );
                                       }
-                                      if (listAdsFilter.isEmpty) {}
+                                      if (listAdsFilter.isEmpty) {
+                                        return SliverToBoxAdapter(
+                                          child: EmptyListView(
+                                            title: AppLocalizations.of(context)!
+                                                .empty_ads_filter,
+                                            svgPath:
+                                                'assets/images/Empty-pana.svg',
+                                          ),
+                                        );
+                                      }
                                       return SliverPadding(
                                         padding: EdgeInsets.all(16.sp),
                                         sliver: SliverList.separated(
@@ -232,8 +263,58 @@ class _SearchScreenState extends State<SearchScreen>
                                     },
                                   );
                                 } else {
-                                  return const SliverToBoxAdapter(
-                                    child: SizedBox.shrink(),
+                                  return Consumer<ListCompaniesFilter>(
+                                    builder: (context, listCompaniesFilter, _) {
+                                      if (listCompaniesFilter.isLoading) {
+                                        return const CustomLoadingIndicator(
+                                          isSliver: true,
+                                        );
+                                      }
+                                      if (listCompaniesFilter.isEmpty) {
+                                        return SliverToBoxAdapter(
+                                          child: EmptyListView(
+                                            title: AppLocalizations.of(context)!
+                                                .empty_companies_filter,
+                                            svgPath:
+                                                'assets/images/Empty-pana.svg',
+                                          ),
+                                        );
+                                      }
+                                      return SliverPadding(
+                                        padding: EdgeInsets.all(16.sp),
+                                        sliver: SliverList.separated(
+                                          itemCount:
+                                              listCompaniesFilter.childCount,
+                                          separatorBuilder: (context, index) =>
+                                              12.heightSp,
+                                          itemBuilder: (context, index) =>
+                                              Builder(
+                                            builder: (context) {
+                                              if (index <
+                                                  listCompaniesFilter.length) {
+                                                return CompanyTile(
+                                                  userSession:
+                                                      widget.userSession,
+                                                  userMin: listCompaniesFilter
+                                                      .elementAt(index),
+                                                  isExpanded: true,
+                                                );
+                                              } else {
+                                                return CustomTrailingTile(
+                                                  hasMore: listCompaniesFilter
+                                                      .hasMore,
+                                                  isLoading: listCompaniesFilter
+                                                      .isLoading,
+                                                  isNotNull: listCompaniesFilter
+                                                      .isNotNull,
+                                                  isSliver: false,
+                                                );
+                                              }
+                                            },
+                                          ),
+                                        ),
+                                      );
+                                    },
                                   );
                                 }
                               },
@@ -250,15 +331,23 @@ class _SearchScreenState extends State<SearchScreen>
     );
   }
 
-  void callAdsFilter() {
-    // notifierViewMode.openPageLoading();
-    listAdsFilter.filter(
-      content: content,
-      country: country,
-      region: region,
-      type: type,
-      onComplete: () {},
-    );
+  void callFilter() {
+    listAdsFilter.reset();
+    listCompaniesFilter.reset();
+    if (notifierViewMode.isInTabProducts) {
+      listAdsFilter.filter(
+        content: content,
+        country: country,
+        region: region,
+        type: type,
+      );
+    } else {
+      listCompaniesFilter.filter(
+        content: content,
+        country: country,
+        region: region,
+      );
+    }
     notifierViewMode.openPageResults();
   }
 
@@ -281,7 +370,7 @@ class _SearchScreenState extends State<SearchScreen>
     if (type != null) {
       this.type = type;
     }
-    callAdsFilter();
+    callFilter();
   }
 }
 
@@ -330,10 +419,12 @@ class TabViewController extends StatelessWidget {
     super.key,
     required this.notifierPersonViewMode,
     required this.tabController,
+    required this.onChange,
   });
 
   final NotifierPersonViewMode notifierPersonViewMode;
   final TabController tabController;
+  final void Function(int) onChange;
 
   @override
   Widget build(BuildContext context) {
@@ -348,6 +439,7 @@ class TabViewController extends StatelessWidget {
           AppLocalizations.of(context)!.companies,
         ],
         onTap: (tab) {
+          onChange(tab);
           if (tab == 0) {
             notifierPersonViewMode.openTabProducts();
           } else {

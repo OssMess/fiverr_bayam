@@ -10,6 +10,7 @@ export 'list_models/list_categories_sub.dart';
 export 'list_models/list_categories.dart';
 export 'list_models/list_chatbot_messages.dart';
 export 'list_models/list_cities.dart';
+export 'list_models/list_companies_filter.dart';
 export 'list_models/list_companies_popular.dart';
 export 'list_models/list_countries.dart';
 export 'list_models/list_discussions.dart';

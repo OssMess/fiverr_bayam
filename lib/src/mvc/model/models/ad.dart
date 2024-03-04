@@ -95,7 +95,7 @@ class Ad with ChangeNotifier {
   ) =>
       Ad(
         uuid: json['uuid'],
-        isMine: json['author']['uuid'] == userSession.uid,
+        isMine: json['uuid'] == userSession.uid,
         author:
             (json['author'] as Map<dynamic, dynamic>).toUserMin(userSession),
         title: json['title'],

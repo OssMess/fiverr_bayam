@@ -8,6 +8,7 @@ class Preferences {
   static const theme = 'theme';
   static const listRecentContacts = 'recent';
   static const discussionsLastGet = 'discussion last get';
+  static const showHowAppWork = 'show how app work';
 
   static final Future<SharedPreferences> _prefs =
       SharedPreferences.getInstance();
@@ -21,6 +22,17 @@ class Preferences {
   static Future<void> setShowOnboarding(bool show) async {
     final SharedPreferences prefs = await _prefs;
     prefs.setBool(onboarding, show);
+  }
+
+  static Future<bool> getShowHowAppWork() async {
+    final SharedPreferences prefs = await _prefs;
+    final result = prefs.getBool(showHowAppWork);
+    return result ?? true;
+  }
+
+  static Future<void> setShowHowAppWork(bool show) async {
+    final SharedPreferences prefs = await _prefs;
+    prefs.setBool(showHowAppWork, show);
   }
 
   static Future<DateTime> getDiscussionLastGet() async {

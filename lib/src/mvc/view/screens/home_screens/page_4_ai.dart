@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../extensions.dart';
+import '../../../../settings.dart';
 import '../../../../tools.dart';
 import '../../../model/change_notifiers.dart';
 import '../../../model/list_models.dart';
@@ -70,20 +71,44 @@ class _Page4AIState extends State<Page4AI> {
                           ),
                           child: Column(
                             children: [
-                              CustomElevatedButton(
-                                label: AppLocalizations.of(context)!
-                                    .ai_how_bayam_work,
-                                fontSize: 14.sp,
-                                elevation: 0,
-                                onPressed: () {
-                                  onSendMessage(
-                                    AppLocalizations.of(context)!
-                                        .ai_how_bayam_work,
+                              StatefulBuilder(
+                                builder: (context, setState) {
+                                  return FutureBuilder<bool>(
+                                    future: Preferences.getShowHowAppWork(),
+                                    builder: (context, snpashot) {
+                                      return Visibility(
+                                        visible: snpashot.hasData &&
+                                            snpashot.data == true,
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsets.only(bottom: 24.sp),
+                                          child: CustomElevatedButton(
+                                            label: AppLocalizations.of(context)!
+                                                .ai_how_bayam_work,
+                                            fontSize: 14.sp,
+                                            elevation: 0,
+                                            onPressed: () {
+                                              setState(
+                                                () {
+                                                  Preferences.setShowHowAppWork(
+                                                    false,
+                                                  );
+
+                                                  onSendMessage(
+                                                    AppLocalizations.of(
+                                                            context)!
+                                                        .ai_how_bayam_work,
+                                                  );
+                                                },
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      );
+                                    },
                                   );
                                 },
                               ),
-                              12.heightSp,
-                              12.heightSp,
                               ValueListenableBuilder(
                                 valueListenable: notifierTextFormField.notifier,
                                 builder: (context, showTextFormField, _) {

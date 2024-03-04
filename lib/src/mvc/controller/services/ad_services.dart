@@ -404,10 +404,10 @@ class AdServices {
   }
 
   Future<void> filterAds({
-    String? content,
-    String? country,
-    String? region,
-    AdType? type,
+    required String? content,
+    required String? country,
+    required String? region,
+    required AdType? type,
     required int page,
     required bool refresh,
     required void Function(
@@ -419,24 +419,18 @@ class AdServices {
     ) update,
   }) async {
     String url = '$baseUrl/api/post/search/?page=${page + 1}';
-    // if (content.isNotNullOrEmpty ||
-    //     region.isNotNullOrEmpty ||
-    //     country.isNotNullOrEmpty ||
-    //     type != null) {
-    //   url += '/?';
-    // }
     {
       if (content.isNotNullOrEmpty) {
-        url += 'content=$content';
+        url += '&content=$content';
       }
       if (country.isNotNullOrEmpty) {
-        url += 'country=$country';
+        url += '&country=$country';
       }
       if (region.isNotNullOrEmpty) {
-        url += 'region=$region';
+        url += '&region=$region';
       }
       if (type != null) {
-        url += 'type=${type.key}';
+        url += '&type=${type.key}';
       }
     }
     var request = http.Request(

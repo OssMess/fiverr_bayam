@@ -1,15 +1,13 @@
 import '../../controller/services.dart';
-import '../enums.dart';
 import '../list_models.dart';
 import '../models.dart';
 
-class ListAdsFilter extends SetPaginationClasses<Ad> {
+class ListCompaniesFilter extends SetPaginationClasses<UserMin> {
   String? content;
   String? country;
   String? region;
-  AdType? type;
 
-  ListAdsFilter({
+  ListCompaniesFilter({
     required super.userSession,
   });
 
@@ -19,11 +17,10 @@ class ListAdsFilter extends SetPaginationClasses<Ad> {
     required bool refresh,
     void Function()? onComplete,
   }) async {
-    await AdServices.of(userSession).filterAds(
+    await CompanyServices.of(userSession).filterCompanies(
       content: content,
       country: country,
       region: region,
-      type: type,
       page: page,
       refresh: refresh,
       update: super.update,
@@ -37,14 +34,12 @@ class ListAdsFilter extends SetPaginationClasses<Ad> {
     String? content,
     String? country,
     String? region,
-    AdType? type,
     void Function()? onComplete,
   }) async {
     reset();
     this.content = content;
     this.country = country;
     this.region = region;
-    this.type = type;
     await initData(
       callGet: true,
       onComplete: onComplete,
