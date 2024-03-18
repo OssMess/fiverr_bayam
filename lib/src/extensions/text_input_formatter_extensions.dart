@@ -17,7 +17,8 @@ class TextInputFormatters {
 
   static TextInputFormatter get emailFormatter =>
       FilteringTextInputFormatter.allow(
-          RegExp(r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'));
+        RegExp(r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'),
+      );
 
   static TextInputFormatter get intFormatter =>
       FilteringTextInputFormatter.allow(RegExp(r'[0-9]'));

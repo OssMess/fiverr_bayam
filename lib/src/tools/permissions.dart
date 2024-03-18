@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:app_settings/app_settings.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -181,7 +182,12 @@ class Permissions {
   Future<bool> getPhotoLibraryPermission() async {
     late Permission permission;
     if (Platform.isAndroid) {
-      permission = Permission.storage;
+      AndroidDeviceInfo androidInfo = await DeviceInfoPlugin().androidInfo;
+      if (androidInfo.version.sdkInt <= 32) {
+        permission = Permission.storage;
+      } else {
+        permission = Permission.photos;
+      }
     } else {
       permission = Permission.photos;
     }

@@ -43,7 +43,7 @@ class CustomTextFormFieldLabel extends StatelessWidget {
         break;
       case TextInputType.emailAddress:
         inputFormatters = [
-          TextInputFormatters.emailFormatter,
+          // TextInputFormatters.emailFormatter,
         ];
         break;
       case TextInputType.phone:

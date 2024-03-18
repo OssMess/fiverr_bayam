@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -38,6 +39,7 @@ class Functions {
     Response response, [
     Map<int, String>? errorMap,
   ]) {
+    Clipboard.setData(ClipboardData(text: response.body));
     Map<dynamic, dynamic> body = jsonDecode(response.body);
     log('${response.statusCode}:${body['message']}');
     if ((body['message'] ?? '').contains('Ce post n\'existe pas')) {

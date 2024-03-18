@@ -141,7 +141,8 @@ class Ad with ChangeNotifier {
         type: (json['post']['type'] as String).toAdType,
         tags:
             List.from(json['post']['tags']).map((e) => Tag.fromMap(e)).toList(),
-        createdAt: DateTime.parse(json['created_at']),
+        createdAt:
+            DateTime.parse(json['created_at'] ?? json['post']?['created_at']),
         isPromotion: json['post']['isAds'],
         images: List.from(json['post']['images'] ?? [])
             .map((e) => CachedNetworkImageProvider(e))

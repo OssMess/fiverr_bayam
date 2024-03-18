@@ -18,7 +18,7 @@ class Tag {
   factory Tag.fromMap(Map<dynamic, dynamic> json) => Tag(
         id: json['uuid'],
         name: json['name'],
-        description: json['description'],
+        description: json['description'] ?? '',
       );
 
   factory Tag.init(String name) => Tag(
