@@ -306,7 +306,7 @@ class _CompletePersonProfileState extends State<CompletePersonProfile> {
         widget.userSession.region = region;
         widget.userSession.uniqueRegisterNumber = uniqueRegisterNumber;
         widget.userSession.birthDate = dateController.text;
-        await UserServices.of(widget.userSession).post();
+        await UserServices.of(widget.userSession).post(context);
       },
       onComplete: (_) {
         Dialogs.of(context).showCustomDialog(

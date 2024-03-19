@@ -135,7 +135,9 @@ class _EditCompanyProfileState extends State<EditCompanyProfile> {
             widget.userSession.companyName = companyName;
             widget.userSession.email = email;
             widget.userSession.phoneNumber = phoneNumber;
-            await UserServices.of(widget.userSession).post();
+            await UserServices.of(widget.userSession).post(
+              context,
+            );
           },
           onComplete: (_) {
             Dialogs.of(context).showCustomDialog(

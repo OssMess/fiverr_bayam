@@ -298,7 +298,7 @@ class UserSession with ChangeNotifier {
   ) async {
     await Dialogs.of(context).runAsyncAction(
       future: () async {
-        await UserServices.of(this).post();
+        await UserServices.of(this).post(context);
       },
       onComplete: (_) => setState(() {}),
     );
@@ -426,7 +426,9 @@ class UserSession with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updateCountriesCities() async {
+  Future<void> updateCountriesCities(
+    BuildContext context,
+  ) async {
     if ((countries ?? []).isNotEmpty && Random().nextInt(4) >= 1) return;
     bool update = false;
     if (listCities == null || listCountries == null) return;
@@ -452,7 +454,8 @@ class UserSession with ChangeNotifier {
     }
     try {
       if (update) {
-        await UserServices.of(this).post();
+        // ignore: use_build_context_synchronously
+        await UserServices.of(this).post(context);
       }
       // ignore: empty_catches
     } catch (e) {}

@@ -201,6 +201,7 @@ class _CompleteRegistrationC2State extends State<CompleteRegistrationC2> {
     Dialogs.of(context).runAsyncAction(
       future: () async {
         await UserServices.of(widget.userSession).post(
+          context,
           imageProfile: widget.imageProfile?.toFile,
           imageCompany: widget.imageCompany?.map((e) => e.toFile).toList(),
           imageCompanyTax: imageCompanyTaxt.map((e) => e.toFile).toList(),

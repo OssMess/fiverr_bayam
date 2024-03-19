@@ -239,6 +239,7 @@ class _DocumentsPersonVerificationState
     Dialogs.of(context).runAsyncAction(
       future: () async {
         await UserServices.of(widget.userSession).post(
+          context,
           imageProfile: imageProfileFile?.toFile,
           imageUserIdentity: [
             imageIdentityBackFile!.toFile,

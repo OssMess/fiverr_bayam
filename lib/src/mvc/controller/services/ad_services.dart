@@ -103,7 +103,6 @@ class AdServices {
       request,
     );
     var body = jsonDecode(response.body);
-    //FIXME
     if (response.statusCode != 201) {
       throw Functions.throwExceptionFromResponse(userSession, response);
     } else {
@@ -128,7 +127,6 @@ class AdServices {
       request,
     );
     var body = jsonDecode(response.body);
-    //FIXME
     if (response.statusCode != 201) {
       throw Functions.throwExceptionFromResponse(userSession, response);
     } else {

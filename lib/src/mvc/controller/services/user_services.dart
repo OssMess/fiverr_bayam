@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../extensions.dart';
@@ -58,7 +59,8 @@ class UserServices {
 
   /// Update user details with current values, as well as [imageProfile],
   /// [imageCompany],[imageCompanyTax], and [imageUserIdentity].
-  Future<void> post({
+  Future<void> post(
+    BuildContext context, {
     File? imageProfile,
     List<File>? imageCompany,
     List<File>? imageCompanyTax,
@@ -78,6 +80,7 @@ class UserServices {
       'isCompanyOrClient': true,
       'isVerified': false,
       'phoneNumber': userSession.phoneNumber,
+      'locale': AppLocalizations.of(context)!.localeName,
       if (userSession.firstName.isNotNullOrEmpty)
         'firstName': userSession.firstName,
       if (userSession.lastName.isNotNullOrEmpty)

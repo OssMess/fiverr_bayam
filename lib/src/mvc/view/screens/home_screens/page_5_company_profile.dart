@@ -49,6 +49,7 @@ class Page5CompanyProfile extends StatelessWidget {
                     Dialogs.of(context).runAsyncAction(
                       future: () async {
                         await UserServices.of(userSession).post(
+                          context,
                           imageProfile: xfile.toFile,
                         );
                       },

@@ -134,6 +134,7 @@ class _CompleteRegistrationP2State extends State<CompleteRegistrationP2> {
     await Dialogs.of(context).runAsyncAction(
       future: () async {
         await UserServices.of(widget.userSession).post(
+          context,
           imageProfile: imageFile?.toFile,
         );
       },

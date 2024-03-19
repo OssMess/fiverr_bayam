@@ -229,6 +229,7 @@ class _DocumentsCompanyVerificationState
     Dialogs.of(context).runAsyncAction(
       future: () async {
         await UserServices.of(widget.userSession).post(
+          context,
           imageProfile: imageProfileFile?.toFile,
           imageCompanyTax: [
             imageIdentityBackFile!.toFile,

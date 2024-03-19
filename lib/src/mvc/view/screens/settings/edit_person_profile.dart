@@ -183,7 +183,9 @@ class _EditPersonProfileState extends State<EditPersonProfile> {
             widget.userSession.email = email;
             widget.userSession.phoneNumber = phoneNumber;
             widget.userSession.birthDate = dateController.text;
-            await UserServices.of(widget.userSession).post();
+            await UserServices.of(widget.userSession).post(
+              context,
+            );
           },
           onComplete: (_) {
             Dialogs.of(context).showCustomDialog(
