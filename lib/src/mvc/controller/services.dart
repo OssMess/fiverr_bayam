@@ -10,16 +10,17 @@ export './services/cities_services.dart';
 export './services/company_services.dart';
 export './services/countries_services.dart';
 export './services/discussion_services.dart';
+export './services/favorites_services.dart';
 export './services/google_maps_api.dart';
 export './services/http_request.dart';
 export './services/message_services.dart';
 export './services/other_services.dart';
 export './services/plan_services.dart';
 export './services/report_services.dart';
+export './services/subscription_services.dart';
 export './services/support_services.dart';
 export './services/tag_services.dart';
 export './services/user_services.dart';
-export './services/favorites_services.dart';
 
 class Services {
   static String get json => 'application/json';

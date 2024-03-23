@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import '../../../extensions.dart';
 import '../../../tools.dart';
@@ -413,6 +414,15 @@ class UserSession with ChangeNotifier {
         .toList();
     HiveMessages.init(this);
     notifyListeners();
+    if (uid.isNotNullOrEmpty) {
+      OneSignal.login(uid!).then(
+        (_) {
+          if (OneSignal.User.pushSubscription.token != null) {
+            SubscriptionServices.of(this).subscribe();
+          }
+        },
+      );
+    }
   }
 
   Future<void> onSignout() async {

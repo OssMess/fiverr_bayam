@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../extensions.dart';
 import '../../../../settings.dart';
+import '../../../controller/services.dart';
 import '../../../model/enums.dart';
 import '../../../model/models.dart';
 import '../../model_widgets.dart';
@@ -67,8 +68,15 @@ class SettingsScreen extends StatelessWidget {
                       showContainerDecoration: false,
                       showTrailing: false,
                       padding: EdgeInsets.all(12.sp),
-                      onTap: () => context.push(
-                        widget: const NotificationSettings(),
+                      onTap: () => Dialogs.of(context).runAsyncAction<bool>(
+                        future: SubscriptionServices.of(userSession).get,
+                        onComplete: (enabled) => context.push(
+                          widget: NotificationSettings(
+                            userSession: userSession,
+                            pushNotificationsEnabled: enabled ?? false,
+                            emailNotificationsEnabled: false,
+                          ),
+                        ),
                       ),
                     ),
                     16.heightSp,

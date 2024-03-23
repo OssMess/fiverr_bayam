@@ -4,18 +4,46 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 
 import '../../../../extensions.dart';
+import '../../../controller/services.dart';
+import '../../../model/change_notifiers.dart';
 import '../../../model/enums.dart';
+import '../../../model/models.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
 import '../../model_widgets_screens.dart';
 
-class NotificationSettings extends StatelessWidget {
-  const NotificationSettings({super.key});
+class NotificationSettings extends StatefulWidget {
+  const NotificationSettings({
+    super.key,
+    required this.userSession,
+    required this.pushNotificationsEnabled,
+    required this.emailNotificationsEnabled,
+  });
+
+  final UserSession userSession;
+  final bool pushNotificationsEnabled;
+  final bool emailNotificationsEnabled;
+
+  @override
+  State<NotificationSettings> createState() => _NotificationSettingsState();
+}
+
+class _NotificationSettingsState extends State<NotificationSettings> {
+  late NotifierBool pushNotifiationsEnabled;
+  late NotifierBool emailNotifiationsEnabled;
+
+  @override
+  void initState() {
+    super.initState();
+    pushNotifiationsEnabled =
+        NotifierBool.init(widget.pushNotificationsEnabled);
+    emailNotifiationsEnabled =
+        NotifierBool.init(widget.emailNotificationsEnabled);
+  }
 
   @override
   Widget build(BuildContext context) {
     bool isOnEmail = true;
-    bool isOnNotification = true;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       extendBodyBehindAppBar: true,
@@ -47,13 +75,39 @@ class NotificationSettings extends StatelessWidget {
                   },
                 ),
                 16.heightSp,
-                CustomSwitchListTile(
-                  label: AppLocalizations.of(context)!.app_notifications,
-                  value: isOnNotification,
-                  onToggle: (value) {
-                    isOnNotification = value;
-                  },
-                ),
+                ValueListenableBuilder(
+                    valueListenable: pushNotifiationsEnabled.notifier,
+                    builder: (context, enabled, _) {
+                      return CustomSwitchListTile(
+                        label: AppLocalizations.of(context)!.app_notifications,
+                        value: enabled,
+                        onToggle: (value) {
+                          if (!value) {
+                            Dialogs.of(context).runAsyncAction(
+                              future: () async {
+                                SubscriptionServices.of(widget.userSession)
+                                    .unsubscribe();
+                              },
+                              onComplete: (_) {},
+                              onError: (_) {
+                                pushNotifiationsEnabled.setValue(true);
+                              },
+                            );
+                          } else {
+                            Dialogs.of(context).runAsyncAction(
+                              future: () async {
+                                SubscriptionServices.of(widget.userSession)
+                                    .subscribe();
+                              },
+                              onComplete: (_) {},
+                              onError: (_) {
+                                pushNotifiationsEnabled.setValue(false);
+                              },
+                            );
+                          }
+                        },
+                      );
+                    }),
                 (context.viewPadding.bottom + 20.sp).height,
               ],
             ),

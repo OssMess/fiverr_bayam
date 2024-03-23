@@ -156,12 +156,33 @@ class _CompletePreferencesState extends State<CompletePreferences> {
   }
 
   Future<void> next() async {
-    // CategoriesSubServices.of(widget.userSession)
+    /// Code to manually create a category with several sub categories
+    // CategoriesServices.of(widget.userSession)
     //     .post(
-    //         name: 'Sub-category 4',
+    //   name: 'Agriculture commerciale',
+    //   description: '',
+    // )
+    //     .then(
+    //   (category) async {
+    //     log('Category created : uuid = ${category.uuid}');
+    //     List<String> subCategories = [
+    //       'Grandes cultures',
+    //       'Cultures maraîchères',
+    //     ];
+    //     List<String> subCategoriesUID = [];
+    //     for (var subcategory in subCategories) {
+    //       CategorySub subCategory =
+    //           await CategoriesSubServices.of(widget.userSession).post(
+    //         name: subcategory,
     //         description: '',
-    //         categoryId: '1eea5c2c-c008-6406-994e-35c8555a9e4c')
-    //     .then((value) => print(value.uuid));
+    //         categoryId: category.uuid,
+    //       );
+    //       log('Subcategory created : uuid = ${subCategory.uuid}');
+    //       subCategoriesUID.add(subCategory.uuid);
+    //     }
+    //     log('created ${subCategoriesUID.length}/${subCategories.length} categories');
+    //   },
+    // );
     // return;
     if (widget.accountType != null) {
       if (pickedPreferences.length < 3) {
