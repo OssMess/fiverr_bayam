@@ -75,9 +75,7 @@ class MyApp extends StatelessWidget {
   }
 
   ThemeData getLightTheme() {
-    return ThemeData().copyWith(
-      // ignore: deprecated_member_use
-      useMaterial3: false,
+    return ThemeData.light().copyWith(
       primaryColor: const Color(0xFF619B2F),
       colorScheme: ThemeData.light().colorScheme.copyWith(
             primary: const Color(0xFF619B2F),
@@ -135,7 +133,7 @@ class MyApp extends StatelessWidget {
   }
 
   ThemeData getDarkTheme() {
-    return ThemeData().copyWith(
+    return ThemeData.dark().copyWith(
       primaryColor: const Color(0xFF619B2F),
       colorScheme: ThemeData.light().colorScheme.copyWith(
             secondary: const Color(0xFFffb33e),

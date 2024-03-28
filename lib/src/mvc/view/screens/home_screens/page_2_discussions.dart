@@ -48,7 +48,11 @@ class _Page2DiscussionsState extends State<Page2Discussions> {
                     ),
                   ),
                   Text(
-                    AppLocalizations.of(context)!.you_have_nb_new_messages(2),
+                    AppLocalizations.of(context)!.you_have_nb_new_messages(
+                        widget.userSession.listDiscussions?.list
+                                .where((element) => element.messages.isNotEmpty)
+                                .length ??
+                            0),
                     style: Styles.poppins(
                       fontSize: 12.sp,
                       fontWeight: Styles.regular,
