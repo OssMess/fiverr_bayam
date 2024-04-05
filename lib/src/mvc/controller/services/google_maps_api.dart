@@ -10,6 +10,7 @@ import '../../model/models_map.dart';
 
 ///Include google map services.
 class GoogleMapsApi {
+  //FIXME delete
   static String key = Platform.isAndroid
       ? 'AIzaSyChqfww86A2Z_YNU7xAqR4m0_-3oV9kyF0'
       : 'AIzaSyD_mt-tls5e1ZzSCQGnX9VkFT5IS3F2i70';

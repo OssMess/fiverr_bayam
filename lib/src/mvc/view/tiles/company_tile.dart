@@ -41,10 +41,9 @@ class CompanyTile extends StatelessWidget {
             child: Column(
               children: [
                 Expanded(
-                  child: userMin.imageCompanyUrl != null &&
-                          userMin.imageCompanyUrl!.isNotEmpty
+                  child: userMin.imageProfileUrl.isNotNullOrEmpty
                       ? CachedNetworkImage(
-                          imageUrl: userMin.imageCompanyUrl!.first,
+                          imageUrl: userMin.imageProfileUrl!,
                           fit: BoxFit.cover,
                           color: context.textTheme.headlineSmall!.color,
                           progressIndicatorBuilder: (context, url, progress) =>

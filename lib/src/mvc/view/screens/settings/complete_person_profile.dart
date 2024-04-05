@@ -180,7 +180,7 @@ class _CompletePersonProfileState extends State<CompletePersonProfile> {
                         initialValue: postalCode,
                         labelText: AppLocalizations.of(context)!.zip_label,
                         hintText: AppLocalizations.of(context)!.zip_hint,
-                        keyboardType: TextInputType.name,
+                        keyboardType: TextInputType.number,
                         validator: Validators.validateNotNull,
                         onSaved: (value) {
                           postalCode = value;

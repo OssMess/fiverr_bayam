@@ -9,6 +9,7 @@ import GoogleMaps
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
     GeneratedPluginRegistrant.register(with: self)
+    //FIXME delete
     GMSServices.provideAPIKey("AIzaSyD_mt-tls5e1ZzSCQGnX9VkFT5IS3F2i70")
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
