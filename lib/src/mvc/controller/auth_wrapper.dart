@@ -123,7 +123,7 @@ class _AuthWrapperState extends State<AuthWrapper> {
           SvgPicture.svgStringDecoderBuilder,
           svgPath,
         ),
-        context,
+        context.mounted ? context : null,
       );
     }
     svgAssets.clear();

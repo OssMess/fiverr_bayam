@@ -77,7 +77,7 @@ class UserServices {
       ...Services.headerAcceptldJson,
     });
     var body = {
-      'isCompanyOrClient': true,
+      'isCompanyOrClient': imageCompany != null,
       'isVerified': false,
       'phoneNumber': userSession.phoneNumber,
       'locale': AppLocalizations.of(context)!.localeName,
