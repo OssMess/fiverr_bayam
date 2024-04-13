@@ -4,6 +4,7 @@ export 'list_models/list_ads_filter.dart';
 export 'list_models/list_ads_my.dart';
 export 'list_models/list_ads_promoted_my.dart';
 export 'list_models/list_ads_promoted.dart';
+export 'list_models/list_ads_recently_viewed.dart';
 export 'list_models/list_ads_search.dart';
 export 'list_models/list_ads.dart';
 export 'list_models/list_categories_sub.dart';

@@ -67,14 +67,16 @@ class _NotificationSettingsState extends State<NotificationSettings> {
                   title: AppLocalizations.of(context)!.notification_settings,
                 ),
                 16.heightSp,
-                CustomSwitchListTile(
-                  label: AppLocalizations.of(context)!.email_notifications,
-                  value: isOnEmail,
-                  onToggle: (value) {
-                    isOnEmail = value;
-                  },
-                ),
-                16.heightSp,
+                if (widget.userSession.email.isNotNullOrEmpty) ...[
+                  CustomSwitchListTile(
+                    label: AppLocalizations.of(context)!.email_notifications,
+                    value: isOnEmail,
+                    onToggle: (value) {
+                      isOnEmail = value;
+                    },
+                  ),
+                  16.heightSp,
+                ],
                 ValueListenableBuilder(
                     valueListenable: pushNotifiationsEnabled.notifier,
                     builder: (context, enabled, _) {

@@ -60,6 +60,7 @@ class UserSession with ChangeNotifier {
 
   //lists
   ListAds? listAds;
+  ListAdsRecentlyViewed? listAdsRecentlyViewed;
   ListCompaniesPopular? listCompaniesPopular;
   ListAdsMy? listAdsMy;
   ListAdsFavorites? listAdsFavorites;
@@ -117,6 +118,7 @@ class UserSession with ChangeNotifier {
     this.listAdsPromotedMy,
     this.listDiscussions,
     this.listAds,
+    this.listAdsRecentlyViewed,
     this.listCompaniesPopular,
     this.listAdsMy,
     this.listAdsFavorites,
@@ -188,6 +190,7 @@ class UserSession with ChangeNotifier {
       listAdsPromotedMy: null,
       listDiscussions: null,
       listAds: null,
+      listAdsRecentlyViewed: null,
       listCompaniesPopular: null,
       listAdsMy: null,
       listAdsFavorites: null,
@@ -209,6 +212,7 @@ class UserSession with ChangeNotifier {
 
   void initLists() {
     listAds = ListAds(userSession: this);
+    listAdsRecentlyViewed = ListAdsRecentlyViewed(userSession: this);
     listAdsMy = ListAdsMy(userSession: this);
     listAdsFavorites = ListAdsFavorites(userSession: this);
     listAdsPromoted = ListAdsPromoted(userSession: this);
@@ -225,6 +229,7 @@ class UserSession with ChangeNotifier {
 
   void resetLists() {
     listAds?.reset();
+    listAdsRecentlyViewed?.reset();
     listAdsMy?.reset();
     listAdsFavorites?.reset();
     listAdsPromoted?.reset();

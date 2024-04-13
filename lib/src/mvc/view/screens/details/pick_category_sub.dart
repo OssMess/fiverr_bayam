@@ -10,7 +10,7 @@ import '../../../model/list_models.dart';
 import '../../../model/models.dart';
 import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
-import '../../screens.dart';
+import '../../model_widgets_screens.dart';
 
 class PickCategorySub extends StatefulWidget {
   const PickCategorySub({

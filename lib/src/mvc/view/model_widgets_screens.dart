@@ -10,3 +10,4 @@ export 'model_widgets_screens/settings_header_subtitle.dart';
 export 'model_widgets_screens/profile_header.dart';
 export 'model_widgets_screens/profile_row_actions.dart';
 export 'model_widgets_screens/country_logo.dart';
+export 'model_widgets_screens/preference_check_list_tile.dart';

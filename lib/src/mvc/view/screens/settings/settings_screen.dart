@@ -62,6 +62,17 @@ class SettingsScreen extends StatelessWidget {
                     ),
                     16.heightSp,
                     CustomElevatedListTile(
+                      leadingIcon: AwesomeIcons.sliders_outlined,
+                      title: AppLocalizations.of(context)!.preferences,
+                      showContainerDecoration: false,
+                      showTrailing: false,
+                      padding: EdgeInsets.all(12.sp),
+                      onTap: () => context.push(
+                        widget: PickPreferences(userSession: userSession),
+                      ),
+                    ),
+                    16.heightSp,
+                    CustomElevatedListTile(
                       leadingIcon: AwesomeIcons.bell,
                       title:
                           AppLocalizations.of(context)!.notification_settings,
@@ -125,6 +136,7 @@ class SettingsScreen extends StatelessWidget {
                       padding: EdgeInsets.all(12.sp),
                       onTap: () => context.push(
                         widget: LanguageSettings(
+                          userSession: userSession,
                           settingsController: settingsController,
                         ),
                       ),

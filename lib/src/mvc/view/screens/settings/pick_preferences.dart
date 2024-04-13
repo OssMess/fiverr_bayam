@@ -1,48 +1,65 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../extensions.dart';
 import '../../../../tools.dart';
+import '../../../controller/services.dart';
 import '../../../model/enums.dart';
 import '../../../model/list_models.dart';
 import '../../../model/models.dart';
 import '../../../model/models_ui.dart';
 import '../../model_widgets.dart';
 import '../../model_widgets_screens.dart';
-import '../../screens.dart';
 
-class CompletePreferences extends StatefulWidget {
-  const CompletePreferences({
+class PickPreferences extends StatefulWidget {
+  const PickPreferences({
     super.key,
     required this.userSession,
-    this.imageProfile,
-    this.imageCompany,
-    this.accountType,
-    this.onPick,
-  }) : assert((accountType == null && onPick != null) ||
-            (accountType != null && onPick == null));
+  });
 
   final UserSession userSession;
-  final XFile? imageProfile;
-  final Set<XFile>? imageCompany;
-  final AccountType? accountType;
-  final void Function(Set<CategorySub>)? onPick;
 
   @override
-  State<CompletePreferences> createState() => _CompletePreferencesState();
+  State<PickPreferences> createState() => _PickPreferencesState();
 }
 
-class _CompletePreferencesState extends State<CompletePreferences> {
+class _PickPreferencesState extends State<PickPreferences> {
   Set<CategorySub> pickedPreferences = {};
 
   Debouncer debouncer = Debouncer(milliseconds: 500);
 
   @override
   void initState() {
-    widget.userSession.listCategoriesSub!.initData(callGet: true);
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) async {
+        if (widget.userSession.listCategoriesSub != null) {
+          setState(() {
+            widget.userSession.listCategoriesSub?.onResetSearch();
+            pickedPreferences.addAll(
+              widget.userSession.listCategoriesSub!.list.where(
+                (element) => (widget.userSession.preferences ?? [])
+                    .contains(element.uuid),
+              ),
+            );
+          });
+        } else {
+          widget.userSession.listCategoriesSub!.initData(callGet: true).then(
+            (_) {
+              if (widget.userSession.listCategoriesSub != null) {
+                pickedPreferences.addAll(
+                  widget.userSession.listCategoriesSub!.list.where(
+                    (element) => (widget.userSession.preferences ?? [])
+                        .contains(element.uuid),
+                  ),
+                );
+              }
+            },
+          );
+        }
+      },
+    );
     super.initState();
   }
 
@@ -157,70 +174,17 @@ class _CompletePreferencesState extends State<CompletePreferences> {
   }
 
   Future<void> next() async {
-    /// Code to manually create a category with several sub categories
-    // CategoriesServices.of(widget.userSession)
-    //     .post(
-    //   name: 'Agriculture commerciale',
-    //   description: '',
-    // )
-    //     .then(
-    //   (category) async {
-    //     log('Category created : uuid = ${category.uuid}');
-    //     List<String> subCategories = [
-    //       'Grandes cultures',
-    //       'Cultures maraîchères',
-    //     ];
-    //     List<String> subCategoriesUID = [];
-    //     for (var subcategory in subCategories) {
-    //       CategorySub subCategory =
-    //           await CategoriesSubServices.of(widget.userSession).post(
-    //         name: subcategory,
-    //         description: '',
-    //         categoryId: category.uuid,
-    //       );
-    //       log('Subcategory created : uuid = ${subCategory.uuid}');
-    //       subCategoriesUID.add(subCategory.uuid);
-    //     }
-    //     log('created ${subCategoriesUID.length}/${subCategories.length} categories');
-    //   },
-    // );
-    // return;
-    if (widget.accountType != null) {
-      if (pickedPreferences.length < 3) {
-        Dialogs.of(context).showSnackBar(
-          message: AppLocalizations.of(context)!.select_at_least_nb_preferences,
-        );
-        return;
-      }
-      widget.userSession.preferences =
-          pickedPreferences.map((e) => e.uuid).toList();
-      switch (widget.accountType) {
-        case AccountType.company:
-          context.push(
-            widget: CompleteRegistrationC2(
-              userSession: widget.userSession,
-              imageProfile: widget.imageProfile,
-              imageCompany: widget.imageCompany,
-            ),
-          );
-          break;
-        case AccountType.person:
-          context.push(
-            widget: CompleteRegistrationP1(
-              userSession: widget.userSession,
-            ),
-          );
-          break;
-        default:
-      }
-    } else {
-      if (pickedPreferences.length < 3) {
-        Dialogs.of(context).showSnackBar(
-          message: AppLocalizations.of(context)!.select_at_least_nb_preferences,
-        );
-        return;
-      }
-      widget.onPick!(pickedPreferences);
+    if (pickedPreferences.length < 3) {
+      Dialogs.of(context).showSnackBar(
+        message: AppLocalizations.of(context)!.select_at_least_nb_preferences,
+      );
+      return;
     }
+    widget.userSession.preferences =
+        pickedPreferences.map((e) => e.uuid).toList();
+    Dialogs.of(context).runAsyncAction(
+      future: () => UserServices.of(widget.userSession).post(context),
+      onComplete: (_) => context.pop(),
+    );
   }
 }

@@ -1,8 +1,8 @@
 {
   "fr": [
     "ads_search",
+    "empty_ads_filter",
     "empty_ads_search",
-    "empty_companies_filter",
-    "empty_ads_filter"
+    "empty_companies_filter"
   ]
 }

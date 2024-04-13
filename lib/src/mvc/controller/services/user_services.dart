@@ -65,6 +65,7 @@ class UserServices {
     List<File>? imageCompany,
     List<File>? imageCompanyTax,
     List<File>? imageUserIdentity,
+    String? locale,
   }) async {
     var request = http.Request(
       'PATCH',
@@ -80,7 +81,8 @@ class UserServices {
       'isCompanyOrClient': imageCompany != null,
       'isVerified': false,
       'phoneNumber': userSession.phoneNumber,
-      'locale': AppLocalizations.of(context)!.localeName,
+      if (locale.isNotNullOrEmpty || context.mounted)
+        'locale': locale ?? AppLocalizations.of(context)!.localeName,
       if (userSession.firstName.isNotNullOrEmpty)
         'firstName': userSession.firstName,
       if (userSession.lastName.isNotNullOrEmpty)

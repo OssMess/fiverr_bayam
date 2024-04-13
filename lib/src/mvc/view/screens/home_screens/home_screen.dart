@@ -62,6 +62,9 @@ class _HomeScreenState extends State<HomeScreen> {
           value: widget.userSession.listAds,
         ),
         ChangeNotifierProvider.value(
+          value: widget.userSession.listAdsRecentlyViewed,
+        ),
+        ChangeNotifierProvider.value(
           value: widget.userSession.listCompaniesPopular,
         ),
         ChangeNotifierProvider.value(

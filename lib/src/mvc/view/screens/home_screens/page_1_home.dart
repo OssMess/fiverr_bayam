@@ -25,6 +25,7 @@ class Page1Home extends StatefulWidget {
 
 class _Page1HomeState extends State<Page1Home> {
   ScrollController listAdsController = ScrollController();
+  ScrollController listAdsRecentlyViewedController = ScrollController();
   ScrollController listAdsPromotedController = ScrollController();
   ScrollController listCompaniesPopularController = ScrollController();
 
@@ -32,6 +33,8 @@ class _Page1HomeState extends State<Page1Home> {
   void initState() {
     super.initState();
     widget.userSession.listAds?.addControllerListener(listAdsController);
+    widget.userSession.listAdsRecentlyViewed
+        ?.addControllerListener(listAdsRecentlyViewedController);
     widget.userSession.listAdsPromoted
         ?.addControllerListener(listAdsController);
     widget.userSession.listCompaniesPopular
@@ -40,9 +43,20 @@ class _Page1HomeState extends State<Page1Home> {
   }
 
   @override
+  void dispose() {
+    listAdsController.dispose();
+    listAdsRecentlyViewedController.dispose();
+    listAdsPromotedController.dispose();
+    listCompaniesPopularController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Consumer3<ListAds?, ListCompaniesPopular?, ListAdsPromoted?>(
-      builder: (context, listAds, listCompaniesPopular, listAdsPromoted, _) {
+    return Consumer4<ListAds?, ListAdsRecentlyViewed?, ListCompaniesPopular?,
+        ListAdsPromoted?>(
+      builder: (context, listAds, listAdsRecentlyViewed, listCompaniesPopular,
+          listAdsPromoted, _) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -177,6 +191,41 @@ class _Page1HomeState extends State<Page1Home> {
                               itemBuilder: (context, index) => AdTile(
                                 userSession: widget.userSession,
                                 ad: listAds.elementAt(index),
+                                expanded: false,
+                              ),
+                              separatorBuilder: (context, index) => 12.widthSp,
+                            ),
+                          ),
+                        ),
+                      ],
+                      if (listAdsRecentlyViewed!.isNotEmpty) ...[
+                        8.sliverSp,
+                        SliverHeaderTile(
+                          title: AppLocalizations.of(context)!.recently_viewed,
+                          trailing:
+                              '${AppLocalizations.of(context)!.show_all} >',
+                          onTapTrailing: () => context.push(
+                            widget: AllAdsRecentlyViewed(
+                              userSession: widget.userSession,
+                            ),
+                          ),
+                        ),
+                        SliverToBoxAdapter(
+                          child: SizedBox(
+                            width: double.infinity,
+                            height: 265.sp,
+                            child: ListView.separated(
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              controller: listAdsRecentlyViewedController,
+                              scrollDirection: Axis.horizontal,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 16.sp,
+                                vertical: 12.sp,
+                              ),
+                              itemCount: listAdsRecentlyViewed.length,
+                              itemBuilder: (context, index) => AdTile(
+                                userSession: widget.userSession,
+                                ad: listAdsRecentlyViewed.elementAt(index),
                                 expanded: false,
                               ),
                               separatorBuilder: (context, index) => 12.widthSp,
