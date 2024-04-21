@@ -6,6 +6,7 @@ import '../../../../extensions.dart';
 import '../../../../settings.dart';
 import '../../../controller/services.dart';
 import '../../../model/enums.dart';
+import '../../../model/list_models.dart';
 import '../../../model/models.dart';
 import '../../model_widgets.dart';
 import '../../../../tools.dart';
@@ -92,6 +93,8 @@ class LanguageSettings extends StatelessWidget {
 
   Future<void> updateLocale(BuildContext context, String locale) async {
     await settingsController.updateLocaleMode(Locale(locale));
+    // ignore: use_build_context_synchronously
+    ListFAQ.init(context);
     await UserServices.of(userSession).post(
       // ignore: use_build_context_synchronously
       context,
