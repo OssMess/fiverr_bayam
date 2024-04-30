@@ -115,7 +115,7 @@ class UserMin with ChangeNotifier {
       preferenceList: List.from(json['preferenceList'] ?? [])
           .map((e) => (e['name'] ?? e['@id']) as String)
           .toList(),
-      isLiked: userSession.likedCompanies!.contains(json['uuid']),
+      isLiked: (userSession.likedCompanies ?? []).contains(json['uuid']),
     );
   }
 
@@ -211,6 +211,11 @@ class UserMin with ChangeNotifier {
 
   String get phoneCode => phoneNumber.substring(0, 4);
 
-  String? get countryCode =>
-      CountryCode.fromDialCode(phoneNumber.substring(0, 4)).code;
+  String? countryCode() {
+    try {
+      return CountryCode.fromDialCode(phoneNumber.substring(0, 4)).code;
+    } catch (e) {
+      return null;
+    }
+  }
 }

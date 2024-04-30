@@ -89,7 +89,6 @@ class _AuthWrapperState extends State<AuthWrapper> {
             settingsController: widget.settingsController,
           );
         }
-
         if (userSession.isUnAuthenticated) {
           return SignIn(
             userSession: userSession,

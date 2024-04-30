@@ -34,7 +34,8 @@ class _PickPreferencesState extends State<PickPreferences> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback(
       (_) async {
-        if (widget.userSession.listCategoriesSub != null) {
+        if (widget.userSession.listCategoriesSub != null &&
+            widget.userSession.listCategoriesSub!.isNotNull) {
           setState(() {
             widget.userSession.listCategoriesSub?.onResetSearch();
             pickedPreferences.addAll(
