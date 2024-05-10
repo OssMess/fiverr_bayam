@@ -1,5 +1,6 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -89,12 +90,18 @@ class _SearchScreenState extends State<SearchScreen>
                             ),
                             16.heightSp,
                             //filters
-                            Filters(
-                              content: content,
-                              country: country,
-                              region: region,
-                              type: type,
-                              onChange: onChangeAdFilter,
+                            ValueListenableBuilder(
+                              valueListenable: notifierViewMode,
+                              builder: (context, _, __) {
+                                return Filters(
+                                  content: content,
+                                  country: country,
+                                  region: region,
+                                  type: type,
+                                  searchTab: notifierViewMode.searchTab,
+                                  onChange: onChangeAdFilter,
+                                );
+                              },
                             ),
 
                             /// Categories
@@ -130,6 +137,7 @@ class _SearchScreenState extends State<SearchScreen>
                           CategoryPicker(
                             tabController: tabController,
                             notifierViewMode: notifierViewMode,
+                            onChange: callFilter,
                           ),
 
                         /// user in suggestions page
@@ -379,10 +387,12 @@ class CategoryPicker extends StatelessWidget {
     super.key,
     required this.tabController,
     required this.notifierViewMode,
+    required this.onChange,
   });
 
   final TabController tabController;
   final NotifierPersonViewMode notifierViewMode;
+  final void Function() onChange;
 
   @override
   Widget build(BuildContext context) {
@@ -404,7 +414,10 @@ class CategoryPicker extends StatelessWidget {
             itemCount: categories.length,
             itemBuilder: (context, index) => CategoryTile(
               category: categories.elementAt(index),
-              onTap: () => notifierViewMode.openPageResults(),
+              onTap: () {
+                notifierViewMode.openPageResults();
+                onChange();
+              },
             ),
             separatorBuilder: (context, index) => 12.heightSp,
           ),
@@ -523,6 +536,7 @@ class Filters extends StatelessWidget {
     required this.country,
     required this.region,
     required this.type,
+    required this.searchTab,
     required this.onChange,
   });
 
@@ -530,6 +544,7 @@ class Filters extends StatelessWidget {
   final String? country;
   final String? region;
   final AdType? type;
+  final SearchTab searchTab;
   final void Function({
     String? content,
     String? country,
@@ -609,34 +624,35 @@ class Filters extends StatelessWidget {
             },
           ),
           12.widthSp,
-          FilterCard(
-            text: type?.translate(context),
-            filter: FilterType.adtype,
-            onTap: () {
-              Dialogs.of(context).showSingleValuePickerDialog(
-                mainAxisSize: MainAxisSize.min,
-                title: AppLocalizations.of(context)!.filter_ads_by_type,
-                values: [
-                  AppLocalizations.of(context)!.all,
-                  AdType.rent.translate(context),
-                  AdType.sell.translate(context),
-                  AdType.want.translate(context),
-                ],
-                initialvalue: type?.translate(context) ??
+          if (searchTab == SearchTab.products)
+            FilterCard(
+              text: type?.translate(context),
+              filter: FilterType.adtype,
+              onTap: () {
+                Dialogs.of(context).showSingleValuePickerDialog(
+                  mainAxisSize: MainAxisSize.min,
+                  title: AppLocalizations.of(context)!.filter_ads_by_type,
+                  values: [
                     AppLocalizations.of(context)!.all,
-                onPick: (value) {
-                  onChange(
-                    type: {
-                      AdType.rent.translate(context): AdType.rent,
-                      AdType.sell.translate(context): AdType.sell,
-                      AdType.want.translate(context): AdType.want,
-                      AppLocalizations.of(context)!.all: null,
-                    }[value],
-                  );
-                },
-              );
-            },
-          ),
+                    AdType.rent.translate(context),
+                    AdType.sell.translate(context),
+                    AdType.want.translate(context),
+                  ],
+                  initialvalue: type?.translate(context) ??
+                      AppLocalizations.of(context)!.all,
+                  onPick: (value) {
+                    onChange(
+                      type: {
+                        AdType.rent.translate(context): AdType.rent,
+                        AdType.sell.translate(context): AdType.sell,
+                        AdType.want.translate(context): AdType.want,
+                        AppLocalizations.of(context)!.all: null,
+                      }[value],
+                    );
+                  },
+                );
+              },
+            ),
         ],
       ),
     );

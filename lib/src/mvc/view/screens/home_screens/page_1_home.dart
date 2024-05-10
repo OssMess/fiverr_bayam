@@ -55,8 +55,14 @@ class _Page1HomeState extends State<Page1Home> {
   Widget build(BuildContext context) {
     return Consumer4<ListAds?, ListAdsRecentlyViewed?, ListCompaniesPopular?,
         ListAdsPromoted?>(
-      builder: (context, listAds, listAdsRecentlyViewed, listCompaniesPopular,
-          listAdsPromoted, _) {
+      builder: (
+        context,
+        listAds,
+        listAdsRecentlyViewed,
+        listCompaniesPopular,
+        listAdsPromoted,
+        _,
+      ) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -249,21 +255,25 @@ class _Page1HomeState extends State<Page1Home> {
     await widget.userSession.listCompaniesPopular!.initData(callGet: true);
     await widget.userSession.listAds!.initData(callGet: true);
     await widget.userSession.listAdsPromoted!.initData(callGet: true);
+    await widget.userSession.listAdsRecentlyViewed!.initData(callGet: true);
   }
 
   Future<void> refreshData() async {
     await widget.userSession.listCompaniesPopular!.refresh();
     await widget.userSession.listAds!.refresh();
     await widget.userSession.listAdsPromoted!.refresh();
+    await widget.userSession.listAdsRecentlyViewed!.refresh();
   }
 
   bool get isLoading =>
       (widget.userSession.listAds?.isNull ?? true) ||
       (widget.userSession.listAdsPromoted?.isNull ?? true) ||
-      (widget.userSession.listCompaniesPopular?.isNull ?? true);
+      (widget.userSession.listCompaniesPopular?.isNull ?? true) ||
+      (widget.userSession.listAdsRecentlyViewed?.isNull ?? true);
 
   bool get isEmpty =>
       widget.userSession.listAds!.isEmpty &&
       widget.userSession.listAdsPromoted!.isEmpty &&
-      widget.userSession.listCompaniesPopular!.isEmpty;
+      widget.userSession.listCompaniesPopular!.isEmpty &&
+      widget.userSession.listAdsRecentlyViewed!.isEmpty;
 }
