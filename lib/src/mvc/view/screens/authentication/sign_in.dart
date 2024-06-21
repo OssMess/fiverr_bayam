@@ -190,29 +190,26 @@ class _SignInState extends State<SignIn> {
                       16.heightSp,
                       Row(
                         children: [
-                          InkResponse(
-                            onTap: canResend ? sendOTP : null,
-                            child: ValueListenableBuilder(
-                                valueListenable: durationNotifier!.notifier,
-                                builder: (context, duration, _) {
-                                  return CustomFlatButton(
-                                    padding: EdgeInsets.all(16.sp),
-                                    color:
-                                        context.textTheme.headlineSmall!.color,
-                                    child: Text(
-                                      AppLocalizations.of(context)!.resend_code,
-                                      style: Styles.poppins(
-                                        fontSize: 14.sp,
-                                        fontWeight: Styles.semiBold,
-                                        color: canResend
-                                            ? Styles.green
-                                            : context
-                                                .textTheme.headlineLarge!.color,
-                                      ),
+                          ValueListenableBuilder(
+                              valueListenable: durationNotifier!.notifier,
+                              builder: (context, duration, _) {
+                                return CustomFlatButton(
+                                  padding: EdgeInsets.all(16.sp),
+                                  color: context.textTheme.headlineSmall!.color,
+                                  onTap: canResend ? sendOTP : null,
+                                  child: Text(
+                                    AppLocalizations.of(context)!.resend_code,
+                                    style: Styles.poppins(
+                                      fontSize: 14.sp,
+                                      fontWeight: Styles.semiBold,
+                                      color: canResend
+                                          ? Styles.green
+                                          : context
+                                              .textTheme.headlineLarge!.color,
                                     ),
-                                  );
-                                }),
-                          ),
+                                  ),
+                                );
+                              }),
                         ],
                       ),
                       const Spacer(),
